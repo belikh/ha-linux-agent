@@ -1,0 +1,15 @@
+[package]
+name = "ha-agent-backend-generic"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "DE-agnostic sensors/commands for ha-linux-agent: sysinfo, login1, UPower, Notifications"
+
+[dependencies]
+ha-agent-core.workspace = true
+anyhow.workspace = true
+async-trait.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+sysinfo.workspace = true
+zbus.workspace = true

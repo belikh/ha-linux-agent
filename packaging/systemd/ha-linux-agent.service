@@ -1,0 +1,12 @@
+[Unit]
+Description=Home Assistant companion daemon
+After=network-online.target graphical-session.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/ha-linux-agent %h/.config/ha-linux-agent/config.toml
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,36 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/core",
+    "crates/backend-generic",
+    "crates/backend-niri",
+    "crates/agentd",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/yourname/ha-linux-agent"
+description = "A pluggable Home Assistant companion daemon for Linux desktops and servers"
+
+[workspace.dependencies]
+ha-agent-core = { path = "crates/core" }
+ha-agent-backend-generic = { path = "crates/backend-generic" }
+ha-agent-backend-niri = { path = "crates/backend-niri" }
+
+anyhow = "1"
+async-trait = "0.1"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "signal", "sync", "process"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+rumqttc = "0.24"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+zbus = { version = "4", default-features = false, features = ["tokio"] }
+sysinfo = "0.32"
+
+[profile.release]
+lto = true
+strip = true

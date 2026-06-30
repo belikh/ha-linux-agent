@@ -1,0 +1,29 @@
+# ha-linux-agent config. Copy to ~/.config/ha-linux-agent/config.toml (or
+# /etc/ha-linux-agent/config.toml for a system-wide install) and edit.
+
+[device]
+# Defaults to the machine's hostname if omitted.
+# id = "himalia"
+# name = "Himalia"
+
+[mqtt]
+host = "10.1.1.20"
+port = 1883
+username = "ha-linux-agent"
+# Prefer password_file over inline password so this file can be world-readable.
+password_file = "/run/secrets/mqtt_ha_linux_agent"
+# password = "..."
+tls = false
+discovery_prefix = "homeassistant"
+poll_interval_secs = 30
+
+[backends.generic]
+enable = true
+# Mount points to report disk usage for. Empty = report "/" only.
+disks = []
+notifications = true
+
+[backends.niri]
+# Only takes effect inside a running niri session (detected automatically);
+# safe to leave enabled on hosts that don't run niri.
+enable = true

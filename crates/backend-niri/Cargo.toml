@@ -1,0 +1,14 @@
+[package]
+name = "ha-agent-backend-niri"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "niri (Wayland compositor) sensors for ha-linux-agent: active window, workspace, keyboard layout"
+
+[dependencies]
+ha-agent-core.workspace = true
+anyhow.workspace = true
+async-trait.workspace = true
+tokio.workspace = true
+serde_json.workspace = true
+tracing.workspace = true

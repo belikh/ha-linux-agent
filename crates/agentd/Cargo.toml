@@ -1,0 +1,19 @@
+[package]
+name = "ha-linux-agentd"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Home Assistant companion daemon for Linux"
+
+[[bin]]
+name = "ha-linux-agent"
+path = "src/main.rs"
+
+[dependencies]
+ha-agent-core.workspace = true
+ha-agent-backend-generic.workspace = true
+ha-agent-backend-niri.workspace = true
+anyhow.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true

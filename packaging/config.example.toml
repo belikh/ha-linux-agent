@@ -27,3 +27,8 @@ notifications = true
 # Only takes effect inside a running niri session (detected automatically);
 # safe to leave enabled on hosts that don't run niri.
 enable = true
+
+[backends.kde]
+# Only takes effect inside a running Plasma session (detected automatically);
+# safe to leave enabled on hosts that don't run KDE.
+enable = true

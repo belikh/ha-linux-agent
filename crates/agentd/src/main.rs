@@ -1,4 +1,5 @@
 use ha_agent_backend_generic::GenericBackend;
+use ha_agent_backend_kde::KdeBackend;
 use ha_agent_backend_niri::NiriBackend;
 use ha_agent_core::traits::{CommandBackend, SensorBackend};
 use ha_agent_core::{Agent, Config};
@@ -51,6 +52,13 @@ async fn main() -> anyhow::Result<()> {
 
     if config.backends.niri.enable && NiriBackend::detect() {
         sensor_backends.push(Box::new(NiriBackend::new()));
+    }
+
+    if config.backends.kde.enable && KdeBackend::detect().await {
+        match KdeBackend::new().await {
+            Ok(backend) => sensor_backends.push(Box::new(backend)),
+            Err(e) => tracing::warn!("kde backend init failed: {e}"),
+        }
     }
 
     if sensor_backends.is_empty() {

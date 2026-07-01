@@ -13,6 +13,7 @@ path = "src/main.rs"
 ha-agent-core.workspace = true
 ha-agent-backend-generic.workspace = true
 ha-agent-backend-niri.workspace = true
+ha-agent-backend-kde.workspace = true
 anyhow.workspace = true
 tokio.workspace = true
 tracing.workspace = true

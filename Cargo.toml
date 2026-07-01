@@ -4,6 +4,7 @@ members = [
     "crates/core",
     "crates/backend-generic",
     "crates/backend-niri",
+    "crates/backend-kde",
     "crates/agentd",
 ]
 
@@ -18,6 +19,7 @@ description = "A pluggable Home Assistant companion daemon for Linux desktops an
 ha-agent-core = { path = "crates/core" }
 ha-agent-backend-generic = { path = "crates/backend-generic" }
 ha-agent-backend-niri = { path = "crates/backend-niri" }
+ha-agent-backend-kde = { path = "crates/backend-kde" }
 
 anyhow = "1"
 async-trait = "0.1"

@@ -35,6 +35,10 @@ Built in:
   active workspace, keyboard layout, for the [niri](https://github.com/YaLTeR/niri)
   Wayland compositor. Auto-detects (only activates inside a running niri
   session via `$NIRI_SOCKET`) — safe to leave enabled everywhere.
+- **`backend-kde`** (`crates/backend-kde`) — current Activity, for KDE
+  Plasma (via kactivitymanagerd's `org.kde.ActivityManager` D-Bus API).
+  Auto-detects (`$XDG_CURRENT_DESKTOP` contains `KDE` and the D-Bus service
+  is reachable) — safe to leave enabled everywhere.
 
 ## Entity reference
 
@@ -87,6 +91,17 @@ Commands (all `button`, momentary — HA shows a "press" UI, no on/off state):
 | `niri_keyboard_layout` | sensor | Keyboard Layout | current layout from `niri msg --json keyboard-layouts` |
 
 No commands — read-only sensors.
+
+### `backend-kde` — only when a Plasma session is detected (`$XDG_CURRENT_DESKTOP` contains `KDE`, `org.kde.ActivityManager` reachable on the session bus)
+
+| Entity ID | HA component | Name | Notes |
+|---|---|---|---|
+| `kde_activity` | sensor | Active Activity | current [KDE Activity](https://userbase.kde.org/Plasma/Activities) name, via kactivitymanagerd |
+
+No commands — read-only sensor. Active-window title/app tracking is
+intentionally not included: KWin has no stable, scripting-free D-Bus method
+for it (it requires loading a KWin script at runtime), which is a bigger
+commitment than this backend's v1 takes on — a natural follow-up PR.
 
 ## Adding a desktop-environment backend
 

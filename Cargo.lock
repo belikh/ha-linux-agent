@@ -470,6 +470,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "ha-agent-backend-kde"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "ha-agent-core",
+ "tokio",
+ "tracing",
+ "zbus",
+]
+
+[[package]]
 name = "ha-agent-backend-niri"
 version = "0.1.0"
 dependencies = [
@@ -501,6 +513,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "ha-agent-backend-generic",
+ "ha-agent-backend-kde",
  "ha-agent-backend-niri",
  "ha-agent-core",
  "tokio",

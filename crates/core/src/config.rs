@@ -109,6 +109,8 @@ pub struct BackendsConfig {
     pub generic: GenericBackendConfig,
     #[serde(default)]
     pub niri: NiriBackendConfig,
+    #[serde(default)]
+    pub kde: KdeBackendConfig,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -139,6 +141,18 @@ pub struct NiriBackendConfig {
 }
 
 impl Default for NiriBackendConfig {
+    fn default() -> Self {
+        Self { enable: true }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct KdeBackendConfig {
+    #[serde(default = "default_true")]
+    pub enable: bool,
+}
+
+impl Default for KdeBackendConfig {
     fn default() -> Self {
         Self { enable: true }
     }

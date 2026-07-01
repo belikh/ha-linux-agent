@@ -36,6 +36,58 @@ Built in:
   Wayland compositor. Auto-detects (only activates inside a running niri
   session via `$NIRI_SOCKET`) — safe to leave enabled everywhere.
 
+## Entity reference
+
+Every entity below is published as an [HA MQTT discovery](https://www.home-assistant.io/integrations/mqtt/#mqtt-discovery)
+config the first time the agent connects, so nothing needs to be configured
+manually in Home Assistant — this table exists for reference (and for
+writing automations/dashboards against a specific entity).
+
+**MQTT topics** (`<device_id>` defaults to the hostname, see `[device]` in
+config):
+
+| Purpose | Topic |
+|---|---|
+| Discovery config (one per entity) | `<discovery_prefix>/<component>/<device_id>_<entity_id>/config` (default prefix `homeassistant`) |
+| Shared sensor state | `ha-linux-agent/<device_id>/state` — one retained JSON payload, e.g. `{"cpu_usage": 12.3, "idle": "OFF", ...}`; each sensor's discovery config points at this topic with a `value_template` that pulls out its own key |
+| Availability (LWT) | `ha-linux-agent/<device_id>/availability` — `online` while connected, `offline` if the agent dies without disconnecting cleanly |
+| Command (one per button/switch) | `ha-linux-agent/<device_id>/cmd/<entity_id>` — HA publishes here to invoke the entity |
+
+### `backend-generic` — always enabled, entity availability varies by host
+
+| Entity ID | HA component | Name | Unit / device class | Published when |
+|---|---|---|---|---|
+| `cpu_usage` | sensor | CPU Usage | % | always |
+| `memory_usage` | sensor | Memory Usage | % | always |
+| `load_1m` | sensor | Load Average (1m) | — | always |
+| `uptime_seconds` | sensor | Uptime | s | always |
+| `disk_usage_<mount>` | sensor | Disk Usage (`<mount>`) | % | one per mount in `backends.generic.disks` (default: `/` → `disk_usage_root`) |
+| `idle` | binary_sensor | Idle | device_class `running` | a systemd-logind session was resolved (`IdleHint`) |
+| `locked` | binary_sensor | Screen Locked | device_class `lock` | a systemd-logind session was resolved (`LockedHint`) |
+| `battery_percent` | sensor | Battery | %, device_class `battery` | UPower reports a device whose object path contains `battery` |
+| `battery_charging` | binary_sensor | Battery Charging | device_class `battery_charging` | same battery-device condition as above |
+
+Numeric sensor values are rounded to one decimal place.
+
+Commands (all `button`, momentary — HA shows a "press" UI, no on/off state):
+
+| Command ID | Name | Published when | Behavior |
+|---|---|---|---|
+| `lock` | Lock Screen | logind session resolved | calls `org.freedesktop.login1.Session.Lock` |
+| `suspend` | Suspend | system D-Bus reachable | calls `org.freedesktop.login1.Manager.Suspend(interactive=true)` |
+| `notify` | Send Notification | session D-Bus reachable and `backends.generic.notifications = true` | sends a desktop notification via `org.freedesktop.Notifications.Notify`; the raw MQTT payload becomes the notification body (empty payload → "Hello from Home Assistant"). HA's button UI always sends an empty payload — use the "MQTT: Publish a packet" service against `ha-linux-agent/<device_id>/cmd/notify` to send a custom message |
+
+### `backend-niri` — only when a niri session is detected (`$NIRI_SOCKET` set + `niri` on `$PATH`)
+
+| Entity ID | HA component | Name | Notes |
+|---|---|---|---|
+| `niri_window_title` | sensor | Active Window Title | from `niri msg --json focused-window` |
+| `niri_window_app_id` | sensor | Active Window App | app ID (e.g. `firefox`), same source |
+| `niri_workspace` | sensor | Active Workspace | workspace name if set, else its index |
+| `niri_keyboard_layout` | sensor | Keyboard Layout | current layout from `niri msg --json keyboard-layouts` |
+
+No commands — read-only sensors.
+
 ## Adding a desktop-environment backend
 
 This is the extension point: support for GNOME, Sway, Hyprland, KDE, etc. is
@@ -59,7 +111,7 @@ DE exists.
 
 ```nix
 {
-  inputs.ha-linux-agent.url = "github:yourname/ha-linux-agent"; # or a path: input while developing locally
+  inputs.ha-linux-agent.url = "github:belikh/ha-linux-agent"; # or a path: input while developing locally
 
   # in your host config:
   imports = [ inputs.ha-linux-agent.nixosModules.default ];

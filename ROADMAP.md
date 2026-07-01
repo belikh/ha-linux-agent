@@ -69,44 +69,92 @@ The ask: from Home Assistant, flip a switch for "Game Y" and have a host
 currently showing and bring up that game instead — then flipping it off
 brings the dashboard/kiosk session back.
 
-**Design direction (not yet built):** don't have the agent itself understand
-VTs, compositors, or game launch sequences — that's a lot of fragile,
-host-specific logic to own and gets worse with every new game/session type.
-Instead, treat this purely as **remote control of systemd units the host
-config already defines**, since jupiter-os already models both sides of the
-switch as systemd-managed sessions (`services.cage` for the kiosk,
-Jovian-NixOS's gamescope session for gaming mode) — the agent just needs to
-be a thin, generic remote switch for them:
+This turns out to split into two independent layers — **which session is
+running** (kiosk vs. gaming mode) and **which game is running inside the
+gaming session** — investigated below against jupiter-os's actual gaming
+stack (`modules/gaming/bazzite.nix`) and the real upstream projects it wires
+in (Jovian-NixOS, Lutris), not guessed at.
 
-- Config: a list of named "app profiles", each naming a systemd unit
-  (`backends.launcher.apps = [{ id = "borderlands", name = "Borderlands 3",
-  unit = "game-borderlands.service", scope = "user", group = "display" }]`).
-  `scope` picks `systemctl --user` vs `systemctl` (system units, e.g. if a
-  kiosk's Cage session runs as a system unit under a dedicated user, per
-  jupiter-os's `dashboard-kiosk.nix`).
-- Each profile is an HA `switch` (not a stateless button — it has real
-  on/off state): turning it **on** runs `systemctl <scope> start <unit>`;
-  turning it **off** runs `systemctl <scope> stop <unit>`; state is polled
-  via `systemctl <scope> is-active <unit>`.
+### Layer 1 — session switch (systemd units, confirmed real)
+
+Don't have the agent understand VTs or compositors itself — treat it as
+**remote control of systemd units the host config already defines**.
+jupiter-os already models both sides as systemd-managed sessions:
+`services.cage` for the kiosk, and Jovian-NixOS's gaming-mode session, which
+I confirmed by reading the upstream source
+(`Jovian-Experiments/Jovian-NixOS`, `modules/steam/autostart.nix`) is a real
+`systemd.user.services.gamescope-session` unit (`wantedBy =
+["graphical-session.target"]`) — not something synthesized for this design,
+it already exists today whenever `jupiter.gaming.bazzite.gamingMode.enable`
+is on.
+
+- Config: named "app profiles", each naming a unit (`backends.launcher.apps
+  = [{ id = "gaming-mode", unit = "gamescope-session.service", scope =
+  "user", group = "display" }, { id = "kiosk", unit = "cage.service", scope
+  = "system", group = "display" }]`). `scope` picks `systemctl --user` vs
+  `systemctl` (Cage's kiosk session runs as a system unit under a dedicated
+  `kiosk` user per `dashboard-kiosk.nix`, so it needs the system-scope path).
+- Each profile is an HA `switch` (real on/off state, not a stateless
+  button): on → `systemctl <scope> start <unit>`, off → `... stop <unit>`,
+  state polled via `... is-active <unit>`.
 - `group`: profiles sharing a group are mutually exclusive — starting one
-  stops any other active member of the group first (so "start game" also
-  implicitly stops the kiosk browser without a separate command). The
-  dashboard/kiosk session itself becomes just another profile in the same
-  group, so "turn off the game" = "turn the kiosk profile back on" (or the
-  agent could auto-restore the group's configured default when a profile is
-  turned off with nothing else requested to replace it — needs a decision).
-- All the actual hard part — killing Chromium cleanly, allocating the right
-  VT/seat, starting gamescope with the right args, network/multiplayer setup
-  — stays exactly where it belongs: in the systemd unit definitions
-  (jupiter-os side), not in this agent. The agent's job stays small: "is
-  this unit active" / "make this unit active instead of that one."
-- Security: same posture as existing commands — MQTT auth required, and
-  since this can start arbitrary systemd units, the config's unit list is
-  the allowlist (no free-form unit names accepted over MQTT, only the
-  configured `id`s).
+  stops other active members first, so "start gaming mode" implicitly stops
+  the kiosk without a separate command, and vice versa.
+- Security: MQTT auth required; the configured `id` list is the allowlist,
+  no free-form unit names accepted over MQTT.
 
-This keeps the agent's scope honest (a remote switch, not a session
-manager) while still delivering the actual feature: "ask Home Assistant to
-start game Y" flips one switch, and "turn it off" flips it back — with all
-the VT/session mechanics living in ordinary NixOS module code, reviewable
-and testable the normal way.
+### Layer 2 — per-game control inside the gaming session
+
+This is the more interesting find: several apps in `bazzite.nix`'s
+`appCatalog` already have their own remote-launch mechanisms, so "control
+individual games" doesn't need to be invented — it needs to shell out to
+tools that already do it:
+
+- **Lutris — verified, and the strongest option.** `lutris --list-games
+  --json` dumps every installed game with a stable numeric ID; `lutris
+  lutris:rungameid/<id>` launches that exact game. This means a
+  `backend-lutris` doesn't need hand-maintained per-game config at all — it
+  can **auto-discover** installed games at startup/poll time and publish one
+  HA switch per game automatically, the same way HA integrations
+  auto-discover devices. (Verified directly: `lutris --help` documents both
+  flags; `lutris:rungameid/N` is the numeric-ID form for when a game name
+  collides.) Stopping a specific game cleanly (vs. just killing gamescope)
+  needs more investigation — Lutris tracks a running-game PID internally but
+  I didn't find a documented "stop" CLI verb, only launch/install.
+- **Steam — well-established, not independently re-verified here.**
+  `steam -applaunch <appid>` / the `steam://rungameid/<appid>` URI launch a
+  specific installed game; `steam -shutdown` cleanly quits Steam (and with
+  it, gamescope games launched through it). This is long-standing, widely
+  documented Valve CLI behavior, distinct from Lutris's own confirmation
+  above.
+- **Heroic (Epic/GOG/Amazon) — needs investigation.** Primarily a GUI
+  Electron app; whether it has an equivalent CLI/deep-link launch verb
+  wasn't confirmed and shouldn't be assumed before building against it.
+- **Emulators (PCSX2, shadPS4) — lower priority.** Typically one ROM/game
+  per invocation with a file path argument rather than an installed-game
+  catalog, so they're a worse fit for the "list of switches" model above.
+- **Bonus, unrelated to games:** OBS Studio is already in the catalog
+  (`appCatalog.capture`) for game-capture, and modern OBS ships
+  `obs-websocket` (protocol v5) built in — a genuinely stable, officially
+  documented remote-control API. Start/stop recording or streaming as HA
+  buttons would be a small, low-risk addition riding on infrastructure
+  that's already installed on any host with the `capture` app enabled.
+
+### Suggested build order
+
+1. Ship Layer 1 (session switch) first — it's fully self-contained, uses
+   only `systemctl`, and already delivers "flip a switch, kiosk becomes
+   gaming mode."
+2. Add `backend-lutris` for auto-discovered per-game switches inside the
+   gaming session — highest-confidence per-app win, since both discovery
+   and launch are confirmed CLI features.
+3. Steam per-game launch as a config-driven list (appid → name), since
+   unlike Lutris there's no confirmed "list installed games" CLI to
+   auto-discover from.
+4. Heroic/emulators/OBS as later, separately-scoped additions once each is
+   actually investigated rather than assumed.
+
+This keeps the agent's scope honest — a remote switch/launcher, not a
+session manager reinventing game-library management — while still
+delivering the real feature end to end: "ask Home Assistant to start game Y"
+flips one switch, and "turn it off" flips it back.

@@ -1,0 +1,16 @@
+[package]
+name = "ha-agent-backend-syncthing"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Syncthing sync-status sensors for ha-linux-agent"
+
+[dependencies]
+ha-agent-core.workspace = true
+anyhow.workspace = true
+async-trait.workspace = true
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tracing.workspace = true
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }

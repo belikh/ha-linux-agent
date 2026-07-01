@@ -111,6 +111,18 @@ pub struct BackendsConfig {
     pub niri: NiriBackendConfig,
     #[serde(default)]
     pub kde: KdeBackendConfig,
+    #[serde(default)]
+    pub zfs: ZfsBackendConfig,
+    #[serde(default)]
+    pub syncthing: SyncthingBackendConfig,
+    #[serde(default)]
+    pub headscale: HeadscaleBackendConfig,
+    #[serde(default)]
+    pub gamescope: GamescopeBackendConfig,
+    #[serde(default)]
+    pub lutris: LutrisBackendConfig,
+    #[serde(default)]
+    pub launcher: LauncherBackendConfig,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -156,4 +168,132 @@ impl Default for KdeBackendConfig {
     fn default() -> Self {
         Self { enable: true }
     }
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct ZfsBackendConfig {
+    #[serde(default = "default_true")]
+    pub enable: bool,
+    /// Pools to report on. Empty = auto-discover every imported pool.
+    #[serde(default)]
+    pub pools: Vec<String>,
+}
+
+impl Default for ZfsBackendConfig {
+    fn default() -> Self {
+        Self {
+            enable: true,
+            pools: Vec::new(),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct SyncthingBackendConfig {
+    #[serde(default = "default_true")]
+    pub enable: bool,
+    #[serde(default = "default_syncthing_address")]
+    pub address: String,
+    #[serde(default)]
+    pub api_key: Option<String>,
+    /// Path to a file containing the API key — preferred over inline
+    /// `api_key`, same rationale as `MqttConfig::password_file`.
+    #[serde(default)]
+    pub api_key_file: Option<String>,
+}
+
+fn default_syncthing_address() -> String {
+    "http://127.0.0.1:8384".to_string()
+}
+
+impl Default for SyncthingBackendConfig {
+    fn default() -> Self {
+        Self {
+            enable: true,
+            address: default_syncthing_address(),
+            api_key: None,
+            api_key_file: None,
+        }
+    }
+}
+
+impl SyncthingBackendConfig {
+    pub fn resolve_api_key(&self) -> anyhow::Result<Option<String>> {
+        if let Some(p) = &self.api_key_file {
+            let key = std::fs::read_to_string(p)
+                .map_err(|e| anyhow::anyhow!("reading syncthing api_key_file {p}: {e}"))?;
+            return Ok(Some(key.trim_end().to_string()));
+        }
+        Ok(self.api_key.clone())
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct HeadscaleBackendConfig {
+    #[serde(default = "default_true")]
+    pub enable: bool,
+}
+
+impl Default for HeadscaleBackendConfig {
+    fn default() -> Self {
+        Self { enable: true }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct GamescopeBackendConfig {
+    #[serde(default = "default_true")]
+    pub enable: bool,
+}
+
+impl Default for GamescopeBackendConfig {
+    fn default() -> Self {
+        Self { enable: true }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct LutrisBackendConfig {
+    #[serde(default = "default_true")]
+    pub enable: bool,
+}
+
+impl Default for LutrisBackendConfig {
+    fn default() -> Self {
+        Self { enable: true }
+    }
+}
+
+/// Mirrors `ha_agent_backend_launcher::UnitScope`. Duplicated here (rather
+/// than imported) because `core` must not depend on backend crates — they
+/// depend on `core`, not the other way around. `agentd` maps this to the
+/// backend's real type when constructing the launcher backend.
+#[derive(Debug, Clone, Copy, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum LauncherScope {
+    User,
+    System,
+}
+
+/// Mirrors `ha_agent_backend_launcher::LauncherProfile` — see `LauncherScope`
+/// doc comment for why this is duplicated rather than imported.
+#[derive(Debug, Clone, Deserialize)]
+pub struct LauncherProfileConfig {
+    pub id: String,
+    pub name: String,
+    pub unit: String,
+    pub scope: LauncherScope,
+    #[serde(default)]
+    pub group: Option<String>,
+    #[serde(default)]
+    pub icon: Option<String>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct LauncherBackendConfig {
+    /// No separate `enable` toggle — an empty `apps` list already means
+    /// "nothing to do", which is exactly what the backend's own `detect()`
+    /// checks for.
+    #[serde(default)]
+    pub apps: Vec<LauncherProfileConfig>,
 }

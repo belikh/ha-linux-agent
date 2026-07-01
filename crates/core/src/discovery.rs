@@ -39,7 +39,14 @@ pub fn sensor_discovery(
         "unique_id": unique_id(device_id, &d.id),
         "state_topic": state_topic(device_id),
         "availability_topic": availability_topic(device_id),
-        "value_template": format!("{{{{ value_json.{} }}}}", d.id),
+        // Bracket notation, not dot notation: entity ids can contain
+        // characters (e.g. a config-supplied launcher profile id with a
+        // hyphen) that aren't valid Jinja attribute-access syntax — found
+        // live via a launcher profile id of "dbus-check", which produced
+        // {{ value_json.launcher_dbus-check_active }} and silently broke
+        // (parsed as subtraction). `['...']` indexing has no such
+        // restriction.
+        "value_template": format!("{{{{ value_json['{}'] }}}}", d.id),
         "device": device,
     });
     let obj = payload.as_object_mut().unwrap();

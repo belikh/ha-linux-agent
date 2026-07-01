@@ -32,3 +32,54 @@ enable = true
 # Only takes effect inside a running Plasma session (detected automatically);
 # safe to leave enabled on hosts that don't run KDE.
 enable = true
+
+[backends.zfs]
+# Only takes effect if the `zpool` binary is present; safe to leave enabled
+# on hosts with no ZFS at all.
+enable = true
+# Pools to report on. Empty = auto-discover every imported pool.
+pools = []
+
+[backends.headscale]
+# Only takes effect if the `tailscale` binary is present (headscale's own
+# client side is the standard tailscale CLI).
+enable = true
+
+[backends.gamescope]
+# Only takes effect if gamescope is installed or the host is currently
+# inside a gamescope session; safe to leave enabled on non-gaming hosts.
+enable = true
+
+[backends.syncthing]
+# Unlike the other backends, this one is opt-in even when `enable = true`:
+# it also needs an api_key/api_key_file before it will register at all
+# (Syncthing generates one under Settings -> API Key in its web UI).
+enable = true
+address = "http://127.0.0.1:8384"
+# api_key = "..."
+# api_key_file = "/run/secrets/syncthing_api_key"
+
+[backends.lutris]
+# Only takes effect if the `lutris` binary is present. Publishes one launch
+# button per installed Lutris game, auto-discovered at startup.
+enable = true
+
+# Remote control of systemd units as HA switches (kiosk <-> gaming mode,
+# individual game sessions, etc.) — see ROADMAP.md's "Layer 1 — session
+# switch" for the design. Repeat this block per profile; profiles sharing
+# a `group` are mutually exclusive (starting one stops the others).
+# [[backends.launcher.apps]]
+# id = "gaming-mode"
+# name = "Gaming Mode"
+# unit = "gamescope-session.service"
+# scope = "user"        # "user" -> systemctl --user, "system" -> systemctl
+# group = "display"
+# icon = "mdi:gamepad-variant"
+#
+# [[backends.launcher.apps]]
+# id = "kiosk"
+# name = "Dashboard Kiosk"
+# unit = "cage.service"
+# scope = "system"
+# group = "display"
+# icon = "mdi:monitor-dashboard"

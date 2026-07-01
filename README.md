@@ -39,6 +39,27 @@ Built in:
   Plasma (via kactivitymanagerd's `org.kde.ActivityManager` D-Bus API).
   Auto-detects (`$XDG_CURRENT_DESKTOP` contains `KDE` and the D-Bus service
   is reachable) — safe to leave enabled everywhere.
+- **`backend-zfs`** (`crates/backend-zfs`) — ZFS pool capacity and health,
+  auto-discovering every imported pool by default. Auto-detects (`zpool` on
+  `$PATH`).
+- **`backend-syncthing`** (`crates/backend-syncthing`) — per-folder sync
+  state via Syncthing's local REST API. Opt-in: needs an `api_key` even when
+  `enable = true` (see `packaging/config.example.toml`).
+- **`backend-headscale`** (`crates/backend-headscale`) — Tailscale/headscale
+  mesh connectivity (connected state, backend state, mesh IP) via the
+  standard `tailscale` client CLI. Auto-detects (`tailscale` on `$PATH`).
+- **`backend-gamescope`** (`crates/backend-gamescope`) — a single presence
+  sensor for the gamescope gaming-session compositor. Auto-detects
+  (`gamescope` on `$PATH` or `$GAMESCOPE_WAYLAND_DISPLAY` set). Deliberately
+  doesn't track the focused game — see its entity table below.
+- **`backend-lutris`** (`crates/backend-lutris`) — one launch button per
+  installed [Lutris](https://lutris.net/) game, auto-discovered at startup.
+  Auto-detects (`lutris` on `$PATH`).
+- **`backend-launcher`** (`crates/backend-launcher`) — remote control of
+  systemd units as HA switches, with mutual-exclusion groups (e.g. "starting
+  gaming mode stops the dashboard kiosk automatically"). Config-driven, no
+  auto-detection — see its entity table below and `ROADMAP.md`'s "Layer 1 —
+  session switch" for the design.
 
 ## Entity reference
 
@@ -102,6 +123,88 @@ No commands — read-only sensor. Active-window title/app tracking is
 intentionally not included: KWin has no stable, scripting-free D-Bus method
 for it (it requires loading a KWin script at runtime), which is a bigger
 commitment than this backend's v1 takes on — a natural follow-up PR.
+
+### `backend-zfs` — only when the `zpool` binary is on `$PATH`
+
+| Entity ID | HA component | Name | Unit / device class | Notes |
+|---|---|---|---|---|
+| `zfs_<pool>_capacity_percent` | sensor | ZFS Pool `<pool>` Capacity | % | one per pool in `backends.zfs.pools` (default: every pool from `zpool list -H -o name`) |
+| `zfs_<pool>_problem` | binary_sensor | ZFS Pool `<pool>` Problem | device_class `problem` | ON when `zpool list -H -o health` reports anything other than `ONLINE` |
+
+`<pool>` in entity IDs is sanitized (lowercase, non-alphanumeric → `_`). No
+commands — starting a scrub needs root, out of scope for this backend.
+**Unverified in a live environment:** the exact `zpool list -H [-p] -o
+<fields>` output shape was implemented from documented OpenZFS behavior, not
+tested against a real pool (this project's dev sandbox has no ZFS) — check
+it against your actual `zpool` version before relying on it.
+
+### `backend-syncthing` — enabled and reachable with a valid API key
+
+| Entity ID | HA component | Name | Unit / device class | Notes |
+|---|---|---|---|---|
+| `syncthing_connections` | sensor | Syncthing Connected Devices | — | count of remote devices currently connected, from `/rest/system/connections` |
+| `syncthing_folder_<slug>_state` | sensor | Syncthing `<label>` Folder State | — | one per folder from `/rest/config`; value is Syncthing's own state string (`idle`/`scanning`/`syncing`/`error`) |
+| `syncthing_folder_<slug>_out_of_sync` | binary_sensor | Syncthing `<label>` Out Of Sync | device_class `problem` | ON when state isn't `idle` or the folder has items needing sync |
+
+`<slug>` is the folder's Syncthing ID, sanitized. No commands — read-only.
+**Unverified against a live daemon:** several REST field names (notably
+`needTotalItems` on `/rest/db/status`) are flagged `unverified:` in the
+source — check them against a real Syncthing instance before trusting this
+in production.
+
+### `backend-headscale` — only when the `tailscale` binary is on `$PATH`
+
+| Entity ID | HA component | Name | Unit / device class | Notes |
+|---|---|---|---|---|
+| `mesh_connected` | binary_sensor | Mesh Connected | device_class `connectivity` | ON when `tailscale status --json`'s `BackendState` is `Running` (and `Self.Online`, if present, is also true) |
+| `mesh_backend_state` | sensor | Mesh Backend State | — | raw `BackendState` string (`Running`/`Stopped`/`NeedsLogin`/...) |
+| `mesh_ip` | sensor | Mesh IP | — | first entry of `Self.TailscaleIPs`, omitted if absent |
+
+No commands — read-only. An exit-node-in-use sensor was deliberately left
+out: the relevant `tailscale status --json` field wasn't confident enough to
+guess at rather than risk publishing a silently-wrong sensor.
+
+### `backend-gamescope` — only when gamescope is installed or the host is currently inside a gamescope session
+
+| Entity ID | HA component | Name | Unit / device class | Notes |
+|---|---|---|---|---|
+| `gamescope_running` | binary_sensor | Gamescope Running | device_class `running` | ON when a process named `gamescope` is found running (`/proc` scan) |
+
+No commands, and deliberately no focused-game tracking — see
+`backend-gamescope`'s module doc comment and `ROADMAP.md` for why.
+
+### `backend-lutris` — only when the `lutris` binary is on `$PATH`
+
+No sensors — commands only, one `button` per installed game, auto-discovered
+at startup from `lutris --list-games --json`:
+
+| Command ID | Name | Behavior |
+|---|---|---|
+| `lutris_launch_<id>` | Launch `<game name>` | runs `lutris lutris:rungameid/<id>` (spawned, not awaited) |
+
+`<id>` is Lutris's own numeric game ID, sanitized. There is no stop/kill
+command — Lutris has no documented CLI verb for it. **Partially
+unverified:** the `--list-games --json` flag and the `lutris:rungameid/<id>`
+launch syntax are confirmed real (`lutris --help`), but the exact per-game
+JSON field names are hedged (`id`/`slug`, `name`/`title`) rather than
+confirmed against a real Lutris install — check before relying on this.
+
+### `backend-launcher` — config-driven, active whenever `backends.launcher.apps` is non-empty
+
+Remote control of systemd units as HA switches, with mutual-exclusion
+groups. See `packaging/config.example.toml` for the `[[backends.launcher.apps]]`
+schema (`id`, `name`, `unit`, `scope`, `group`, `icon`) and `ROADMAP.md`'s
+"Layer 1 — session switch" for the full design rationale.
+
+| Entity ID | HA component | Name | Unit / device class | Notes |
+|---|---|---|---|---|
+| `launcher_<id>_active` | binary_sensor | `<name>` Active | — | one per configured profile; polled via `systemctl [--user] is-active <unit>` |
+| `launcher_<id>` | switch | `<name>` | — | one per configured profile; `ON` payload runs `systemctl [--user] start <unit>` (after best-effort-stopping every other profile sharing its `group`), `OFF` runs `stop` |
+
+`<id>` is exactly the profile's configured `id` (not sanitized — avoid
+spaces, since it's also used as an MQTT topic segment). Only the configured
+`unit` names are ever passed to `systemctl` — no free-form unit name can
+arrive over MQTT.
 
 ## Adding a desktop-environment backend
 
@@ -194,11 +297,12 @@ under Home Assistant → Settings → Devices & Services → MQTT (or just
 
 ## Roadmap
 
-See [ROADMAP.md](ROADMAP.md) for planned backends (ZFS pool health,
-Syncthing sync status, gamescope session state, headscale/mesh connectivity,
-generic systemd unit health) and the design direction for remote app/session
-control (e.g. "flip a switch in HA to swap a dashboard kiosk over to a game
-session and back").
+`backend-zfs`, `backend-syncthing`, `backend-headscale`, `backend-gamescope`,
+`backend-lutris`, and `backend-launcher` (Layer 1 session-switch) from the
+original roadmap are now implemented — see the Entity reference above. See
+[ROADMAP.md](ROADMAP.md) for what's still open: generic systemd unit health,
+Layer 2 per-game control beyond Lutris (Steam, Heroic, emulators), and the
+OBS `obs-websocket` bonus.
 
 ## License
 

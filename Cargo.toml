@@ -5,6 +5,12 @@ members = [
     "crates/backend-generic",
     "crates/backend-niri",
     "crates/backend-kde",
+    "crates/backend-zfs",
+    "crates/backend-syncthing",
+    "crates/backend-headscale",
+    "crates/backend-launcher",
+    "crates/backend-lutris",
+    "crates/backend-gamescope",
     "crates/agentd",
 ]
 
@@ -20,6 +26,12 @@ ha-agent-core = { path = "crates/core" }
 ha-agent-backend-generic = { path = "crates/backend-generic" }
 ha-agent-backend-niri = { path = "crates/backend-niri" }
 ha-agent-backend-kde = { path = "crates/backend-kde" }
+ha-agent-backend-zfs = { path = "crates/backend-zfs" }
+ha-agent-backend-syncthing = { path = "crates/backend-syncthing" }
+ha-agent-backend-headscale = { path = "crates/backend-headscale" }
+ha-agent-backend-launcher = { path = "crates/backend-launcher" }
+ha-agent-backend-lutris = { path = "crates/backend-lutris" }
+ha-agent-backend-gamescope = { path = "crates/backend-gamescope" }
 
 anyhow = "1"
 async-trait = "0.1"

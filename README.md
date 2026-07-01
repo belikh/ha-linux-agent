@@ -192,6 +192,14 @@ point `config.toml` at `127.0.0.1`, run the agent, and watch entities show up
 under Home Assistant → Settings → Devices & Services → MQTT (or just
 `mosquitto_sub -t 'homeassistant/#' -v` to see discovery configs land).
 
+## Roadmap
+
+See [ROADMAP.md](ROADMAP.md) for planned backends (ZFS pool health,
+Syncthing sync status, gamescope session state, headscale/mesh connectivity,
+generic systemd unit health) and the design direction for remote app/session
+control (e.g. "flip a switch in HA to swap a dashboard kiosk over to a game
+session and back").
+
 ## License
 
 MIT — see [LICENSE](LICENSE).

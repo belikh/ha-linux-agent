@@ -139,7 +139,10 @@ impl SensorBackend for GenericBackend {
             SensorDescriptor::sensor("memory_usage", "Memory Usage")
                 .with_unit("%")
                 .with_icon("mdi:memory"),
-            SensorDescriptor::sensor("load_1m", "Load Average (1m)").with_icon("mdi:gauge"),
+            SensorDescriptor::sensor("load_1m", "Load Average (1m)")
+                .with_unit("")
+                .with_state_class("measurement")
+                .with_icon("mdi:gauge"),
             SensorDescriptor::sensor("uptime_seconds", "Uptime")
                 .with_unit("s")
                 .with_icon("mdi:clock-outline"),

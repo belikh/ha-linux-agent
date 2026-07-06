@@ -8,6 +8,8 @@ pub enum Component {
     BinarySensor,
     Button,
     Switch,
+    Number,
+    Select,
 }
 
 impl Component {
@@ -17,6 +19,8 @@ impl Component {
             Component::BinarySensor => "binary_sensor",
             Component::Button => "button",
             Component::Switch => "switch",
+            Component::Number => "number",
+            Component::Select => "select",
         }
     }
 }
@@ -32,6 +36,7 @@ pub struct SensorDescriptor {
     pub name: String,
     pub component: Component,
     pub device_class: Option<String>,
+    pub state_class: Option<String>,
     pub unit: Option<String>,
     pub icon: Option<String>,
 }
@@ -43,6 +48,7 @@ impl SensorDescriptor {
             name: name.into(),
             component: Component::Sensor,
             device_class: None,
+            state_class: None,
             unit: None,
             icon: None,
         }
@@ -54,6 +60,7 @@ impl SensorDescriptor {
             name: name.into(),
             component: Component::BinarySensor,
             device_class: None,
+            state_class: None,
             unit: None,
             icon: None,
         }
@@ -66,6 +73,11 @@ impl SensorDescriptor {
 
     pub fn with_device_class(mut self, class: impl Into<String>) -> Self {
         self.device_class = Some(class.into());
+        self
+    }
+
+    pub fn with_state_class(mut self, class: impl Into<String>) -> Self {
+        self.state_class = Some(class.into());
         self
     }
 
@@ -97,14 +109,15 @@ impl SensorState {
     }
 }
 
-/// Static metadata for one command entity (button/switch) a `CommandBackend`
-/// exposes.
 #[derive(Debug, Clone)]
 pub struct CommandDescriptor {
     pub id: String,
     pub name: String,
     pub component: Component,
     pub icon: Option<String>,
+    pub min: Option<f64>,
+    pub max: Option<f64>,
+    pub options: Option<Vec<String>>,
 }
 
 impl CommandDescriptor {
@@ -114,6 +127,45 @@ impl CommandDescriptor {
             name: name.into(),
             component: Component::Button,
             icon: None,
+            min: None,
+            max: None,
+            options: None,
+        }
+    }
+
+    pub fn switch(id: impl Into<String>, name: impl Into<String>) -> Self {
+        Self {
+            id: id.into(),
+            name: name.into(),
+            component: Component::Switch,
+            icon: None,
+            min: None,
+            max: None,
+            options: None,
+        }
+    }
+
+    pub fn number(id: impl Into<String>, name: impl Into<String>, min: f64, max: f64) -> Self {
+        Self {
+            id: id.into(),
+            name: name.into(),
+            component: Component::Number,
+            icon: None,
+            min: Some(min),
+            max: Some(max),
+            options: None,
+        }
+    }
+
+    pub fn select(id: impl Into<String>, name: impl Into<String>, options: Vec<String>) -> Self {
+        Self {
+            id: id.into(),
+            name: name.into(),
+            component: Component::Select,
+            icon: None,
+            min: None,
+            max: None,
+            options: Some(options),
         }
     }
 

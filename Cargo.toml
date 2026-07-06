@@ -11,6 +11,7 @@ members = [
     "crates/backend-launcher",
     "crates/backend-lutris",
     "crates/backend-gamescope",
+    "crates/backend-hardware",
     "crates/agentd",
 ]
 
@@ -32,6 +33,7 @@ ha-agent-backend-headscale = { path = "crates/backend-headscale" }
 ha-agent-backend-launcher = { path = "crates/backend-launcher" }
 ha-agent-backend-lutris = { path = "crates/backend-lutris" }
 ha-agent-backend-gamescope = { path = "crates/backend-gamescope" }
+ha-agent-backend-hardware = { path = "crates/backend-hardware" }
 
 anyhow = "1"
 async-trait = "0.1"

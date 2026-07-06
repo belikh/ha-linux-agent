@@ -20,6 +20,7 @@ ha-agent-backend-headscale.workspace = true
 ha-agent-backend-gamescope.workspace = true
 ha-agent-backend-lutris.workspace = true
 ha-agent-backend-launcher.workspace = true
+ha-agent-backend-hardware.workspace = true
 anyhow.workspace = true
 tokio.workspace = true
 tracing.workspace = true

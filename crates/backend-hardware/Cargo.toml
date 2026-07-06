@@ -1,0 +1,14 @@
+[package]
+name = "ha-agent-backend-hardware"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Linux kernel and hardware setting controls for ha-linux-agent"
+
+[dependencies]
+ha-agent-core.workspace = true
+anyhow.workspace = true
+async-trait.workspace = true
+tokio.workspace = true
+serde_json.workspace = true
+tracing.workspace = true

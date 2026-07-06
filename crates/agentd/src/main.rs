@@ -1,5 +1,6 @@
 use ha_agent_backend_gamescope::GamescopeBackend;
 use ha_agent_backend_generic::GenericBackend;
+use ha_agent_backend_hardware::HardwareBackend;
 use ha_agent_backend_headscale::HeadscaleBackend;
 use ha_agent_backend_kde::KdeBackend;
 use ha_agent_backend_launcher::{LauncherBackend, LauncherProfile, UnitScope};
@@ -53,6 +54,12 @@ async fn main() -> anyhow::Result<()> {
 
     if config.backends.generic.enable && GenericBackend::detect() {
         let backend = Arc::new(GenericBackend::new(config.backends.generic.clone()).await);
+        sensor_backends.push(Box::new(backend.clone()));
+        command_backends.push(Box::new(backend));
+    }
+
+    if config.backends.hardware.enable && HardwareBackend::detect() {
+        let backend = Arc::new(HardwareBackend::new(config.backends.hardware.clone()));
         sensor_backends.push(Box::new(backend.clone()));
         command_backends.push(Box::new(backend));
     }

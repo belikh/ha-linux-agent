@@ -1,4 +1,4 @@
-use crate::model::{CommandDescriptor, DeviceInfo, SensorDescriptor};
+use crate::model::{CommandDescriptor, Component, DeviceInfo, SensorDescriptor};
 use serde_json::json;
 
 /// Topic the agent publishes its merged sensor-state JSON to. One topic per
@@ -56,6 +56,9 @@ pub fn sensor_discovery(
     if let Some(class) = &d.device_class {
         obj.insert("device_class".into(), json!(class));
     }
+    if let Some(state_class) = &d.state_class {
+        obj.insert("state_class".into(), json!(state_class));
+    }
     if let Some(icon) = &d.icon {
         obj.insert("icon".into(), json!(icon));
     }
@@ -76,11 +79,29 @@ pub fn command_discovery(
         "availability_topic": availability_topic(device_id),
         "device": device,
     });
+    let obj = payload.as_object_mut().unwrap();
     if let Some(icon) = &d.icon {
-        payload
-            .as_object_mut()
-            .unwrap()
-            .insert("icon".into(), json!(icon));
+        obj.insert("icon".into(), json!(icon));
+    }
+
+    if d.component == Component::Switch || d.component == Component::Number || d.component == Component::Select {
+        obj.insert("state_topic".into(), json!(state_topic(device_id)));
+        let state_key = if d.component == Component::Switch && d.id.starts_with("launcher_") {
+            format!("{}_active", d.id)
+        } else {
+            d.id.clone()
+        };
+        obj.insert("value_template".into(), json!(format!("{{{{ value_json['{}'] }}}}", state_key)));
+    }
+
+    if let Some(min) = d.min {
+        obj.insert("min".into(), json!(min));
+    }
+    if let Some(max) = d.max {
+        obj.insert("max".into(), json!(max));
+    }
+    if let Some(options) = &d.options {
+        obj.insert("options".into(), json!(options));
     }
     (topic, payload)
 }

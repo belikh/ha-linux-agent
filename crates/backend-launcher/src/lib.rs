@@ -23,7 +23,7 @@
 //! start/stop, by contrast, is exactly what was asked for, so its failure is
 //! propagated as a real error.
 use async_trait::async_trait;
-use ha_agent_core::model::{Component, CommandDescriptor, SensorDescriptor, SensorState};
+use ha_agent_core::model::{CommandDescriptor, SensorDescriptor, SensorState};
 use ha_agent_core::{CommandBackend, SensorBackend};
 use tokio::process::Command;
 use tracing::warn;
@@ -223,12 +223,7 @@ impl CommandBackend for LauncherBackend {
     fn commands(&self) -> Vec<CommandDescriptor> {
         self.profiles
             .iter()
-            .map(|p| CommandDescriptor {
-                id: p.switch_id(),
-                name: p.name.clone(),
-                component: Component::Switch,
-                icon: Some(p.icon()),
-            })
+            .map(|p| CommandDescriptor::switch(p.switch_id(), p.name.clone()).with_icon(p.icon()))
             .collect()
     }
 

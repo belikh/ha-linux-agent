@@ -538,6 +538,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "ha-agent-backend-hardware"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "ha-agent-core",
+ "serde_json",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
 name = "ha-agent-backend-headscale"
 version = "0.1.0"
 dependencies = [
@@ -646,6 +658,7 @@ dependencies = [
  "anyhow",
  "ha-agent-backend-gamescope",
  "ha-agent-backend-generic",
+ "ha-agent-backend-hardware",
  "ha-agent-backend-headscale",
  "ha-agent-backend-kde",
  "ha-agent-backend-launcher",

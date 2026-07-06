@@ -123,6 +123,31 @@ pub struct BackendsConfig {
     pub lutris: LutrisBackendConfig,
     #[serde(default)]
     pub launcher: LauncherBackendConfig,
+    #[serde(default)]
+    pub hardware: HardwareBackendConfig,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct HardwareBackendConfig {
+    #[serde(default = "default_true")]
+    pub enable: bool,
+    #[serde(default)]
+    pub backlight_device: Option<String>,
+    #[serde(default = "default_true")]
+    pub cpu_governor: bool,
+    #[serde(default = "default_true")]
+    pub cpu_epp: bool,
+}
+
+impl Default for HardwareBackendConfig {
+    fn default() -> Self {
+        Self {
+            enable: true,
+            backlight_device: None,
+            cpu_governor: true,
+            cpu_epp: true,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Deserialize)]

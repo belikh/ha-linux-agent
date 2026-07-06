@@ -105,3 +105,39 @@ pub fn command_discovery(
     }
     (topic, payload)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::model::{DeviceInfo, SensorDescriptor, SensorState};
+
+    // Regression guard: `load_1m` must publish a JSON *number* (so HA graphs
+    // it numerically) and its discovery config must carry `state_class:
+    // measurement`. If either becomes a string again, long-term statistics
+    // silently break in Home Assistant. See commit e28ca83.
+    #[test]
+    fn load_1m_is_numeric_with_state_class() {
+        // Built exactly like `backend-generic::GenericBackend::sensors()`.
+        let descriptor = SensorDescriptor::sensor("load_1m", "Load Average (1m)")
+            .with_unit("")
+            .with_state_class("measurement")
+            .with_icon("mdi:gauge");
+
+        let device = DeviceInfo {
+            identifiers: vec!["jupiter".to_string()],
+            name: "jupiter".to_string(),
+            model: "ha-linux-agent".to_string(),
+            manufacturer: "ha-linux-agent".to_string(),
+            sw_version: "0.1.0".to_string(),
+        };
+
+        let (_topic, payload) = sensor_discovery("homeassistant", &device, "jupiter", &descriptor);
+        assert_eq!(payload["state_class"], "measurement");
+
+        // Built exactly like `backend-generic`'s poll(): round1() -> f64.
+        let state = SensorState::new("load_1m", 1.5_f64);
+        let rendered = serde_json::to_string(&state.value).unwrap();
+        assert_eq!(rendered, "1.5"); // not "1.5" — bare JSON number
+        assert!(state.value.is_number());
+    }
+}

@@ -120,6 +120,11 @@ pub struct CommandDescriptor {
     pub min: Option<f64>,
     pub max: Option<f64>,
     pub options: Option<Vec<String>>,
+    /// Whether this descriptor gets its own HA discovery config published.
+    /// Always true except for `light_brightness` — that one exists purely so
+    /// `agent.rs` subscribes to its command topic and routes it to the
+    /// backend; the entity a user sees is the paired `light()` descriptor.
+    pub discoverable: bool,
 }
 
 impl CommandDescriptor {
@@ -132,6 +137,7 @@ impl CommandDescriptor {
             min: None,
             max: None,
             options: None,
+            discoverable: true,
         }
     }
 
@@ -144,15 +150,18 @@ impl CommandDescriptor {
             min: None,
             max: None,
             options: None,
+            discoverable: true,
         }
     }
 
-    /// A dimmable on/off light (HA MQTT light, JSON schema, brightness-only
-    /// color mode — this codebase's `CommandBackend::handle` gets a single
-    /// `command_topic`/payload per descriptor, and JSON schema is the only
-    /// HA light schema that fits that: one topic, `{"state":"ON","brightness":N}`,
-    /// rather than the default schema's separate brightness command/state
-    /// topics).
+    /// A dimmable on/off light. Uses HA's default/basic MQTT light schema:
+    /// plain `ON`/`OFF` on `command_topic`, state reshaped out of the shared
+    /// state topic via `state_value_template` (the JSON schema has no
+    /// per-field template hook on `state_topic` at all — it `json.loads()`s
+    /// the raw payload directly, so pointing it at this codebase's shared
+    /// multi-entity state blob left every light stuck at "Unknown").
+    /// Brightness rides a second, non-discoverable descriptor — see
+    /// `light_brightness`.
     pub fn light(id: impl Into<String>, name: impl Into<String>) -> Self {
         Self {
             id: id.into(),
@@ -162,6 +171,25 @@ impl CommandDescriptor {
             min: None,
             max: None,
             options: None,
+            discoverable: true,
+        }
+    }
+
+    /// The brightness half of a light: registers `<id>`'s command topic so
+    /// `agent.rs` subscribes and routes it, but publishes no discovery
+    /// config of its own — `command_discovery` folds its
+    /// `brightness_command_topic`/`brightness_state_topic` into the paired
+    /// `light()` descriptor's single HA entity.
+    pub fn light_brightness(id: impl Into<String>) -> Self {
+        Self {
+            id: id.into(),
+            name: String::new(),
+            component: Component::Light,
+            icon: None,
+            min: None,
+            max: None,
+            options: None,
+            discoverable: false,
         }
     }
 
@@ -174,6 +202,7 @@ impl CommandDescriptor {
             min: Some(min),
             max: Some(max),
             options: None,
+            discoverable: true,
         }
     }
 
@@ -186,6 +215,7 @@ impl CommandDescriptor {
             min: None,
             max: None,
             options: Some(options),
+            discoverable: true,
         }
     }
 

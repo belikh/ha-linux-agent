@@ -100,6 +100,15 @@ impl LauncherProfile {
         format!("{}_brightness", self.switch_id())
     }
 
+    /// Command id for this profile's brightness half (the hidden,
+    /// non-discoverable descriptor paired with the light's on/off entity —
+    /// see `CommandDescriptor::light_brightness`). Same literal string as
+    /// `light_brightness_key()` on purpose: one names a state-json key, the
+    /// other a command-topic path component, different namespaces.
+    fn light_brightness_command_id(&self) -> String {
+        format!("{}_brightness", self.switch_id())
+    }
+
     /// Resolves this profile's backlight device path, if `backlight` is set.
     /// Empty string means auto-detect (first entry in
     /// `/sys/class/backlight`), matching `backend-hardware`'s convention so
@@ -381,6 +390,9 @@ impl CommandBackend for LauncherBackend {
             .collect();
         for p in self.light_profiles() {
             out.push(CommandDescriptor::light(p.switch_id(), p.name.clone()).with_icon(p.icon()));
+            out.push(CommandDescriptor::light_brightness(
+                p.light_brightness_command_id(),
+            ));
         }
         for group in self.group_names() {
             let members = self.profiles_in_group(&group);
@@ -398,15 +410,23 @@ impl CommandBackend for LauncherBackend {
     }
 
     async fn handle(&self, command_id: &str, payload: &str) -> anyhow::Result<()> {
-        // Light commands: JSON payload {"state":"ON"/"OFF","brightness":0-255}
-        // (see core::discovery's Light branch for why JSON schema, not the
-        // default schema's separate brightness topics).
+        // Light commands: default MQTT light schema, so on/off and
+        // brightness arrive on two separate topics/descriptors, each with a
+        // plain (non-JSON) payload -- see core::discovery's Light branch for
+        // why (the JSON schema doesn't template state_topic at all).
         if let Some(profile) = self
             .light_profiles()
             .into_iter()
             .find(|p| p.switch_id() == command_id)
         {
-            return handle_light_command(profile, payload).await;
+            return handle_light_power_command(profile, payload).await;
+        }
+        if let Some(profile) = self
+            .light_profiles()
+            .into_iter()
+            .find(|p| p.light_brightness_command_id() == command_id)
+        {
+            return handle_light_brightness_command(profile, payload).await;
         }
 
         // Group-select commands: payload is the chosen option (one of the
@@ -448,51 +468,43 @@ impl CommandBackend for LauncherBackend {
     }
 }
 
-/// Applies one JSON-schema light command: `{"state":"ON"/"OFF"}`,
-/// `{"brightness":N}`, or both together (HA sends both when you drag a
-/// slider on a light that was off). On/off goes through the profile's own
-/// systemd unit (start/stop) so this stays in sync with anything else that
-/// also starts/stops it (e.g. jupiter-os's touch-wake daemon calling the
-/// same `tcxwave-screen-power.service`) -- deliberately NOT a second,
-/// independent way to turn the unit on/off. Brightness writes go straight to
-/// sysfs, scaled from HA's 0-255 down to this device's real max_brightness.
-async fn handle_light_command(profile: &LauncherProfile, payload: &str) -> anyhow::Result<()> {
-    let json: serde_json::Value = serde_json::from_str(payload).map_err(|e| {
+/// Applies a plain `ON`/`OFF` payload from the light's `command_topic`.
+/// Goes through the profile's own systemd unit (start/stop) so this stays in
+/// sync with anything else that also starts/stops it (e.g. jupiter-os's
+/// touch-wake daemon calling the same `tcxwave-screen-power.service`) --
+/// deliberately NOT a second, independent way to turn the unit on/off.
+async fn handle_light_power_command(
+    profile: &LauncherProfile,
+    payload: &str,
+) -> anyhow::Result<()> {
+    match payload.trim().to_ascii_uppercase().as_str() {
+        "ON" => profile.start().await,
+        "OFF" => profile.stop().await,
+        other => Err(anyhow::anyhow!("unrecognized light payload: {other}")),
+    }
+}
+
+/// Applies a bare integer (0-255) payload from the light's
+/// `brightness_command_topic`, scaled down to this device's real
+/// `max_brightness` and written straight to sysfs.
+async fn handle_light_brightness_command(
+    profile: &LauncherProfile,
+    payload: &str,
+) -> anyhow::Result<()> {
+    let b255: u64 = payload.trim().parse().map_err(|e| {
         anyhow::anyhow!(
-            "light command for '{}': invalid JSON payload: {e}",
+            "light brightness command for '{}': invalid integer payload {payload:?}: {e}",
             profile.id
         )
     })?;
 
-    let state = json
-        .get("state")
-        .and_then(|v| v.as_str())
-        .map(|s| s.to_ascii_uppercase());
-    let brightness = json.get("brightness").and_then(|v| v.as_u64());
-
-    if state.as_deref() == Some("OFF") {
-        return profile.stop().await;
-    }
-
-    // Any other combination implies (or explicitly states) ON: start the
-    // unit first so a bare {"brightness":N} on a currently-off light both
-    // turns it on and lands at the requested level, not at ExecStart's
-    // default max_brightness.
-    if !profile.is_active().await {
-        profile.start().await?;
-    }
-
-    if let Some(b255) = brightness {
-        let path = profile
-            .backlight_path()
-            .ok_or_else(|| anyhow::anyhow!("light '{}': no backlight device found", profile.id))?;
-        let (_, max) = LauncherProfile::read_backlight(&path).ok_or_else(|| {
-            anyhow::anyhow!("light '{}': failed reading backlight state", profile.id)
-        })?;
-        let raw = ((b255.min(255) as u64 * max as u64) / 255) as u32;
-        LauncherProfile::write_backlight_raw(&path, raw)?;
-    }
-
+    let path = profile
+        .backlight_path()
+        .ok_or_else(|| anyhow::anyhow!("light '{}': no backlight device found", profile.id))?;
+    let (_, max) = LauncherProfile::read_backlight(&path)
+        .ok_or_else(|| anyhow::anyhow!("light '{}': failed reading backlight state", profile.id))?;
+    let raw = ((b255.min(255) * max as u64) / 255) as u32;
+    LauncherProfile::write_backlight_raw(&path, raw)?;
     Ok(())
 }
 
@@ -597,17 +609,31 @@ mod tests {
         assert_eq!(select.options.as_deref().unwrap().len(), 2);
     }
 
-    // Regression guard: the screen must become ONE dimmable light, not the
-    // switch-plus-number-slider pair it used to be, and must not also leak
-    // a binary_sensor the way a plain switch profile would.
+    // Regression guard: the screen must become ONE dimmable light entity
+    // (plus its hidden, non-discoverable brightness command descriptor),
+    // not the switch-plus-number-slider pair it used to be, and must not
+    // also leak a binary_sensor the way a plain switch profile would.
     #[test]
     fn backlight_profile_becomes_a_light_not_a_switch() {
         let backend = LauncherBackend::new(vec![light_profile("screen-power", "amalthea screen")]);
 
         let commands = backend.commands();
-        assert_eq!(commands.len(), 1);
-        assert_eq!(commands[0].component, Component::Light);
-        assert_eq!(commands[0].id, "launcher_screen-power");
+        assert_eq!(
+            commands.len(),
+            2,
+            "one discoverable light entity plus its hidden brightness command"
+        );
+        let discoverable: Vec<_> = commands.iter().filter(|c| c.discoverable).collect();
+        assert_eq!(
+            discoverable.len(),
+            1,
+            "only one HA entity must be published"
+        );
+        assert_eq!(discoverable[0].component, Component::Light);
+        assert_eq!(discoverable[0].id, "launcher_screen-power");
+
+        let hidden = commands.iter().find(|c| !c.discoverable).unwrap();
+        assert_eq!(hidden.id, "launcher_screen-power_brightness");
 
         assert!(
             backend.sensors().is_empty(),
@@ -625,14 +651,27 @@ mod tests {
         ]);
 
         let commands = backend.commands();
-        assert_eq!(commands.len(), 3, "one select, one light, one plain switch");
-        assert!(commands.iter().any(|c| c.component == Component::Select));
-        assert!(commands
+        let discoverable: Vec<_> = commands.iter().filter(|c| c.discoverable).collect();
+        assert_eq!(
+            discoverable.len(),
+            3,
+            "one select, one light, one plain switch -- as HA entities"
+        );
+        assert!(discoverable
+            .iter()
+            .any(|c| c.component == Component::Select));
+        assert!(discoverable
             .iter()
             .any(|c| c.component == Component::Light && c.id == "launcher_screen"));
-        assert!(commands
+        assert!(discoverable
             .iter()
             .any(|c| c.component == Component::Switch && c.id == "launcher_other-switch"));
+
+        assert_eq!(
+            commands.iter().filter(|c| !c.discoverable).count(),
+            1,
+            "the light's hidden brightness command descriptor"
+        );
 
         // Only the plain switch gets a binary_sensor -- not the light, not
         // the grouped profiles.

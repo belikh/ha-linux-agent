@@ -110,6 +110,9 @@ impl Agent {
                 }
             }
             for d in &command_descriptors {
+                if !d.discoverable {
+                    continue;
+                }
                 let (topic, payload) = command_discovery(
                     &prefix_for_setup,
                     &device_for_setup,

@@ -106,25 +106,40 @@ pub fn command_discovery(
     }
 
     if d.component == Component::Light {
-        // JSON schema: one command topic taking {"state":"ON"/"OFF",
-        // "brightness":0-255}, matching this codebase's one-topic-per-
-        // CommandDescriptor model exactly -- the default/basic MQTT light
-        // schema instead needs separate brightness command/state topics,
-        // which doesn't fit without a second, unregistered command id.
-        //
-        // This backend still publishes plain scalar sensor values (same
-        // shared per-device state topic as everything else), not a
-        // pre-shaped {"state":...,"brightness":...} object -- so the
-        // state_topic's value_template reshapes `<id>_active` /
-        // `<id>_brightness` into what the JSON light schema expects.
-        obj.insert("schema".into(), json!("json"));
-        obj.insert("brightness".into(), json!(true));
-        obj.insert("brightness_scale".into(), json!(255));
-        obj.insert("supported_color_modes".into(), json!(["brightness"]));
+        // Default/basic MQTT light schema, NOT the JSON schema: HA's JSON
+        // schema calls `json.loads()` directly on `state_topic`'s raw
+        // payload with no template step at all (confirmed against
+        // home-assistant/core's schema_json.py -- no CONF_VALUE_TEMPLATE is
+        // even read there), so pointing it at this codebase's shared
+        // multi-entity state blob left every light stuck reporting
+        // "Unknown". The default schema's `state_value_template` /
+        // `brightness_value_template` DO run a Jinja template against
+        // whatever arrives on their topic, which is exactly what reshaping
+        // one field out of a shared blob needs -- and both templates can
+        // point at the same shared state topic (HA dispatches the full
+        // payload to every independent subscriber on a topic).
+        obj.insert(
+            "command_topic".into(),
+            json!(command_topic(device_id, &d.id)),
+        );
         obj.insert("state_topic".into(), json!(state_topic(device_id)));
-        let template = r#"{% set active = value_json['__ID___active'] %}{% set brightness = value_json['__ID___brightness'] %}{{ {'state': ('ON' if active else 'OFF'), 'brightness': brightness} | tojson }}"#
-            .replace("__ID__", &d.id);
-        obj.insert("value_template".into(), json!(template));
+        obj.insert(
+            "state_value_template".into(),
+            json!(format!("{{{{ value_json['{}_active'] }}}}", d.id)),
+        );
+        obj.insert(
+            "brightness_command_topic".into(),
+            json!(command_topic(device_id, &format!("{}_brightness", d.id))),
+        );
+        obj.insert(
+            "brightness_state_topic".into(),
+            json!(state_topic(device_id)),
+        );
+        obj.insert(
+            "brightness_value_template".into(),
+            json!(format!("{{{{ value_json['{}_brightness'] }}}}", d.id)),
+        );
+        obj.insert("brightness_scale".into(), json!(255));
     }
 
     if let Some(min) = d.min {
@@ -184,47 +199,55 @@ mod tests {
         }
     }
 
-    // Regression guard: a Light must use HA's JSON schema (one command
-    // topic, one reshaping value_template on the shared state topic) --
-    // NOT the default schema's separate brightness_command_topic /
-    // brightness_state_topic, which this codebase's one-topic-per-
-    // CommandDescriptor model has no second registered id to back.
+    // Regression guard: a Light must use HA's default/basic schema (per-field
+    // state_value_template/brightness_value_template on a shared state
+    // topic) -- NOT the JSON schema, which was confirmed to ignore any
+    // value_template on state_topic entirely and left every light reporting
+    // "Unknown" (see commit fixing this).
     #[test]
-    fn light_uses_json_schema_and_reshapes_shared_state() {
+    fn light_uses_default_schema_and_reshapes_shared_state() {
         let descriptor = CommandDescriptor::light("screen", "Screen").with_icon("mdi:monitor");
         let device = test_device();
 
         let (topic, payload) = command_discovery("homeassistant", &device, "amalthea", &descriptor);
 
         assert_eq!(topic, "homeassistant/light/amalthea_screen/config");
-        assert_eq!(payload["schema"], "json");
-        assert_eq!(payload["brightness"], true);
-        assert_eq!(payload["brightness_scale"], 255);
-        assert_eq!(payload["supported_color_modes"], json!(["brightness"]));
 
-        // No separate brightness topics -- that would be the default
-        // schema's shape, which this backend deliberately does not use.
-        assert!(payload.get("brightness_command_topic").is_none());
-        assert!(payload.get("brightness_state_topic").is_none());
+        // No JSON-schema markers left over.
+        assert!(payload.get("schema").is_none());
+        assert!(payload.get("supported_color_modes").is_none());
 
         assert_eq!(
             payload["command_topic"],
             "ha-linux-agent/amalthea/cmd/screen"
         );
         assert_eq!(payload["state_topic"], "ha-linux-agent/amalthea/state");
+        assert_eq!(
+            payload["state_value_template"],
+            "{{ value_json['screen_active'] }}"
+        );
 
-        let template = payload["value_template"].as_str().unwrap();
-        assert!(
-            template.contains("screen_active"),
-            "must read the active key backend poll() publishes"
+        assert_eq!(
+            payload["brightness_command_topic"],
+            "ha-linux-agent/amalthea/cmd/screen_brightness"
         );
-        assert!(
-            template.contains("screen_brightness"),
-            "must read the brightness key backend poll() publishes"
+        assert_eq!(
+            payload["brightness_state_topic"],
+            "ha-linux-agent/amalthea/state"
         );
-        assert!(
-            template.contains("tojson"),
-            "must reshape into a JSON object, not a bare scalar"
+        assert_eq!(
+            payload["brightness_value_template"],
+            "{{ value_json['screen_brightness'] }}"
         );
+        assert_eq!(payload["brightness_scale"], 255);
+    }
+
+    // The brightness half of a light must never publish its own discovery
+    // config -- that would resurrect exactly the redundant slider io asked
+    // to have removed (see commit "get rid of all the redundant shit").
+    #[test]
+    fn light_brightness_descriptor_is_not_discoverable() {
+        let descriptor = CommandDescriptor::light_brightness("screen_brightness");
+        assert!(!descriptor.discoverable);
     }
 }

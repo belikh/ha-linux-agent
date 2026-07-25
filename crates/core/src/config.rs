@@ -133,6 +133,15 @@ pub struct HardwareBackendConfig {
     pub enable: bool,
     #[serde(default)]
     pub backlight_device: Option<String>,
+    /// Whether to expose the plain `backlight_brightness` sensor+number pair
+    /// at all. Default true for backward compatibility, but set this false
+    /// wherever a `backend-launcher` profile already exposes the same
+    /// backlight as a unified `light` (brightness + on/off) — otherwise the
+    /// same physical backlight gets TWO independent, overlapping HA
+    /// controls (confirmed live on amalthea 2026-07-25: io still saw a
+    /// separate brightness slider alongside the new light).
+    #[serde(default = "default_true")]
+    pub backlight: bool,
     #[serde(default = "default_true")]
     pub cpu_governor: bool,
     #[serde(default = "default_true")]
@@ -144,6 +153,7 @@ impl Default for HardwareBackendConfig {
         Self {
             enable: true,
             backlight_device: None,
+            backlight: true,
             cpu_governor: true,
             cpu_epp: true,
         }

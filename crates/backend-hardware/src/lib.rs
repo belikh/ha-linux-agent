@@ -34,11 +34,7 @@ impl HardwareBackend {
             // Auto-detect first entry in /sys/class/backlight
             fs::read_dir("/sys/class/backlight")
                 .ok()
-                .and_then(|mut entries| {
-                    entries.find_map(|entry| {
-                        entry.ok().map(|e| e.path())
-                    })
-                })
+                .and_then(|mut entries| entries.find_map(|entry| entry.ok().map(|e| e.path())))
         };
 
         if let Some(ref path) = backlight_path {
@@ -75,20 +71,25 @@ impl HardwareBackend {
         }
 
         // 3. Detect available scaling governors
-        let available_governors = fs::read_to_string("/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors")
-            .map(|s| s.split_whitespace().map(|x| x.to_string()).collect())
-            .unwrap_or_else(|_| vec!["powersave".to_string(), "performance".to_string()]);
+        let available_governors =
+            fs::read_to_string("/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors")
+                .map(|s| s.split_whitespace().map(|x| x.to_string()).collect())
+                .unwrap_or_else(|_| vec!["powersave".to_string(), "performance".to_string()]);
 
         // 4. Detect available EPP values
-        let available_epps = fs::read_to_string("/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_available_preferences")
-            .map(|s| s.split_whitespace().map(|x| x.to_string()).collect())
-            .unwrap_or_else(|_| vec![
+        let available_epps = fs::read_to_string(
+            "/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_available_preferences",
+        )
+        .map(|s| s.split_whitespace().map(|x| x.to_string()).collect())
+        .unwrap_or_else(|_| {
+            vec![
                 "default".to_string(),
                 "performance".to_string(),
                 "balance_performance".to_string(),
                 "balance_power".to_string(),
                 "power".to_string(),
-            ]);
+            ]
+        });
 
         Self {
             config,
@@ -113,7 +114,8 @@ impl HardwareBackend {
         let cpus = fs::read_dir("/sys/devices/system/cpu")?;
         for entry in cpus.flatten() {
             let name = entry.file_name().to_string_lossy().into_owned();
-            if name.starts_with("cpu") && name.chars().nth(3).map_or(false, |c| c.is_ascii_digit()) {
+            if name.starts_with("cpu") && name.chars().nth(3).map_or(false, |c| c.is_ascii_digit())
+            {
                 let target = entry.path().join("cpufreq").join(filename);
                 if target.exists() {
                     if let Err(e) = self.write_sys_file(&target, val) {
@@ -145,7 +147,7 @@ impl SensorBackend for HardwareBackend {
         }
 
         // We report state of controls so Home Assistant can read them
-        if self.backlight_path.is_some() {
+        if self.config.backlight && self.backlight_path.is_some() {
             sensors.push(
                 SensorDescriptor::sensor("backlight_brightness", "Display Brightness")
                     .with_unit("%")
@@ -153,17 +155,25 @@ impl SensorBackend for HardwareBackend {
             );
         }
 
-        if self.config.cpu_governor && Path::new("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor").exists() {
+        if self.config.cpu_governor
+            && Path::new("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor").exists()
+        {
             sensors.push(
                 SensorDescriptor::sensor("cpu_governor", "CPU Governor")
                     .with_icon("mdi:speedometer"),
             );
         }
 
-        if self.config.cpu_epp && Path::new("/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_preference").exists() {
+        if self.config.cpu_epp
+            && Path::new("/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_preference")
+                .exists()
+        {
             sensors.push(
-                SensorDescriptor::sensor("cpu_energy_performance_preference", "CPU Energy Preference")
-                    .with_icon("mdi:leaf"),
+                SensorDescriptor::sensor(
+                    "cpu_energy_performance_preference",
+                    "CPU Energy Preference",
+                )
+                .with_icon("mdi:leaf"),
             );
         }
 
@@ -178,20 +188,34 @@ impl SensorBackend for HardwareBackend {
                 if let Ok(temp_raw) = raw.parse::<f64>() {
                     // hwmon temp is usually in millidegrees, thermal_zone might be too.
                     // If it is > 1000, we divide by 1000.
-                    let temp = if temp_raw > 1000.0 { temp_raw / 1000.0 } else { temp_raw };
-                    states.push(SensorState::new("cpu_temperature", (temp * 10.0).round() / 10.0));
+                    let temp = if temp_raw > 1000.0 {
+                        temp_raw / 1000.0
+                    } else {
+                        temp_raw
+                    };
+                    states.push(SensorState::new(
+                        "cpu_temperature",
+                        (temp * 10.0).round() / 10.0,
+                    ));
                 }
             }
         }
 
-        if let Some(ref path) = self.backlight_path {
-            let bright_file = path.join("brightness");
-            let max_file = path.join("max_brightness");
-            if let (Ok(bright_str), Ok(max_str)) = (self.read_sys_file(&bright_file), self.read_sys_file(&max_file)) {
-                if let (Ok(bright), Ok(max)) = (bright_str.parse::<f64>(), max_str.parse::<f64>()) {
-                    if max > 0.0 {
-                        let pct = (bright * 100.0 / max).round();
-                        states.push(SensorState::new("backlight_brightness", pct));
+        if self.config.backlight {
+            if let Some(ref path) = self.backlight_path {
+                let bright_file = path.join("brightness");
+                let max_file = path.join("max_brightness");
+                if let (Ok(bright_str), Ok(max_str)) = (
+                    self.read_sys_file(&bright_file),
+                    self.read_sys_file(&max_file),
+                ) {
+                    if let (Ok(bright), Ok(max)) =
+                        (bright_str.parse::<f64>(), max_str.parse::<f64>())
+                    {
+                        if max > 0.0 {
+                            let pct = (bright * 100.0 / max).round();
+                            states.push(SensorState::new("backlight_brightness", pct));
+                        }
                     }
                 }
             }
@@ -205,7 +229,8 @@ impl SensorBackend for HardwareBackend {
         }
 
         if self.config.cpu_epp {
-            let path = Path::new("/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_preference");
+            let path =
+                Path::new("/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_preference");
             if let Ok(epp) = self.read_sys_file(path) {
                 states.push(SensorState::new("cpu_energy_performance_preference", epp));
             }
@@ -224,24 +249,42 @@ impl CommandBackend for HardwareBackend {
     fn commands(&self) -> Vec<CommandDescriptor> {
         let mut cmds = Vec::new();
 
-        if self.backlight_path.is_some() {
+        if self.config.backlight && self.backlight_path.is_some() {
             cmds.push(
-                CommandDescriptor::number("backlight_brightness", "Set Display Brightness", 0.0, 100.0)
-                    .with_icon("mdi:brightness-6")
+                CommandDescriptor::number(
+                    "backlight_brightness",
+                    "Set Display Brightness",
+                    0.0,
+                    100.0,
+                )
+                .with_icon("mdi:brightness-6"),
             );
         }
 
-        if self.config.cpu_governor && Path::new("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor").exists() {
+        if self.config.cpu_governor
+            && Path::new("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor").exists()
+        {
             cmds.push(
-                CommandDescriptor::select("cpu_governor", "Set CPU Governor", self.available_governors.clone())
-                    .with_icon("mdi:speedometer")
+                CommandDescriptor::select(
+                    "cpu_governor",
+                    "Set CPU Governor",
+                    self.available_governors.clone(),
+                )
+                .with_icon("mdi:speedometer"),
             );
         }
 
-        if self.config.cpu_epp && Path::new("/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_preference").exists() {
+        if self.config.cpu_epp
+            && Path::new("/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_preference")
+                .exists()
+        {
             cmds.push(
-                CommandDescriptor::select("cpu_energy_performance_preference", "Set CPU Energy Preference", self.available_epps.clone())
-                    .with_icon("mdi:leaf")
+                CommandDescriptor::select(
+                    "cpu_energy_performance_preference",
+                    "Set CPU Energy Preference",
+                    self.available_epps.clone(),
+                )
+                .with_icon("mdi:leaf"),
             );
         }
 
@@ -251,13 +294,15 @@ impl CommandBackend for HardwareBackend {
     async fn handle(&self, command_id: &str, payload: &str) -> anyhow::Result<()> {
         match command_id {
             "backlight_brightness" => {
-                let backlight_path = self.backlight_path.as_ref()
+                let backlight_path = self
+                    .backlight_path
+                    .as_ref()
                     .ok_or_else(|| anyhow::anyhow!("no backlight device detected"))?;
-                
+
                 let pct = payload.trim().parse::<f64>()?;
                 let max_str = self.read_sys_file(&backlight_path.join("max_brightness"))?;
                 let max = max_str.parse::<f64>()?;
-                
+
                 let raw_val = ((pct * max) / 100.0).round() as u64;
                 self.write_sys_file(&backlight_path.join("brightness"), &raw_val.to_string())?;
                 Ok(())

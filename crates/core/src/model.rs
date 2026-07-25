@@ -10,6 +10,7 @@ pub enum Component {
     Switch,
     Number,
     Select,
+    Light,
 }
 
 impl Component {
@@ -21,6 +22,7 @@ impl Component {
             Component::Switch => "switch",
             Component::Number => "number",
             Component::Select => "select",
+            Component::Light => "light",
         }
     }
 }
@@ -138,6 +140,24 @@ impl CommandDescriptor {
             id: id.into(),
             name: name.into(),
             component: Component::Switch,
+            icon: None,
+            min: None,
+            max: None,
+            options: None,
+        }
+    }
+
+    /// A dimmable on/off light (HA MQTT light, JSON schema, brightness-only
+    /// color mode — this codebase's `CommandBackend::handle` gets a single
+    /// `command_topic`/payload per descriptor, and JSON schema is the only
+    /// HA light schema that fits that: one topic, `{"state":"ON","brightness":N}`,
+    /// rather than the default schema's separate brightness command/state
+    /// topics).
+    pub fn light(id: impl Into<String>, name: impl Into<String>) -> Self {
+        Self {
+            id: id.into(),
+            name: name.into(),
+            component: Component::Light,
             icon: None,
             min: None,
             max: None,

@@ -126,6 +126,7 @@ async fn main() -> anyhow::Result<()> {
                 },
                 group: p.group.clone(),
                 icon: p.icon.clone(),
+                backlight: p.backlight.clone(),
             })
             .collect();
         if LauncherBackend::detect(&profiles) {

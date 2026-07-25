@@ -582,6 +582,7 @@ dependencies = [
  "async-trait",
  "ha-agent-core",
  "serde",
+ "serde_json",
  "tokio",
  "tracing",
 ]

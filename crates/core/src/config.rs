@@ -312,6 +312,8 @@ pub struct LauncherProfileConfig {
     pub group: Option<String>,
     #[serde(default)]
     pub icon: Option<String>,
+    #[serde(default)]
+    pub backlight: Option<String>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]

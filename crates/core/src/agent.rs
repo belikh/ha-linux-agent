@@ -1,5 +1,7 @@
 use crate::config::Config;
-use crate::discovery::{availability_topic, command_discovery, command_topic, sensor_discovery, state_topic};
+use crate::discovery::{
+    availability_topic, command_discovery, command_topic, sensor_discovery, state_topic,
+};
 use crate::model::DeviceInfo;
 use crate::traits::{CommandBackend, SensorBackend};
 use rumqttc::{AsyncClient, Event, MqttOptions, Packet, QoS};
@@ -39,14 +41,23 @@ impl Agent {
             sw_version: env!("CARGO_PKG_VERSION").to_string(),
         };
 
-        let mut opts = MqttOptions::new(format!("ha-linux-agent-{device_id}"), self.config.mqtt.host.clone(), self.config.mqtt.port);
+        let mut opts = MqttOptions::new(
+            format!("ha-linux-agent-{device_id}"),
+            self.config.mqtt.host.clone(),
+            self.config.mqtt.port,
+        );
         opts.set_keep_alive(Duration::from_secs(30));
         if let Some(user) = &self.config.mqtt.username {
             let pass = self.config.mqtt.resolve_password()?.unwrap_or_default();
             opts.set_credentials(user, pass);
         }
         let avail_topic = availability_topic(&device_id);
-        opts.set_last_will(rumqttc::LastWill::new(&avail_topic, "offline", QoS::AtLeastOnce, true));
+        opts.set_last_will(rumqttc::LastWill::new(
+            &avail_topic,
+            "offline",
+            QoS::AtLeastOnce,
+            true,
+        ));
 
         let (client, mut eventloop) = AsyncClient::new(opts, 64);
 
@@ -80,18 +91,38 @@ impl Agent {
         let device_id_for_setup = device_id.clone();
         let _setup_task = tokio::spawn(async move {
             for d in &sensor_descriptors {
-                let (topic, payload) = sensor_discovery(&prefix_for_setup, &device_for_setup, &device_id_for_setup, d);
+                let (topic, payload) = sensor_discovery(
+                    &prefix_for_setup,
+                    &device_for_setup,
+                    &device_id_for_setup,
+                    d,
+                );
                 if let Err(e) = client_for_setup
-                    .publish(topic, QoS::AtLeastOnce, true, serde_json::to_vec(&payload).unwrap())
+                    .publish(
+                        topic,
+                        QoS::AtLeastOnce,
+                        true,
+                        serde_json::to_vec(&payload).unwrap(),
+                    )
                     .await
                 {
                     warn!("publishing discovery for sensor {}: {e}", d.id);
                 }
             }
             for d in &command_descriptors {
-                let (topic, payload) = command_discovery(&prefix_for_setup, &device_for_setup, &device_id_for_setup, d);
+                let (topic, payload) = command_discovery(
+                    &prefix_for_setup,
+                    &device_for_setup,
+                    &device_id_for_setup,
+                    d,
+                );
                 if let Err(e) = client_for_setup
-                    .publish(topic, QoS::AtLeastOnce, true, serde_json::to_vec(&payload).unwrap())
+                    .publish(
+                        topic,
+                        QoS::AtLeastOnce,
+                        true,
+                        serde_json::to_vec(&payload).unwrap(),
+                    )
                     .await
                 {
                     warn!("publishing discovery for command {}: {e}", d.id);
@@ -124,7 +155,12 @@ impl Agent {
                 }
                 let payload = serde_json::Value::Object(merged);
                 if let Err(e) = client_for_poll
-                    .publish(&state_topic, QoS::AtLeastOnce, true, serde_json::to_vec(&payload).unwrap())
+                    .publish(
+                        &state_topic,
+                        QoS::AtLeastOnce,
+                        true,
+                        serde_json::to_vec(&payload).unwrap(),
+                    )
                     .await
                 {
                     warn!("publishing state: {e}");

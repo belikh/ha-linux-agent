@@ -19,7 +19,12 @@ pub fn command_topic(device_id: &str, command_id: &str) -> String {
 }
 
 /// `homeassistant/<component>/<device_id>/<entity_id>/config`
-fn discovery_config_topic(prefix: &str, component: &str, device_id: &str, entity_id: &str) -> String {
+fn discovery_config_topic(
+    prefix: &str,
+    component: &str,
+    device_id: &str,
+    entity_id: &str,
+) -> String {
     format!("{prefix}/{component}/{device_id}_{entity_id}/config")
 }
 
@@ -84,14 +89,42 @@ pub fn command_discovery(
         obj.insert("icon".into(), json!(icon));
     }
 
-    if d.component == Component::Switch || d.component == Component::Number || d.component == Component::Select {
+    if d.component == Component::Switch
+        || d.component == Component::Number
+        || d.component == Component::Select
+    {
         obj.insert("state_topic".into(), json!(state_topic(device_id)));
         let state_key = if d.component == Component::Switch && d.id.starts_with("launcher_") {
             format!("{}_active", d.id)
         } else {
             d.id.clone()
         };
-        obj.insert("value_template".into(), json!(format!("{{{{ value_json['{}'] }}}}", state_key)));
+        obj.insert(
+            "value_template".into(),
+            json!(format!("{{{{ value_json['{}'] }}}}", state_key)),
+        );
+    }
+
+    if d.component == Component::Light {
+        // JSON schema: one command topic taking {"state":"ON"/"OFF",
+        // "brightness":0-255}, matching this codebase's one-topic-per-
+        // CommandDescriptor model exactly -- the default/basic MQTT light
+        // schema instead needs separate brightness command/state topics,
+        // which doesn't fit without a second, unregistered command id.
+        //
+        // This backend still publishes plain scalar sensor values (same
+        // shared per-device state topic as everything else), not a
+        // pre-shaped {"state":...,"brightness":...} object -- so the
+        // state_topic's value_template reshapes `<id>_active` /
+        // `<id>_brightness` into what the JSON light schema expects.
+        obj.insert("schema".into(), json!("json"));
+        obj.insert("brightness".into(), json!(true));
+        obj.insert("brightness_scale".into(), json!(255));
+        obj.insert("supported_color_modes".into(), json!(["brightness"]));
+        obj.insert("state_topic".into(), json!(state_topic(device_id)));
+        let template = r#"{% set active = value_json['__ID___active'] %}{% set brightness = value_json['__ID___brightness'] %}{{ {'state': ('ON' if active else 'OFF'), 'brightness': brightness} | tojson }}"#
+            .replace("__ID__", &d.id);
+        obj.insert("value_template".into(), json!(template));
     }
 
     if let Some(min) = d.min {
@@ -139,5 +172,59 @@ mod tests {
         let rendered = serde_json::to_string(&state.value).unwrap();
         assert_eq!(rendered, "1.5"); // not "1.5" — bare JSON number
         assert!(state.value.is_number());
+    }
+
+    fn test_device() -> DeviceInfo {
+        DeviceInfo {
+            identifiers: vec!["amalthea".to_string()],
+            name: "amalthea".to_string(),
+            model: "ha-linux-agent".to_string(),
+            manufacturer: "ha-linux-agent".to_string(),
+            sw_version: "0.1.0".to_string(),
+        }
+    }
+
+    // Regression guard: a Light must use HA's JSON schema (one command
+    // topic, one reshaping value_template on the shared state topic) --
+    // NOT the default schema's separate brightness_command_topic /
+    // brightness_state_topic, which this codebase's one-topic-per-
+    // CommandDescriptor model has no second registered id to back.
+    #[test]
+    fn light_uses_json_schema_and_reshapes_shared_state() {
+        let descriptor = CommandDescriptor::light("screen", "Screen").with_icon("mdi:monitor");
+        let device = test_device();
+
+        let (topic, payload) = command_discovery("homeassistant", &device, "amalthea", &descriptor);
+
+        assert_eq!(topic, "homeassistant/light/amalthea_screen/config");
+        assert_eq!(payload["schema"], "json");
+        assert_eq!(payload["brightness"], true);
+        assert_eq!(payload["brightness_scale"], 255);
+        assert_eq!(payload["supported_color_modes"], json!(["brightness"]));
+
+        // No separate brightness topics -- that would be the default
+        // schema's shape, which this backend deliberately does not use.
+        assert!(payload.get("brightness_command_topic").is_none());
+        assert!(payload.get("brightness_state_topic").is_none());
+
+        assert_eq!(
+            payload["command_topic"],
+            "ha-linux-agent/amalthea/cmd/screen"
+        );
+        assert_eq!(payload["state_topic"], "ha-linux-agent/amalthea/state");
+
+        let template = payload["value_template"].as_str().unwrap();
+        assert!(
+            template.contains("screen_active"),
+            "must read the active key backend poll() publishes"
+        );
+        assert!(
+            template.contains("screen_brightness"),
+            "must read the brightness key backend poll() publishes"
+        );
+        assert!(
+            template.contains("tojson"),
+            "must reshape into a JSON object, not a bare scalar"
+        );
     }
 }

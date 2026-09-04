@@ -14,8 +14,9 @@ use ha_agent_core::{Agent, Config};
 use std::path::PathBuf;
 use std::sync::Arc;
 
-fn config_path() -> PathBuf {
-    if let Some(arg) = std::env::args().nth(1) {
+fn config_path(args: &[String]) -> PathBuf {
+    // First non-flag argument is the config path (flags: --decommission).
+    if let Some(arg) = args.iter().skip(1).find(|a| !a.starts_with("--")) {
         return PathBuf::from(arg);
     }
     if let Ok(env_path) = std::env::var("HA_LINUX_AGENT_CONFIG") {
@@ -45,7 +46,10 @@ async fn main() -> anyhow::Result<()> {
         )
         .init();
 
-    let path = config_path();
+    let args: Vec<String> = std::env::args().collect();
+    let decommission = args.iter().any(|a| a == "--decommission");
+
+    let path = config_path(&args);
     let config = Config::load(&path)?;
     tracing::info!(path = %path.display(), device = %config.device.id, "loaded config");
 
@@ -141,5 +145,12 @@ async fn main() -> anyhow::Result<()> {
     }
 
     let agent = Agent::new(config, sensor_backends, command_backends);
-    agent.run().await
+    if decommission {
+        // Clear every owned topic (zero-length retained payloads, state
+        // first, configs last) and exit — HA's official entity-removal
+        // semantic, for uninstall or device retirement.
+        agent.run_decommission().await
+    } else {
+        agent.run().await
+    }
 }

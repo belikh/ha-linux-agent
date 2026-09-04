@@ -28,6 +28,40 @@ fn discovery_config_topic(
     format!("{prefix}/{component}/{device_id}_{entity_id}/config")
 }
 
+/// Every MQTT topic this agent owns, in decommission order: state and
+/// availability FIRST, discovery configs LAST — mirroring Homie's
+/// state-first removal ordering so a half-commissioned device never shows
+/// live state. Zero-length retained payloads on these topics are HA's
+/// official entity-removal semantic.
+pub fn owned_topics(
+    prefix: &str,
+    device_id: &str,
+    sensors: &[SensorDescriptor],
+    commands: &[CommandDescriptor],
+) -> Vec<String> {
+    let mut topics = vec![state_topic(device_id), availability_topic(device_id)];
+    for d in sensors {
+        topics.push(discovery_config_topic(
+            prefix,
+            d.component.discovery_key(),
+            device_id,
+            &d.id,
+        ));
+    }
+    for d in commands {
+        if !d.discoverable {
+            continue;
+        }
+        topics.push(discovery_config_topic(
+            prefix,
+            d.component.discovery_key(),
+            device_id,
+            &d.id,
+        ));
+    }
+    topics
+}
+
 fn unique_id(device_id: &str, entity_id: &str) -> String {
     format!("{device_id}_{entity_id}")
 }
@@ -104,6 +138,10 @@ pub fn command_discovery(
             json!(format!("{{{{ value_json['{}'] }}}}", state_key)),
         );
     }
+
+    // Notify entities carry no state topic at all (HA tracks the last-sent
+    // timestamp itself) — command_topic only, per the upstream mqtt notify
+    // platform's discovery contract.
 
     if d.component == Component::Light {
         // Default/basic MQTT light schema, NOT the JSON schema: HA's JSON

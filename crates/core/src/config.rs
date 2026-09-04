@@ -29,6 +29,14 @@ fn default_poll_interval() -> u64 {
     30
 }
 
+fn default_discovery_jitter() -> u64 {
+    30
+}
+
+fn default_state_dir() -> String {
+    "/var/lib/ha-linux-agent".to_string()
+}
+
 fn default_true() -> bool {
     true
 }
@@ -40,6 +48,11 @@ pub struct Config {
     pub mqtt: MqttConfig,
     #[serde(default)]
     pub backends: BackendsConfig,
+    /// Directory for the agent's persisted state (last-discovery.json —
+    /// the opportunistic-decommission manifest). The NixOS module's
+    /// `StateDirectory=` provides this; tests point it at a tempdir.
+    #[serde(default = "default_state_dir")]
+    pub state_dir: String,
 }
 
 impl Config {
@@ -86,10 +99,23 @@ pub struct MqttConfig {
     pub password_file: Option<String>,
     #[serde(default)]
     pub tls: bool,
+    /// PEM-encoded CA certificate the broker's TLS cert chains to.
+    /// Required when `tls = true` — rumqttc's TLS transport builds its root
+    /// store from these bytes and rejects an empty chain, so a TLS turn-on
+    /// without a CA is a startup error, not a silent no-op.
+    #[serde(default)]
+    pub ca_file: Option<String>,
     #[serde(default = "default_discovery_prefix")]
     pub discovery_prefix: String,
     #[serde(default = "default_poll_interval")]
     pub poll_interval_secs: u64,
+    /// Upper bound on the random delay before re-publishing discovery on
+    /// Home Assistant's birth message — HA's docs recommend the delay to
+    /// avoid an IO spike when many devices republish at once. Zero disables
+    /// the delay (tests set 0; the 30 s default mirrors Zigbee2MQTT's
+    /// max_jitter).
+    #[serde(default = "default_discovery_jitter")]
+    pub discovery_jitter_secs: u64,
 }
 
 impl MqttConfig {

@@ -16,6 +16,29 @@ and publishes their values to one shared state topic per device. Home
 Assistant picks the entities up automatically — no YAML required on the HA
 side.
 
+**The connection lifecycle is driven from ConnAck** (the broker's connect
+acknowledgement), not from startup: on every connect — first or reconnect —
+the agent re-issues its command-topic subscriptions, re-asserts retained
+`online` availability, and publishes a fresh state payload immediately.
+rumqttc reconnects automatically but never re-subscribes on its own, so a
+lifecycle keyed to startup goes permanently deaf after the first broker
+restart. The agent also subscribes to `homeassistant/status` and re-publishes
+discovery when Home Assistant announces its own restart (after a
+configurable per-host jitter, HA's own IO-spike recommendation). Commands
+run on isolated tasks with a 5-second bound; each backend poll is isolated
+the same way, so one hung backend (a wedged Syncthing daemon, say) skips its
+tick instead of freezing every sensor on the host. On SIGTERM the agent
+publishes retained `offline` and disconnects cleanly; on MQTT errors it
+backs off exponentially (1→60 s, ±20 % jitter) so a broker restart cannot
+synchronise a fleet into a reconnect stampede.
+
+`ha-linux-agent --decommission` publishes zero-length retained payloads to
+every topic the agent owns (state and availability first, discovery configs
+last) — Home Assistant's official entity-removal semantic, for uninstall or
+device retirement. The agent also persists its announced entity list to
+`<state_dir>/last-discovery.json` and clears removed topics opportunistically
+on the next start, so disabled backends never leave stale entities behind.
+
 Sensors and commands come from **backends**, each implementing one or both
 of:
 
@@ -60,6 +83,14 @@ Built in:
   gaming mode stops the dashboard kiosk automatically"). Config-driven, no
   auto-detection — see its entity table below and `ROADMAP.md`'s "Layer 1 —
   session switch" for the design.
+- **`backend-hardware`** (`crates/backend-hardware`) — CPU temperature,
+  backlight brightness (sensor + settable number), CPU governor and energy
+  performance preference (sensors + selects) via sysfs. Enabled by default;
+  each sensor appears only when the backing sysfs node exists. Writes need
+  permission on the sysfs nodes — see the udev note in the NixOS module
+  (backlight brightness only; `bl_power` is deliberately never touched — on
+  the TCxWave kiosks that node cuts power to a rail the touch digitiser
+  shares).
 
 ## Entity reference
 
@@ -100,7 +131,14 @@ Commands (all `button`, momentary — HA shows a "press" UI, no on/off state):
 |---|---|---|---|
 | `lock` | Lock Screen | logind session resolved | calls `org.freedesktop.login1.Session.Lock` |
 | `suspend` | Suspend | system D-Bus reachable | calls `org.freedesktop.login1.Manager.Suspend(interactive=true)` |
-| `notify` | Send Notification | session D-Bus reachable and `backends.generic.notifications = true` | sends a desktop notification via `org.freedesktop.Notifications.Notify`; the raw MQTT payload becomes the notification body (empty payload → "Hello from Home Assistant"). HA's button UI always sends an empty payload — use the "MQTT: Publish a packet" service against `ha-linux-agent/<device_id>/cmd/notify` to send a custom message |
+
+Notification (an HA `notify` entity — `notify.<device>`; automations call
+`notify.send_message` against it and the message text arrives on the
+command topic; a JSON object with `title`/`message` keys is also accepted):
+
+| Entity ID | HA component | Name | Published when | Behavior |
+|---|---|---|---|---|
+| `notify` | notify | Send Notification | session D-Bus reachable and `backends.generic.notifications = true` | sends a desktop notification via `org.freedesktop.Notifications.Notify` |
 
 ### `backend-niri` — only when a niri session is detected (`$NIRI_SOCKET` set + `niri` on `$PATH`)
 
@@ -137,6 +175,23 @@ commands — starting a scrub needs root, out of scope for this backend.
 <fields>` output shape was implemented from documented OpenZFS behavior, not
 tested against a real pool (this project's dev sandbox has no ZFS) — check
 it against your actual `zpool` version before relying on it.
+
+No commands — read-only sensors. **Unverified in a live environment:** the exact `zpool list -H [-p] -o <fields>` output shape was implemented from documented OpenZFS behavior, not tested against a real pool (this project's dev sandbox has no ZFS) — check it against your actual `zpool` version before relying on it.
+
+### `backend-hardware` — always enabled; each sensor appears only when its sysfs node exists
+
+| Entity ID | HA component | Name | Unit / Published when |
+|---|---|---|---|
+| `cpu_temperature` | sensor | CPU Temperature | °C — a `coretemp` hwmon node (or `thermal_zone0`) exists |
+| `backlight_brightness` | number | Set Display Brightness + paired sensor | % — a `/sys/class/backlight` device exists and `backends.hardware.backlight = true` |
+| `cpu_governor` | select (+ paired sensor) | Set CPU Governor | options read from `scaling_available_governors` |
+| `cpu_energy_performance_preference` | select (+ paired sensor) | Set CPU Energy Preference | options read from `energy_performance_available_preferences` |
+
+Writes (brightness, governor, EPP) go straight to the sysfs nodes and need
+permission on them — the NixOS module ships a udev rule granting the video
+group write access to `brightness`. Governor/EPP writes apply to every
+`cpuN` present. Options are enumerated from sysfs; if a node read fails,
+the select falls back to a small hardcoded list rather than vanishing.
 
 ### `backend-syncthing` — enabled and reachable with a valid API key
 
@@ -235,6 +290,7 @@ DE exists.
   imports = [ inputs.ha-linux-agent.nixosModules.default ];
   services.ha-linux-agent = {
     enable = true;
+    role = "kiosk"; # kiosk | server | minimal — see below
     settings = {
       mqtt.host = "10.1.1.20";
       mqtt.username = "ha-linux-agent";
@@ -244,8 +300,24 @@ DE exists.
 }
 ```
 
-This runs the agent as a `systemd --user` service (it needs the user's D-Bus
-session bus and, for `backend-niri`, the user's niri IPC socket).
+The module ships **one system service** (`systemd.services.ha-linux-agent`,
+running as `services.ha-linux-agent.user`, default `io`) — not a user unit.
+A system service restarts cleanly on every `nixos-rebuild switch` and
+orders against `network-online.target`, which a user unit cannot do. The
+`role` switch shapes the unit:
+
+- `kiosk` — adds the session-bus `Environment` block
+  (`XDG_RUNTIME_DIR`/`DBUS_SESSION_BUS_ADDRESS` at `/run/user/<uid>/bus`)
+  for hosts whose user lingers with a live per-user bus, and a udev rule
+  granting the `video` group write access to backlight `brightness` nodes.
+- `server` — headless: no session bus to reach, no backlight to write; the
+  session-dependent features simply warn-and-disable.
+- `minimal` — baseline unit only.
+
+The unit sets `Restart=on-failure`, `StateDirectory=ha-linux-agent` (the
+last-discovery manifest used to clear stale entities), and
+`WatchdogSec=15min` (the agent pings systemd's watchdog from its poll loop,
+so a wedged loop costs one restart rather than silent death).
 
 ### Any other distro (Debian, Arch, ...)
 
@@ -273,8 +345,10 @@ its config at, in order: the path given as the first CLI argument, the
 - **MQTT auth is required if you enable commands.** An anonymous broker plus
   remote lock/suspend/notify commands means anyone on the network segment
   that can reach your broker can run them. Use a dedicated, scoped MQTT user
-  (`mqtt.username` / `mqtt.password_file`) and `mqtt.tls = true` where
-  practical.
+  (`mqtt.username` / `mqtt.password_file`). With `mqtt.tls = true` the
+  broker's CA must be provided via `mqtt.ca_file` — the agent refuses to
+  start TLS without a trust store rather than silently connecting
+  unverified.
 - There is deliberately no "run arbitrary shell command" entity in this
   project. Commands are limited to a small, fixed set of safe primitives
   (lock, suspend, notify). If you need more, that's a backend you write and

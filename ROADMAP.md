@@ -4,6 +4,27 @@ Backends and features under consideration, roughly in priority order. None
 of this is committed to an API yet — filing an issue/PR against one of these
 before starting large work is welcome, to avoid duplicate effort.
 
+## Reliability (implemented)
+
+The ConnAck-driven supervisor: on every connect — first or reconnect — the
+agent re-issues command-topic subscriptions, re-asserts retained `online`,
+and publishes a fresh state payload (rumqttc reconnects but never
+re-subscribes on its own — bytebeamio/rumqtt #250). Home Assistant's birth
+message (`homeassistant/status` = `online`) triggers a jittered discovery
+re-announce. Every backend poll and command runs under a 5 s timeout on its
+own task, so a hung backend can no longer freeze the host's whole sensor
+surface. SIGTERM publishes retained `offline` before a clean disconnect;
+MQTT errors back off exponentially (1→60 s, ±20 % jitter). The request
+channel is rendezvous (capacity 0) with per-publish timeouts, so outages
+queue nothing stale. `--decommission` clears every owned topic (state first,
+configs last — HA's entity-removal semantic), and the agent opportunistically
+clears removed entities via a persisted last-discovery manifest.
+
+Five regression tests in `crates/core/tests/supervisor.rs` pin all of it
+against a real mosquitto subprocess, and `nix flake check` runs them (see
+`checks.tests`) — broker-restart re-subscribe, birth-triggered discovery
+republish, graceful-offline, hung-backend isolation, and decommission.
+
 ## Backends
 
 ### `backend-zfs` — implemented

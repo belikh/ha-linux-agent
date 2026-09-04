@@ -531,6 +531,7 @@ dependencies = [
  "anyhow",
  "async-trait",
  "ha-agent-core",
+ "serde_json",
  "sysinfo",
  "tokio",
  "tracing",
@@ -545,6 +546,7 @@ dependencies = [
  "async-trait",
  "ha-agent-core",
  "serde_json",
+ "tempfile",
  "tokio",
  "tracing",
 ]
@@ -646,6 +648,7 @@ dependencies = [
  "rumqttc",
  "serde",
  "serde_json",
+ "tempfile",
  "tokio",
  "toml",
  "tracing",

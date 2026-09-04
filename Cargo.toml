@@ -37,12 +37,13 @@ ha-agent-backend-hardware = { path = "crates/backend-hardware" }
 
 anyhow = "1"
 async-trait = "0.1"
-tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "signal", "sync", "process"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "signal", "sync", "process", "net"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 toml = "0.8"
 rumqttc = "0.24"
 tracing = "0.1"
+tempfile = "3"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 zbus = { version = "4", default-features = false, features = ["tokio"] }
 sysinfo = "0.32"

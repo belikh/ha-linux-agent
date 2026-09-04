@@ -11,6 +11,10 @@ pub enum Component {
     Number,
     Select,
     Light,
+    /// HA's native MQTT notify entity (HA 2024.5+): one-way message
+    /// delivery over a command topic — the first-class replacement for the
+    /// old payload-hack notify button.
+    Notify,
 }
 
 impl Component {
@@ -23,6 +27,7 @@ impl Component {
             Component::Number => "number",
             Component::Select => "select",
             Component::Light => "light",
+            Component::Notify => "notify",
         }
     }
 }
@@ -215,6 +220,23 @@ impl CommandDescriptor {
             min: None,
             max: None,
             options: Some(options),
+            discoverable: true,
+        }
+    }
+
+    /// A notify entity (HA 2024.5+): `notify.<device>` in HA, message text
+    /// delivered on the command topic. The handler receives the raw message
+    /// payload (or a JSON object with `title`/`message` keys for callers
+    /// that want both).
+    pub fn notify(id: impl Into<String>, name: impl Into<String>) -> Self {
+        Self {
+            id: id.into(),
+            name: name.into(),
+            component: Component::Notify,
+            icon: None,
+            min: None,
+            max: None,
+            options: None,
             discoverable: true,
         }
     }

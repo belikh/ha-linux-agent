@@ -22,7 +22,13 @@ use async_trait::async_trait;
 use ha_agent_core::model::{SensorDescriptor, SensorState};
 use ha_agent_core::SensorBackend;
 use serde::Deserialize;
+use std::time::Duration;
 use tracing::warn;
+
+/// Bound for every syncthing REST call (connect + total). reqwest has no
+/// default timeout; without this a wedged daemon froze the agent's whole
+/// shared poll loop.
+const HTTP_TIMEOUT: Duration = Duration::from_secs(5);
 
 /// One Syncthing-configured folder, as discovered from `/rest/config` at
 /// startup.
@@ -72,7 +78,13 @@ impl SyncthingBackend {
     /// avoided since malformed/missing API keys should count as "not
     /// available" too (Syncthing returns 403 for those).
     pub async fn detect(address: &str, api_key: &str) -> bool {
-        let client = match reqwest::Client::builder().build() {
+        // Bounded: a wedged syncthing daemon must not hang detect (and,
+        // via the old sequential poll, the whole agent) indefinitely.
+        let client = match reqwest::Client::builder()
+            .connect_timeout(HTTP_TIMEOUT)
+            .timeout(HTTP_TIMEOUT)
+            .build()
+        {
             Ok(c) => c,
             Err(e) => {
                 warn!("building reqwest client for syncthing detect: {e}");
@@ -95,7 +107,12 @@ impl SyncthingBackend {
     /// that initial discovery call fails — without it there's no sensor
     /// set to publish.
     pub async fn new(address: String, api_key: String) -> anyhow::Result<Self> {
-        let client = reqwest::Client::builder().build()?;
+        // Same bound as detect: reqwest has NO default timeout, and one
+        // hung REST call used to freeze every sensor on the host.
+        let client = reqwest::Client::builder()
+            .connect_timeout(HTTP_TIMEOUT)
+            .timeout(HTTP_TIMEOUT)
+            .build()?;
         let folders = fetch_folders(&client, &address, &api_key).await?;
         Ok(Self {
             client,

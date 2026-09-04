@@ -14,8 +14,21 @@ username = "ha-linux-agent"
 password_file = "/run/secrets/mqtt_ha_linux_agent"
 # password = "..."
 tls = false
+# PEM-encoded CA certificate for the broker's TLS cert — REQUIRED when
+# tls = true (the agent builds its trust store from this file and refuses
+# to start with tls on and no CA).
+# ca_file = "/etc/ha-linux-agent/ca.pem"
 discovery_prefix = "homeassistant"
 poll_interval_secs = 30
+# Upper bound (seconds) on the random delay before discovery re-announces
+# when Home Assistant restarts — HA recommends the delay to avoid an IO
+# spike across many devices. 0 disables it.
+discovery_jitter_secs = 30
+
+# Persisted agent state (last-discovery.json, used to clear stale entities
+# when the sensor/command set changes). The NixOS module provides this via
+# StateDirectory; leave unset elsewhere unless /var/lib doesn't suit.
+# state_dir = "/var/lib/ha-linux-agent"
 
 [backends.generic]
 enable = true

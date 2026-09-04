@@ -255,10 +255,11 @@ impl CommandBackend for GenericBackend {
             cmds.push(CommandDescriptor::button("suspend", "Suspend").with_icon("mdi:power-sleep"));
         }
         if self.session_bus.is_some() && self.config.notifications {
-            // Payload (if any) becomes the notification body; with no
-            // payload a default greeting is sent. Trigger custom messages
-            // via HA's "MQTT: Publish a packet" service.
-            cmds.push(CommandDescriptor::button("notify", "Send Notification").with_icon("mdi:bell"));
+            // A first-class HA notify entity (2024.5+): automations call
+            // `notify.send_message` against it and the message text arrives
+            // on the command topic. The handler also accepts a JSON object
+            // with `title`/`message` keys for callers that want both.
+            cmds.push(CommandDescriptor::notify("notify", "Send Notification").with_icon("mdi:bell"));
         }
         cmds
     }
@@ -288,18 +289,16 @@ impl CommandBackend for GenericBackend {
                     .as_ref()
                     .ok_or_else(|| anyhow::anyhow!("no session bus available"))?;
                 let proxy = NotificationsProxy::new(bus).await?;
-                let body = if payload.is_empty() {
-                    "Hello from Home Assistant"
-                } else {
-                    payload
-                };
+                // notify-entity payloads are the message text; raw MQTT
+                // publishes may send a JSON object with title/message.
+                let (title, body) = parse_notify_payload(payload);
                 proxy
                     .notify(
                         "Home Assistant",
                         0,
                         "",
-                        "Home Assistant",
-                        body,
+                        &title,
+                        &body,
                         &[],
                         Default::default(),
                         5000,
@@ -320,6 +319,57 @@ fn disk_sensor_id(mount: &str) -> String {
     }
 }
 
+/// Notify payload shapes: raw text (`message`), a JSON object with optional
+/// `title` plus `message`, or empty (a friendly default — the notify
+/// entity always carries text, but raw MQTT publishes may be empty).
+fn parse_notify_payload(payload: &str) -> (String, String) {
+    if payload.is_empty() {
+        return ("Home Assistant".to_string(), "Hello from Home Assistant".to_string());
+    }
+    if let Ok(v) = serde_json::from_str::<serde_json::Value>(payload) {
+        if let Some(obj) = v.as_object() {
+            let message = obj
+                .get("message")
+                .and_then(|m| m.as_str())
+                .unwrap_or("Hello from Home Assistant");
+            let title = obj
+                .get("title")
+                .and_then(|t| t.as_str())
+                .unwrap_or("Home Assistant");
+            return (title.to_string(), message.to_string());
+        }
+    }
+    ("Home Assistant".to_string(), payload.to_string())
+}
+
 fn round1(v: f32) -> f64 {
     ((v as f64) * 10.0).round() / 10.0
 }
+
+#[cfg(test)]
+mod tests {
+    use super::parse_notify_payload;
+
+    #[test]
+    fn notify_payload_accepts_raw_text() {
+        let (title, body) = parse_notify_payload("washing machine done");
+        assert_eq!(title, "Home Assistant");
+        assert_eq!(body, "washing machine done");
+    }
+
+    #[test]
+    fn notify_payload_accepts_json_title_and_message() {
+        let (title, body) =
+            parse_notify_payload(r#"{"title": "Alert", "message": "pool level low"}"#);
+        assert_eq!(title, "Alert");
+        assert_eq!(body, "pool level low");
+    }
+
+    #[test]
+    fn notify_payload_defaults_when_empty() {
+        let (title, body) = parse_notify_payload("");
+        assert_eq!(title, "Home Assistant");
+        assert!(!body.is_empty());
+    }
+}
+

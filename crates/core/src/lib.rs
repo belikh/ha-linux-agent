@@ -2,6 +2,7 @@ pub mod agent;
 pub mod config;
 pub mod discovery;
 pub mod model;
+pub mod sd_notify;
 pub mod traits;
 
 pub use agent::Agent;

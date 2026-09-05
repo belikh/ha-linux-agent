@@ -7,12 +7,12 @@ tags:
 - rust
 - api-docs
 created: '2026-09-02T06:20:23.317276Z'
-updated: '2026-09-02T17:37:22.287984Z'
+updated: '2026-09-05T10:51:21.998275Z'
 source: https://github.com/dbus2/zbus
 source_domain: github.com
 fetched_at: '2026-09-02T06:20:23.315670Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

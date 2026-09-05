@@ -5,12 +5,12 @@ tags:
 - linux-agent-jupiteros-fleet-15537b
 - ha-linux-agent
 created: '2026-09-02T04:04:41.166840Z'
-updated: '2026-09-02T17:37:22.066494Z'
+updated: '2026-09-05T10:51:21.773537Z'
 source: https://chimera-linux.org/docs/configuration/dbus
 source_domain: chimera-linux.org
 fetched_at: '2026-09-02T04:04:34.088601Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: Chimera Linux documentation explaining the system-vs-session D-Bus split

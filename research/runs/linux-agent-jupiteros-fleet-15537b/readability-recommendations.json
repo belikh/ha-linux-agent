@@ -1,253 +1,253 @@
 {
-  "recommendations": [
-    {
-      "id": "rec-1",
-      "category": "break-paragraph",
-      "severity": "major",
-      "section": "## 2. The MQTT Lifecycle Problem: Why It Is Never Reliable (### A. The library contract that decides everything)",
-      "current": "Paho, the alternative, exposes rich reconnect callbacks",
-      "recommended": "\n\nPaho, the alternative, exposes rich reconnect callbacks",
-      "rationale": "The section-A paragraph runs past 2000 characters; breaking before the Paho comparison separates the rumqttc contract evidence from the alternative-client survey, giving each argument its own visual block."
-    },
-    {
-      "id": "rec-2",
-      "category": "break-paragraph",
-      "severity": "major",
-      "section": "## 2. The MQTT Lifecycle Problem: Why It Is Never Reliable (### D. The aggravators, and the supervisor that fixes all of it)",
-      "current": "The decommission design earns its detail",
-      "recommended": "\n\nThe decommission design earns its detail",
-      "rationale": "The supervisor-design paragraph is the report's longest single block (2000+ characters); a break before the decommission mode isolates the lifecycle core from the removal design."
-    },
-    {
-      "id": "rec-3",
-      "category": "break-paragraph",
-      "severity": "major",
-      "section": "## 3. What a Proper Linux Agent Looks Like: The Comparison Set",
-      "current": "coherent device. On notifications, HA 2024.5 shipped a native MQTT notify platform",
-      "recommended": "coherent device.\n\n**On notifications,** HA 2024.5 shipped a native MQTT notify platform",
-      "rationale": "Splitting at the notification pivot gives the identity bar and the notification bar their own paragraphs, and the bold run-in matches the section's established lead-in style."
-    },
-    {
-      "id": "rec-4",
-      "category": "break-paragraph",
-      "severity": "major",
-      "section": "## 4. The Build-vs-Buy Dialectic: Custom Rust Agent vs Telegraf, Glances, and Netdata (### A. The case for adoption, at full strength)",
-      "current": "The sharpest form of the objection: the launcher",
-      "recommended": "\n\n**The sharpest form of the objection:** the launcher",
-      "rationale": "The adoption case exceeds 2000 characters; breaking before the steel-man sentence puts the opposing case in its own visually weighted paragraph, as the advocate register requires."
-    },
-    {
-      "id": "rec-5",
-      "category": "break-paragraph",
-      "severity": "major",
-      "section": "## 4. The Build-vs-Buy Dialectic: Custom Rust Agent vs Telegraf, Glances, and Netdata (### C. The monitoring incumbents, eliminated on the record)",
-      "current": "Telegraf's MQTT output plugin is real and current",
-      "recommended": "\n\nTelegraf's MQTT output plugin is real and current",
-      "rationale": "The monitoring-incumbents narrative exceeds 2000 characters; a break between the Glances record and the Telegraf/Netdata analyses restores a one-tool-per-paragraph rhythm."
-    },
-    {
-      "id": "rec-6",
-      "category": "break-paragraph",
-      "severity": "major",
-      "section": "## 5. NixOS Fleet Architecture: From Kiosk-Only to Every Host in jupiterOS (### B. The system-service design)",
-      "current": "Session-bus reachability: a `User=io` system service reaches the per-user bus",
-      "recommended": "\n\n**Session-bus reachability:** a `User=io` system service reaches the per-user bus",
-      "rationale": "The system-service design paragraph exceeds 2000 characters; breaking at the session-bus question separates the unit shape and grant survival from bus-reachability and linger."
-    },
-    {
-      "id": "rec-7",
-      "category": "make-list",
-      "severity": "major",
-      "section": "## 7. Testing a Hardware-Touching Daemon",
-      "current": "`broker_restart_resubscribes_and_reasserts_availability` (kill -9 the broker, restart on the same port, publish a command, assert the agent handles it — the exact event `agent.rs:190` currently swallows — then assert a fresh subscriber reads retained \"online\"), `birth_message_triggers_discovery_republish` (jitter injectable to 0), `sigterm_publishes_offline_then_disconnects`, `hung_backend_doesnt_starve_sensors` (one backend whose poll never returns plus one healthy; assert the healthy one still publishes), and `decommission_zero_payload`.",
-      "recommended": "   - `broker_restart_resubscribes_and_reasserts_availability` (kill -9 the broker, restart on the same port, publish a command, assert the agent handles it — the exact event `agent.rs:190` currently swallows — then assert a fresh subscriber reads retained \"online\")\n   - `birth_message_triggers_discovery_republish` (jitter injectable to 0)\n   - `sigterm_publishes_offline_then_disconnects`\n   - `hung_backend_doesnt_starve_sensors` (one backend whose poll never returns plus one healthy; assert the healthy one still publishes)\n   - `decommission_zero_payload`",
-      "rationale": "Five named regression tests strung across one ~1900-character list item become individually scannable as nested bullets, each test's assertion preserved verbatim."
-    },
-    {
-      "id": "rec-8",
-      "category": "break-paragraph",
-      "severity": "moderate",
-      "section": "## 2. The MQTT Lifecycle Problem: Why It Is Never Reliable (### D. The aggravators, and the supervisor that fixes all of it)",
-      "current": "Second, a premise correction that strengthens the design:",
-      "recommended": "\n\n**Second**, a premise correction that strengthens the design:",
-      "rationale": "The two-boundary-judgements paragraph runs roughly 1600 characters; splitting at the second judgement isolates the clean-session reasoning from the v5-capability correction."
-    },
-    {
-      "id": "rec-9",
-      "category": "break-paragraph",
-      "severity": "moderate",
-      "section": "## 5. NixOS Fleet Architecture: From Kiosk-Only to Every Host in jupiterOS (### D. The rollout, and the one open decision)",
-      "current": "One residual risk is named rather than hedged:",
-      "recommended": "\n\n**One residual risk is named rather than hedged:**",
-      "rationale": "The rollout paragraph approaches 1900 characters; a break at the residual-risk pivot separates the sops/Pallene wiring from the named risk and its verification item."
-    },
-    {
-      "id": "rec-10",
-      "category": "break-paragraph",
-      "severity": "moderate",
-      "section": "## 7. Testing a Hardware-Touching Daemon",
-      "current": "Practice confirms the mechanism on both sides:",
-      "recommended": "\n\n**Practice confirms the mechanism on both sides:**",
-      "rationale": "The sandbox-proof paragraph exceeds 1500 characters; breaking between the Nix-source argument and the practice evidence gives proof and confirmation their own blocks."
-    },
-    {
-      "id": "rec-11",
-      "category": "break-paragraph",
-      "severity": "moderate",
-      "section": "## 8. Ordered Improvement Roadmap",
-      "current": "as the named acceptance test. Exit criteria: the five regression tests green",
-      "recommended": "as the named acceptance test.\n\n**Exit criteria:** the five regression tests green",
-      "rationale": "Phase 1 is the roadmap's longest paragraph (1500+ characters); lifting the exit criteria onto its own bold-led line makes each phase's acceptance gate instantly findable."
-    },
-    {
-      "id": "rec-12",
-      "category": "make-list",
-      "severity": "moderate",
-      "section": "## 1. Current State: A Verified Reliability Audit",
-      "current": "**The backends the fleet never runs.** The audit closes on the three crates no host exercises: backend-kde hard-fails without a session bus (`Connection::session().await?` at `backend-kde/src/lib.rs:41`) and has zero fleet consumers because no jupiterOS host runs Plasma — greps for plasma/kde across hosts and modules return nothing, and the hard-fail is the stated boundary condition for ever hosting a desktop class (it must adopt the generic backend's warn-and-continue degradation first); backend-gamescope's only fleet consumer is callisto's arcade session, with kiosks reaching gamescope via the shared dashboard-gaming modeSpecs; backend-lutris ships behind the `jupiter.gaming.console` appCatalog but no host configuration exercises its launch-only buttons, its JSON field names hedged unverified — lutris among the backends the repo itself flags \"Unverified in a live environment\" (alongside zfs and syncthing) [[repo-map-ha-linux-agent]].",
-      "recommended": "**The backends the fleet never runs.** The audit closes on the three crates no host exercises:\n\n- **backend-kde** hard-fails without a session bus (`Connection::session().await?` at `backend-kde/src/lib.rs:41`) and has zero fleet consumers because no jupiterOS host runs Plasma — greps for plasma/kde across hosts and modules return nothing, and the hard-fail is the stated boundary condition for ever hosting a desktop class (it must adopt the generic backend's warn-and-continue degradation first).\n- **backend-gamescope**'s only fleet consumer is callisto's arcade session, with kiosks reaching gamescope via the shared dashboard-gaming modeSpecs.\n- **backend-lutris** ships behind the `jupiter.gaming.console` appCatalog but no host configuration exercises its launch-only buttons, its JSON field names hedged unverified — lutris among the backends the repo itself flags \"Unverified in a live environment\" (alongside zfs and syncthing) [[repo-map-ha-linux-agent]].",
-      "rationale": "Three backends enumerated across semicolons in a ~1000-character paragraph become three bold-labelled bullets, one crate per line."
-    },
-    {
-      "id": "rec-13",
-      "category": "make-list",
-      "severity": "moderate",
-      "section": "## 6. JupiterOS-Specific Feature Gaps",
-      "current": "Three caveats the hook design carries: device self-test support is optional per drive (an Intel 600p reports \"Device Self-test Not Supported\" via the oacs bit while still reading healthy), so the inherited scheduling needs a capability check, not an assumption [[how-to-check-nvme-ssd-health-newbie-corner-arch-linux-forums]]; the surface decision — separate entities versus attributes on a disk entity — has an incumbent cautionary precedent in go-hass-agent exposing SMART as attributes that template sensors must individually surface [[how-to-see-your-ssdhdd-health-directly-in-home-assistant-diy-ideas]]; and the bridge should expose wear and vendor product-EOL as distinct sensors, since a drive at ~1 % of rated TBW can already be flagged EOL [[whats-the-best-way-to-monitor-nvme-health-applications-endeavouros]].",
-      "recommended": "Three caveats the hook design carries:\n\n- **Device self-test support is optional per drive** (an Intel 600p reports \"Device Self-test Not Supported\" via the oacs bit while still reading healthy), so the inherited scheduling needs a capability check, not an assumption [[how-to-check-nvme-ssd-health-newbie-corner-arch-linux-forums]].\n- **The surface decision** — separate entities versus attributes on a disk entity — has an incumbent cautionary precedent in go-hass-agent exposing SMART as attributes that template sensors must individually surface [[how-to-see-your-ssdhdd-health-directly-in-home-assistant-diy-ideas]].\n- **The bridge should expose wear and vendor product-EOL as distinct sensors**, since a drive at ~1 % of rated TBW can already be flagged EOL [[whats-the-best-way-to-monitor-nvme-health-applications-endeavouros]].",
-      "rationale": "The three named caveats are already enumerated in prose; bullets make each caveat's consequence and citation scannable in isolation."
-    },
-    {
-      "id": "rec-14",
-      "category": "make-list",
-      "severity": "moderate",
-      "section": "## 6. JupiterOS-Specific Feature Gaps",
-      "current": "The audited absence first: a search of `modules/` and `hosts/*/` for ups, nut, and apc declarations returns zero matches — no jupiterOS host declares a UPS, so power monitoring maps to no host class in today's fleet. The corpus still fixes the design for the day one is attached, because the HA-native shape is NUT and its ceilings are the agent-side consumer's requirements: the integration cannot talk to a UPS directly (a NUT server is required, port 3493, 60-second default polling), it can retrieve but not set NUT variables and supports no parameterised commands, device actions (instcmds such as beeper.disable, test.battery.start.quick, power-cycle outlet) require credentialled upsd.users grants, it cannot auto-detect a server IP change (DNS-name resolution, never baked IPs). Most diagnostic sensors are disabled by default as a deliberate recorder-cost trim; `upsc`/`upscmd` enumerate the raw surface an agent-side consumer reads directly [[network-ups-tools-nut-home-assistant]]. With switches now restarting user units disruptively, a booted-vs-current-generation sensor converts the new switch behaviour from a surprise into an observable — telling HA which hosts run a stale generation after a switch, cheap to read, fleet-relevant for the first time [[anyone-seeing-nixos-rebuild-switch-kick-you-out-to-gdm-andor-log-gpf-errors-spec]].",
-      "recommended": "The audited absence first: a search of `modules/` and `hosts/*/` for ups, nut, and apc declarations returns zero matches — no jupiterOS host declares a UPS, so power monitoring maps to no host class in today's fleet. The corpus still fixes the design for the day one is attached, because the HA-native shape is NUT and its ceilings are the agent-side consumer's requirements:\n\n- The integration cannot talk to a UPS directly (a NUT server is required, port 3493, 60-second default polling).\n- It can retrieve but not set NUT variables and supports no parameterised commands.\n- Device actions (instcmds such as beeper.disable, test.battery.start.quick, power-cycle outlet) require credentialled upsd.users grants.\n- It cannot auto-detect a server IP change (DNS-name resolution, never baked IPs).\n- Most diagnostic sensors are disabled by default as a deliberate recorder-cost trim; `upsc`/`upscmd` enumerate the raw surface an agent-side consumer reads directly [[network-ups-tools-nut-home-assistant]].\n\nWith switches now restarting user units disruptively, a booted-vs-current-generation sensor converts the new switch behaviour from a surprise into an observable — telling HA which hosts run a stale generation after a switch, cheap to read, fleet-relevant for the first time [[anyone-seeing-nixos-rebuild-switch-kick-you-out-to-gdm-andor-log-gpf-errors-spec]].",
-      "rationale": "The five NUT ceilings are a limitation list buried in prose; bullets expose them while the audited-absence opening and the generation-sensor close become their own paragraphs."
-    },
-    {
-      "id": "rec-15",
-      "category": "make-list",
-      "severity": "moderate",
-      "section": "## 8. Ordered Improvement Roadmap",
-      "current": "Three developments would legitimately reopen settled questions and deserve standing watch: a merged-and-released upstream reconnect signal (which would let the raw ConnAck match become an event variant and trigger the version bump — but would not change the design, since subscriptions stay application-owned); an incumbent shipping native select controls with state sync or a NixOS service module (go-hass-agent's zero-occurrence record through v14.15.1 is the current evidence against) [[changelogmd]]; and an end-to-end MQTT v5 decision, which loosens the clean-session reasoning and makes message expiry the stale-command cure — the v5 module already ships inside the pinned version.",
-      "recommended": "Three developments would legitimately reopen settled questions and deserve standing watch:\n\n- **A merged-and-released upstream reconnect signal** — which would let the raw ConnAck match become an event variant and trigger the version bump, but would not change the design, since subscriptions stay application-owned.\n- **An incumbent shipping native select controls with state sync or a NixOS service module** — go-hass-agent's zero-occurrence record through v14.15.1 is the current evidence against [[changelogmd]].\n- **An end-to-end MQTT v5 decision** — which loosens the clean-session reasoning and makes message expiry the stale-command cure; the v5 module already ships inside the pinned version.",
-      "rationale": "The three standing flip conditions are the report's falsifiability contract; bold-labelled bullets make each trigger and its current evidence independently scannable."
-    },
-    {
-      "id": "rec-16",
-      "category": "break-paragraph",
-      "severity": "minor",
-      "section": "## 8. Ordered Improvement Roadmap",
-      "current": "as the phase's one open question. Exit criteria: `nixos-rebuild switch` restarts",
-      "recommended": "as the phase's one open question.\n\n**Exit criteria:** `nixos-rebuild switch` restarts",
-      "rationale": "Matching Phase 2's exit-criteria break to Phase 1 gives the roadmap a parallel spec-then-gate rhythm."
-    },
-    {
-      "id": "rec-17",
-      "category": "break-paragraph",
-      "severity": "minor",
-      "section": "## 8. Ordered Improvement Roadmap",
-      "current": "that the fleet does not consume. Exit criteria: each feature carries",
-      "recommended": "that the fleet does not consume.\n\n**Exit criteria:** each feature carries",
-      "rationale": "Completing the pattern across Phase 3 makes all three exit criteria land in the same visual position."
-    },
-    {
-      "id": "rec-18",
-      "category": "bold-keyterms",
-      "severity": "minor",
-      "section": "## 1. Current State: A Verified Reliability Audit",
-      "current": "The defect distribution is the strategic fact: failures cluster",
-      "recommended": "**The defect distribution is the strategic fact:** failures cluster",
-      "rationale": "Every other analytic paragraph in Section 1 carries a bold run-in; this one is the section's concluding pivot and should match."
-    },
-    {
-      "id": "rec-19",
-      "category": "bold-keyterms",
-      "severity": "minor",
-      "section": "## 2. The MQTT Lifecycle Problem: Why It Is Never Reliable (### D. The aggravators, and the supervisor that fixes all of it)",
-      "current": "First, `clean_session = true` (explicit, stable client id) against the persistent-session instinct",
-      "recommended": "**First**, `clean_session = true` (explicit, stable client id) against the persistent-session instinct",
-      "rationale": "Bolding the ordinal pairs with the bolded Second introduced by rec-8 and marks the two boundary judgements as a set."
-    },
-    {
-      "id": "rec-20",
-      "category": "bold-keyterms",
-      "severity": "minor",
-      "section": "## 4. The Build-vs-Buy Dialectic: Custom Rust Agent vs Telegraf, Glances, and Netdata (### B. Why the evidence refutes it)",
-      "current": "The packaging counter first. One custom module away",
-      "recommended": "**The packaging counter first.** One custom module away",
-      "rationale": "The four-counter refutation reads as a numbered argument whose signposts are currently invisible; bolding each opener restores the structure."
-    },
-    {
-      "id": "rec-21",
-      "category": "bold-keyterms",
-      "severity": "minor",
-      "section": "## 4. The Build-vs-Buy Dialectic: Custom Rust Agent vs Telegraf, Glances, and Netdata (### B. Why the evidence refutes it)",
-      "current": "Second, the adopter's fork",
-      "recommended": "**Second**, the adopter's fork",
-      "rationale": "Bold ordinals let a scanning reader track the four-part refutation without rereading."
-    },
-    {
-      "id": "rec-22",
-      "category": "bold-keyterms",
-      "severity": "minor",
-      "section": "## 4. The Build-vs-Buy Dialectic: Custom Rust Agent vs Telegraf, Glances, and Netdata (### B. Why the evidence refutes it)",
-      "current": "Third, the expressibility record.",
-      "recommended": "**Third**, the expressibility record.",
-      "rationale": "Bold ordinals let a scanning reader track the four-part refutation without rereading."
-    },
-    {
-      "id": "rec-23",
-      "category": "bold-keyterms",
-      "severity": "minor",
-      "section": "## 4. The Build-vs-Buy Dialectic: Custom Rust Agent vs Telegraf, Glances, and Netdata (### B. Why the evidence refutes it)",
-      "current": "Fourth, the reliability-provenance argument",
-      "recommended": "**Fourth**, the reliability-provenance argument",
-      "rationale": "Bold ordinals let a scanning reader track the four-part refutation without rereading."
-    },
-    {
-      "id": "rec-24",
-      "category": "split-sentence",
-      "severity": "minor",
-      "section": "## 2. The MQTT Lifecycle Problem: Why It Is Never Reliable (### C. The HA-side contract, and the one contested broker question)",
-      "current": "MQTT Explorer showed them present — and the cure was",
-      "recommended": "MQTT Explorer showed them present. The cure was",
-      "rationale": "A ~360-character sentence splits cleanly where the evidence ends and the remedy begins, bringing each half under the length threshold."
-    },
-    {
-      "id": "rec-25",
-      "category": "split-sentence",
-      "severity": "minor",
-      "section": "## 2. The MQTT Lifecycle Problem: Why It Is Never Reliable (### D. The aggravators, and the supervisor that fixes all of it)",
-      "current": "polls all backends sequentially in one task, so one hung syncthing daemon freezes every sensor",
-      "recommended": "polls all backends sequentially in one task. One hung syncthing daemon freezes every sensor",
-      "rationale": "The starvation sentence exceeds 300 characters; splitting at the causal connector separates the mechanism from its consequence."
-    },
-    {
-      "id": "rec-26",
-      "category": "split-sentence",
-      "severity": "minor",
-      "section": "## 4. The Build-vs-Buy Dialectic: Custom Rust Agent vs Telegraf, Glances, and Netdata (### B. Why the evidence refutes it)",
-      "current": "is time-bound: the unified identity stops not-working the moment",
-      "recommended": "is time-bound. The unified identity stops not-working the moment",
-      "rationale": "A ~270-character sentence splits at the colon into the claim and its time-bound resolution."
-    }
-  ],
-  "summary": {
-    "total_recommendations": 26,
-    "by_category": {
-      "merge-paragraphs": 0,
-      "break-paragraph": 12,
-      "make-list": 5,
-      "make-table": 0,
-      "bold-keyterms": 6,
-      "split-sentence": 3,
-      "remove-hr": 0,
-      "add-whitespace": 0
-    },
-    "highest_severity": "major",
-    "expected_net_char_delta": 180
+ "recommendations": [
+  {
+   "id": "rec-1",
+   "category": "break-paragraph",
+   "severity": "major",
+   "section": "## 2. The MQTT Lifecycle Problem: Why It Is Never Reliable (### A. The library contract that decides everything)",
+   "current": "Paho, the alternative, exposes rich reconnect callbacks",
+   "recommended": "\n\nPaho, the alternative, exposes rich reconnect callbacks",
+   "rationale": "The section-A paragraph runs past 2000 characters; breaking before the Paho comparison separates the rumqttc contract evidence from the alternative-client survey, giving each argument its own visual block."
+  },
+  {
+   "id": "rec-2",
+   "category": "break-paragraph",
+   "severity": "major",
+   "section": "## 2. The MQTT Lifecycle Problem: Why It Is Never Reliable (### D. The aggravators, and the supervisor that fixes all of it)",
+   "current": "The decommission design earns its detail",
+   "recommended": "\n\nThe decommission design earns its detail",
+   "rationale": "The supervisor-design paragraph is the report's longest single block (2000+ characters); a break before the decommission mode isolates the lifecycle core from the removal design."
+  },
+  {
+   "id": "rec-3",
+   "category": "break-paragraph",
+   "severity": "major",
+   "section": "## 3. What a Proper Linux Agent Looks Like: The Comparison Set",
+   "current": "coherent device. On notifications, HA 2024.5 shipped a native MQTT notify platform",
+   "recommended": "coherent device.\n\n**On notifications,** HA 2024.5 shipped a native MQTT notify platform",
+   "rationale": "Splitting at the notification pivot gives the identity bar and the notification bar their own paragraphs, and the bold run-in matches the section's established lead-in style."
+  },
+  {
+   "id": "rec-4",
+   "category": "break-paragraph",
+   "severity": "major",
+   "section": "## 4. The Build-vs-Buy Dialectic: Custom Rust Agent vs Telegraf, Glances, and Netdata (### A. The case for adoption, at full strength)",
+   "current": "The sharpest form of the objection: the launcher",
+   "recommended": "\n\n**The sharpest form of the objection:** the launcher",
+   "rationale": "The adoption case exceeds 2000 characters; breaking before the steel-man sentence puts the opposing case in its own visually weighted paragraph, as the advocate register requires."
+  },
+  {
+   "id": "rec-5",
+   "category": "break-paragraph",
+   "severity": "major",
+   "section": "## 4. The Build-vs-Buy Dialectic: Custom Rust Agent vs Telegraf, Glances, and Netdata (### C. The monitoring incumbents, eliminated on the record)",
+   "current": "Telegraf's MQTT output plugin is real and current",
+   "recommended": "\n\nTelegraf's MQTT output plugin is real and current",
+   "rationale": "The monitoring-incumbents narrative exceeds 2000 characters; a break between the Glances record and the Telegraf/Netdata analyses restores a one-tool-per-paragraph rhythm."
+  },
+  {
+   "id": "rec-6",
+   "category": "break-paragraph",
+   "severity": "major",
+   "section": "## 5. NixOS Fleet Architecture: From Kiosk-Only to Every Host in jupiterOS (### B. The system-service design)",
+   "current": "Session-bus reachability: a `User=io` system service reaches the per-user bus",
+   "recommended": "\n\n**Session-bus reachability:** a `User=io` system service reaches the per-user bus",
+   "rationale": "The system-service design paragraph exceeds 2000 characters; breaking at the session-bus question separates the unit shape and grant survival from bus-reachability and linger."
+  },
+  {
+   "id": "rec-7",
+   "category": "make-list",
+   "severity": "major",
+   "section": "## 7. Testing a Hardware-Touching Daemon",
+   "current": "`broker_restart_resubscribes_and_reasserts_availability` (kill -9 the broker, restart on the same port, publish a command, assert the agent handles it — the exact event `agent.rs:190` currently swallows — then assert a fresh subscriber reads retained \"online\"), `birth_message_triggers_discovery_republish` (jitter injectable to 0), `sigterm_publishes_offline_then_disconnects`, `hung_backend_doesnt_starve_sensors` (one backend whose poll never returns plus one healthy; assert the healthy one still publishes), and `decommission_zero_payload`.",
+   "recommended": "  - `broker_restart_resubscribes_and_reasserts_availability` (kill -9 the broker, restart on the same port, publish a command, assert the agent handles it — the exact event `agent.rs:190` currently swallows — then assert a fresh subscriber reads retained \"online\")\n  - `birth_message_triggers_discovery_republish` (jitter injectable to 0)\n  - `sigterm_publishes_offline_then_disconnects`\n  - `hung_backend_doesnt_starve_sensors` (one backend whose poll never returns plus one healthy; assert the healthy one still publishes)\n  - `decommission_zero_payload`",
+   "rationale": "Five named regression tests strung across one ~1900-character list item become individually scannable as nested bullets, each test's assertion preserved verbatim."
+  },
+  {
+   "id": "rec-8",
+   "category": "break-paragraph",
+   "severity": "moderate",
+   "section": "## 2. The MQTT Lifecycle Problem: Why It Is Never Reliable (### D. The aggravators, and the supervisor that fixes all of it)",
+   "current": "Second, a premise correction that strengthens the design:",
+   "recommended": "\n\n**Second**, a premise correction that strengthens the design:",
+   "rationale": "The two-boundary-judgements paragraph runs roughly 1600 characters; splitting at the second judgement isolates the clean-session reasoning from the v5-capability correction."
+  },
+  {
+   "id": "rec-9",
+   "category": "break-paragraph",
+   "severity": "moderate",
+   "section": "## 5. NixOS Fleet Architecture: From Kiosk-Only to Every Host in jupiterOS (### D. The rollout, and the one open decision)",
+   "current": "One residual risk is named rather than hedged:",
+   "recommended": "\n\n**One residual risk is named rather than hedged:**",
+   "rationale": "The rollout paragraph approaches 1900 characters; a break at the residual-risk pivot separates the sops wiring from the named risk and its verification item."
+  },
+  {
+   "id": "rec-10",
+   "category": "break-paragraph",
+   "severity": "moderate",
+   "section": "## 7. Testing a Hardware-Touching Daemon",
+   "current": "Practice confirms the mechanism on both sides:",
+   "recommended": "\n\n**Practice confirms the mechanism on both sides:**",
+   "rationale": "The sandbox-proof paragraph exceeds 1500 characters; breaking between the Nix-source argument and the practice evidence gives proof and confirmation their own blocks."
+  },
+  {
+   "id": "rec-11",
+   "category": "break-paragraph",
+   "severity": "moderate",
+   "section": "## 8. Ordered Improvement Roadmap",
+   "current": "as the named acceptance test. Exit criteria: the five regression tests green",
+   "recommended": "as the named acceptance test.\n\n**Exit criteria:** the five regression tests green",
+   "rationale": "Phase 1 is the roadmap's longest paragraph (1500+ characters); lifting the exit criteria onto its own bold-led line makes each phase's acceptance gate instantly findable."
+  },
+  {
+   "id": "rec-12",
+   "category": "make-list",
+   "severity": "moderate",
+   "section": "## 1. Current State: A Verified Reliability Audit",
+   "current": "**The backends the fleet never runs.** The audit closes on the three crates no host exercises: backend-kde hard-fails without a session bus (`Connection::session().await?` at `backend-kde/src/lib.rs:41`) and has zero fleet consumers because no jupiterOS host runs Plasma — greps for plasma/kde across hosts and modules return nothing, and the hard-fail is the stated boundary condition for ever hosting a desktop class (it must adopt the generic backend's warn-and-continue degradation first); backend-gamescope's only fleet consumer is callisto's arcade session, with kiosks reaching gamescope via the shared dashboard-gaming modeSpecs; backend-lutris ships behind the `jupiter.gaming.console` appCatalog but no host configuration exercises its launch-only buttons, its JSON field names hedged unverified — lutris among the backends the repo itself flags \"Unverified in a live environment\" (alongside zfs and syncthing) [[repo-map-ha-linux-agent]].",
+   "recommended": "**The backends the fleet never runs.** The audit closes on the three crates no host exercises:\n\n- **backend-kde** hard-fails without a session bus (`Connection::session().await?` at `backend-kde/src/lib.rs:41`) and has zero fleet consumers because no jupiterOS host runs Plasma — greps for plasma/kde across hosts and modules return nothing, and the hard-fail is the stated boundary condition for ever hosting a desktop class (it must adopt the generic backend's warn-and-continue degradation first).\n- **backend-gamescope**'s only fleet consumer is callisto's arcade session, with kiosks reaching gamescope via the shared dashboard-gaming modeSpecs.\n- **backend-lutris** ships behind the `jupiter.gaming.console` appCatalog but no host configuration exercises its launch-only buttons, its JSON field names hedged unverified — lutris among the backends the repo itself flags \"Unverified in a live environment\" (alongside zfs and syncthing) [[repo-map-ha-linux-agent]].",
+   "rationale": "Three backends enumerated across semicolons in a ~1000-character paragraph become three bold-labelled bullets, one crate per line."
+  },
+  {
+   "id": "rec-13",
+   "category": "make-list",
+   "severity": "moderate",
+   "section": "## 6. JupiterOS-Specific Feature Gaps",
+   "current": "Three caveats the hook design carries: device self-test support is optional per drive (an Intel 600p reports \"Device Self-test Not Supported\" via the oacs bit while still reading healthy), so the inherited scheduling needs a capability check, not an assumption [[how-to-check-nvme-ssd-health-newbie-corner-arch-linux-forums]]; the surface decision — separate entities versus attributes on a disk entity — has an incumbent cautionary precedent in go-hass-agent exposing SMART as attributes that template sensors must individually surface [[how-to-see-your-ssdhdd-health-directly-in-home-assistant-diy-ideas]]; and the bridge should expose wear and vendor product-EOL as distinct sensors, since a drive at ~1 % of rated TBW can already be flagged EOL [[whats-the-best-way-to-monitor-nvme-health-applications-endeavouros]].",
+   "recommended": "Three caveats the hook design carries:\n\n- **Device self-test support is optional per drive** (an Intel 600p reports \"Device Self-test Not Supported\" via the oacs bit while still reading healthy), so the inherited scheduling needs a capability check, not an assumption [[how-to-check-nvme-ssd-health-newbie-corner-arch-linux-forums]].\n- **The surface decision** — separate entities versus attributes on a disk entity — has an incumbent cautionary precedent in go-hass-agent exposing SMART as attributes that template sensors must individually surface [[how-to-see-your-ssdhdd-health-directly-in-home-assistant-diy-ideas]].\n- **The bridge should expose wear and vendor product-EOL as distinct sensors**, since a drive at ~1 % of rated TBW can already be flagged EOL [[whats-the-best-way-to-monitor-nvme-health-applications-endeavouros]].",
+   "rationale": "The three named caveats are already enumerated in prose; bullets make each caveat's consequence and citation scannable in isolation."
+  },
+  {
+   "id": "rec-14",
+   "category": "make-list",
+   "severity": "moderate",
+   "section": "## 6. JupiterOS-Specific Feature Gaps",
+   "current": "The audited absence first: a search of `modules/` and `hosts/*/` for ups, nut, and apc declarations returns zero matches — no jupiterOS host declares a UPS, so power monitoring maps to no host class in today's fleet. The corpus still fixes the design for the day one is attached, because the HA-native shape is NUT and its ceilings are the agent-side consumer's requirements: the integration cannot talk to a UPS directly (a NUT server is required, port 3493, 60-second default polling), it can retrieve but not set NUT variables and supports no parameterised commands, device actions (instcmds such as beeper.disable, test.battery.start.quick, power-cycle outlet) require credentialled upsd.users grants, it cannot auto-detect a server IP change (DNS-name resolution, never baked IPs). Most diagnostic sensors are disabled by default as a deliberate recorder-cost trim; `upsc`/`upscmd` enumerate the raw surface an agent-side consumer reads directly [[network-ups-tools-nut-home-assistant]]. With switches now restarting user units disruptively, a booted-vs-current-generation sensor converts the new switch behaviour from a surprise into an observable — telling HA which hosts run a stale generation after a switch, cheap to read, fleet-relevant for the first time [[anyone-seeing-nixos-rebuild-switch-kick-you-out-to-gdm-andor-log-gpf-errors-spec]].",
+   "recommended": "The audited absence first: a search of `modules/` and `hosts/*/` for ups, nut, and apc declarations returns zero matches — no jupiterOS host declares a UPS, so power monitoring maps to no host class in today's fleet. The corpus still fixes the design for the day one is attached, because the HA-native shape is NUT and its ceilings are the agent-side consumer's requirements:\n\n- The integration cannot talk to a UPS directly (a NUT server is required, port 3493, 60-second default polling).\n- It can retrieve but not set NUT variables and supports no parameterised commands.\n- Device actions (instcmds such as beeper.disable, test.battery.start.quick, power-cycle outlet) require credentialled upsd.users grants.\n- It cannot auto-detect a server IP change (DNS-name resolution, never baked IPs).\n- Most diagnostic sensors are disabled by default as a deliberate recorder-cost trim; `upsc`/`upscmd` enumerate the raw surface an agent-side consumer reads directly [[network-ups-tools-nut-home-assistant]].\n\nWith switches now restarting user units disruptively, a booted-vs-current-generation sensor converts the new switch behaviour from a surprise into an observable — telling HA which hosts run a stale generation after a switch, cheap to read, fleet-relevant for the first time [[anyone-seeing-nixos-rebuild-switch-kick-you-out-to-gdm-andor-log-gpf-errors-spec]].",
+   "rationale": "The five NUT ceilings are a limitation list buried in prose; bullets expose them while the audited-absence opening and the generation-sensor close become their own paragraphs."
+  },
+  {
+   "id": "rec-15",
+   "category": "make-list",
+   "severity": "moderate",
+   "section": "## 8. Ordered Improvement Roadmap",
+   "current": "Three developments would legitimately reopen settled questions and deserve standing watch: a merged-and-released upstream reconnect signal (which would let the raw ConnAck match become an event variant and trigger the version bump — but would not change the design, since subscriptions stay application-owned); an incumbent shipping native select controls with state sync or a NixOS service module (go-hass-agent's zero-occurrence record through v14.15.1 is the current evidence against) [[changelogmd]]; and an end-to-end MQTT v5 decision, which loosens the clean-session reasoning and makes message expiry the stale-command cure — the v5 module already ships inside the pinned version.",
+   "recommended": "Three developments would legitimately reopen settled questions and deserve standing watch:\n\n- **A merged-and-released upstream reconnect signal** — which would let the raw ConnAck match become an event variant and trigger the version bump, but would not change the design, since subscriptions stay application-owned.\n- **An incumbent shipping native select controls with state sync or a NixOS service module** — go-hass-agent's zero-occurrence record through v14.15.1 is the current evidence against [[changelogmd]].\n- **An end-to-end MQTT v5 decision** — which loosens the clean-session reasoning and makes message expiry the stale-command cure; the v5 module already ships inside the pinned version.",
+   "rationale": "The three standing flip conditions are the report's falsifiability contract; bold-labelled bullets make each trigger and its current evidence independently scannable."
+  },
+  {
+   "id": "rec-16",
+   "category": "break-paragraph",
+   "severity": "minor",
+   "section": "## 8. Ordered Improvement Roadmap",
+   "current": "as the phase's one open question. Exit criteria: `nixos-rebuild switch` restarts",
+   "recommended": "as the phase's one open question.\n\n**Exit criteria:** `nixos-rebuild switch` restarts",
+   "rationale": "Matching Phase 2's exit-criteria break to Phase 1 gives the roadmap a parallel spec-then-gate rhythm."
+  },
+  {
+   "id": "rec-17",
+   "category": "break-paragraph",
+   "severity": "minor",
+   "section": "## 8. Ordered Improvement Roadmap",
+   "current": "that the fleet does not consume. Exit criteria: each feature carries",
+   "recommended": "that the fleet does not consume.\n\n**Exit criteria:** each feature carries",
+   "rationale": "Completing the pattern across Phase 3 makes all three exit criteria land in the same visual position."
+  },
+  {
+   "id": "rec-18",
+   "category": "bold-keyterms",
+   "severity": "minor",
+   "section": "## 1. Current State: A Verified Reliability Audit",
+   "current": "The defect distribution is the strategic fact: failures cluster",
+   "recommended": "**The defect distribution is the strategic fact:** failures cluster",
+   "rationale": "Every other analytic paragraph in Section 1 carries a bold run-in; this one is the section's concluding pivot and should match."
+  },
+  {
+   "id": "rec-19",
+   "category": "bold-keyterms",
+   "severity": "minor",
+   "section": "## 2. The MQTT Lifecycle Problem: Why It Is Never Reliable (### D. The aggravators, and the supervisor that fixes all of it)",
+   "current": "First, `clean_session = true` (explicit, stable client id) against the persistent-session instinct",
+   "recommended": "**First**, `clean_session = true` (explicit, stable client id) against the persistent-session instinct",
+   "rationale": "Bolding the ordinal pairs with the bolded Second introduced by rec-8 and marks the two boundary judgements as a set."
+  },
+  {
+   "id": "rec-20",
+   "category": "bold-keyterms",
+   "severity": "minor",
+   "section": "## 4. The Build-vs-Buy Dialectic: Custom Rust Agent vs Telegraf, Glances, and Netdata (### B. Why the evidence refutes it)",
+   "current": "The packaging counter first. One custom module away",
+   "recommended": "**The packaging counter first.** One custom module away",
+   "rationale": "The four-counter refutation reads as a numbered argument whose signposts are currently invisible; bolding each opener restores the structure."
+  },
+  {
+   "id": "rec-21",
+   "category": "bold-keyterms",
+   "severity": "minor",
+   "section": "## 4. The Build-vs-Buy Dialectic: Custom Rust Agent vs Telegraf, Glances, and Netdata (### B. Why the evidence refutes it)",
+   "current": "Second, the adopter's fork",
+   "recommended": "**Second**, the adopter's fork",
+   "rationale": "Bold ordinals let a scanning reader track the four-part refutation without rereading."
+  },
+  {
+   "id": "rec-22",
+   "category": "bold-keyterms",
+   "severity": "minor",
+   "section": "## 4. The Build-vs-Buy Dialectic: Custom Rust Agent vs Telegraf, Glances, and Netdata (### B. Why the evidence refutes it)",
+   "current": "Third, the expressibility record.",
+   "recommended": "**Third**, the expressibility record.",
+   "rationale": "Bold ordinals let a scanning reader track the four-part refutation without rereading."
+  },
+  {
+   "id": "rec-23",
+   "category": "bold-keyterms",
+   "severity": "minor",
+   "section": "## 4. The Build-vs-Buy Dialectic: Custom Rust Agent vs Telegraf, Glances, and Netdata (### B. Why the evidence refutes it)",
+   "current": "Fourth, the reliability-provenance argument",
+   "recommended": "**Fourth**, the reliability-provenance argument",
+   "rationale": "Bold ordinals let a scanning reader track the four-part refutation without rereading."
+  },
+  {
+   "id": "rec-24",
+   "category": "split-sentence",
+   "severity": "minor",
+   "section": "## 2. The MQTT Lifecycle Problem: Why It Is Never Reliable (### C. The HA-side contract, and the one contested broker question)",
+   "current": "MQTT Explorer showed them present — and the cure was",
+   "recommended": "MQTT Explorer showed them present. The cure was",
+   "rationale": "A ~360-character sentence splits cleanly where the evidence ends and the remedy begins, bringing each half under the length threshold."
+  },
+  {
+   "id": "rec-25",
+   "category": "split-sentence",
+   "severity": "minor",
+   "section": "## 2. The MQTT Lifecycle Problem: Why It Is Never Reliable (### D. The aggravators, and the supervisor that fixes all of it)",
+   "current": "polls all backends sequentially in one task, so one hung syncthing daemon freezes every sensor",
+   "recommended": "polls all backends sequentially in one task. One hung syncthing daemon freezes every sensor",
+   "rationale": "The starvation sentence exceeds 300 characters; splitting at the causal connector separates the mechanism from its consequence."
+  },
+  {
+   "id": "rec-26",
+   "category": "split-sentence",
+   "severity": "minor",
+   "section": "## 4. The Build-vs-Buy Dialectic: Custom Rust Agent vs Telegraf, Glances, and Netdata (### B. Why the evidence refutes it)",
+   "current": "is time-bound: the unified identity stops not-working the moment",
+   "recommended": "is time-bound. The unified identity stops not-working the moment",
+   "rationale": "A ~270-character sentence splits at the colon into the claim and its time-bound resolution."
   }
+ ],
+ "summary": {
+  "total_recommendations": 26,
+  "by_category": {
+   "merge-paragraphs": 0,
+   "break-paragraph": 12,
+   "make-list": 5,
+   "make-table": 0,
+   "bold-keyterms": 6,
+   "split-sentence": 3,
+   "remove-hr": 0,
+   "add-whitespace": 0
+  },
+  "highest_severity": "major",
+  "expected_net_char_delta": 180
+ }
 }

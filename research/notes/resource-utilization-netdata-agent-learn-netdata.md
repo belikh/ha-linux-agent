@@ -8,12 +8,12 @@ tags:
 - netdata
 - resource-footprint
 created: '2026-09-02T04:02:40.483812Z'
-updated: '2026-09-02T17:37:22.015846Z'
+updated: '2026-09-05T10:51:21.723384Z'
 source: https://learn.netdata.cloud/docs/netdata-agent/resource-utilization
 source_domain: learn.netdata.cloud
 fetched_at: '2026-09-02T04:02:33.491503Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Official Netdata docs on agent resource footprint: CPU 1-5% of a single

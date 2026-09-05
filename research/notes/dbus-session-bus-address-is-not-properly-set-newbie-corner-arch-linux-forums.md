@@ -7,12 +7,12 @@ tags:
 - ha-linux-agent
 - repo-map
 created: '2026-09-02T04:04:41.189353Z'
-updated: '2026-09-02T17:37:22.075496Z'
+updated: '2026-09-05T10:51:21.781150Z'
 source: https://bbs.archlinux.org/viewtopic.php?id=221340
 source_domain: bbs.archlinux.org
 fetched_at: '2026-09-02T04:04:40.016940Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Arch forum thread (Dec 2016 - Feb 2017) diagnosing why DBUS_SESSION_BUS_ADDRESS

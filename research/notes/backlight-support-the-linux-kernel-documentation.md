@@ -8,12 +8,12 @@ tags:
 - sysfs
 - hardware-telemetry
 created: '2026-09-02T06:54:26.028431Z'
-updated: '2026-09-02T17:37:22.371764Z'
+updated: '2026-09-05T10:51:22.103608Z'
 source: https://www.kernel.org/doc/html/latest/gpu/backlight.html
 source_domain: www.kernel.org
 fetched_at: '2026-09-02T06:54:26.026860Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

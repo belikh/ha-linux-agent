@@ -8,12 +8,12 @@ tags:
 - mqtt-discovery
 - availability-semantics
 created: '2026-09-02T04:18:30.117368Z'
-updated: '2026-09-02T17:37:22.087161Z'
+updated: '2026-09-05T10:51:21.794115Z'
 source: https://www.hass-agent.io/2.2/getting-started/sensors/
 source_domain: www.hass-agent.io
 fetched_at: '2026-09-02T04:18:30.116145Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

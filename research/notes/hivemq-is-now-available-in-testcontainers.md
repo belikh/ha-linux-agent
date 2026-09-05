@@ -11,12 +11,12 @@ tags:
 - testing
 - vendor-blog
 created: '2026-09-02T05:39:32.183005Z'
-updated: '2026-09-02T17:37:22.240557Z'
+updated: '2026-09-05T10:51:21.952858Z'
 source: https://www.hivemq.com/blog/hivemq-is-now-available-in-testcontainers/
 source_domain: www.hivemq.com
 fetched_at: '2026-09-02T05:39:32.141524Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HiveMQ blog (27 Apr 2022, vendor announcement) on the HiveMQ Testcontainers

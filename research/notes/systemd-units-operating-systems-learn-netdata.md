@@ -7,12 +7,12 @@ tags:
 - official-docs
 - systemd
 created: '2026-09-02T04:31:50.422787Z'
-updated: '2026-09-02T17:37:22.112527Z'
+updated: '2026-09-05T10:51:21.819966Z'
 source: https://learn.netdata.cloud/docs/collecting-metrics/collectors/operating-systems/systemd-units
 source_domain: learn.netdata.cloud
 fetched_at: '2026-09-02T04:31:50.418473Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

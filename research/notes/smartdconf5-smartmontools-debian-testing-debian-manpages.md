@@ -8,12 +8,12 @@ tags:
 - storage-health
 - smartd
 created: '2026-09-02T04:33:09.986690Z'
-updated: '2026-09-02T17:37:22.131168Z'
+updated: '2026-09-05T10:51:21.840373Z'
 source: https://manpages.debian.org/testing/smartmontools/smartd.conf.5.en.html
 source_domain: manpages.debian.org
 fetched_at: '2026-09-02T04:33:09.984261Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

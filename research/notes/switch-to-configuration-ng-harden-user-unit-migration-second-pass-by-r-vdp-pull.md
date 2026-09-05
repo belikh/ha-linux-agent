@@ -13,12 +13,12 @@ tags:
 - stc-ng
 - user-unit-restart
 created: '2026-09-02T16:29:19.127722Z'
-updated: '2026-09-02T17:37:22.626675Z'
+updated: '2026-09-05T10:51:22.363877Z'
 source: https://github.com/NixOS/nixpkgs/pull/517768
 source_domain: github.com
 fetched_at: '2026-09-02T16:29:17.436637Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'PR #517768 (r-vdp, opened 2026-05-07, merged to staging-nixos 2026-05-26

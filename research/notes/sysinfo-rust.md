@@ -11,12 +11,12 @@ tags:
 - hardware-telemetry
 - crate-docs
 created: '2026-09-02T06:42:41.443812Z'
-updated: '2026-09-02T17:37:22.341596Z'
+updated: '2026-09-05T10:51:22.066139Z'
 source: https://docs.rs/sysinfo/latest/sysinfo/
 source_domain: docs.rs
 fetched_at: '2026-09-02T06:42:37.181877Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'docs.rs crate documentation for sysinfo 0.39.6 (released 2026-07-09, MIT,

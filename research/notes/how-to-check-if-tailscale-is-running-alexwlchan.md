@@ -8,12 +8,12 @@ tags:
 - script-sensors
 - windows-only
 created: '2026-09-02T05:38:56.249258Z'
-updated: '2026-09-02T17:37:22.228429Z'
+updated: '2026-09-05T10:51:21.939825Z'
 source: https://alexwlchan.net/notes/2025/check-if-tailscale-is-running/
 source_domain: alexwlchan.net
 fetched_at: '2026-09-02T05:38:50.531965Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: practitioner
 content_type: blog

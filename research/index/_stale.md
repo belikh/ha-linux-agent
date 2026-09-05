@@ -2,8 +2,8 @@
 title: "Stale Notes"
 id: "_stale"
 type: index
-created: 2026-09-02T17:37:25.163598+00:00
-updated: 2026-09-02T17:37:25.163598+00:00
+created: 2026-09-05T10:51:25.199701+00:00
+updated: 2026-09-05T10:51:25.199701+00:00
 ---
 
 # Stale Notes

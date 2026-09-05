@@ -10,12 +10,12 @@ tags:
 - subscription
 - known-issue
 created: '2026-09-02T04:02:29.632726Z'
-updated: '2026-09-02T17:37:21.911715Z'
+updated: '2026-09-05T10:51:21.614318Z'
 source: https://github.com/bytebeamio/rumqtt/issues/250
 source_domain: github.com
 fetched_at: '2026-09-02T04:02:23.381755Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'rumqtt issue #250 (opened Feb 2021, still OPEN, labelled in-pipeline as

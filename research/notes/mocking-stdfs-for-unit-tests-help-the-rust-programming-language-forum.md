@@ -10,12 +10,12 @@ tags:
 - practitioner-forum
 - testing
 created: '2026-09-02T05:39:32.153853Z'
-updated: '2026-09-02T17:37:22.261360Z'
+updated: '2026-09-05T10:51:21.970079Z'
 source: https://users.rust-lang.org/t/mocking-std-fs-for-unit-tests/22382
 source_domain: users.rust-lang.org
 fetched_at: '2026-09-02T05:39:26.735658Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Rust forum thread (arkaitzj, Nov 2018) on mocking std::fs for unit tests:

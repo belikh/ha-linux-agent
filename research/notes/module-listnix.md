@@ -7,12 +7,12 @@ tags:
 - audited-absence
 - nixpkgs
 created: '2026-09-02T16:51:08.831505Z'
-updated: '2026-09-02T17:37:22.656849Z'
+updated: '2026-09-05T10:51:22.395455Z'
 source: https://raw.githubusercontent.com/NixOS/nixpkgs/master/nixos/modules/module-list.nix
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T16:51:08.393562Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'ABSENCE VERIFICATION (nixpkgs master nixos/modules/module-list.nix, the

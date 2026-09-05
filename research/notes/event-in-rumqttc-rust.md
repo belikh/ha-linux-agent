@@ -8,12 +8,12 @@ tags:
 - rumqttc
 - api-docs
 created: '2026-09-02T13:21:38.359127Z'
-updated: '2026-09-02T17:37:22.571914Z'
+updated: '2026-09-05T10:51:22.309603Z'
 source: https://docs.rs/rumqttc/0.24.0/rumqttc/enum.Event.html
 source_domain: docs.rs
 fetched_at: '2026-09-02T13:21:38.358043Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

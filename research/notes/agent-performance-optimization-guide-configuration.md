@@ -7,12 +7,12 @@ tags:
 - official-docs
 - resource-footprint
 created: '2026-09-02T04:33:06.023063Z'
-updated: '2026-09-02T17:37:22.121418Z'
+updated: '2026-09-05T10:51:21.830256Z'
 source: https://learn.netdata.cloud/docs/netdata-agent/configuration/performance-optimization
 source_domain: learn.netdata.cloud
 fetched_at: '2026-09-02T04:33:06.019909Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

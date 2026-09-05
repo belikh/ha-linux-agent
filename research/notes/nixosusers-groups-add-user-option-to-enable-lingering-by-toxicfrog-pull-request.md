@@ -5,12 +5,12 @@ id: nixosusers-groups-add-user-option-to-enable-lingering-by-toxicfrog-pull-requ
 tags:
 - linux-agent-jupiteros-fleet-15537b
 created: '2026-09-02T05:11:15.437207Z'
-updated: '2026-09-02T17:37:22.177250Z'
+updated: '2026-09-05T10:51:21.887529Z'
 source: https://github.com/NixOS/nixpkgs/pull/260248
 source_domain: github.com
 fetched_at: '2026-09-02T05:11:15.435605Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

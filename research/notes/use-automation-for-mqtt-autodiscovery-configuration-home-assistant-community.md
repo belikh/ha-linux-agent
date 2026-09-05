@@ -12,12 +12,12 @@ tags:
 - practitioner-forum
 - mqtt-discovery
 created: '2026-09-02T06:41:31.092392Z'
-updated: '2026-09-02T17:37:22.335713Z'
+updated: '2026-09-05T10:51:22.047790Z'
 source: https://community.home-assistant.io/t/use-automation-for-mqtt-autodiscovery/455475
 source_domain: community.home-assistant.io
 fetched_at: '2026-09-02T06:41:31.045947Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HA community thread (Aug 2022, INSTAR/Mike Polinowski, HasQT, luma): attempt

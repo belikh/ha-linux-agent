@@ -9,12 +9,12 @@ tags:
 - retained-messages
 - official-docs
 created: '2026-09-02T04:02:29.670617Z'
-updated: '2026-09-02T17:37:21.893364Z'
+updated: '2026-09-05T10:51:21.596326Z'
 source: https://www.zigbee2mqtt.io/guide/configuration/device-availability.html
 source_domain: www.zigbee2mqtt.io
 fetched_at: '2026-09-02T04:02:29.614669Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Zigbee2MQTT official docs — Device Availability feature: publishes availability

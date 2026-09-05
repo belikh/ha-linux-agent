@@ -10,12 +10,12 @@ tags:
 - mosquitto
 - ha-issue
 created: '2026-09-02T17:03:39.601459Z'
-updated: '2026-09-02T17:39:26.972722Z'
+updated: '2026-09-05T10:51:22.415539Z'
 source: https://github.com/eclipse-mosquitto/mosquitto/issues/3021
 source_domain: github.com
 fetched_at: '2026-09-02T17:03:34.361489Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: practitioner
 content_type: forum

@@ -6,12 +6,12 @@ tags:
 - locus-mqtt-lifecycle-supervisor-spec
 - locus-rumqttc-dependency-fitness
 created: '2026-09-02T10:54:24.565108Z'
-updated: '2026-09-02T17:37:22.484130Z'
+updated: '2026-09-05T10:51:22.221368Z'
 source: https://docs.rs/rumqttc/0.24.0/rumqttc/struct.AsyncClient.html
 source_domain: docs.rs
 fetched_at: '2026-09-02T10:54:24.563714Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

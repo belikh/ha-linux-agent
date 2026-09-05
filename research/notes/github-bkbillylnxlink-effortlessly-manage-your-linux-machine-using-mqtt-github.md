@@ -9,12 +9,12 @@ tags:
 - mqtt-discovery
 - linux-agent
 created: '2026-09-02T04:30:34.344297Z'
-updated: '2026-09-02T17:37:22.101455Z'
+updated: '2026-09-05T10:51:21.809541Z'
 source: https://github.com/bkbilly/lnxlink
 source_domain: github.com
 fetched_at: '2026-09-02T04:30:34.342957Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

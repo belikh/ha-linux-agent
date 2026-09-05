@@ -12,12 +12,12 @@ tags:
 - primary-source
 - birth-message
 created: '2026-09-02T06:41:31.061743Z'
-updated: '2026-09-02T17:37:22.324245Z'
+updated: '2026-09-05T10:51:22.035409Z'
 source: https://esphome.io/components/mqtt/
 source_domain: esphome.io
 fetched_at: '2026-09-02T06:41:26.501385Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'ESPHome''s MQTT client component doc — the canonical reference implementation

@@ -21,7 +21,7 @@ The 8 required H2 headings from prompt-decomposition.json, in order, plus `## Op
 ## Per-section commitments
 
 ### Section 1: Current State: A Verified Reliability Audit
-- Evidence: build/test/clippy exit codes (0/0/101 — the clippy gate FAILS on backend-hardware:117 map_or); the defect list with file:line; 8-tests-none-run; README drift (backend-hardware undocumented); dead tls knob (config.rs:88); hardware backend's fake select options; the io-not-in-video chmod defect; the live unavailable-kiosks symptom; the 4/7 coverage table with per-host opt-outs (pallene = ZFS-less VPS, refuses sops-nix — the open user decision).
+- Evidence: build/test/clippy exit codes (0/0/101 — the clippy gate FAILS on backend-hardware:117 map_or); the defect list with file:line; 8-tests-none-run; README drift (backend-hardware undocumented); dead tls knob (config.rs:88); hardware backend's fake select options; the io-not-in-video chmod defect; the live unavailable-kiosks symptom; the 4/6 coverage table with per-host opt-outs .
 - Beat: the audit as ground truth — measured exit codes and verbatim source, not vibes. Opens the report.
 
 ### Section 2: The MQTT Lifecycle Problem: Why It Is Never Reliable
@@ -38,8 +38,7 @@ The 8 required H2 headings from prompt-decomposition.json, in order, plus `## Op
 - Beat: the honest concession table then the verdict — improve, with flip conditions named (go-hass-agent ships select+state-sync or a NixOS module; fleet wants lnxlink's desktop long-tail).
 
 ### Section 5: NixOS Fleet Architecture: From Kiosk-Only to Every Host in jupiterOS
-- Evidence: the host-class/role design (system service User=io everywhere; AmbientCapabilities only-if-SMART — presented then rejected in favour of the zero-capability ladder); PR #517768 stc-ng change; linger option (PR #260248) and its disable-undeclared-users footgun; DBUS_SESSION_BUS_ADDRESS reachability (mkSessionLauncher precedent); niri socket formula (same-UID globbing); the module moving from kiosk profile to common with per-host roles; sops-nix credential wiring; the pallene secrets decision surfaced to the user.
-- Tensions engaged: AmbientCapabilities vs zero-capability (committed: zero-capability); notification session-bus residual risk (resolved: dead code today, VFD last mile).
+- Evidence: the host-class/role design (system service User=io everywhere; AmbientCapabilities only-if-SMART — presented then rejected in favour of the zero-capability ladder); PR #517768 stc-ng change; linger option (PR #260248) and its disable-undeclared-users footgun; DBUS_SESSION_BUS_ADDRESS reachability (mkSessionLauncher precedent); niri socket formula (same-UID globbing); the module moving from kiosk profile to common with per-host roles; sops-nix credential wiring;
 
 ### Section 6: JupiterOS-Specific Feature Gaps
 - Evidence: the zero-capability matrix per subsystem (smartd hooks, zed bridge, D-Bus match rules + the systemd lazy-signals Subscribe() subtlety, udev video group); unit health watch_units; nix generation/boot health; tailscale ipnstate schema (authoritative, unstable-by-policy → version-tolerant); NUT; the ROADMAP's Steam/Heroic/OBS leftovers.
@@ -50,8 +49,8 @@ The 8 required H2 headings from prompt-decomposition.json, in order, plus `## Op
 - Tension engaged: testcontainers consensus vs fleet ground truth (the meta-principle: web consensus optimises the generic case).
 
 ### Section 8: Ordered Improvement Roadmap
-- Evidence: phased, dependency-ordered, each phase with verification: Phase 0 (days): clippy fix, cargoTest wiring, notify.mqtt entity, tls knob removal-or-wiring, README/backend-hardware docs. Phase 1 (reliability): the supervisor spec + the 5 regression tests + broker hygiene (persistence true, $SYS check). Phase 2 (fleet): the system-service module + role-driven per-host enabling + europa/callisto/pallene rollout + the pallene secrets decision + delete the broken chmod workaround. Phase 3 (features): server backends via the event matrix (smartd/zed/D-Bus), watch_units, nix health, version-tolerant headscale. Flip conditions for adoption named throughout.
-- Beat: the order is the thesis — reliability first because deaf agents make features meaningless; fleet second because 4/7 coverage contradicts the ambition; features third because the bar is now known.
+- Evidence: phased, dependency-ordered, each phase with verification: Phase 0 (days): clippy fix, cargoTest wiring, notify.mqtt entity, tls knob removal-or-wiring, README/backend-hardware docs. Phase 1 (reliability): the supervisor spec + the 5 regression tests + broker hygiene (persistence true, $SYS check). Phase 2 (fleet): the system-service module + role-driven per-host enabling + europa/callisto rollout + Flip conditions for adoption named throughout.
+- Beat: the order is the thesis — reliability first because deaf agents make features meaningless; fleet second because 4/6 coverage contradicts the ambition; features third because the bar is now known.
 
 ## Where drafts disagreed
 

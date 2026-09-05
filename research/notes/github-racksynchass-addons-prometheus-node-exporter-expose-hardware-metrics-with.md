@@ -9,12 +9,12 @@ tags:
 - home-assistant
 - prometheus
 created: '2026-09-02T04:02:40.511432Z'
-updated: '2026-09-02T17:37:22.007212Z'
+updated: '2026-09-05T10:51:21.714294Z'
 source: https://github.com/racksync/hass-addons-prometheus-node-exporter
 source_domain: github.com
 fetched_at: '2026-09-02T04:02:37.591019Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'GitHub README (racksync, current version 2025.11.1, fork of loganmarchione/hassos-addons):

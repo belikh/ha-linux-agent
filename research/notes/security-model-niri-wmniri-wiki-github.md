@@ -11,12 +11,12 @@ tags:
 - gap-06
 - security-model
 created: '2026-09-02T16:43:41.816692Z'
-updated: '2026-09-02T17:37:22.652858Z'
+updated: '2026-09-05T10:51:22.391017Z'
 source: https://github.com/niri-wm/niri/wiki/Security-Model
 source_domain: github.com
 fetched_at: '2026-09-02T16:43:41.148253Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'niri Security Model wiki (edited 2026-04-26): ''Niri assumes that programs

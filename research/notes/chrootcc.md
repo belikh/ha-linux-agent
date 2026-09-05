@@ -9,12 +9,12 @@ tags:
 - user-unit-restart
 - locus-fleet-service-model-by-host-class
 created: '2026-09-02T17:20:36.974478Z'
-updated: '2026-09-02T17:37:22.727965Z'
+updated: '2026-09-05T10:51:22.470755Z'
 source: https://raw.githubusercontent.com/NixOS/nix/master/src/libstore/unix/build/chroot.cc
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T17:20:36.663916Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: '/ note: This is only used for the setting name in the error message. We

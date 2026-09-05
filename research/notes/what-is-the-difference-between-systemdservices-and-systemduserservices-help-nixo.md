@@ -6,12 +6,12 @@ tags:
 - linux-agent-jupiteros-fleet-15537b
 - locus-fleet-service-model-by-host-class
 created: '2026-09-02T04:04:41.170506Z'
-updated: '2026-09-02T17:37:22.057528Z'
+updated: '2026-09-05T10:51:21.764698Z'
 source: https://discourse.nixos.org/t/what-is-the-difference-between-systemd-services-and-systemd-user-services/25222
 source_domain: discourse.nixos.org
 fetched_at: '2026-09-02T04:04:35.073989Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'NixOS Discourse thread (Feb 2023) clarifying that systemd.user.services

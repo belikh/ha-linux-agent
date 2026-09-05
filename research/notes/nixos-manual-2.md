@@ -5,12 +5,12 @@ tags:
 - linux-agent-jupiteros-fleet-15537b
 - locus-testing-gate-for-hardware-daemon
 created: '2026-09-02T13:54:53.461389Z'
-updated: '2026-09-02T17:37:22.610123Z'
+updated: '2026-09-05T10:51:22.347253Z'
 source: https://nixos.org/manual/nixos/stable/#sec-calling-test
 source_domain: nixos.org
 fetched_at: '2026-09-02T13:54:53.454412Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

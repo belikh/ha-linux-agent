@@ -10,12 +10,12 @@ tags:
 - sysfs
 - hardware-telemetry
 created: '2026-09-02T06:42:41.448409Z'
-updated: '2026-09-02T17:37:22.346292Z'
+updated: '2026-09-05T10:51:22.072657Z'
 source: https://www.kernel.org/doc/html/latest/driver-api/thermal/sysfs-api.html
 source_domain: www.kernel.org
 fetched_at: '2026-09-02T06:42:37.702817Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Kernel generic thermal sysfs driver HOWTO (Sujith Thomas & Zhang Rui, Intel,

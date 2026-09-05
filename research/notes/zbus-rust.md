@@ -12,12 +12,12 @@ tags:
 - rust
 - api-docs
 created: '2026-09-02T05:39:32.165371Z'
-updated: '2026-09-02T17:37:22.251911Z'
+updated: '2026-09-05T10:51:21.961727Z'
 source: https://docs.rs/zbus/latest/zbus/
 source_domain: docs.rs
 fetched_at: '2026-09-02T05:39:28.396251Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'docs.rs crate page for zbus 5.19.0 (MIT, published 09 August 2026, 93.65%

@@ -7,12 +7,12 @@ tags:
 - man-page
 - failure-notifications
 created: '2026-09-02T07:39:20.625854Z'
-updated: '2026-09-02T17:37:22.400378Z'
+updated: '2026-09-05T10:51:22.135116Z'
 source: https://raw.githubusercontent.com/systemd/systemd/main/man/systemd.service.xml
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T07:39:20.623389Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

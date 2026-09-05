@@ -5,12 +5,12 @@ id: enabling-persistent-user-instance-systemd-issue-3702-nixosnixpkgs-github
 tags:
 - linux-agent-jupiteros-fleet-15537b
 created: '2026-09-02T05:08:34.670451Z'
-updated: '2026-09-02T17:37:22.172567Z'
+updated: '2026-09-05T10:51:21.882996Z'
 source: https://github.com/NixOS/nixpkgs/issues/3702
 source_domain: github.com
 fetched_at: '2026-09-02T05:08:34.669045Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

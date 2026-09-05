@@ -11,12 +11,12 @@ tags:
 - availability
 - community-thread
 created: '2026-09-02T04:02:29.656820Z'
-updated: '2026-09-02T17:37:21.906909Z'
+updated: '2026-09-05T10:51:21.610081Z'
 source: https://community.home-assistant.io/t/my-hand-built-mqtt-devices-are-unavailable-after-hass-io-restart-but-zigbee2mqtt-ones-are/201214
 source_domain: community.home-assistant.io
 fetched_at: '2026-09-02T04:02:27.482121Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HA community thread (June 2020, Steve Harper + Taras/123): canonical explanation

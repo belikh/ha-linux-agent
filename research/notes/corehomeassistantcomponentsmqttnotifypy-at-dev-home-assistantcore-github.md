@@ -11,12 +11,12 @@ tags:
 - retained-messages
 - gap-02
 created: '2026-09-02T17:03:39.592126Z'
-updated: '2026-09-02T17:39:22.157890Z'
+updated: '2026-09-05T10:51:22.441962Z'
 source: https://github.com/home-assistant/core/blob/dev/homeassistant/components/mqtt/notify.py
 source_domain: github.com
 fetched_at: '2026-09-02T17:03:31.693279Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

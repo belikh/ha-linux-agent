@@ -8,12 +8,12 @@ tags:
 - rumqttc
 - api-docs
 created: '2026-09-02T13:17:49.608346Z'
-updated: '2026-09-02T17:37:22.563767Z'
+updated: '2026-09-05T10:51:22.300707Z'
 source: https://docs.rs/rumqttc/0.25.1/rumqttc/struct.AsyncClient.html
 source_domain: docs.rs
 fetched_at: '2026-09-02T13:17:49.606852Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

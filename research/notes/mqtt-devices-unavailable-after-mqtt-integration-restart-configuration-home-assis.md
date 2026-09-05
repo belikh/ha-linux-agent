@@ -11,12 +11,12 @@ tags:
 - broker-persistence
 - community-thread
 created: '2026-09-02T04:02:29.666374Z'
-updated: '2026-09-02T17:37:21.888227Z'
+updated: '2026-09-05T10:51:21.591523Z'
 source: https://community.home-assistant.io/t/mqtt-devices-unavailable-after-mqtt-integration-restart/725798
 source_domain: community.home-assistant.io
 fetched_at: '2026-09-02T04:02:29.294324Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HA community thread (May 2024 - Oct 2025, Frank Figiel + francisp/nabeelr/maxym):

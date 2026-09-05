@@ -6,12 +6,12 @@ tags:
 - gap-04
 - version-ground-truth
 created: '2026-09-02T17:23:21.318906Z'
-updated: '2026-09-02T17:39:23.334854Z'
+updated: '2026-09-05T10:51:22.477284Z'
 source: https://raw.githubusercontent.com/NixOS/nix/2.19.2/src/libstore/build/local-derivation-goal.cc
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T17:23:21.315668Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

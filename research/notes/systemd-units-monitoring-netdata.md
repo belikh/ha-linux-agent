@@ -10,12 +10,12 @@ tags:
 - systemd
 - resource-footprint
 created: '2026-09-02T04:02:40.522044Z'
-updated: '2026-09-02T17:37:22.026134Z'
+updated: '2026-09-05T10:51:21.732737Z'
 source: https://www.netdata.cloud/monitoring-101/systemdunits-monitoring/
 source_domain: www.netdata.cloud
 fetched_at: '2026-09-02T04:02:38.973331Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Netdata ''Monitoring 101'' article (marketing-site boilerplate wrapped around

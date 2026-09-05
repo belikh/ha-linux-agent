@@ -7,12 +7,12 @@ tags:
 - primary-source
 - mqtt
 created: '2026-09-02T06:16:28.006341Z'
-updated: '2026-09-02T17:37:22.275375Z'
+updated: '2026-09-05T10:51:21.984630Z'
 source: https://github.com/inovex/mqtt_blackbox_exporter
 source_domain: github.com
 fetched_at: '2026-09-02T06:16:28.004776Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: practitioner
 content_type: code

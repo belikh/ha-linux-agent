@@ -6,12 +6,12 @@ tags:
 - linux-agent-jupiteros-fleet-15537b
 - ha-linux-agent
 created: '2026-09-02T04:04:41.184491Z'
-updated: '2026-09-02T17:37:22.062251Z'
+updated: '2026-09-05T10:51:21.769029Z'
 source: https://github.com/openclaw/openclaw/issues/11805
 source_domain: github.com
 fetched_at: '2026-09-02T04:04:38.601161Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'GitHub issue (Feb 2026, openclaw/openclaw #11805, closed): openclaw gateway

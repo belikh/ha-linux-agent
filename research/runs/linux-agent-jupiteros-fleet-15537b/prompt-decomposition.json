@@ -11,7 +11,7 @@
   ],
   "entities": [
     {"name": "ha-linux-agent (this repo)", "type": "system-under-audit", "required_fields": ["verified defects", "architecture", "test coverage"]},
-    {"name": "jupiterOS / jupiter-os fleet", "type": "deployment-context", "required_fields": ["host inventory (4 TCxWave kiosks + callisto + europa + pallene)", "current agent coverage", "headless vs desktop hosts"]},
+    {"name": "jupiterOS / jupiter-os fleet", "type": "deployment-context", "required_fields": ["host inventory (4 TCxWave kiosks + callisto + europa)", "current agent coverage", "headless vs desktop hosts"]},
     {"name": "Home Assistant MQTT discovery", "type": "protocol", "required_fields": ["discovery semantics", "availability (birth/LWT)", "reconnect behaviour requirements"]},
     {"name": "HASS.Agent (Windows companion)", "type": "comparison-agent", "required_fields": ["sensor set", "architecture"]},
     {"name": "Telegraf", "type": "comparison-agent", "required_fields": ["MQTT output modes", "sensor breadth", "HA integration fit"]},
@@ -22,7 +22,7 @@
     {"name": "NixOS module system", "type": "platform", "required_fields": ["nixosModules pattern", "systemd user vs system services", "sops-nix secrets"]},
     {"name": "rumqttc", "type": "dependency", "required_fields": ["eventloop reconnect semantics", "version 0.24 patterns"]},
     {"name": "TCx Wave kiosks (adrastea, amalthea, metis, thebe)", "type": "host-class", "required_fields": ["current wiring", "touch-wake/backlight specifics"]},
-    {"name": "Headless hosts (europa, pallene, ganymede-successor)", "type": "host-class", "required_fields": ["no user D-Bus session", "server sensor needs"]},
+    {"name": "Headless hosts (europa, ganymede-successor)", "type": "host-class", "required_fields": ["no user D-Bus session", "server sensor needs"]},
     {"name": "Backends (generic, hardware, niri, kde, zfs, syncthing, headscale, gamescope, lutris, launcher)", "type": "category", "required_fields": ["current behaviour", "defects", "test coverage"]}
   ],
   "required_formats": [

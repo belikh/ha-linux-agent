@@ -7,12 +7,12 @@ tags:
 - official-docs
 - resource-footprint
 created: '2026-09-02T04:31:51.690276Z'
-updated: '2026-09-02T17:37:22.116873Z'
+updated: '2026-09-05T10:51:21.824918Z'
 source: https://learn.netdata.cloud/docs/netdata-agent/resource-utilization/ram
 source_domain: learn.netdata.cloud
 fetched_at: '2026-09-02T04:31:51.686133Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

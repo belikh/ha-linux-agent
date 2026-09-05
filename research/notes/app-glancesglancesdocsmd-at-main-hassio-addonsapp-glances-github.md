@@ -4,12 +4,12 @@ id: app-glancesglancesdocsmd-at-main-hassio-addonsapp-glances-github
 tags:
 - linux-agent-jupiteros-fleet-15537b
 created: '2026-09-02T04:04:41.193972Z'
-updated: '2026-09-02T17:37:22.083813Z'
+updated: '2026-09-05T10:51:21.790863Z'
 source: https://github.com/hassio-addons/app-glances/blob/main/glances/DOCS.md
 source_domain: github.com
 fetched_at: '2026-09-02T04:04:40.748081Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: app-glances/glances/DOCS.md at main · hassio-addons/app-glances · GitHub

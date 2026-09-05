@@ -7,12 +7,12 @@ tags:
 - reliability-failure-modes
 - mqtt
 created: '2026-09-02T05:06:16.296347Z'
-updated: '2026-09-02T17:37:22.162582Z'
+updated: '2026-09-05T10:51:21.872831Z'
 source: https://github.com/eclipse-mosquitto/mosquitto/issues/2117
 source_domain: github.com
 fetched_at: '2026-09-02T05:06:16.294917Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

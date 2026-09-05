@@ -12,12 +12,12 @@ tags:
 - primary-source
 - official-docs
 created: '2026-09-02T06:41:31.054446Z'
-updated: '2026-09-02T17:37:22.330154Z'
+updated: '2026-09-05T10:51:22.042154Z'
 source: https://github.com/home-assistant/core/blob/dev/homeassistant/components/mqtt/discovery.py
 source_domain: github.com
 fetched_at: '2026-09-02T06:41:25.760647Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'The actual HA core MQTT discovery engine (discovery.py at dev, 733 lines)

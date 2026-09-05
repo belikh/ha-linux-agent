@@ -10,12 +10,12 @@ tags:
 - reference-architecture
 - github
 created: '2026-09-02T06:42:41.465990Z'
-updated: '2026-09-02T17:37:22.366634Z'
+updated: '2026-09-05T10:51:22.094005Z'
 source: https://github.com/AnalogJ/scrutiny
 source_domain: github.com
 fetched_at: '2026-09-02T06:42:41.434115Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Scrutiny (AnalogJ/scrutiny, Go, MIT, 8.2k stars, 296 forks): S.M.A.R.T dashboard

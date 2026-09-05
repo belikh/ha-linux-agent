@@ -10,12 +10,12 @@ tags:
 - node-exporter
 - locus-fleet-service-model-by-host-class
 created: '2026-09-02T04:33:08.169835Z'
-updated: '2026-09-02T17:37:22.126522Z'
+updated: '2026-09-05T10:51:21.834888Z'
 source: https://github.com/prometheus-community/smartctl_exporter
 source_domain: github.com
 fetched_at: '2026-09-02T04:33:08.164699Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

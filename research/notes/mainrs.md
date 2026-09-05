@@ -13,12 +13,12 @@ tags:
 - stc-ng
 - primary-source
 created: '2026-09-02T16:34:35.224094Z'
-updated: '2026-09-02T17:37:22.638420Z'
+updated: '2026-09-05T10:51:22.376845Z'
 source: https://raw.githubusercontent.com/NixOS/nixpkgs/master/pkgs/by-name/sw/switch-to-configuration-ng/src/main.rs
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T16:34:33.731956Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'PRIMARY SOURCE CODE (nixpkgs master, ~9.8k words, Rust): switch-to-configuration-ng''s

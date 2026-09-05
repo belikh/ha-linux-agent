@@ -12,12 +12,12 @@ tags:
 - rust
 - api-docs
 created: '2026-09-02T05:39:32.169471Z'
-updated: '2026-09-02T17:37:22.232332Z'
+updated: '2026-09-05T10:51:21.944723Z'
 source: https://docs.rs/tempfile/3.0.4/tempfile/fn.tempdir.html
 source_domain: docs.rs
 fetched_at: '2026-09-02T05:39:28.760041Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'docs.rs reference for tempfile 3.0.4 tempdir() (Stebalien, MIT/Apache-2.0,

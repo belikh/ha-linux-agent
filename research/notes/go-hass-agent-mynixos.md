@@ -9,12 +9,12 @@ tags:
 - nixpkgs
 - fleet-deployment
 created: '2026-09-02T04:02:37.752849Z'
-updated: '2026-09-02T17:37:21.998988Z'
+updated: '2026-09-05T10:51:21.706084Z'
 source: https://mynixos.com/nixpkgs/package/go-hass-agent
 source_domain: mynixos.com
 fetched_at: '2026-09-02T04:02:32.401181Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'go-hass-agent v14.15.1 is IN nixpkgs proper (pkgs/by-name/go/go-hass-agent/package.nix),

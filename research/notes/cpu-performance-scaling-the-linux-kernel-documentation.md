@@ -13,12 +13,12 @@ tags:
 - sysfs
 - hardware-telemetry
 created: '2026-09-02T06:42:41.435682Z'
-updated: '2026-09-02T17:37:22.356562Z'
+updated: '2026-09-05T10:51:22.082596Z'
 source: https://docs.kernel.org/admin-guide/pm/cpufreq.html
 source_domain: docs.kernel.org
 fetched_at: '2026-09-02T06:42:35.141829Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Kernel CPUFreq admin guide (author Rafael J. Wysocki, Intel, © 2017, current

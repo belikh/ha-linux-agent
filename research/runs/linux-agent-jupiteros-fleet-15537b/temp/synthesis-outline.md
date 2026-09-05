@@ -4,9 +4,7 @@
 The "sloppy, never reliable" state is two precisely-diagnosed MQTT lifecycle bugs plus default-shaped traps, all fixable on the pinned dependency; the fix-order is reliability → fleet-wide system-service deployment (all 7 hosts, role-driven) → features, because the fleet's deciding features are what both the agent incumbents and the monitoring incumbents cannot express.
 
 ## 1. Current State: A Verified Reliability Audit
-Build/test/clippy exit codes, the file:line defect list, 8-tests-none-run, the silent chmod/EACCES defect, the live unavailable-kiosks symptom, the 4/7 coverage table with per-host opt-outs and the pallene secrets decision.
-
-## 2. The MQTT Lifecycle Problem: Why It Is Never Reliable
+Build/test/clippy exit codes, the file:line defect list, 8-tests-none-run, the silent chmod/EACCES defect, the live unavailable-kiosks symptom, the 4/6 coverage table with per-host opt-outs and The MQTT Lifecycle Problem: Why It Is Never Reliable
 Subscribe-once + availability-once (agent.rs:134-144) against rumqttc #250/#211 and HA's birth contract; HASS.Agent #230 precedent; the ConnAck-driven supervisor spec with per-backend isolation; broker-side hygiene (persistence, $SYS check) recalibrated to real scale.
 
 ## 3. What a Proper Linux Agent Looks Like: The Comparison Set

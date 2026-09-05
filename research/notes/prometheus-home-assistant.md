@@ -9,12 +9,12 @@ tags:
 - prometheus
 - metrics-export
 created: '2026-09-02T04:02:40.501931Z'
-updated: '2026-09-02T17:37:22.011893Z'
+updated: '2026-09-05T10:51:21.718345Z'
 source: https://www.home-assistant.io/integrations/prometheus
 source_domain: www.home-assistant.io
 fetched_at: '2026-09-02T04:02:35.850539Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Official Home Assistant docs for the core Prometheus integration (since

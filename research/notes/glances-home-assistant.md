@@ -7,12 +7,12 @@ tags:
 - home-assistant
 - official-docs
 created: '2026-09-02T04:02:33.502155Z'
-updated: '2026-09-02T17:37:21.934400Z'
+updated: '2026-09-05T10:51:21.637999Z'
 source: https://www.home-assistant.io/integrations/glances
 source_domain: www.home-assistant.io
 fetched_at: '2026-09-02T04:02:27.784557Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Official Home Assistant Glances integration doc: a LOCAL POLLING integration

@@ -5,12 +5,12 @@ tags:
 - linux-agent-jupiteros-fleet-15537b
 - locus-mqtt-lifecycle-supervisor-spec
 created: '2026-09-02T09:55:39.125939Z'
-updated: '2026-09-02T17:37:22.442063Z'
+updated: '2026-09-05T10:51:22.177787Z'
 source: https://raw.githubusercontent.com/Koenkk/zigbee2mqtt/master/lib/extension/availability.ts
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T09:55:39.124686Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

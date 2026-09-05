@@ -9,12 +9,12 @@ tags:
 - reconnect
 - primary-source
 created: '2026-09-02T04:02:29.646954Z'
-updated: '2026-09-02T17:37:21.863959Z'
+updated: '2026-09-05T10:51:21.565427Z'
 source: https://github.com/bytebeamio/rumqtt/blob/main/rumqttc/src/eventloop.rs
 source_domain: github.com
 fetched_at: '2026-09-02T04:02:25.915607Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Source of rumqttc''s eventloop.rs at main (512 lines / 20KB, fetched from

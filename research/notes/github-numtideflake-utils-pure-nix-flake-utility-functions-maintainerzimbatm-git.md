@@ -10,12 +10,12 @@ tags:
 - birth-message
 - repo-map
 created: '2026-09-02T06:41:40.109438Z'
-updated: '2026-09-02T07:26:24.431149Z'
+updated: '2026-09-05T10:51:22.061923Z'
 source: https://github.com/numtide/flake-utils
 source_domain: github.com
 fetched_at: '2026-09-02T06:41:37.862369Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'flake-utils (numtide, 1.6k stars, MIT, maintained by @zimbatm): pure-Nix

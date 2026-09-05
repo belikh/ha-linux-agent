@@ -5,12 +5,12 @@ tags:
 - linux-agent-jupiteros-fleet-15537b
 - locus-mqtt-lifecycle-supervisor-spec
 created: '2026-09-02T10:33:24.579868Z'
-updated: '2026-09-02T17:37:22.479947Z'
+updated: '2026-09-05T10:51:22.216659Z'
 source: https://raw.githubusercontent.com/bytebeamio/rumqtt/main/rumqttc/src/eventloop.rs
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T10:33:24.578378Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

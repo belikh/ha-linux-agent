@@ -8,12 +8,12 @@ tags:
 - capabilities
 - github-issue
 created: '2026-09-02T07:45:24.611389Z'
-updated: '2026-09-02T17:37:22.412076Z'
+updated: '2026-09-05T10:51:22.147571Z'
 source: https://github.com/AnalogJ/scrutiny/issues/26
 source_domain: github.com
 fetched_at: '2026-09-02T07:45:24.610161Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

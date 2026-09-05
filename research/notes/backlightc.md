@@ -7,12 +7,12 @@ tags:
 - kernel
 - backlight
 created: '2026-09-02T12:21:39.837620Z'
-updated: '2026-09-02T17:37:22.531355Z'
+updated: '2026-09-05T10:51:22.266974Z'
 source: https://raw.githubusercontent.com/torvalds/linux/master/drivers/video/backlight/backlight.c
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T12:21:39.836221Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

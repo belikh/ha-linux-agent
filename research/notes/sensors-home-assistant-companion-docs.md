@@ -8,12 +8,12 @@ tags:
 - sensor-catalogue
 - official-docs
 created: '2026-09-02T04:02:37.774406Z'
-updated: '2026-09-02T17:37:21.982746Z'
+updated: '2026-09-05T10:51:21.690187Z'
 source: https://companion.home-assistant.io/docs/core/sensors/
 source_domain: companion.home-assistant.io
 fetched_at: '2026-09-02T04:02:36.035120Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Official HA Companion docs sensor reference (8,199 words). Covers ONLY iOS,

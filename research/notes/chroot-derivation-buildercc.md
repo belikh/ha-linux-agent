@@ -4,12 +4,12 @@ id: chroot-derivation-buildercc
 tags:
 - linux-agent-jupiteros-fleet-15537b
 created: '2026-09-02T17:20:11.184310Z'
-updated: '2026-09-02T17:37:22.725552Z'
+updated: '2026-09-05T10:51:22.467952Z'
 source: https://raw.githubusercontent.com/NixOS/nix/master/src/libstore/unix/build/chroot-derivation-builder.cc
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T17:20:11.182940Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

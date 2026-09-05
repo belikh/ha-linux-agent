@@ -14,12 +14,12 @@ tags:
 - dbus
 - systemd
 created: '2026-09-02T04:02:37.746181Z'
-updated: '2026-09-02T17:37:21.988692Z'
+updated: '2026-09-05T10:51:21.696361Z'
 source: https://github.com/joshuar/go-hass-agent
 source_domain: github.com
 fetched_at: '2026-09-02T04:02:31.962887Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'go-hass-agent (joshuar, 575 stars, 3,909 commits, MIT, Go) is the most mature

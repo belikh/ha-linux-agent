@@ -6,12 +6,12 @@ tags:
 - locus-adopt-vs-build-honest-verdict
 - adopt-vs-build
 created: '2026-09-02T12:05:59.134069Z'
-updated: '2026-09-02T17:37:22.507003Z'
+updated: '2026-09-05T10:51:22.243503Z'
 source: https://pypi.org/project/lnxlink/2023.6.0/
 source_domain: pypi.org
 fetched_at: '2026-09-02T12:05:59.132423Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

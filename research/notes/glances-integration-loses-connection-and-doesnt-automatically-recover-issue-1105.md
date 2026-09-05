@@ -7,12 +7,12 @@ tags:
 - home-assistant
 - availability
 created: '2026-09-02T04:02:33.506979Z'
-updated: '2026-09-02T17:37:21.947871Z'
+updated: '2026-09-05T10:51:21.652719Z'
 source: https://github.com/home-assistant/core/issues/110551
 source_domain: github.com
 fetched_at: '2026-09-02T04:02:29.014560Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HA core issue #110551 (opened Feb 14 2024 by spikeygg, core-2024.2.1, HAOS,

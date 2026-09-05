@@ -6,12 +6,12 @@ tags:
 - gap-02
 - version-ground-truth
 created: '2026-09-02T17:16:44.249699Z'
-updated: '2026-09-02T17:39:21.570569Z'
+updated: '2026-09-05T10:51:22.464994Z'
 source: https://raw.githubusercontent.com/home-assistant/core/dev/tests/components/mqtt/test_notify.py
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T17:16:44.248526Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

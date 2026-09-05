@@ -11,12 +11,12 @@ tags:
 - gap-06
 - ipc
 created: '2026-09-02T16:29:19.134269Z'
-updated: '2026-09-02T17:37:22.622552Z'
+updated: '2026-09-05T10:51:22.359616Z'
 source: https://github.com/niri-wm/niri/wiki/IPC
 source_domain: github.com
 fetched_at: '2026-09-02T16:29:18.487289Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'niri IPC wiki (niri-wm/niri, edited 2026-02-10): niri msg --json is a thin

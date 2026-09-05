@@ -11,12 +11,12 @@ tags:
 - retained-messages
 - testing
 created: '2026-09-02T05:39:32.173413Z'
-updated: '2026-09-02T17:37:22.236042Z'
+updated: '2026-09-05T10:51:21.948767Z'
 source: https://github.com/testcontainers/testcontainers-python/issues/568
 source_domain: github.com
 fetched_at: '2026-09-02T05:39:29.973574Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'testcontainers-python issue #568 (f18m, opened 10 May 2024, closed): proposal

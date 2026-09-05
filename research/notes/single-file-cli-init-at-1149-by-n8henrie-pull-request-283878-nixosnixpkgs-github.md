@@ -11,12 +11,12 @@ tags:
 - community-thread
 - gap-04
 created: '2026-09-02T17:03:39.622453Z'
-updated: '2026-09-02T17:39:28.748535Z'
+updated: '2026-09-05T10:51:22.407825Z'
 source: https://github.com/NixOS/nixpkgs/pull/283878
 source_domain: github.com
 fetched_at: '2026-09-02T17:03:39.573045Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: practitioner
 content_type: forum

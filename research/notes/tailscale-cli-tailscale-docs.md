@@ -9,12 +9,12 @@ tags:
 - official-docs
 - native-app-integration
 created: '2026-09-02T05:38:56.258354Z'
-updated: '2026-09-02T17:37:22.212483Z'
+updated: '2026-09-05T10:51:21.923308Z'
 source: https://tailscale.com/docs/reference/tailscale-cli
 source_domain: tailscale.com
 fetched_at: '2026-09-02T05:38:53.101106Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: institutional
 content_type: docs

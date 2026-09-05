@@ -8,12 +8,12 @@ tags:
 - mqtt-migration-rationale
 - comparative-benchmark
 created: '2026-09-02T04:33:42.303050Z'
-updated: '2026-09-02T17:37:22.136318Z'
+updated: '2026-09-05T10:51:21.846265Z'
 source: https://github.com/muniter/halinuxcompanion
 source_domain: github.com
 fetched_at: '2026-09-02T04:33:42.301548Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

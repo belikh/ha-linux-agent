@@ -9,12 +9,12 @@ tags:
 - mqtt
 - architecture
 created: '2026-09-02T04:02:33.537408Z'
-updated: '2026-09-02T17:37:21.929561Z'
+updated: '2026-09-05T10:51:21.633045Z'
 source: https://community.home-assistant.io/t/system-design-architecting-ha-data-flows-with-telegraf-mqtt-influxdb-and-grafana/312723
 source_domain: community.home-assistant.io
 fetched_at: '2026-09-02T04:02:33.482362Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HA community thread (adenoz + koying, June 2021) debating whether to route

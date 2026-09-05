@@ -7,12 +7,12 @@ tags:
 - locus-adopt-vs-build-honest-verdict
 - adopt-vs-build
 created: '2026-09-02T12:05:37.293121Z'
-updated: '2026-09-02T17:37:22.503044Z'
+updated: '2026-09-05T10:51:22.239350Z'
 source: https://github.com/joshuar/go-hass-agent/discussions/387
 source_domain: github.com
 fetched_at: '2026-09-02T12:05:37.291768Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

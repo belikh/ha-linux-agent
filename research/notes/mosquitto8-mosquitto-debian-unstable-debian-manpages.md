@@ -11,12 +11,12 @@ tags:
 - gap-07
 - broker-config
 created: '2026-09-02T17:05:55.166555Z'
-updated: '2026-09-02T17:39:24.539341Z'
+updated: '2026-09-05T10:51:22.446849Z'
 source: https://manpages.debian.org/unstable/mosquitto/mosquitto.8.en.html
 source_domain: manpages.debian.org
 fetched_at: '2026-09-02T17:05:52.980450Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: institutional
 content_type: docs

@@ -6,12 +6,12 @@ tags:
 - locus-adopt-vs-build-honest-verdict
 - adopt-vs-build
 created: '2026-09-02T12:06:23.101071Z'
-updated: '2026-09-02T17:37:22.514967Z'
+updated: '2026-09-05T10:51:22.251113Z'
 source: https://www.diyenjoying.com/2025/12/13/how-to-see-your-ssd-hdd-health-directly-in-home-assistant
 source_domain: www.diyenjoying.com
 fetched_at: '2026-09-02T12:06:23.099250Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

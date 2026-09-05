@@ -8,12 +8,12 @@ tags:
 - paho-mqtt
 - api-docs
 created: '2026-09-02T13:35:44.702922Z'
-updated: '2026-09-02T17:37:22.580342Z'
+updated: '2026-09-05T10:51:22.317091Z'
 source: https://docs.rs/paho-mqtt/latest/paho_mqtt/async_client/struct.AsyncClient.html
 source_domain: docs.rs
 fetched_at: '2026-09-02T13:35:44.701204Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

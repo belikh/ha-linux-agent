@@ -7,12 +7,12 @@ tags:
 - systemd
 - upstream-docs
 created: '2026-09-02T09:46:48.639104Z'
-updated: '2026-09-02T17:37:22.423375Z'
+updated: '2026-09-05T10:51:22.157874Z'
 source: https://www.freedesktop.org/software/systemd/man/latest/systemd.special.html
 source_domain: www.freedesktop.org
 fetched_at: '2026-09-02T09:46:48.637025Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

@@ -10,12 +10,12 @@ tags:
 - native-app-integration
 - birth-message
 created: '2026-09-02T05:38:56.244963Z'
-updated: '2026-09-02T17:37:22.207062Z'
+updated: '2026-09-05T10:51:21.918130Z'
 source: https://github.com/tailscale/tailscale/issues/9378
 source_domain: github.com
 fetched_at: '2026-09-02T05:38:49.278540Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: institutional
 content_type: docs

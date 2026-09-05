@@ -6,12 +6,12 @@ tags:
 - locus-adopt-vs-build-honest-verdict
 - adopt-vs-build
 created: '2026-09-02T12:14:43.561623Z'
-updated: '2026-09-02T17:37:22.518765Z'
+updated: '2026-09-05T10:51:22.255625Z'
 source: https://companion.home-assistant.io/docs/notifications/notifications-basic/
 source_domain: companion.home-assistant.io
 fetched_at: '2026-09-02T12:14:43.553091Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

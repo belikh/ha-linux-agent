@@ -12,12 +12,12 @@ tags:
 - community-demand
 - feature-gaps
 created: '2026-09-02T04:02:37.758146Z'
-updated: '2026-09-02T17:37:21.973067Z'
+updated: '2026-09-05T10:51:21.680155Z'
 source: https://community.home-assistant.io/t/go-hass-agent-a-native-app-integration-for-desktop-laptop-devices/559250
 source_domain: community.home-assistant.io
 fetched_at: '2026-09-02T04:02:33.076798Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HA community thread (Apr 2023, still active Jan 2026) where go-hass-agent''s

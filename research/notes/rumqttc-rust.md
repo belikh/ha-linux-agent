@@ -9,12 +9,12 @@ tags:
 - crate-docs
 - official-docs
 created: '2026-09-02T04:02:29.641804Z'
-updated: '2026-09-02T17:37:21.868535Z'
+updated: '2026-09-05T10:51:21.570470Z'
 source: https://docs.rs/rumqttc/latest/rumqttc/
 source_domain: docs.rs
 fetched_at: '2026-09-02T04:02:24.741809Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'docs.rs page for rumqttc 0.25.1 (built 1 Sept 2026, Apache-2.0, repo bytebeamio/rumqtt,

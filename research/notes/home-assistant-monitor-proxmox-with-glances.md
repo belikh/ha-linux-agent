@@ -7,12 +7,12 @@ tags:
 - home-assistant
 - practitioner-guide
 created: '2026-09-02T04:02:33.531944Z'
-updated: '2026-09-02T17:37:21.920024Z'
+updated: '2026-09-05T10:51:21.623962Z'
 source: https://www.derekseaman.com/2023/04/home-assistant-monitor-proxmox-with-glances.html
 source_domain: www.derekseaman.com
 fetched_at: '2026-09-02T04:02:32.738967Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Derek Seaman blog guide (Apr 2023, updated Feb 2026 for Proxmox 8.x/9.x):

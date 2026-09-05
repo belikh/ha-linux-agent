@@ -14,12 +14,12 @@ tags:
 - broker-config
 - known-issue
 created: '2026-09-02T06:41:31.078305Z'
-updated: '2026-09-02T17:37:22.308578Z'
+updated: '2026-09-05T10:51:22.020504Z'
 source: https://community.home-assistant.io/t/mqtt-discovery-availability-topics-not-receiving/758032
 source_domain: community.home-assistant.io
 fetched_at: '2026-09-02T06:41:28.666572Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HA community thread (Aug 2024, aho/Alex): a custom ESP32 device publishing

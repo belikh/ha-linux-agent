@@ -7,12 +7,12 @@ tags:
 - dbus
 - upstream-docs
 created: '2026-09-02T09:47:10.453668Z'
-updated: '2026-09-02T17:37:22.427713Z'
+updated: '2026-09-05T10:51:22.163235Z'
 source: https://dbus.freedesktop.org/doc/dbus-daemon.1.html
 source_domain: dbus.freedesktop.org
 fetched_at: '2026-09-02T09:47:10.449792Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

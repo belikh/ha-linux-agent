@@ -9,12 +9,12 @@ tags:
 - mqtt
 - mosquitto
 created: '2026-09-02T04:02:40.516704Z'
-updated: '2026-09-02T17:37:22.030535Z'
+updated: '2026-09-05T10:51:21.737341Z'
 source: https://learn.netdata.cloud/docs/collecting-metrics/collectors/databases/mosquitto
 source_domain: learn.netdata.cloud
 fetched_at: '2026-09-02T04:02:38.335196Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Official Netdata docs for its Mosquitto MQTT broker collector: implemented

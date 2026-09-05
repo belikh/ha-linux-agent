@@ -7,12 +7,12 @@ tags:
 - home-assistant
 - availability
 created: '2026-09-02T04:02:33.516722Z'
-updated: '2026-09-02T17:37:21.924932Z'
+updated: '2026-09-05T10:51:21.628987Z'
 source: https://github.com/home-assistant/core/issues/32328
 source_domain: github.com
 fetched_at: '2026-09-02T04:02:30.773396Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HA core issue #32328 (opened Feb 28 2020 by DecentM, HA 0.106.0, Docker,

@@ -2,44 +2,44 @@
 title: "Most Linked"
 id: "_most-linked"
 type: index
-created: 2026-09-02T17:37:25.164101+00:00
-updated: 2026-09-02T17:37:25.164101+00:00
+created: 2026-09-05T10:51:25.201162+00:00
+updated: 2026-09-05T10:51:25.201162+00:00
 ---
 
 # Most Linked Notes
 
 Top 30 notes by inbound link count.
 
-- [[comments]] — comments (10 inbound links)
-- [[d-bus]] — D-Bus (10 inbound links)
-- [[mosquittoconf-man-page-eclipse-mosquitto]] — mosquitto.conf man page | Eclipse Mosquitto (9 inbound links)
-- [[outputsmqtt]] — Outputs.Mqtt (9 inbound links)
-- [[reddit]] — Reddit (8 inbound links)
-- [[clarification-of-volume-permissions-issue-26-analogjscrutiny-github]] — Clarification of volume permissions? · Issue #26 · AnalogJ/scrutiny · GitHub (6 inbound links)
-- [[dbus-daemon]] — dbus-daemon (6 inbound links)
-- [[asyncclient-in-rumqttc-rust]] — AsyncClient in rumqttc - Rust (5 inbound links)
-- [[automatic-reconnect-and-subscribed-topics-issue-250-bytebeamiorumqtt-github]] — Automatic reconnect and subscribed topics? · Issue #250 · bytebeamio/rumqtt · GitHub (5 inbound links)
-- [[eventloop-in-rumqttc-rust]] — EventLoop in rumqttc - Rust (5 inbound links)
-- [[github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device]] — GitHub - joshuar/go-hass-agent: A Home Assistant, native app for desktop/laptop devices. · GitHub (5 inbound links)
-- [[eventlooprs]] — eventloop.rs (4 inbound links)
-- [[github-bkbillylnxlink-effortlessly-manage-your-linux-machine-using-mqtt-github]] — GitHub - bkbilly/lnxlink: 🖥 Effortlessly manage your Linux machine using MQTT. · GitHub (4 inbound links)
-- [[github-prometheus-communitysmartctl_exporter-export-smartctl-statistics-to-prome]] — GitHub - prometheus-community/smartctl_exporter: Export smartctl statistics to prometheus · GitHub (4 inbound links)
-- [[github-z-galaxyzbus-rust-d-bus-crate-github-2]] — GitHub - z-galaxy/zbus: Rust D-Bus crate. · GitHub (4 inbound links)
-- [[how-to-get-notifications-if-a-systemd-unit-fails-help-kde-discuss]] — How to get notifications if a SystemD unit fails - Help - KDE Discuss (4 inbound links)
-- [[how-to-monitor-zfs-pool-health-and-status-on-ubuntu]] — How to Monitor ZFS Pool Health and Status on Ubuntu (4 inbound links)
-- [[interim-report-mqtt-lifecycle-supervisor-spec]] — Interim report — mqtt-lifecycle-supervisor-spec (4 inbound links)
-- [[ipc]] — niri src/ipc/ directory listing (GitHub API) (4 inbound links)
-- [[librs]] — lib.rs (4 inbound links)
-- [[mqtt-notify-home-assistant]] — MQTT notify - Home Assistant (4 inbound links)
-- [[repo-map-ha-linux-agent]] — Repo map: ha-linux-agent (4 inbound links)
-- [[restart-oneshot-systemd-service-on-every-rebuild-help-nixos-discourse]] — Restart oneshot systemd service on every rebuild - Help - NixOS Discourse (4 inbound links)
-- [[rumqttc-reconnection-to-mqtt-broker-and-pending-messages-ttl-issue-211-bytebeami]] — [rumqttc] Reconnection to MQTT broker and pending messages TTL · Issue #211 · bytebeamio/rumqtt · GitHub (4 inbound links)
-- [[rumqttrumqttcsrceventlooprs-at-main-bytebeamiorumqtt-github]] — rumqtt/rumqttc/src/eventloop.rs at main · bytebeamio/rumqtt · GitHub (4 inbound links)
-- [[some-mqtt-devices-unavailable-after-ha-restart-issue-135266-home-assistantcore-g]] — Some MQTT devices unavailable after HA restart · Issue #135266 · home-assistant/core · GitHub (4 inbound links)
-- [[actionable-notifications-hassagent]] — Actionable Notifications - HASS.Agent (3 inbound links)
-- [[availabilityts]] — availability.ts (3 inbound links)
-- [[backlight-support-the-linux-kernel-documentation]] — Backlight support — The Linux Kernel documentation (3 inbound links)
-- [[backlightc]] — backlight.c (3 inbound links)
+- [[ipc-niri-msg-niri]] — IPC, niri msg - niri (21 inbound links)
+- [[comments]] — comments (20 inbound links)
+- [[eventloop-in-rumqttc-rust]] — EventLoop in rumqttc - Rust (18 inbound links)
+- [[github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device]] — GitHub - joshuar/go-hass-agent: A Home Assistant, native app for desktop/laptop devices. · GitHub (18 inbound links)
+- [[d-bus]] — D-Bus (15 inbound links)
+- [[how-to-monitor-zfs-pool-health-and-status-on-ubuntu]] — How to Monitor ZFS Pool Health and Status on Ubuntu (15 inbound links)
+- [[github-dbraun1991mqtt-test-testing-the-mqtt-mosquitto-client-v2018-using-testcon]] — GitHub - dbraun1991/mqtt-test: Testing the MQTT mosquitto-client v2.0.18 using Testcontainers · GitHub (14 inbound links)
+- [[mosquittoconf-man-page-eclipse-mosquitto]] — mosquitto.conf man page | Eclipse Mosquitto (14 inbound links)
+- [[mqtt-client-component-esphome-smart-home-made-simple]] — MQTT Client Component - ESPHome - Smart Home Made Simple (14 inbound links)
+- [[nixos-manual]] — NixOS Manual (14 inbound links)
+- [[outputsmqtt]] — Outputs.Mqtt (14 inbound links)
+- [[some-mqtt-devices-unavailable-after-ha-restart-issue-135266-home-assistantcore-g]] — Some MQTT devices unavailable after HA restart · Issue #135266 · home-assistant/core · GitHub (14 inbound links)
+- [[anyone-seeing-nixos-rebuild-switch-kick-you-out-to-gdm-andor-log-gpf-errors-spec]] — Anyone seeing `nixos-rebuild switch` kick you out to GDM and/or log GPF errors? specifically: `users.you.linger = true` set and unstable channel? - Help - NixOS Discourse (13 inbound links)
+- [[automatic-reconnect-and-subscribed-topics-issue-250-bytebeamiorumqtt-github]] — Automatic reconnect and subscribed topics? · Issue #250 · bytebeamio/rumqtt · GitHub (13 inbound links)
+- [[corehomeassistantcomponentsmqttconstpy-at-dev-home-assistantcore-github]] — core/homeassistant/components/mqtt/const.py at dev · home-assistant/core · GitHub (13 inbound links)
+- [[databasec]] — database.c (13 inbound links)
+- [[dbus-daemon]] — dbus-daemon (13 inbound links)
+- [[github-prometheus-communitysmartctl_exporter-export-smartctl-statistics-to-prome]] — GitHub - prometheus-community/smartctl_exporter: Export smartctl statistics to prometheus · GitHub (13 inbound links)
+- [[mosquitto-in-testcontainers_modulesmosquitto-rust]] — Mosquitto in testcontainers_modules::mosquitto - Rust (13 inbound links)
+- [[mosquitto8-mosquitto-debian-unstable-debian-manpages]] — mosquitto(8) — mosquitto — Debian unstable — Debian Manpages (13 inbound links)
+- [[mqtt-discovery-availability-topics-not-receiving-configuration-home-assistant-co]] — MQTT Discovery availability topics not receiving - Configuration - Home Assistant Community (13 inbound links)
+- [[mqtt-entities-become-unknown-on-reboot-configuration-home-assistant-community]] — MQTT entities become unknown on reboot - Configuration - Home Assistant Community (13 inbound links)
+- [[mqtt-home-assistant]] — MQTT - Home Assistant (13 inbound links)
+- [[niriniri-ipcsrcsocketrs-at-main-niri-wmniri-github]] — niri/niri-ipc/src/socket.rs at main · niri-wm/niri · GitHub (13 inbound links)
+- [[rumqttrumqttcsrceventlooprs-at-main-bytebeamiorumqtt-github]] — rumqtt/rumqttc/src/eventloop.rs at main · bytebeamio/rumqtt · GitHub (13 inbound links)
+- [[setting-mqtt-birth-and-last-will-with-the-new-mqtt-integration-configuration-hom]] — Setting MQTT Birth and Last will with the new MQTT Integration - Configuration - Home Assistant Community (13 inbound links)
+- [[working-with-devices-birth-lwt-configuration-home-assistant-community]] — Working with Device's Birth, LWT? - Configuration - Home Assistant Community (13 inbound links)
+- [[wth-there-is-no-windows-and-linux-ha-app-similar-to-macos-month-of-what-the-heck]] — WTH there is no windows and Linux HA app similar to macOS - Month of "What the heck?!" - Home Assistant Community (13 inbound links)
+- [[zbus-rust]] — zbus - Rust (13 inbound links)
+- [[add-mqtt-notify-platform-by-jbouwh-pull-request-115653-home-assistantcore-github]] — Add mqtt notify platform by jbouwh · Pull Request #115653 · home-assistant/core · GitHub (12 inbound links)
 
 ---
 *Auto-generated by hyperresearch. Do not edit manually.*

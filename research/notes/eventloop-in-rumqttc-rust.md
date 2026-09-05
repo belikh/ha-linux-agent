@@ -13,12 +13,12 @@ tags:
 - primary-source
 - availability
 created: '2026-09-02T06:41:31.047374Z'
-updated: '2026-09-02T17:37:22.314053Z'
+updated: '2026-09-05T10:51:22.025907Z'
 source: https://docs.rs/rumqttc/latest/rumqttc/struct.EventLoop.html
 source_domain: docs.rs
 fetched_at: '2026-09-02T06:41:24.833334Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'docs.rs API reference for rumqttc 0.25.1 (built 2026-09-01, Apache-2.0,

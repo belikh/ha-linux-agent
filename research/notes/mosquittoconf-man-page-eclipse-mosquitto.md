@@ -5,12 +5,12 @@ tags:
 - linux-agent-jupiteros-fleet-15537b
 - locus-mqtt-lifecycle-supervisor-spec
 created: '2026-09-02T09:55:40.180161Z'
-updated: '2026-09-02T17:37:22.446751Z'
+updated: '2026-09-05T10:51:22.182700Z'
 source: https://mosquitto.org/man/mosquitto-conf-5.html
 source_domain: mosquitto.org
 fetched_at: '2026-09-02T09:55:40.177621Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

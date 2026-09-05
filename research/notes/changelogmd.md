@@ -12,12 +12,12 @@ tags:
 - audited-absence
 - release-history
 created: '2026-09-02T16:41:30.263387Z'
-updated: '2026-09-02T17:37:22.643609Z'
+updated: '2026-09-05T10:51:22.381954Z'
 source: https://raw.githubusercontent.com/joshuar/go-hass-agent/main/CHANGELOG.md
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T16:41:30.251055Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'AUDITED ABSENCE + release history: go-hass-agent''s full CHANGELOG (11,224

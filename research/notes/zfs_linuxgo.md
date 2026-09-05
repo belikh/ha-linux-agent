@@ -8,12 +8,12 @@ tags:
 - prometheus
 - zfs
 created: '2026-09-02T12:22:54.809057Z'
-updated: '2026-09-02T17:37:22.547231Z'
+updated: '2026-09-05T10:51:22.283433Z'
 source: https://raw.githubusercontent.com/prometheus/node_exporter/master/collector/zfs_linux.go
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T12:22:54.806409Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

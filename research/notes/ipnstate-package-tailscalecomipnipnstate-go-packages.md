@@ -9,12 +9,12 @@ tags:
 - source-code
 - repo-map
 created: '2026-09-02T05:38:56.239774Z'
-updated: '2026-09-02T17:37:22.182427Z'
+updated: '2026-09-05T10:51:21.893719Z'
 source: https://pkg.go.dev/tailscale.com/ipn/ipnstate
 source_domain: pkg.go.dev
 fetched_at: '2026-09-02T05:38:48.315008Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: institutional
 content_type: docs

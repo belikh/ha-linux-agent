@@ -8,12 +8,12 @@ tags:
 - systemd-exec
 - upstream-docs
 created: '2026-09-02T09:46:40.610861Z'
-updated: '2026-09-02T17:37:22.417237Z'
+updated: '2026-09-05T10:51:22.152764Z'
 source: https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html
 source_domain: www.freedesktop.org
 fetched_at: '2026-09-02T09:46:40.607164Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

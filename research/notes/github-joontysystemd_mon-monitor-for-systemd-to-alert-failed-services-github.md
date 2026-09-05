@@ -9,12 +9,12 @@ tags:
 - dbus
 - practitioner-guide
 created: '2026-09-02T04:02:40.527268Z'
-updated: '2026-09-02T17:37:22.002861Z'
+updated: '2026-09-05T10:51:21.710061Z'
 source: https://github.com/joonty/systemd_mon
 source_domain: github.com
 fetched_at: '2026-09-02T04:02:39.749699Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'GitHub README for systemd_mon (joonty, 108 stars, MIT, Ruby): daemon that

@@ -8,12 +8,12 @@ tags:
 - pull-request
 - reconnect
 created: '2026-09-02T13:17:47.998786Z'
-updated: '2026-09-02T17:37:22.559416Z'
+updated: '2026-09-05T10:51:22.296779Z'
 source: https://github.com/bytebeamio/rumqtt/pull/1052
 source_domain: github.com
 fetched_at: '2026-09-02T13:17:47.997017Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

@@ -8,12 +8,12 @@ tags:
 - practitioner-forum
 - failure-notifications
 created: '2026-09-02T06:42:41.460458Z'
-updated: '2026-09-02T17:37:22.350853Z'
+updated: '2026-09-05T10:51:22.077498Z'
 source: https://discuss.kde.org/t/how-to-get-notifications-if-a-systemd-unit-fails/5506
 source_domain: discuss.kde.org
 fetched_at: '2026-09-02T06:42:40.638325Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'KDE Discuss thread (Sept 2023) on surfacing failed systemd units as desktop

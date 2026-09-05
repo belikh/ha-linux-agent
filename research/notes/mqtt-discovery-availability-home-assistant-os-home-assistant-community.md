@@ -8,12 +8,12 @@ tags:
 - retained-messages
 - community-thread
 created: '2026-09-02T04:02:29.652112Z'
-updated: '2026-09-02T17:37:21.901934Z'
+updated: '2026-09-05T10:51:21.605255Z'
 source: https://community.home-assistant.io/t/mqtt-discovery-availability/206758
 source_domain: community.home-assistant.io
 fetched_at: '2026-09-02T04:02:26.626428Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HA community thread (June 2020, Taras/123 answering benlad): a discovery-config

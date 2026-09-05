@@ -8,12 +8,12 @@ tags:
 - availability
 - mqtt-discovery
 created: '2026-09-02T05:38:56.270878Z'
-updated: '2026-09-02T17:37:22.198005Z'
+updated: '2026-09-05T10:51:21.909432Z'
 source: https://www.netdata.cloud/monitoring-101/mqtt_blackbox-monitoring/
 source_domain: www.netdata.cloud
 fetched_at: '2026-09-02T05:38:54.934489Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: practitioner
 content_type: article

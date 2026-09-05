@@ -9,12 +9,12 @@ tags:
 - windows-only
 - mqtt-discovery
 created: '2026-09-02T06:41:40.119267Z'
-updated: '2026-09-02T07:26:26.064825Z'
+updated: '2026-09-05T10:51:22.052733Z'
 source: https://www.hass-agent.io/2.2/getting-started/commands/
 source_domain: www.hass-agent.io
 fetched_at: '2026-09-02T06:41:39.144554Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HASS.Agent (Windows companion app) docs — Creating your first Command: commands

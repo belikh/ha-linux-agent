@@ -9,12 +9,12 @@ tags:
 - mqtt
 - discovery
 created: '2026-09-02T04:02:33.522150Z'
-updated: '2026-09-02T17:37:21.915646Z'
+updated: '2026-09-05T10:51:21.618132Z'
 source: https://community.home-assistant.io/t/releasing-telegraf2hassio-for-remote-servers-monitoring/406318
 source_domain: community.home-assistant.io
 fetched_at: '2026-09-02T04:02:31.438310Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HA community post (joaofl, March 28 2022) announcing Telegraf2Hassio: a

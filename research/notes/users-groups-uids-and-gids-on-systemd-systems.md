@@ -8,12 +8,12 @@ tags:
 - uid-allocation
 - upstream-docs
 created: '2026-09-02T09:56:58.746753Z'
-updated: '2026-09-02T17:37:22.451246Z'
+updated: '2026-09-05T10:51:22.187530Z'
 source: https://systemd.io/UIDS-GIDS/
 source_domain: systemd.io
 fetched_at: '2026-09-02T09:56:58.745062Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

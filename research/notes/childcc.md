@@ -6,12 +6,12 @@ tags:
 - sops-nix
 - drop-in-pattern
 created: '2026-09-02T17:20:36.980214Z'
-updated: '2026-09-02T17:37:22.730145Z'
+updated: '2026-09-05T10:51:22.473493Z'
 source: https://raw.githubusercontent.com/NixOS/nix/master/src/libstore/unix/build/child.cc
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T17:20:36.973862Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: logger = makeSimpleLogger().release();

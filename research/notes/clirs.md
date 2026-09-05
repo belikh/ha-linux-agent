@@ -11,12 +11,12 @@ tags:
 - gap-06
 - cli
 created: '2026-09-02T16:59:14.148652Z'
-updated: '2026-09-02T17:37:22.665180Z'
+updated: '2026-09-05T10:51:22.403568Z'
 source: https://raw.githubusercontent.com/niri-wm/niri/main/src/cli.rs
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T16:59:13.296691Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'niri src/cli.rs: the niri msg CLI has NO --socket flag and no config for

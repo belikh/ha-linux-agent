@@ -11,12 +11,12 @@ tags:
 - node-exporter
 - known-issue
 created: '2026-09-02T04:02:40.506684Z'
-updated: '2026-09-02T17:37:22.039822Z'
+updated: '2026-09-05T10:51:21.745830Z'
 source: https://community.home-assistant.io/t/new-add-on-prometheus-node-exporter/354629
 source_domain: community.home-assistant.io
 fetched_at: '2026-09-02T04:02:36.656213Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HA community thread (2021-2026, still active) for loganmarchione''s Prometheus

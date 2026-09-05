@@ -5,12 +5,12 @@ tags:
 - linux-agent-jupiteros-fleet-15537b
 - official-docs
 created: '2026-09-02T04:04:41.154716Z'
-updated: '2026-09-02T17:37:22.070644Z'
+updated: '2026-09-05T10:51:21.777076Z'
 source: https://wiki.nixos.org/wiki/Systemd/User_Services/en
 source_domain: wiki.nixos.org
 fetched_at: '2026-09-02T04:04:33.147827Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Official NixOS wiki reference for systemd.user.services.<name>: user services

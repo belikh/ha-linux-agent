@@ -13,12 +13,12 @@ tags:
 - availability-semantics
 - known-issue
 created: '2026-09-02T06:41:31.073907Z'
-updated: '2026-09-02T17:37:22.302824Z'
+updated: '2026-09-05T10:51:22.015079Z'
 source: https://community.home-assistant.io/t/working-with-devices-birth-lwt/290835
 source_domain: community.home-assistant.io
 fetched_at: '2026-09-02T06:41:28.080590Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HA community thread (2021-2023, pearson/finity/alluser/francisp) on handling

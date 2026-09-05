@@ -11,12 +11,12 @@ tags:
 - official-docs
 - locus-mqtt-lifecycle-supervisor-spec
 created: '2026-09-02T04:02:29.616700Z'
-updated: '2026-09-02T17:37:21.873181Z'
+updated: '2026-09-05T10:51:21.576131Z'
 source: https://www.home-assistant.io/integrations/mqtt/
 source_domain: www.home-assistant.io
 fetched_at: '2026-09-02T04:02:21.576229Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Official Home Assistant MQTT integration reference. Load-bearing details

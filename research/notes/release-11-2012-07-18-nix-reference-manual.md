@@ -10,12 +10,12 @@ tags:
 - primary-source
 - gap-04
 created: '2026-09-02T17:03:39.616717Z'
-updated: '2026-09-02T17:39:25.778837Z'
+updated: '2026-09-05T10:51:22.412179Z'
 source: https://releases.nixos.org/nix/nix-2.19.2/manual/release-notes/rl-1.1.html
 source_domain: releases.nixos.org
 fetched_at: '2026-09-02T17:03:36.784467Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: institutional
 content_type: docs

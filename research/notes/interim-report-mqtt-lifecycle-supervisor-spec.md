@@ -5,8 +5,8 @@ tags:
 - linux-agent-jupiteros-fleet-15537b
 - locus-mqtt-lifecycle-supervisor-spec
 created: '2026-09-02T11:03:43.149927Z'
-updated: '2026-09-02T17:37:21.844514Z'
-status: review
+updated: '2026-09-05T10:51:21.544095Z'
+status: evergreen
 type: interim
 deprecated: false
 summary: 'Concrete supervisor spec mapped defect-by-defect to agent.rs/lib.rs: ConnAck-driven

@@ -10,12 +10,12 @@ tags:
 - nixpkgs
 - gap-04
 created: '2026-09-02T17:03:39.612311Z'
-updated: '2026-09-02T17:39:28.169539Z'
+updated: '2026-09-05T10:51:22.423514Z'
 source: https://discourse.nixos.org/t/local-networking-in-checkphase/40208
 source_domain: discourse.nixos.org
 fetched_at: '2026-09-02T17:03:35.632578Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: practitioner
 content_type: forum

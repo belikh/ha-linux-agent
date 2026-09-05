@@ -7,12 +7,12 @@ tags:
 - dbus
 - upstream-docs
 created: '2026-09-02T09:48:54.299673Z'
-updated: '2026-09-02T17:37:22.431795Z'
+updated: '2026-09-05T10:51:22.167452Z'
 source: https://dbus.freedesktop.org/doc/dbus-launch.1.html
 source_domain: dbus.freedesktop.org
 fetched_at: '2026-09-02T09:48:54.298431Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

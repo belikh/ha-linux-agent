@@ -8,12 +8,12 @@ tags:
 - mqtt
 - official-docs
 created: '2026-09-02T04:02:33.491061Z'
-updated: '2026-09-02T17:37:21.938958Z'
+updated: '2026-09-05T10:51:21.643147Z'
 source: https://docs.influxdata.com/telegraf/v1/output-plugins/mqtt/
 source_domain: docs.influxdata.com
 fetched_at: '2026-09-02T04:02:26.991796Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'InfluxData official docs page for the Telegraf MQTT Producer output plugin

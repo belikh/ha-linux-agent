@@ -6,12 +6,12 @@ tags:
 - locus-adopt-vs-build-honest-verdict
 - adopt-vs-build
 created: '2026-09-02T12:06:21.720538Z'
-updated: '2026-09-02T17:37:22.511321Z'
+updated: '2026-09-05T10:51:22.247377Z'
 source: https://hassagent.readthedocs.io/en/latest/notifications/new/notification-actionable/
 source_domain: hassagent.readthedocs.io
 fetched_at: '2026-09-02T12:06:21.719362Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

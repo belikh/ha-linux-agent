@@ -8,12 +8,12 @@ tags:
 - dbus
 - backlight
 created: '2026-09-02T12:22:31.521411Z'
-updated: '2026-09-02T17:37:22.538793Z'
+updated: '2026-09-05T10:51:22.275676Z'
 source: https://raw.githubusercontent.com/systemd/systemd/main/man/org.freedesktop.login1.xml
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T12:22:31.519868Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

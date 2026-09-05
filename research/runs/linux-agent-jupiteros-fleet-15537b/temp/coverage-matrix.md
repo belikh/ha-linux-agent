@@ -8,7 +8,7 @@
 | "probably lacking functions and features" | Sub-Q3 (proper Linux agent sensor/command set), Sub-Q6 (jupiterOS-specific gaps), headings 3 + 6 | OK — both the generic agent comparison AND jupiterOS-specific gaps covered | No |
 | "a proper 'Linux Agent'" | Sub-Q3 + entities HASS.Agent, Telegraf, Glances, Netdata, node_exporter, HA companion apps; headings 3 + 4 | OK — full comparison set, not narrowed to one | No |
 | "or at least a 'jupiterOS agent (nixos)'" | Sub-Q4 (NixOS fleet-native design), Sub-Q6, entity "NixOS module system", heading 5 | OK — NixOS fleet architecture covered | No |
-| "I want it to run on EVERY host in jupiterOS, not just the kiosks" | Sub-Q4 + Sub-Q5, entities "jupiterOS fleet", "TCx Wave kiosks", "Headless hosts (europa, pallene...)", heading 5, required format "fleet deployment architecture recommendation for all jupiterOS hosts" | OK — every host including headless, with explicit host-class split | No |
+| "I want it to run on EVERY host in jupiterOS, not just the kiosks" | Sub-Q4 + Sub-Q5, entities "jupiterOS fleet", "TCx Wave kiosks", "Headless hosts (europa...)", heading 5, required format "fleet deployment architecture recommendation for all jupiterOS hosts" | OK — every host including headless, with explicit host-class split | No |
 | (implied) build-vs-buy | Sub-Q5, heading 4 | OK — explicit dialectic | No |
 | (implied) testing / reliability engineering | Sub-Q2, Sub-Q7, heading 7 | OK | No |
 

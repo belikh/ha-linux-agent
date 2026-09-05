@@ -7,12 +7,12 @@ tags:
 - official-docs
 - comparative-benchmark
 created: '2026-09-02T04:02:37.780895Z'
-updated: '2026-09-02T17:37:21.960782Z'
+updated: '2026-09-05T10:51:21.665551Z'
 source: https://companion.home-assistant.io/docs/core/
 source_domain: companion.home-assistant.io
 fetched_at: '2026-09-02T04:02:37.551684Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: Official companion-app feature matrix comparing Full vs Minimal Android and

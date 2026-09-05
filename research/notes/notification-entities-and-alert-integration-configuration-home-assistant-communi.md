@@ -11,12 +11,12 @@ tags:
 - ha-issue
 - gap-02
 created: '2026-09-02T17:05:55.178557Z'
-updated: '2026-09-02T17:39:29.332713Z'
+updated: '2026-09-05T10:51:22.455970Z'
 source: https://community.home-assistant.io/t/notification-entities-and-alert-integration/741053
 source_domain: community.home-assistant.io
 fetched_at: '2026-09-02T17:05:55.165266Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: practitioner
 content_type: forum

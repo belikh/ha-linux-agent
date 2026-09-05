@@ -8,12 +8,12 @@ tags:
 - home-assistant
 - availability
 created: '2026-09-02T04:02:33.511412Z'
-updated: '2026-09-02T17:37:21.951870Z'
+updated: '2026-09-05T10:51:21.657596Z'
 source: https://github.com/home-assistant/core/issues/170384
 source_domain: github.com
 fetched_at: '2026-09-02T04:02:29.885816Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HA core issue #170384 (opened May 12 2026 by michaelherger, core-2026.5.1,

@@ -11,12 +11,12 @@ tags:
 - gap-06
 - ipc
 created: '2026-09-02T16:41:30.253622Z'
-updated: '2026-09-02T17:37:22.648563Z'
+updated: '2026-09-05T10:51:22.386501Z'
 source: https://raw.githubusercontent.com/niri-wm/niri/main/src/ipc/server.rs
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T16:41:29.875745Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'PRIMARY SOURCE (niri src/ipc/server.rs, main): exact socket path formula.

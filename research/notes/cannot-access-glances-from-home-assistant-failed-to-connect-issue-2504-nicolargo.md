@@ -8,12 +8,12 @@ tags:
 - home-assistant
 - availability
 created: '2026-09-02T04:02:33.526524Z'
-updated: '2026-09-02T17:37:21.956458Z'
+updated: '2026-09-05T10:51:21.661835Z'
 source: https://github.com/nicolargo/glances/issues/2504
 source_domain: github.com
 fetched_at: '2026-09-02T04:02:32.528313Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Glances upstream issue #2504 (bert269, Jul 20 2023, closed): Glances API

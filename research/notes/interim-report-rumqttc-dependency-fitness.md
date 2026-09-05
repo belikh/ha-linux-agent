@@ -5,8 +5,8 @@ tags:
 - linux-agent-jupiteros-fleet-15537b
 - locus-rumqttc-dependency-fitness
 created: '2026-09-02T14:04:21.751520Z'
-updated: '2026-09-02T17:37:21.853259Z'
-status: review
+updated: '2026-09-05T10:51:21.554542Z'
+status: evergreen
 type: interim
 deprecated: false
 summary: 'KEEP rumqttc 0.24.0: PR #1052 is open/unreviewed/v5-scoped and even merged

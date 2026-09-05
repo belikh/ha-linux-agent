@@ -15,12 +15,12 @@ tags:
 - user-unit-restart
 - regression
 created: '2026-09-02T16:29:19.120258Z'
-updated: '2026-09-02T17:37:22.617478Z'
+updated: '2026-09-05T10:51:22.354787Z'
 source: https://discourse.nixos.org/t/anyone-seeing-nixos-rebuild-switch-kick-you-out-to-gdm-and-or-log-gpf-errors-specifically-users-you-linger-true-set-and-unstable-channel/79578
 source_domain: discourse.nixos.org
 fetched_at: '2026-09-02T16:29:14.227019Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'OVERTURNS the Feb-2023 ''switch never restarts user units'' claim for 2026

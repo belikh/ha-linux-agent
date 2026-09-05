@@ -8,12 +8,12 @@ tags:
 - sysfs
 - abi-stable
 created: '2026-09-02T07:39:17.027432Z'
-updated: '2026-09-02T17:37:22.395937Z'
+updated: '2026-09-05T10:51:22.130419Z'
 source: https://raw.githubusercontent.com/torvalds/linux/master/Documentation/ABI/stable/sysfs-class-backlight
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T07:39:17.026356Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

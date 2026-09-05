@@ -13,12 +13,12 @@ tags:
 - known-issue
 - availability-semantics
 created: '2026-09-02T06:41:31.087053Z'
-updated: '2026-09-02T17:37:22.318516Z'
+updated: '2026-09-05T10:51:22.030353Z'
 source: https://github.com/home-assistant/core/issues/38661
 source_domain: github.com
 fetched_at: '2026-09-02T06:41:30.302990Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HA core GitHub issue #38661 (Aug 2020, francisp2, closed, milestone 0.114.0,

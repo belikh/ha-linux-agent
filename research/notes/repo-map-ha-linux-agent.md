@@ -6,11 +6,11 @@ tags:
 - repo-map
 - repo-source
 created: '2026-09-02T03:34:37.366334Z'
-updated: '2026-09-02T17:37:21.859787Z'
+updated: '2026-09-05T10:51:21.561364Z'
 source: file:///home/io/projects/ha-linux-agent
 fetched_at: '2026-09-02T03:34:37.366098Z'
 fetch_provider: repo-map:tree-sitter
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

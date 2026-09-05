@@ -9,12 +9,12 @@ tags:
 - mqtt-service-bus
 - linux-agent
 created: '2026-09-02T04:02:37.769031Z'
-updated: '2026-09-02T17:37:21.968422Z'
+updated: '2026-09-05T10:51:21.674946Z'
 source: https://github.com/maksimkurb/IoPC
 source_domain: github.com
 fetched_at: '2026-09-02T04:02:34.641988Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'IoPC (maksimkurb, 40 stars, 16 commits, GPL-3.0, Kotlin/Gradle + an iopc-native

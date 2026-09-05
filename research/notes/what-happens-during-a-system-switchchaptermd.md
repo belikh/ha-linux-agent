@@ -11,12 +11,12 @@ tags:
 - gap-03
 - nixos-manual
 created: '2026-09-02T16:59:14.160767Z'
-updated: '2026-09-02T17:37:22.661461Z'
+updated: '2026-09-05T10:51:22.399445Z'
 source: https://raw.githubusercontent.com/NixOS/nixpkgs/master/nixos/doc/manual/development/what-happens-during-a-system-switch.chapter.md
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T16:59:13.863621Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'NixOS manual chapter (nixpkgs master, current): canonical action order during

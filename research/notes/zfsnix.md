@@ -7,12 +7,12 @@ tags:
 - nixos
 - zfs
 created: '2026-09-02T12:20:39.157059Z'
-updated: '2026-09-02T17:37:22.527153Z'
+updated: '2026-09-05T10:51:22.263512Z'
 source: https://raw.githubusercontent.com/NixOS/nixpkgs/master/nixos/modules/tasks/filesystems/zfs.nix
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T12:20:39.155091Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

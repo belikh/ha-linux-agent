@@ -9,12 +9,12 @@ tags:
 - availability-semantics
 - locus-mqtt-lifecycle-supervisor-spec
 created: '2026-09-02T07:20:56.294071Z'
-updated: '2026-09-02T17:37:22.391381Z'
+updated: '2026-09-05T10:51:22.125526Z'
 source: https://www.hivemq.com/blog/mqtt-essentials-part-9-last-will-and-testament/
 source_domain: www.hivemq.com
 fetched_at: '2026-09-02T07:20:56.292357Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

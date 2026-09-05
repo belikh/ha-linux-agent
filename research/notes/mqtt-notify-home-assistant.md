@@ -6,12 +6,12 @@ tags:
 - locus-adopt-vs-build-honest-verdict
 - adopt-vs-build
 created: '2026-09-02T12:04:17.019874Z'
-updated: '2026-09-02T17:37:22.487764Z'
+updated: '2026-09-05T10:51:22.225091Z'
 source: https://www.home-assistant.io/integrations/notify.mqtt/
 source_domain: www.home-assistant.io
 fetched_at: '2026-09-02T12:04:17.018228Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

@@ -8,12 +8,12 @@ tags:
 - dbus
 - man-page
 created: '2026-09-02T07:02:24.617333Z'
-updated: '2026-09-02T17:37:22.381178Z'
+updated: '2026-09-05T10:51:22.114889Z'
 source: https://raw.githubusercontent.com/systemd/systemd/main/man/systemd-logind.service.xml
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T07:02:24.616108Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

@@ -7,12 +7,12 @@ tags:
 - mqtt
 - official-docs
 created: '2026-09-02T04:02:33.484457Z'
-updated: '2026-09-02T17:37:21.943654Z'
+updated: '2026-09-05T10:51:21.647928Z'
 source: https://github.com/influxdata/telegraf/blob/master/plugins/outputs/mqtt/README.md
 source_domain: github.com
 fetched_at: '2026-09-02T04:02:25.654045Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Official Telegraf MQTT Producer output plugin README (master branch): config

@@ -9,12 +9,12 @@ tags:
 - netdata
 - node-exporter
 created: '2026-09-02T06:41:40.114863Z'
-updated: '2026-09-02T07:26:25.512845Z'
+updated: '2026-09-05T10:51:22.057296Z'
 source: https://learn.netdata.cloud/docs/collecting-metrics/collectors/synthetic-testing/mqtt-blackbox
 source_domain: learn.netdata.cloud
 fetched_at: '2026-09-02T06:41:38.787872Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Netdata docs page for MQTT Blackbox synthetic testing: despite the title,

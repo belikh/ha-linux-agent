@@ -6,12 +6,12 @@ tags:
 - repo-source
 - ha-linux-agent
 created: '2026-09-02T04:04:41.161781Z'
-updated: '2026-09-02T17:37:22.052819Z'
+updated: '2026-09-05T10:51:21.760096Z'
 source: https://www.baeldung.com/linux/systemd-session-dbus-headless-setup
 source_domain: www.baeldung.com
 fetched_at: '2026-09-02T04:04:33.762910Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Baeldung tutorial (Feb 2024) on running session-bus-dependent systemd services

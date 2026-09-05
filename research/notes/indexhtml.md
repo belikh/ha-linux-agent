@@ -9,12 +9,12 @@ tags:
 - practitioner-guide
 - reliability-failure-modes
 created: '2026-09-02T05:38:56.228511Z'
-updated: '2026-09-02T17:37:22.202114Z'
+updated: '2026-09-05T10:51:21.914240Z'
 source: https://docs.oracle.com/cd/E19253-01/819-5461/gamno/index.html
 source_domain: docs.oracle.com
 fetched_at: '2026-09-02T05:38:46.973011Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: institutional
 content_type: docs

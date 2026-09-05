@@ -13,12 +13,12 @@ tags:
 - known-issue
 - practitioner-forum
 created: '2026-09-02T05:39:32.177805Z'
-updated: '2026-09-02T17:37:22.265159Z'
+updated: '2026-09-05T10:51:21.974293Z'
 source: https://github.com/dbraun1991/mqtt-test
 source_domain: github.com
 fetched_at: '2026-09-02T05:39:30.803558Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'dbraun1991/mqtt-test (Java/Spring Boot, 7 commits): reproducible Mosquitto

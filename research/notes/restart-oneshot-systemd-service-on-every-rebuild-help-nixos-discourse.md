@@ -8,12 +8,12 @@ tags:
 - discourse
 - user-services
 created: '2026-09-02T09:57:01.898642Z'
-updated: '2026-09-02T17:37:22.456965Z'
+updated: '2026-09-05T10:51:22.192738Z'
 source: https://discourse.nixos.org/t/restart-oneshot-systemd-service-on-every-rebuild/70853
 source_domain: discourse.nixos.org
 fetched_at: '2026-09-02T09:57:01.896960Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: practitioner
 content_type: forum

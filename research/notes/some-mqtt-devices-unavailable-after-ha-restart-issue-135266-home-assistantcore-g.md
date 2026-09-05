@@ -11,12 +11,12 @@ tags:
 - retained-messages
 - ha-issue
 created: '2026-09-02T04:02:29.661985Z'
-updated: '2026-09-02T17:37:21.878827Z'
+updated: '2026-09-05T10:51:21.580854Z'
 source: https://github.com/home-assistant/core/issues/135266
 source_domain: github.com
 fetched_at: '2026-09-02T04:02:28.506353Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'home-assistant/core issue #135266 (opened 10 Jan 2025 by richardstone, CLOSED;

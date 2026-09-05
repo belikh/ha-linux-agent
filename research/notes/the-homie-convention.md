@@ -6,12 +6,12 @@ tags:
 - official-docs
 - mqtt-discovery
 created: '2026-09-02T05:05:59.904477Z'
-updated: '2026-09-02T17:37:22.157373Z'
+updated: '2026-09-05T10:51:21.867489Z'
 source: https://homieiot.github.io/specification/
 source_domain: homieiot.github.io
 fetched_at: '2026-09-02T05:05:59.892586Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

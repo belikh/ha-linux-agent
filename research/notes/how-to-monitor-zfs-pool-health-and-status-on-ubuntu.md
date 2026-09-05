@@ -11,12 +11,12 @@ tags:
 - practitioner-guide
 - linux-agent
 created: '2026-09-02T05:38:56.234502Z'
-updated: '2026-09-02T17:37:22.187980Z'
+updated: '2026-09-05T10:51:21.899347Z'
 source: https://oneuptime.com/blog/post/2026-03-02-how-to-monitor-zfs-pool-health-and-status-on-ubuntu/view
 source_domain: oneuptime.com
 fetched_at: '2026-09-02T05:38:47.718951Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: practitioner
 content_type: blog

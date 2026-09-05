@@ -13,12 +13,12 @@ tags:
 - reliability-failure-modes
 - known-issue
 created: '2026-09-02T06:41:31.083070Z'
-updated: '2026-09-02T17:37:22.297733Z'
+updated: '2026-09-05T10:51:22.009492Z'
 source: https://community.home-assistant.io/t/mqtt-entities-become-unknown-on-reboot/848716
 source_domain: community.home-assistant.io
 fetched_at: '2026-09-02T06:41:29.279246Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HA community thread (Feb 2025, DrVoidberg/Sir_Goodenough): CumulusMX weather

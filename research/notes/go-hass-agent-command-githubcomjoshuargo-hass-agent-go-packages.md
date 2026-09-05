@@ -9,12 +9,12 @@ tags:
 - stale-source
 - architecture-history
 created: '2026-09-02T04:02:37.763519Z'
-updated: '2026-09-02T17:37:21.964450Z'
+updated: '2026-09-05T10:51:21.669617Z'
 source: https://pkg.go.dev/github.com/joshuar/go-hass-agent
 source_domain: pkg.go.dev
 fetched_at: '2026-09-02T04:02:33.775779Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'pkg.go.dev page for the go-hass-agent module — STALE, pinned to v1.4.3 (published

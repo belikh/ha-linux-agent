@@ -12,12 +12,12 @@ tags:
 - gap-02
 - version-ground-truth
 created: '2026-09-02T17:03:39.574833Z'
-updated: '2026-09-02T17:39:20.981522Z'
+updated: '2026-09-05T10:51:22.437773Z'
 source: https://github.com/home-assistant/core/blob/dev/homeassistant/components/mqtt/const.py
 source_domain: github.com
 fetched_at: '2026-09-02T17:03:28.341874Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

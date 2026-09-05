@@ -9,12 +9,12 @@ tags:
 - feature-gaps
 - mqtt-discovery
 created: '2026-09-02T04:31:16.792537Z'
-updated: '2026-09-02T17:37:22.106719Z'
+updated: '2026-09-05T10:51:21.814456Z'
 source: https://bkbilly.gitbook.io/lnxlink
 source_domain: bkbilly.gitbook.io
 fetched_at: '2026-09-02T04:31:16.791130Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

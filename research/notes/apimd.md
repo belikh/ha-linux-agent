@@ -5,12 +5,12 @@ tags:
 - linux-agent-jupiteros-fleet-15537b
 - locus-testing-gate-for-hardware-daemon
 created: '2026-09-02T13:50:21.690948Z'
-updated: '2026-09-02T17:37:22.588604Z'
+updated: '2026-09-05T10:51:22.325743Z'
 source: https://raw.githubusercontent.com/ipetkov/crane/master/docs/API.md
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T13:50:21.688763Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

@@ -10,12 +10,12 @@ tags:
 - primary-source
 - ha-issue
 created: '2026-09-02T04:29:17.564944Z'
-updated: '2026-09-02T17:37:22.097039Z'
+updated: '2026-09-05T10:51:21.804119Z'
 source: https://api.github.com/repos/home-assistant/core/issues/135266/comments
 source_domain: api.github.com
 fetched_at: '2026-09-02T04:29:17.562559Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

@@ -5,12 +5,12 @@ tags:
 - linux-agent-jupiteros-fleet-15537b
 - official-docs
 created: '2026-09-02T05:08:16.960535Z'
-updated: '2026-09-02T17:37:22.167268Z'
+updated: '2026-09-05T10:51:21.878284Z'
 source: https://wiki.archlinux.org/title/Systemd/User
 source_domain: wiki.archlinux.org
 fetched_at: '2026-09-02T05:08:16.958772Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

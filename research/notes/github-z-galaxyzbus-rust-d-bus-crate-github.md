@@ -11,12 +11,12 @@ tags:
 - rust
 - api-docs
 created: '2026-09-02T05:39:32.160313Z'
-updated: '2026-09-02T17:37:22.256210Z'
+updated: '2026-09-05T10:51:21.965763Z'
 source: https://github.com/z-galaxy/zbus
 source_domain: github.com
 fetched_at: '2026-09-02T05:39:27.930539Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'z-galaxy/zbus (fork of the Rust D-Bus crate, 746 stars, 6,464 commits —

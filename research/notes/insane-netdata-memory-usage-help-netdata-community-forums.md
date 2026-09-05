@@ -9,12 +9,12 @@ tags:
 - resource-footprint
 - practitioner-forum
 created: '2026-09-02T04:02:40.489716Z'
-updated: '2026-09-02T17:37:22.035138Z'
+updated: '2026-09-05T10:51:21.741666Z'
 source: https://community.netdata.cloud/t/insane-netdata-memory-usage/3342
 source_domain: community.netdata.cloud
 fetched_at: '2026-09-02T04:02:34.756309Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Netdata maintainer-answered community thread (Oct 2022-Jan 2023) documenting

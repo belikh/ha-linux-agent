@@ -6,12 +6,12 @@ tags:
 - mqtt-discovery
 - comparative-benchmark
 created: '2026-09-02T05:05:53.512611Z'
-updated: '2026-09-02T17:37:22.151383Z'
+updated: '2026-09-05T10:51:21.862158Z'
 source: https://github.com/joaofl/hassio-addons/tree/master/telegraf2hassio
 source_domain: github.com
 fetched_at: '2026-09-02T05:05:53.511212Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

@@ -49,7 +49,7 @@
       "sources": ["what-is-the-difference-between-systemdse", "systemduser-archwiki", "enabling-persistent-user-instance-system", "see-also-3", "how-to-create-user-systemd-service-help-"]
     },
     "evidence_quality_delta": "Side B has the stronger structural argument for SERVER hosts (ordering, lifecycle); side A has the stronger security/practical argument for DESKTOP hosts (session bus for notifications/niri). The evidence reconciles by host-class, not by winner.",
-    "scope_overlap": "Genuine disagreement for the headless-server case; both right if scoped: user-service on desktops/kiosks (session bus needed), system-service on headless hosts (no session, needs ordering). ha-linux-agent currently ships user-service-only — the fork decides europa/pallene/callisto coverage.",
+    "scope_overlap": "Genuine disagreement for the headless-server case; both right if scoped: user-service on desktops/kiosks (session bus needed), system-service on headless hosts (no session, needs ordering). ha-linux-agent currently ships user-service-only — the fork decides europa/callisto coverage.",
     "decision_relevance": "high — this IS the 'every host in jupiterOS' question"
   },
   {

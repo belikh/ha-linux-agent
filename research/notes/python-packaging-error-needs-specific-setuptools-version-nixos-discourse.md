@@ -12,12 +12,12 @@ tags:
 - lnxlink
 - packaging
 created: '2026-09-02T16:34:35.236936Z'
-updated: '2026-09-02T17:37:22.633995Z'
+updated: '2026-09-05T10:51:22.372381Z'
 source: https://discourse.nixos.org/t/python-packaging-error-needs-specific-setuptools-version/71434
 source_domain: discourse.nixos.org
 fetched_at: '2026-09-02T16:34:35.221908Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Community packaging attempt (Oct 2025, Discourse): a user packaging lnxlink

@@ -8,12 +8,12 @@ tags:
 - zfs
 - source-hub
 created: '2026-09-02T12:22:33.580990Z'
-updated: '2026-09-02T17:37:22.543238Z'
+updated: '2026-09-05T10:51:22.279796Z'
 source: https://wiki.archlinux.org/title/ZFS
 source_domain: wiki.archlinux.org
 fetched_at: '2026-09-02T12:22:33.578263Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

@@ -74,8 +74,3 @@ Two consequences for the ha-linux-agent notification design:
   writes unusable by the agent (brightness/governor writes fail EACCES
   silently today).
 
-## 4. Verbatim fleet-config quote (for citation verification)
-
-`/home/io/projects/jupiter-os/hosts/pallene/disk-configuration.nix:21`, verbatim:
-
-"# No ZFS, no impermanence, no sops-nix, no disko, no ha-linux-agent."

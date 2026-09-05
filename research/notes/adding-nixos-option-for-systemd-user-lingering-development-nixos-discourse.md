@@ -4,12 +4,12 @@ id: adding-nixos-option-for-systemd-user-lingering-development-nixos-discourse
 tags:
 - linux-agent-jupiteros-fleet-15537b
 created: '2026-09-02T04:04:41.174703Z'
-updated: '2026-09-02T17:37:22.048266Z'
+updated: '2026-09-05T10:51:21.755411Z'
 source: https://discourse.nixos.org/t/adding-nixos-option-for-systemd-user-lingering/28762
 source_domain: discourse.nixos.org
 fetched_at: '2026-09-02T04:04:36.095792Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'NixOS Discourse thread (June 2023) on adding a first-class NixOS option

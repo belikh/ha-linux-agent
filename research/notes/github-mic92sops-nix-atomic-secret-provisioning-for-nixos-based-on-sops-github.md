@@ -9,12 +9,12 @@ tags:
 - secrets-management
 - nixos
 created: '2026-09-02T09:53:42.219990Z'
-updated: '2026-09-02T17:37:22.436754Z'
+updated: '2026-09-05T10:51:22.172085Z'
 source: https://github.com/Mic92/sops-nix
 source_domain: github.com
 fetched_at: '2026-09-02T09:53:42.217663Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

@@ -8,12 +8,12 @@ tags:
 - version-ground-truth
 - reliability-failure-modes
 created: '2026-09-02T04:37:53.724846Z'
-updated: '2026-09-02T17:37:22.141695Z'
+updated: '2026-09-05T10:51:21.850895Z'
 source: https://github.com/joshuar/go-hass-agent/releases
 source_domain: github.com
 fetched_at: '2026-09-02T04:37:53.723249Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

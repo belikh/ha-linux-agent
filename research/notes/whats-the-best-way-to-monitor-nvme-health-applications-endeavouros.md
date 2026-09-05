@@ -10,12 +10,12 @@ tags:
 - windows-only
 - community-thread
 created: '2026-09-02T05:38:56.276117Z'
-updated: '2026-09-02T17:37:22.193218Z'
+updated: '2026-09-05T10:51:21.903998Z'
 source: https://forum.endeavouros.com/t/what-s-the-best-way-to-monitor-nvme-health/76296
 source_domain: forum.endeavouros.com
 fetched_at: '2026-09-02T05:38:56.227227Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: commentary
 content_type: forum

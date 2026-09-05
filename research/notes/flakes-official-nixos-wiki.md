@@ -6,12 +6,12 @@ tags:
 - nixos
 - flakes
 created: '2026-09-02T06:45:00.871241Z'
-updated: '2026-09-02T07:26:24.956207Z'
+updated: '2026-09-05T10:51:22.098897Z'
 source: https://wiki.nixos.org/wiki/Flakes
 source_domain: wiki.nixos.org
 fetched_at: '2026-09-02T06:45:00.869164Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

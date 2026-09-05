@@ -5,12 +5,12 @@ tags:
 - linux-agent-jupiteros-fleet-15537b
 - locus-testing-gate-for-hardware-daemon
 created: '2026-09-02T13:50:19.644262Z'
-updated: '2026-09-02T17:37:22.584388Z'
+updated: '2026-09-05T10:51:22.321707Z'
 source: https://raw.githubusercontent.com/NixOS/nixpkgs/master/nixos/tests/mosquitto.nix
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T13:50:19.643245Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

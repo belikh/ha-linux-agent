@@ -7,12 +7,12 @@ tags:
 - zed
 - man-page
 created: '2026-09-02T12:22:05.007421Z'
-updated: '2026-09-02T17:37:22.534980Z'
+updated: '2026-09-05T10:51:22.270952Z'
 source: https://raw.githubusercontent.com/openzfs/zfs/master/man/man8/zed.8.in
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T12:22:05.005986Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

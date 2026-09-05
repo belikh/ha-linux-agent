@@ -12,12 +12,12 @@ tags:
 - ipc
 - primary-source
 created: '2026-09-02T16:29:19.138752Z'
-updated: '2026-09-02T17:37:22.630529Z'
+updated: '2026-09-05T10:51:22.368201Z'
 source: https://github.com/niri-wm/niri/blob/main/niri-ipc/src/socket.rs
 source_domain: github.com
 fetched_at: '2026-09-02T16:29:19.119108Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'niri-ipc/src/socket.rs (client library): SOCKET_PATH_ENV = ''NIRI_SOCKET''.

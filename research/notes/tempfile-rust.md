@@ -7,12 +7,12 @@ tags:
 - rust
 - api-docs
 created: '2026-09-02T06:20:14.878780Z'
-updated: '2026-09-02T17:37:22.283459Z'
+updated: '2026-09-05T10:51:21.994230Z'
 source: https://docs.rs/tempfile/latest/tempfile/
 source_domain: docs.rs
 fetched_at: '2026-09-02T06:20:14.877406Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

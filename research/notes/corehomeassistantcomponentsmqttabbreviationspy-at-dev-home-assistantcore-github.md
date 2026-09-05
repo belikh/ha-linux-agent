@@ -8,12 +8,12 @@ tags:
 - source-code
 - api-docs
 created: '2026-09-02T07:17:49.561829Z'
-updated: '2026-09-02T17:37:22.386092Z'
+updated: '2026-09-05T10:51:22.120140Z'
 source: https://github.com/home-assistant/core/blob/dev/homeassistant/components/mqtt/abbreviations.py
 source_domain: github.com
 fetched_at: '2026-09-02T07:17:49.559890Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

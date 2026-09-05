@@ -10,12 +10,12 @@ tags:
 - pending-queue
 - known-issue
 created: '2026-09-02T04:02:29.637324Z'
-updated: '2026-09-02T17:37:21.883183Z'
+updated: '2026-09-05T10:51:21.585563Z'
 source: https://github.com/bytebeamio/rumqtt/issues/211
 source_domain: github.com
 fetched_at: '2026-09-02T04:02:24.329902Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'rumqtt issue #211 (opened Dec 2020, still OPEN, labelled stale/blocked):

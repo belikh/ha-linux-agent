@@ -9,12 +9,12 @@ tags:
 - rust
 - gap-04
 created: '2026-09-02T17:14:11.794475Z'
-updated: '2026-09-02T17:39:25.147646Z'
+updated: '2026-09-05T10:51:22.460965Z'
 source: https://nix.dev/manual/nix/2.35/command-ref/conf-file.html
 source_domain: nix.dev
 fetched_at: '2026-09-02T17:14:11.430209Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: institutional
 content_type: docs

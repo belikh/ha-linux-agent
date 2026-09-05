@@ -6,12 +6,12 @@ tags:
 - official-docs
 - smartd
 created: '2026-09-02T06:16:22.458078Z'
-updated: '2026-09-02T17:37:22.269701Z'
+updated: '2026-09-05T10:51:21.979700Z'
 source: https://wiki.archlinux.org/title/S.M.A.R.T.
 source_domain: wiki.archlinux.org
 fetched_at: '2026-09-02T06:16:22.456108Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: institutional
 content_type: docs

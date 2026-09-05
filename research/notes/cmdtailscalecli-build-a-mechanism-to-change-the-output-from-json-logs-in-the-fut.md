@@ -10,12 +10,12 @@ tags:
 - birth-message
 - version-ground-truth
 created: '2026-09-02T05:38:56.253519Z'
-updated: '2026-09-02T17:37:22.224107Z'
+updated: '2026-09-05T10:51:21.935019Z'
 source: https://github.com/tailscale/tailscale/issues/17619
 source_domain: github.com
 fetched_at: '2026-09-02T05:38:51.698387Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: institutional
 content_type: docs

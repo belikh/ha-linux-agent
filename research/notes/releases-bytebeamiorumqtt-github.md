@@ -7,12 +7,12 @@ tags:
 - releases
 - rumqttc
 created: '2026-09-02T13:17:47.169561Z'
-updated: '2026-09-02T17:37:22.550964Z'
+updated: '2026-09-05T10:51:22.287698Z'
 source: https://github.com/bytebeamio/rumqtt/releases
 source_domain: github.com
 fetched_at: '2026-09-02T13:17:47.167659Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

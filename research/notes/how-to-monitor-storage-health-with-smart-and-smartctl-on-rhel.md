@@ -9,12 +9,12 @@ tags:
 - storage-health
 - practitioner-guide
 created: '2026-09-02T04:02:40.532378Z'
-updated: '2026-09-02T17:37:22.044060Z'
+updated: '2026-09-05T10:51:21.750093Z'
 source: https://oneuptime.com/blog/post/2026-03-04-monitor-storage-health-smart-smartctl-rhel-9/view
 source_domain: oneuptime.com
 fetched_at: '2026-09-02T04:02:40.480647Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'OneUptime engineering blog (Mar 2026, open-source/technically-reviewed per

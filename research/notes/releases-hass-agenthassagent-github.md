@@ -7,12 +7,12 @@ tags:
 - release-notes
 - reliability-failure-modes
 created: '2026-09-02T04:02:37.734414Z'
-updated: '2026-09-02T17:37:21.995158Z'
+updated: '2026-09-05T10:51:21.701876Z'
 source: https://github.com/hass-agent/HASS.Agent/releases
 source_domain: github.com
 fetched_at: '2026-09-02T04:02:30.608139Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'HASS.Agent release cadence and changelog detail, 2.1.1-beta1 (Oct 2023)

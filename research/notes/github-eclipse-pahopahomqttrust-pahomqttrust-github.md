@@ -7,12 +7,12 @@ tags:
 - alternatives
 - paho-mqtt
 created: '2026-09-02T13:18:10.510590Z'
-updated: '2026-09-02T17:37:22.567858Z'
+updated: '2026-09-05T10:51:22.305611Z'
 source: https://github.com/eclipse/paho.mqtt.rust
 source_domain: github.com
 fetched_at: '2026-09-02T13:18:10.508716Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

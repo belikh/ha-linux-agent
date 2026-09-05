@@ -10,12 +10,12 @@ tags:
 - mqtt-discovery
 - official-docs
 created: '2026-09-02T04:55:34.095586Z'
-updated: '2026-09-02T17:37:22.146534Z'
+updated: '2026-09-05T10:51:21.855998Z'
 source: https://docs.influxdata.com/telegraf/v1/output-plugins/mqtt/
 source_domain: docs.influxdata.com
 fetched_at: '2026-09-02T04:55:34.094100Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Official docs.influxdata.com page for the Telegraf MQTT Producer output

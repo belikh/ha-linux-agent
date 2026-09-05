@@ -10,12 +10,12 @@ tags:
 - official-docs
 - near-duplicate
 created: '2026-09-02T04:02:29.625410Z'
-updated: '2026-09-02T17:37:21.897717Z'
+updated: '2026-09-05T10:51:21.600306Z'
 source: https://www.home-assistant.io/integrations/mqtt/#mqtt-discovery
 source_domain: www.home-assistant.io
 fetched_at: '2026-09-02T04:02:21.868910Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Same official HA MQTT integration reference fetched via #mqtt-discovery

@@ -5,12 +5,12 @@ tags:
 - linux-agent-jupiteros-fleet-15537b
 - ha-linux-agent
 created: '2026-09-02T04:04:41.179183Z'
-updated: '2026-09-02T17:37:22.080431Z'
+updated: '2026-09-05T10:51:21.786448Z'
 source: https://discourse.nixos.org/t/how-to-create-user-systemd-service/57671
 source_domain: discourse.nixos.org
 fetched_at: '2026-09-02T04:04:37.183963Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'NixOS Discourse thread (Dec 2024) walking a beginner through systemd.user.services.<name>

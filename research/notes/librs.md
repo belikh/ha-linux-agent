@@ -9,12 +9,12 @@ tags:
 - primary-source
 - mqtt-v311
 created: '2026-09-02T04:25:12.419751Z'
-updated: '2026-09-02T17:37:22.091868Z'
+updated: '2026-09-05T10:51:21.798646Z'
 source: https://raw.githubusercontent.com/bytebeamio/rumqtt/main/rumqttc/src/lib.rs
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-02T04:25:12.418293Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

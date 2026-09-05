@@ -12,12 +12,12 @@ tags:
 - gap-07
 - broker-config
 created: '2026-09-02T17:05:55.173700Z'
-updated: '2026-09-02T17:39:27.553273Z'
+updated: '2026-09-05T10:51:22.451479Z'
 source: https://github.com/eclipse-mosquitto/mosquitto/issues/3726
 source_domain: github.com
 fetched_at: '2026-09-02T17:05:53.982732Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: practitioner
 content_type: forum

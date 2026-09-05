@@ -9,12 +9,12 @@ tags:
 - birth-message
 - practitioner-forum
 created: '2026-09-02T06:42:41.453933Z'
-updated: '2026-09-02T17:37:22.361671Z'
+updated: '2026-09-05T10:51:22.088066Z'
 source: https://bbs.archlinux.org/viewtopic.php?id=248157
 source_domain: bbs.archlinux.org
 fetched_at: '2026-09-02T06:42:39.088275Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'Arch forum thread (Aug 2019): user on Thinkpad T470 with Intel SSDPEKKF256G7L

@@ -11,12 +11,12 @@ tags:
 - testing
 - api-docs
 created: '2026-09-02T05:39:32.148411Z'
-updated: '2026-09-02T17:37:22.244868Z'
+updated: '2026-09-05T10:51:21.957144Z'
 source: https://docs.rs/testcontainers-modules/latest/testcontainers_modules/mosquitto/struct.Mosquitto.html
 source_domain: docs.rs
 fetched_at: '2026-09-02T05:39:25.845303Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 deprecated: false
 summary: 'docs.rs API reference for testcontainers-modules 0.15.0 Mosquitto struct

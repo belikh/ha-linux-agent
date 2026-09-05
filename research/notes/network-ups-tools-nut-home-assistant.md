@@ -10,12 +10,12 @@ tags:
 - home-assistant-companion
 - official-docs
 created: '2026-09-02T05:38:56.265231Z'
-updated: '2026-09-02T17:37:22.218131Z'
+updated: '2026-09-05T10:51:21.929865Z'
 source: https://www.home-assistant.io/integrations/nut
 source_domain: www.home-assistant.io
 fetched_at: '2026-09-02T05:38:53.703476Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: institutional
 content_type: docs

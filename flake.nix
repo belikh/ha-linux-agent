@@ -180,6 +180,17 @@
               wantedBy = [ "multi-user.target" ];
               after = [ "network-online.target" ];
               wants = [ "network-online.target" ];
+              # Backends shell out to host tools — without an explicit
+              # path, a system service gets only systemd's minimal default
+              # (coreutils/findutils/grep/sed/systemd), so ZfsBackend's
+              # `which zpool` detect() failed silently on ZFS-root hosts
+              # (observed live on europa: pool sensors never registered).
+              # systemd comes via the default set; zfs is conditional so
+              # non-ZFS hosts don't drag the module in.
+              path = [
+                cfg.package
+                pkgs.zfs
+              ];
               # systemd.environment is an attrset — the kiosk block is
               # merged in with mkIf so non-kiosk hosts get {} not [].
               environment = lib.mkIf isKiosk {

@@ -102,6 +102,9 @@
           # per-user bus (the cage kiosks). Server and minimal hosts ship
           # without it — no session bus exists there to reach.
           isKiosk = cfg.role == "kiosk";
+          # %U-style specifiers do not expand inside Environment=; resolve
+          # the runtime dir for the configured user at eval time instead.
+          agentUid = config.users.users.${cfg.user}.uid;
         in
         {
           options.services.ha-linux-agent = {
@@ -177,9 +180,11 @@
               wantedBy = [ "multi-user.target" ];
               after = [ "network-online.target" ];
               wants = [ "network-online.target" ];
-              environment = lib.optionals isKiosk {
-                XDG_RUNTIME_DIR = "/run/user/%U";
-                DBUS_SESSION_BUS_ADDRESS = "unix:path=/run/user/%U/bus";
+              # systemd.environment is an attrset — the kiosk block is
+              # merged in with mkIf so non-kiosk hosts get {} not [].
+              environment = lib.mkIf isKiosk {
+                XDG_RUNTIME_DIR = "/run/user/${builtins.toString agentUid}";
+                DBUS_SESSION_BUS_ADDRESS = "unix:path=/run/user/${builtins.toString agentUid}/bus";
               };
               serviceConfig = {
                 ExecStart = "${cfg.package}/bin/ha-linux-agent ${format.generate "ha-linux-agent-config.toml" cfg.settings}";

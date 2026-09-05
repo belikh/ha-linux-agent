@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "HA Glances integration issue #32328 (HA 0.106.0, Docker, opened Feb 2020, closed/stale, assigned fabaff): after a restart some Glances sensors get renamed with a '_2' suffix (e.g. machine_etc_hostname_used_percent → machine_etc_hostname_used_percent_2), breaking dashboard cards for containers_*, cpu_*, ram_*, swap_*, thread and total sensors",
+    "stance": "supports",
+    "stance_target": "entity-id churn is a distinct Glances failure mode; MQTT discovery with stable per-host unique_ids (as ha-linux-agent publishes) avoids restart-rename breakage",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Home Assistant 0.106.0 in Docker; triggered by restart; regression introduced by 0.106 integration changes",
+    "quoted_support": "Now, when I restart HA, some sensors are renamed with a _2 after their name. This has happened with all sensors, but not all at once. ... Then today, I noticed that my cards for containers_*, cpu_*, ram_*, swap_*, thread and total disappeared because of this renaming.",
+    "numbers": ["0.106.0", "last working 0.105.5", "opened Feb 28 2020"],
+    "entities": ["Home Assistant", "Glances", "DecentM", "fabaff"],
+    "time_period": "Feb 2020",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "glances-sensors-are-renamed-after-a-restart-issue-32328-home-assistantcore-githu"
+  },
+  {
+    "claim": "The only workaround for the Glances restart-rename bug at the time was removing and re-adding the integration via the web UI — and the renaming recurred on the next restart",
+    "stance": "supports",
+    "stance_target": "manual UI fiddling per host per restart is unacceptable at fleet scale; entity identity must be stable by design",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Home Assistant 0.106.x, Docker",
+    "quoted_support": "This renaming is undone if I remove then re-add the integration using the web UI until the next restart. Then it happens again.",
+    "numbers": [],
+    "entities": ["Home Assistant", "Glances"],
+    "time_period": "Feb 2020",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "glances-sensors-are-renamed-after-a-restart-issue-32328-home-assistantcore-githu"
+  }
+]

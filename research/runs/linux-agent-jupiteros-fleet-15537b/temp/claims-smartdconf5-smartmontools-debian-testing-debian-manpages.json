@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "smartd's -s REGEXP directive schedules self-tests via a 12-character T/MM/DD/d/HH regex where T is L (Long/Extended), S (Short), C (Conveyance, ATA) or O (Offline Immediate, ATA), d is day-of-week 1=Monday..7=Sunday; smartmontools 7.5 adds NEW EXPERIMENTAL NVMe self-test scheduling where L means Extended NVMe self-test and S means Short, namespace-scoped or broadcast.",
+    "stance": "supports",
+    "stance_target": "Self-test scheduling capability and syntax a jupiterOS storage-monitor feature must support or interoperate with (NixOS services.smartd)",
+    "evidence_type": "legal",
+    "scope_conditions": "smartd.conf(5) man page, smartmontools 7.5 (Debian testing); NVMe self-tests experimental in 7.5",
+    "quoted_support": "Run Self-Tests or Offline Immediate Tests, at scheduled times. A Self- or Offline Immediate Test will be run at the end of periodic device polling, if all 12 characters of the string T/MM/DD/d/HH match the extended regular expression REGEXP. ... [NVMe: NEW EXPERIMENTAL SMARTD 7.5 FEATURE] For NVMe devices with Self-Test support, use 'L' to start an \"Extended\" NVMe Self-Test and 'S' for a Short NVMe Self-Test.",
+    "numbers": ["7.5 NVMe experimental", "d 1=Monday..7=Sunday", "12-char T/MM/DD/d/HH"],
+    "entities": ["smartd", "smartmontools", "NVMe"],
+    "time_period": "smartmontools 7.5 (current Debian testing 2026)",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "smartdconf5-smartmontools-debian-testing-debian-manpages"
+  },
+  {
+    "claim": "smartd's -W DIFF,INFO,CRIT directive reports temperature changes of at least DIFF degrees, logs LOG_INFO at INFO degrees, and LOG_CRIT + warning email at CRIT; the email counter resets when temperature drops below INFO or CRIT-5; min/max are preserved across boots with state persistence; the minimum temperature value is not updated during the first 30 minutes after startup; default -W 0 disables all temperature reports.",
+    "stance": "neutral",
+    "stance_target": "Exact hysteresis semantics for temperature alerting a fleet agent should replicate (avoid alert flapping on cold start)",
+    "evidence_type": "legal",
+    "scope_conditions": "smartd.conf(5) man page; ATA Attribute 194/190 default temperature interpretation; NVMe composite temperature",
+    "quoted_support": "The warning email counter is reset if the temperature dropped below INFO or CRIT-5 if INFO is not specified. ... The minimum temperature value is not updated during the first 30 minutes after startup. To disable any of the 3 reports, set the corresponding limit to 0. ... By default, all temperature reports are disabled ('-W 0'). To combine all of the above reports, use: -W 2,40,45.",
+    "numbers": ["-W 2,40,45 canonical example", "30-minute min-temp holdoff", "CRIT-5 reset threshold", "default -W 0 disabled"],
+    "entities": ["smartd", "smartmontools"],
+    "time_period": "smartmontools 7.5",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "smartdconf5-smartmontools-debian-testing-debian-manpages"
+  },
+  {
+    "claim": "smartd.conf supports a DEFAULT directive that applies settings to subsequent device entries (preferred over DEVICESCAN for heterogeneous fleets), DEVICESCAN ignores remaining config lines and scans devices with the given directives applied to all, smartd re-reads the config on SIGHUP, and -d megaraid,N / cciss,N / 3ware,N / aacraid,N,N,N / hpt,N/N directives address drives behind hardware RAID controllers, with -d sat for SCSI-ATA translation.",
+    "stance": "neutral",
+    "stance_target": "Configuration model and RAID/controller handling a fleet storage feature may need to accommodate (jupiterOS may have RAID hosts)",
+    "evidence_type": "legal",
+    "scope_conditions": "smartd.conf(5) man page",
+    "quoted_support": "If a non-comment entry in the configuration file is the text string DEVICESCAN in capital letters, then smartd will ignore any remaining lines in the configuration file, and will scan for devices. ... Multiple '-d TYPE' options may be specified with DEVICESCAN to combine the scan results of more than one TYPE. ... If smartd subsequently receives a HUP signal, it will then re-read the configuration file.",
+    "numbers": [],
+    "entities": ["smartd", "DEVICESCAN", "DEFAULT directive", "MegaRAID", "cciss", "3ware", "aacraid", "hpt"],
+    "time_period": "smartmontools 7.5",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "smartdconf5-smartmontools-debian-testing-debian-manpages"
+  }
+]

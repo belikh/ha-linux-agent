@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Z2M's MQTT config defaults keepalive to 60 s, protocol version 4 (version 5 opt-in), and its publisher state machinery uses cache_state + cache_state_persistent + cache_state_send_on_startup — full state cached to disk and republished on startup.",
+    "stance": "supports",
+    "stance_target": "The agent should mirror the disk-backed state cache with resend-on-startup: retained MQTT messages cover broker-side state, but a local persistent state cache covers the publisher side across agent restarts.",
+    "evidence_type": "empirical",
+    "scope_conditions": "Zigbee2MQTT configuration guide (server connection + advanced behaviour)",
+    "quoted_support": "# Optional: MQTT keepalive in seconds (default: 60) keepalive: 60 ... # Optional: state caching, MQTT message payload will contain all attributes, not only changed ones. # Has to be true when integrating via Home Assistant (default: true) cache_state: true ... # Optional: persist cached state, only used when cache_state: true (default: true) cache_state_persistent: true ... # Optional: send cached state on startup, only used when cache_state_persistent: true (default: true) cache_state_send_on_startup: true",
+    "numbers": ["keepalive 60 s default", "maximum_packet_size 1048576 (1 MiB) default"],
+    "entities": ["Zigbee2MQTT", "cache_state", "cache_state_persistent", "cache_state_send_on_startup"],
+    "time_period": "current guide (fetched 2026-09)",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "mqtt-zigbee2mqtt"
+  },
+  {
+    "claim": "Z2M provides force_disable_retain as an escape hatch for brokers without retained-message support, but enabling it breaks the Home Assistant integration — retention is mandatory for HA-facing availability.",
+    "stance": "supports",
+    "stance_target": "Retained availability publishes are load-bearing for the HA integration; the jupiterOS Mosquitto fleet must keep retention enabled (and Mosquitto's retain_available default true).",
+    "evidence_type": "empirical",
+    "scope_conditions": "Zigbee2MQTT with AWS IoT Core / Azure IoT Hub class brokers vs Mosquitto",
+    "quoted_support": "# Optional: Disable retain for all send messages. ONLY enable if your MQTT broker doesn't support retained message ... Enabling will break the Home Assistant integration. (default: false)",
+    "numbers": [],
+    "entities": ["Zigbee2MQTT", "force_disable_retain", "Home Assistant"],
+    "time_period": "current guide (fetched 2026-09)",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "mqtt-zigbee2mqtt"
+  }
+]

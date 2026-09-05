@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Home Assistant's MQTT integration supports per-entity availability via either a single availability_topic or an availability LIST of topics (mutually exclusive), with payload_available default 'online' and payload_not_available default 'offline'.",
+    "stance": "supports",
+    "stance_target": "The agent's per-host availability topic maps directly onto HA's availability_topic/availability list contract; a fleet agent publishing 'online'/'offline' gets HA-side unavailable marking without extra glue.",
+    "evidence_type": "empirical",
+    "scope_conditions": "Home Assistant MQTT integration, discovery and YAML config",
+    "quoted_support": "availability list (Optional) — A list of MQTT topics subscribed to receive availability (online/offline) updates. Must not be used together with availability_topic. ... payload_available string (Optional, default: online) — The payload that represents the available state. payload_not_available string (Optional, default: offline) — The payload that represents the unavailable state.",
+    "numbers": [],
+    "entities": ["Home Assistant", "availability_topic", "availability list", "payload_available", "payload_not_available"],
+    "time_period": "current docs (fetched 2026-09)",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "mqtt-home-assistant"
+  },
+  {
+    "claim": "availability_mode (default 'latest') controls how multiple availability topics combine: 'all' requires payload_available on every topic, 'any' on at least one, 'latest' lets the most recent message on any topic win.",
+    "stance": "supports",
+    "stance_target": "A supervisor design that publishes both a per-host status topic AND a global fleet topic can combine them in HA via availability_mode all/any — the two-signal availability pattern is natively supported.",
+    "evidence_type": "empirical",
+    "scope_conditions": "Home Assistant MQTT integration, availability list configured",
+    "quoted_support": "availability_mode string (Optional, default: latest) — When availability is configured, this controls the conditions needed to set the entity to available. Valid entries are all, any, and latest. If set to all, payload_available must be received on all configured availability topics before the entity is marked as online. If set to any, payload_available must be received on at least one configured availability topic before the entity is marked as online. If set to latest, the last payload_available or payload_not_available received on any configured availability topic controls the availability.",
+    "numbers": [],
+    "entities": ["Home Assistant", "availability_mode"],
+    "time_period": "current docs (fetched 2026-09)",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "mqtt-home-assistant"
+  },
+  {
+    "claim": "HA itself models the birth/LWT pattern: it publishes 'online' to homeassistant/status on MQTT integration start (birth) and 'offline' on shutdown/crash via LWT — and notably HA's LWT fires on BOTH clean and unclean disconnects — while devices should subscribe to the birth topic and resend discovery payloads on it, with a random delay recommended to avoid broker IO spikes.",
+    "stance": "supports",
+    "stance_target": "The agent must subscribe to homeassistant/status and re-publish discovery/retained state on HA's birth message, adding random jitter — exactly the pattern the supervisor spec needs for HA-restart resilience (the flip side of #135266's Mosquitto-restart scenario).",
+    "evidence_type": "empirical",
+    "scope_conditions": "Home Assistant MQTT integration behaviour",
+    "quoted_support": "The former is used to send a message after the service has started, and the latter is used to notify other clients about a disconnected client. Note that the LWT message will be sent both in case of a clean disconnect (for example, Home Assistant shutting down) and in case of an unclean disconnect (for example, Home Assistant crashing or losing its network connection). ... A device or service that exposes the MQTT discovery should subscribe to the Birth message and use this as a trigger to send the discovery payload. To avoid high IO loads on the MQTT broker, adding some random delay in sending the discovery payload is recommended.",
+    "numbers": [],
+    "entities": ["Home Assistant", "homeassistant/status", "birth message", "LWT"],
+    "time_period": "current docs (fetched 2026-09)",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "mqtt-home-assistant"
+  },
+  {
+    "claim": "On HA startup all discovered MQTT items with a unique_id become unavailable until a new discovery message arrives, and retained discovery payloads are offered on subscribe — HA also supports MQTT 5 message_expiry_interval to bound retained-discovery lifetime (avoiding ghost entities).",
+    "stance": "supports",
+    "stance_target": "Agent discovery messages must be retained (or re-sent on HA birth) AND uniquely identified; on an HA restart the agent's entities vanish until re-discovery — retained discovery with expiry bounds ghost-entity risk.",
+    "evidence_type": "empirical",
+    "scope_conditions": "Home Assistant MQTT discovery lifecycle",
+    "quoted_support": "When MQTT starts up, all existing MQTT devices, entities, tags, and device triggers, will be unavailable until a discovery message is received and processed. ... Retaining the discovery payload: This will store the discovery payload at the MQTT broker, and offer it to the MQTT integration as soon as it subscribes for MQTT discovery.",
+    "numbers": [],
+    "entities": ["Home Assistant", "unique_id", "message_expiry_interval", "MQTT discovery"],
+    "time_period": "current docs (fetched 2026-09)",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "mqtt-home-assistant"
+  }
+]

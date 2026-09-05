@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "go-hass-agent issue #667 (opened Dec 2, 2025, status OPEN, label enhancement) reports that HA notification action buttons (Confirm/Dismiss from the Confirm Notification script template) do not render on go-hass-agent — actionable notifications work on mobile devices but not on this Linux agent.",
+    "stance": "supports",
+    "stance_target": "go-hass-agent lacks actionable-notification (action-button) support as of v14.2.0, an adopt-vs-build gap",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "go-hass-agent v14.2.0 on Arch Linux; HA Confirm Notification script template",
+    "quoted_support": "I just setup Go HASS Agent and I'm configuring some notifications that would require action. The goal is to be notified on my laptop and be able to confirm/deny the notification so HA will take actions based on that. ... We should see the buttons to confirm / dismiss the notification just like for mobile devices",
+    "numbers": ["issue #667", "go-hass-agent v14.2.0", "opened Dec 2, 2025"],
+    "entities": ["go-hass-agent", "joshuar", "flaper87", "Home Assistant"],
+    "time_period": "Dec 2025; still open as of Sep 2026",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "feature-request-smart-notifications-with-action-buttons-issue-667-joshuargo-hass"
+  },
+  {
+    "claim": "Neither the maintainer nor anyone else has replied to issue #667, and it has no assignee, no milestone, and no linked PR — indicating no planned work on actionable notifications for go-hass-agent.",
+    "stance": "supports",
+    "stance_target": "Actionable notifications are an unaddressed gap in go-hass-agent with no maintainer commitment",
+    "evidence_type": "empirical",
+    "scope_conditions": "GitHub issue state as of fetch date Sep 2026",
+    "quoted_support": "Assignees: No one assigned. Labels: enhancement. Projects: No projects. Milestone: No milestone. Relationships: None yet. Development: No branches and pull requests.",
+    "numbers": [],
+    "entities": ["go-hass-agent", "joshuar"],
+    "time_period": "as of Sep 2026",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "feature-request-smart-notifications-with-action-buttons-issue-667-joshuargo-hass"
+  }
+]

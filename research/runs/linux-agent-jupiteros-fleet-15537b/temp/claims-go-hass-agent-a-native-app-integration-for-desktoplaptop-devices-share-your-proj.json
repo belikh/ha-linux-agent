@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Community demand exists for headless/server deployment of go-hass-agent that the package does not satisfy: a user trying it on Proxmox reports the .deb fails on GUI dependencies and requests a core/GUI package split, which remains unshipped",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's headless-first (no GUI deps) design addresses a real, documented gap in the mature alternative — valuable differentiation for server-class jupiterOS hosts",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "go-hass-agent .deb on Debian-based Proxmox, reported Jun 2025 in the project's community thread",
+    "quoted_support": "I would like to run it on a \"headless\" system, specifically one running (Debain based) Proxmox. When I try to install the .deb it fails because of dependencies related to the GUI. I'm wondering if you have considered splitting out the core features and the GUI into separate packages",
+    "numbers": ["reported 2025-06-19", "thread started 2023-04-12"],
+    "entities": ["go-hass-agent", "Proxmox", "mobrien118"],
+    "time_period": "2025-06",
+    "region": "global community",
+    "confidence": "medium",
+    "source_note_id": "go-hass-agent-a-native-app-integration-for-desktoplaptop-devices-share-your-proj"
+  },
+  {
+    "claim": "A community user runs go-hass-agent on NixOS via a self-written buildGoModule derivation (v13.2.7 with explicit vendorHash and X11/mesa/glfw buildInputs) to bind a ZigBee button to WOL-on and clean-shutdown-off of their PC",
+    "stance": "supports",
+    "stance_target": "NixOS users already hand-roll packaging for HA Linux agents — a first-class NixOS module (init config, hardening, per-host tokens) is the integration gap ha-linux-agent/jupiterOS should fill natively",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "go-hass-agent v13.2.7 era (pre-nixpkgs packaging); X11 deps required at build time",
+    "quoted_support": "Managed to get it going on NixOS, in case it helps anyone: { config, lib, pkgs, inputs, ...}: let go-hass-agent = pkgs.buildGoModule (finalAttrs: { pname = \"go-hass-agent\"; version = \"13.2.7\"; ... I use it to bind a zigbee shortcut button to toggle my PC (WOL for on, go-hass-agent for clean shutdown) as well as notifications.",
+    "numbers": ["v13.2.7", "10+ X11/GL build inputs"],
+    "entities": ["go-hass-agent", "NixOS", "Azelphur", "buildGoModule", "ZigBee"],
+    "time_period": "2025-06-25",
+    "region": "NixOS community",
+    "confidence": "medium",
+    "source_note_id": "go-hass-agent-a-native-app-integration-for-desktoplaptop-devices-share-your-proj"
+  },
+  {
+    "claim": "go-hass-agent lacks a select/dropdown-style control: a user asking to switch PipeWire/PulseAudio output devices between headphones and speakers (Jan 2026) cannot express it because the control vocabulary has no multi-option selector",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's control model should include an options/select entity type (and richer state sync) — a concrete, dated feature gap in the incumbent",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "go-hass-agent controls as of Jan 2026",
+    "quoted_support": "Wondering if we can select audio output device with go-hass-agent, to toggle pipewire or pulseaudio output to headphones or speakers? I can't see a means to do a drop-down selector box with multiple text items.",
+    "numbers": ["asked 2026-01-04"],
+    "entities": ["go-hass-agent", "PipeWire", "PulseAudio", "howels"],
+    "time_period": "2026-01",
+    "region": "global community",
+    "confidence": "medium",
+    "source_note_id": "go-hass-agent-a-native-app-integration-for-desktoplaptop-devices-share-your-proj"
+  }
+]

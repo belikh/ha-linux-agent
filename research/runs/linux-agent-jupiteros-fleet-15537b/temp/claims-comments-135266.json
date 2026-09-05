@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Root cause of HA #135266: the MQTT broker's allowed maximum number of queued messages was too low — at HA startup the replay of retained discovery/state messages for thousands of entities overflowed the broker's per-client queue, which silently dropped retained messages; raising the limit was the instant cure.",
+    "stance": "supports",
+    "stance_target": "fleet unreliability has broker-side causes (queue limits), not just agent-side; jupiterOS fleet must size broker max_queued_messages for fleet-scale retained replay",
+    "evidence_type": "empirical",
+    "scope_conditions": "HA 2024.8.2, 115 devices / 5374 entities, broker unnamed in thread (Z-Wave JS UI publisher); resolved Jan 2025",
+    "quoted_support": "I have raised the allowed maximum number of queued messages on my broker, and that seems to be the instant cure for the problem.",
+    "numbers": ["5374 entities", "115 devices", "56 of 112 topics empty", "mid: 11"],
+    "entities": ["Home Assistant", "Z-Wave JS UI", "Aeotec", "MQTT broker"],
+    "time_period": "Jan 2025",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "comments"
+  },
+  {
+    "claim": "The broker dropped messages silently — MQTT Explorer connected to the same broker at the same time showed the retained messages present, while HA's debug logs and device diagnostics showed empty message lists for those topics.",
+    "stance": "supports",
+    "stance_target": "verifying agent retained-publish discipline from the broker side is insufficient; delivery can still fail — the failure is invisible to both publisher and broker inspection",
+    "evidence_type": "empirical",
+    "scope_conditions": "HA MQTT integration startup subscription behaviour",
+    "quoted_support": "in MQTT Explorer I can see messages on them. I have the discovery prefix differ from the MQTT prefix in zwavejs. But I can see both the discovery and the usual state topics on the broker from MQTT Explorer, HA still does not have any of these messages either in the debug logs, or in the MQTT Device diagnostics.",
+    "numbers": ["56 of 112 topics"],
+    "entities": ["Home Assistant", "MQTT Explorer"],
+    "time_period": "Jan 2025",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "comments"
+  },
+  {
+    "claim": "HA's MQTT debug log at startup shows a single wildcard subscription ('Subscribing with mid: 11 to topics with qos: [(\"#\", 0)]') which triggers the retained-message replay; a manual listen on '#' later in the session re-triggered delivery of exactly the dropped messages.",
+    "stance": "supports",
+    "stance_target": "the HA-side recovery lever: re-subscribing (or any fresh listen) replays retained state, which is why 'listen on topic' restores unavailable entities",
+    "evidence_type": "empirical",
+    "scope_conditions": "HA MQTT integration",
+    "quoted_support": "It is really strange, that the retained messages are only arriving after I have issued the listen on the '#' topic, below this line in the log: 2025-01-10 22:35:14.695 DEBUG (MainThread) [homeassistant.components.mqtt.client] Subscribing with mid: 11 to topics with qos: [('#', 0)]",
+    "numbers": ["mid: 11", "qos 0"],
+    "entities": ["Home Assistant"],
+    "time_period": "Jan 2025",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "comments"
+  },
+  {
+    "claim": "Devices with many entities (the Aeotec HEM has ~112 topics) were the only ones that failed — the maintainer and reporter converged on high entity count per device as the trigger for the queue overflow, while other devices with fewer entities survived the same replay.",
+    "stance": "supports",
+    "stance_target": "agent design should keep per-device entity counts and discovery payloads lean to stay under broker queue limits at fleet scale",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "single incident, HA container install",
+    "quoted_support": "Could this have something to do with the fact that this device has a lot of entities and somehow the processing of the messages for this device gets interrupted? I suspect this as if I listen from HA to the '#' topic, all these topics gets read and devices starts to work without issues from this point.",
+    "numbers": ["112 topics", "8-10 devices affected"],
+    "entities": ["Aeotec", "Z-Wave JS UI", "Home Assistant"],
+    "time_period": "Jan 2025",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "comments"
+  },
+  {
+    "claim": "Maintainer jbouwh initially suspected retained-config availability semantics — 'Seems like an issue with availability of the sensors. If the config is retained, the sensors might be configured if their config still remains at the MQTT broker' — before the broker queue limit was identified as root cause.",
+    "stance": "neutral",
+    "stance_target": "even MQTT integration code owners treat retained-discovery post-restart availability as a first-order suspect",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "HA MQTT code owner triage",
+    "quoted_support": "Seems like an issue with availability of the sensors. If the config is retained, the sensors might be configured if their config still remains at the MQTT broker",
+    "numbers": [],
+    "entities": ["jbouwh", "Home Assistant"],
+    "time_period": "Jan 2025",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "comments"
+  }
+]

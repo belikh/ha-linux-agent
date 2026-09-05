@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "prometheus-community/smartctl_exporter requires smartmontools >= 7.0 (for JSON output), polls smartctl on a default 60s interval with a 10-minute device rescan (rescan disabled if devices are pinned via --smartctl.device or if interval < 1s), and exposes metrics on port 9633.",
+    "stance": "neutral",
+    "stance_target": "Incumbent exporter cadence/privilege design that ha-linux-agent's storage collector replaces with MQTT push into HA",
+    "evidence_type": "empirical",
+    "scope_conditions": "smartctl_exporter README (585 stars, 325 commits), Go implementation",
+    "quoted_support": "Requirements: smartmontools >= 7.0, because export to json released in 7.0. ... --smartctl.interval=60s The interval between smartctl polls. --smartctl.rescan=10m The interval between rescanning for new/disappeared devices.",
+    "numbers": ["smartmontools >= 7.0", "60s poll", "10m rescan", "port 9633", "585 stars", "134 forks"],
+    "entities": ["smartctl_exporter", "prometheus-community", "smartmontools"],
+    "time_period": "Current (2026)",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "github-prometheus-communitysmartctl_exporter-export-smartctl-statistics-to-prome"
+  },
+  {
+    "claim": "smartctl_exporter must run privileged (Docker: privileged: true, user: root) to access block devices, and maintains an explicit no-data-mutation policy: it does not fix or patch smartctl data in flight - incorrect data is reported upstream to smartmontools.",
+    "stance": "supports",
+    "stance_target": "Root/privileged requirement as a design constraint the incumbent exporter lane imposes; a NixOS agent can instead use a narrowly-scoped systemd unit with specific device permissions",
+    "evidence_type": "empirical",
+    "scope_conditions": "smartctl_exporter Docker deployment and troubleshooting policy",
+    "quoted_support": "services: smartctl-exporter: image: prometheuscommunity/smartctl-exporter privileged: true user: root. ... In general, the smartctl_exporter should not modify the data in flight. If the data is missing from smartctl, it should not be in smartctl_exporter.",
+    "numbers": ["privileged: true", "user: root"],
+    "entities": ["smartctl_exporter", "Docker", "smartmontools"],
+    "time_period": "Current",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "github-prometheus-communitysmartctl_exporter-export-smartctl-statistics-to-prome"
+  },
+  {
+    "claim": "smartctl_exporter supports systemd socket activation (--web.systemd-socket) and exporter-toolkit TLS/basic-auth via --web.config.file, showing the standard hardening surface a per-host metrics endpoint carries.",
+    "stance": "neutral",
+    "stance_target": "Security surface checklist for any agent exposing host telemetry (MQTT TLS in ha-linux-agent's case)",
+    "evidence_type": "empirical",
+    "scope_conditions": "smartctl_exporter feature flags",
+    "quoted_support": "--web.systemd-socket Use systemd socket activation listeners instead of port listeners (Linux only). ... --web.config.file ... [EXPERIMENTAL] Path to configuration file that can enable TLS or authentication.",
+    "numbers": [],
+    "entities": ["smartctl_exporter", "systemd socket activation", "exporter-toolkit"],
+    "time_period": "Current",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "github-prometheus-communitysmartctl_exporter-export-smartctl-statistics-to-prome"
+  }
+]

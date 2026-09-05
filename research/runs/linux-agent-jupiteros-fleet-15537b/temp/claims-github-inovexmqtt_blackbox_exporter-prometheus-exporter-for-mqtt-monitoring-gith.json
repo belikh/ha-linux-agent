@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "mqtt_blackbox_exporter probes an MQTT broker by performing a publish/subscribe round-trip on the same topic: start subscriber, start publisher, publish N messages, count received messages — its definition of a completed probe.",
+    "stance": "supports",
+    "stance_target": "broker-side synthetic MQTT checks are a solved pattern; the agent's broker backbone can be externally verified with this exact probe design",
+    "evidence_type": "empirical",
+    "scope_conditions": "inovex/mqtt_blackbox_exporter, Apache-2.0, Go, port 9214",
+    "quoted_support": "Tests MQTT messaging roundtrips (publish/subscribe on same topic).\n\nDefinition of roundtrip:\n\nstart subscriber on $topic\n\nstart publisher on $topic\n\npublish $messages on $topic\n\nreceive $message on $topic",
+    "numbers": ["port 9214", "83 stars", "99 commits"],
+    "entities": ["mqtt_blackbox_exporter", "inovex", "MQTT", "Prometheus"],
+    "time_period": "repo current as of 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "github-inovexmqtt_blackbox_exporter-prometheus-exporter-for-mqtt-monitoring-gith"
+  },
+  {
+    "claim": "The exporter emits probe_mqtt_duration_seconds histograms (round-trip latency), probe_mqtt_messages_published_total and probe_mqtt_messages_received_total counters, and probe_mqtt_completed_total/started_total — so message loss is directly observable as a published-minus-received delta and probe hangs as started-minus-completed.",
+    "stance": "supports",
+    "stance_target": "the metric vocabulary for MQTT broker synthetic monitoring is established: loss = published - received; hang = started - completed; latency = duration histogram",
+    "evidence_type": "empirical",
+    "scope_conditions": "Prometheus /metrics endpoint, broker-labelled metrics",
+    "quoted_support": "probe_mqtt_messages_published_total Number of published messages.\nprobe_mqtt_messages_received_total Number of received messages.",
+    "numbers": ["port 9214"],
+    "entities": ["probe_mqtt_duration_seconds", "probe_mqtt_messages_published_total", "probe_mqtt_messages_received_total", "probe_mqtt_completed_total"],
+    "time_period": "repo current as of 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "github-inovexmqtt_blackbox_exporter-prometheus-exporter-for-mqtt-monitoring-gith"
+  },
+  {
+    "claim": "All exporter metrics are labelled by broker URL (including TLS brokers like ssl://mqtt.example.net:8883) and probe name, so a single exporter instance can supervise multiple brokers simultaneously.",
+    "stance": "neutral",
+    "stance_target": "one blackbox probe deployment covers all brokers in the jupiterOS fleet, TLS included",
+    "evidence_type": "empirical",
+    "scope_conditions": "config.yaml.dist multi-broker configuration",
+    "quoted_support": "probe_mqtt_completed_total{broker=\"ssl://mqtt.example.net:8883\",name=\"mqtt broker SSL\"} 64",
+    "numbers": ["port 8883 example", "port 9214"],
+    "entities": ["TLS", "broker labels", "config.yaml.dist"],
+    "time_period": "repo current as of 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "github-inovexmqtt_blackbox_exporter-prometheus-exporter-for-mqtt-monitoring-gith"
+  }
+]

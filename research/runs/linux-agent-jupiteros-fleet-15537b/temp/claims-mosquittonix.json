@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "nixpkgs ships an in-tree Mosquitto NixOS VM test at nixos/tests/mosquitto.nix with one server node and two client nodes, structured as { name; nodes; testScript; }.",
+    "stance": "supports",
+    "stance_target": "A NixOS test gate for a Rust MQTT agent can crib an existing upstream pattern rather than inventing broker-in-test wiring from scratch",
+    "evidence_type": "empirical",
+    "scope_conditions": "nixpkgs master branch, nixos/tests/mosquitto.nix, as of fetch 2026-09-02",
+    "quoted_support": "{ name = \"mosquitto\"; ... nodes = { server = { pkgs, ... }: { networking.firewall.allowedTCPPorts = [ port tlsPort anonPort ]; networking.useNetworkd = true; services.mosquitto = { enable = true; ... listeners = [ ... ]; }; }; client1 = client; client2 = client; }; testScript = '' ... ''; }",
+    "numbers": ["port = 1888", "tlsPort = 1889", "anonPort = 1890"],
+    "entities": ["mosquitto", "nixpkgs", "NixOS test framework"],
+    "time_period": "2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "mosquittonix"
+  },
+  {
+    "claim": "The upstream test configures the broker entirely through the services.mosquitto NixOS module options (enable, settings, listeners with per-listener users, acl, passwordFile, hashedPasswordFile), with per-user ACL strings like \"read ${topic}\" / \"write ${topic}\".",
+    "stance": "supports",
+    "stance_target": "The ephemeral broker in a CI test gate can be declared as NixOS config rather than managed by a process supervisor in the test script",
+    "evidence_type": "empirical",
+    "scope_conditions": "nixpkgs master services.mosquitto module",
+    "quoted_support": "services.mosquitto = { enable = true; settings = { sys_interval = 1; }; listeners = [ { inherit port; users = { password_store = { inherit password; }; ... reader = { inherit password; acl = [ \"read ${topic}\" \"read $SYS/#\" ]; }; writer = { inherit password; acl = [ \"write ${topic}\" ]; }; }; } { port = anonPort; omitPasswordAuth = true; settings.allow_anonymous = true; acl = [ \"pattern read #\" ]; ... } ]; };",
+    "numbers": [],
+    "entities": ["services.mosquitto", "mosquitto"],
+    "time_period": "2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "mosquittonix"
+  },
+  {
+    "claim": "The testScript asserts broker readiness with server.wait_for_unit(\"mosquitto.service\") after start_all(), then exercises pub/sub via the mosquitto_pub/mosquitto_sub CLI clients installed on client nodes through environment.systemPackages.",
+    "stance": "supports",
+    "stance_target": "A hardware-daemon test gate can synchronise on mosquitto.service readiness and use stock mosquitto clients as the test harness",
+    "evidence_type": "empirical",
+    "scope_conditions": "Python testScript in the NixOS test framework",
+    "quoted_support": "start_all() server.wait_for_unit(\"mosquitto.service\") with subtest(\"check passwords\"): client1.succeed(publish(\"-m test\", \"password_store\")) ... client = { pkgs, ... }: { environment.systemPackages = with pkgs; [ mosquitto ]; }",
+    "numbers": [],
+    "entities": ["mosquitto_pub", "mosquitto_sub", "wait_for_unit", "mosquitto.service"],
+    "time_period": "2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "mosquittonix"
+  },
+  {
+    "claim": "The test demonstrates cross-node message-delivery assertion using parallel subscribe/publish with wait_for_console_text on a UUID client id, i.e. subscribing on one client and publishing from the other node.",
+    "stance": "supports",
+    "stance_target": "End-to-end MQTT delivery through the ephemeral broker can be asserted deterministically in a two-node NixOS test",
+    "evidence_type": "empirical",
+    "scope_conditions": "Python testScript threading helper",
+    "quoted_support": "parallel( lambda: client1.succeed(subscribe(\"-i 3688cdd7-aa07-42a4-be22-cb9352917e40\", \"reader\")), lambda: [ wait_uuid(\"3688cdd7-aa07-42a4-be22-cb9352917e40\"), client2.succeed(publish(\"-m test\", \"writer\")) ] )",
+    "numbers": [],
+    "entities": ["client1", "client2", "wait_for_console_text"],
+    "time_period": "2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "mosquittonix"
+  },
+  {
+    "claim": "The test also covers TLS listeners using snakeoil certificates generated inside the test with pkgs.runCommand + gnutls certtool, and an allow_anonymous listener gated by omitPasswordAuth.",
+    "stance": "neutral",
+    "stance_target": "Scope reference for what an MQTT CI gate may optionally cover (TLS, anonymous auth)",
+    "evidence_type": "empirical",
+    "scope_conditions": "nixpkgs test",
+    "quoted_support": "snakeOil = pkgs.runCommand \"snakeoil-certs\" { buildInputs = [ pkgs.gnutls.bin ]; ... } ... { port = tlsPort; ... settings = { cafile = \"${snakeOil}/ca.crt\"; certfile = \"${snakeOil}/server.crt\"; keyfile = \"${snakeOil}/server.key\"; require_certificate = true; use_identity_as_username = true; }; }",
+    "numbers": ["2048-bit keys"],
+    "entities": ["gnutls", "certtool", "snakeoil"],
+    "time_period": "2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "mosquittonix"
+  }
+]

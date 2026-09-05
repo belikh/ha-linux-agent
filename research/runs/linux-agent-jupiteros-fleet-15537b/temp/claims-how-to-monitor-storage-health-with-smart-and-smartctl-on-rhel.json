@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "A canonical smartd config for fleet storage monitoring is 'DEVICESCAN -a -o on -S on -n standby,q -s (S/../.././02|L/../../6/03) -W 4,45,55 -m root@' providing daily short self-tests at 2 AM, Saturday long tests at 3 AM, temperature trip points (4-degree change, 45 warning, 55 critical), and email alerts, enabled via 'systemctl enable --now smartd'.",
+    "stance": "supports",
+    "stance_target": "SMART monitoring as a concrete feature/checklist item for ha-linux-agent's storage-health collector on jupiterOS hosts",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "RHEL 9, smartmontools; general Linux applicability",
+    "quoted_support": "DEVICESCAN -a -o on -S on -n standby,q -s (S/../.././02|L/../../6/03) -W 4,45,55 -m root@example.com ... Short test daily at 2 AM, long test Saturdays at 3 AM. Temperature monitoring (4-degree change, 45 warning, 55 critical).",
+    "numbers": ["4-degree temperature change", "45 warning", "55 critical", "short test 2 AM daily", "long test Saturday 3 AM"],
+    "entities": ["smartd", "smartctl", "smartmontools", "RHEL"],
+    "time_period": "March 2026 (published)",
+    "region": "global (RHEL 9 focus)",
+    "confidence": "high",
+    "source_note_id": "how-to-monitor-storage-health-with-smart-and-smartctl-on-rhel"
+  },
+  {
+    "claim": "Key HDD SMART warning attributes are Reallocated_Sector_Ct, Current_Pending_Sector, Offline_Uncorrectable, UDMA_CRC_Error_Count and Spin_Retry_Count (any nonzero or growing value); for SSDs, Wear_Leveling_Count and Media_Wearout_Indicator; and for NVMe drives the health log fields percentage used, available spare, media and data integrity errors, and critical warning.",
+    "stance": "supports",
+    "stance_target": "Which specific SMART/NVMe attributes a fleet agent's storage-health module should gate alerts on",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "smartctl -A / NVMe smart-log output on Linux",
+    "quoted_support": "For NVMe drives, use the NVMe namespace device path: sudo smartctl -a /dev/nvme0n1. Key NVMe health metrics: Percentage Used - How much of the SSD lifetime has been consumed; Available Spare - Remaining spare NAND blocks; Media and Data Integrity Errors - Should be 0; Critical Warning - Active warnings.",
+    "numbers": [],
+    "entities": ["smartctl", "smartmontools", "NVMe", "SATA"],
+    "time_period": "March 2026",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "how-to-monitor-storage-health-with-smart-and-smartctl-on-rhel"
+  },
+  {
+    "claim": "SMART overall health via 'smartctl -H' returns PASSED/FAILED, where FAILED means 'back up your data immediately'; NVMe devices are queried via namespace paths (/dev/nvme0n1) rather than /dev/sdX.",
+    "stance": "neutral",
+    "stance_target": "Minimal health-gate check design for the agent's storage collector",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Linux, smartmontools installed",
+    "quoted_support": "Quick health check: sudo smartctl -H /dev/sda. Output: SMART overall-health self-assessment test result: PASSED. If this shows FAILED, back up your data immediately.",
+    "numbers": [],
+    "entities": ["smartctl"],
+    "time_period": "March 2026",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "how-to-monitor-storage-health-with-smart-and-smartctl-on-rhel"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "'tailscale status --json' exposes a BackendState key that is the reliable indicator of whether Tailscale is running, and a shell wrapper can gate dependent scripts on it with distinct exit codes (0 Running, 1 Stopped, 2 unexpected).",
+    "stance": "supports",
+    "stance_target": "the agent's tailscale connectivity gate should key off BackendState from status JSON, handling unexpected states as a third outcome rather than as false",
+    "evidence_type": "practitioner-expertise",
+    "scope_conditions": "tailscale CLI v1.82.x; author is a named practitioner (alexwlchan); macOS context but BackendState semantics are cross-platform",
+    "quoted_support": "The BackendState key can return seven different states, but in practice I only ever see Running and Stopped.",
+    "numbers": ["7 BackendState values", "exit 0/1/2"],
+    "entities": ["tailscale", "BackendState", "tailscale status --json", "alexwlchan"],
+    "time_period": "2025-04-28",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "how-to-check-if-tailscale-is-running-alexwlchan"
+  },
+  {
+    "claim": "The author wraps the BackendState check in a fail-fast pattern (set -o errexit + non-zero exit codes) so dependent scripts abort automatically when the tailnet is down — a pattern directly transferable to a fleet agent's pre-flight checks.",
+    "stance": "supports",
+    "stance_target": "agent design: pre-flight connectivity gates that fail fast rather than proceeding in a degraded, publish-lossy state",
+    "evidence_type": "practitioner-expertise",
+    "scope_conditions": "bash scripting with tailscale CLI",
+    "quoted_support": "Because I write all my scripts with set -o errexit, this means the other scripts will fail if I'm not connected to Tailscale.",
+    "numbers": [],
+    "entities": ["errexit", "fail-fast", "tailscale"],
+    "time_period": "2025-04-28",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "how-to-check-if-tailscale-is-running-alexwlchan"
+  }
+]

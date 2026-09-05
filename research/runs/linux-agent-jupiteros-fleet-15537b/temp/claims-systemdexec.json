@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "systemd User=/Group= identity options are only available for system services and root's user services; for user services of any non-root user, switching identity is not permitted",
+    "stance": "supports",
+    "stance_target": "user-service model cannot drop privileges; a non-root user service must run exactly as its owning user",
+    "evidence_type": "theoretical",
+    "scope_conditions": "systemd system and user service managers, any Linux host running systemd",
+    "quoted_support": "These options are only available for system services and are not supported for services running in per-user instances of the service manager. ... For user services of any other user, switching user identity is not permitted, hence the only valid setting is the same user the user's service manager is running as.",
+    "numbers": [],
+    "entities": ["systemd", "User=", "Group=", "systemd --user"],
+    "time_period": "current upstream documentation (2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "systemdexec"
+  },
+  {
+    "claim": "DynamicUser= allocates a transient UID/GID pair from the range 61184-65519 at unit start and releases it at stop, with UID recycling risks",
+    "stance": "neutral",
+    "stance_target": "DynamicUser viability for a long-running fleet agent",
+    "evidence_type": "theoretical",
+    "scope_conditions": "systemd system services; UID range 61184-65519",
+    "quoted_support": "Dynamic users/groups are allocated from the UID/GID range 61184\u202665519. It is recommended to avoid this range for regular system or login users. At any point in time each UID/GID from this range is only assigned to zero or one dynamically allocated users/groups in use. However, UID/GIDs are recycled after a unit is terminated.",
+    "numbers": ["61184", "65519", "UID recycled after termination"],
+    "entities": ["DynamicUser=", "nss-systemd", "systemd"],
+    "time_period": "systemd 232+",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "systemdexec"
+  },
+  {
+    "claim": "DynamicUser= is incompatible with D-Bus policies: a service using it may not allocate a D-Bus name (calling other services is unaffected)",
+    "stance": "refutes",
+    "stance_target": "DynamicUser= as a service model for an agent that must own a D-Bus service name",
+    "evidence_type": "theoretical",
+    "scope_conditions": "systemd system services using DynamicUser=; applies to D-Bus name allocation only",
+    "quoted_support": "Note that this option is currently incompatible with D-Bus policies, thus a service using this option may currently not allocate a D-Bus service name (note that this does not affect calling into other D-Bus services).",
+    "numbers": [],
+    "entities": ["DynamicUser=", "D-Bus", "systemd"],
+    "time_period": "current upstream documentation",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "systemdexec"
+  },
+  {
+    "claim": "AmbientCapabilities= lets a process run as an unprivileged user while retaining selected capabilities, auto-adding keep-caps to SecureBits=",
+    "stance": "supports",
+    "stance_target": "unprivileged SMART polling agent via AmbientCapabilities= instead of running as root",
+    "evidence_type": "theoretical",
+    "scope_conditions": "systemd 229+; in per-user service manager instances PrivateUsers= is implicitly enabled and requires unprivileged userns kernel support",
+    "quoted_support": "Ambient capability sets are useful if you want to execute a process as a non-privileged user but still want to give it some capabilities. Note that, in this case, option keep-caps is automatically added to SecureBits= to retain the capabilities over the user change.",
+    "numbers": ["version 229"],
+    "entities": ["AmbientCapabilities=", "CapabilityBoundingSet=", "SecureBits=", "kernel.unprivileged_userns_clone sysctl"],
+    "time_period": "systemd 229+ (2016) through current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "systemdexec"
+  },
+  {
+    "claim": "DynamicUser= implies RemoveIPC=, NoNewPrivileges=, RestrictSUIDSGID=, ProtectSystem=strict and ProtectHome=read-only, so writable paths must be explicitly allow-listed",
+    "stance": "supports",
+    "stance_target": "DynamicUser imposes filesystem/IPC restrictions that complicate stateful agents",
+    "evidence_type": "theoretical",
+    "scope_conditions": "systemd system services with DynamicUser= enabled",
+    "quoted_support": "If DynamicUser= is enabled, RemoveIPC= is implied (and cannot be turned off). ... Furthermore NoNewPrivileges= and RestrictSUIDSGID= are implicitly enabled (and cannot be disabled) ... Moreover, ProtectSystem=strict and ProtectHome=read-only are implied, thus prohibiting the service to write to arbitrary file system locations.",
+    "numbers": [],
+    "entities": ["DynamicUser=", "RemoveIPC=", "NoNewPrivileges=", "ProtectSystem=strict", "ProtectHome=read-only", "StateDirectory=", "RuntimeDirectory="],
+    "time_period": "systemd 232+",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "systemdexec"
+  }
+]

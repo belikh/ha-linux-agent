@@ -1,0 +1,22 @@
+[
+ {
+  "claim": "The mqtt notify platform implementation (mqtt/notify.py) is an entity platform inside the mqtt integration wired through async_setup_entity_entry_helper and MqttEntity, requiring command_topic and supporting command_template/retain/encoding \u2014 i.e., discovery-registered notify entities are first-class MQTT entities.",
+  "stance": "supports",
+  "stance_target": "gap-02: notify is a real mqtt integration platform, not a YAML-only configuration",
+  "evidence_type": "empirical",
+  "scope_conditions": "HA core dev branch",
+  "quoted_support": "\"\"\"Support for MQTT notify.\"\"\" ... from .const import CONF_COMMAND_TEMPLATE, CONF_COMMAND_TOPIC, CONF_RETAIN ... from .entity import MqttEntity, async_setup_entity_entry_helper",
+  "numbers": [
+   "88 lines (70 loc)"
+  ],
+  "entities": [
+   "home-assistant/core",
+   "MQTT notify",
+   "NotifyEntity"
+  ],
+  "time_period": "HA 2024.5 \u2192 dev (2026)",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "corehomeassistantcomponentsmqttnotifypy-at-dev-home-assistantcore-github"
+ }
+]

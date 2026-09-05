@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Netdata's default-database-tier agent needs about 16 KiB of RAM per unique metric collected, independent of collection frequency; a child agent defaults to 100-200 MB depending on metric count.",
+    "stance": "neutral",
+    "stance_target": "Quantitative baseline for agent memory cost per metric - how many metrics a jupiterOS agent can afford to publish",
+    "evidence_type": "statistical",
+    "scope_conditions": "Official Netdata RAM sizing doc, default Database Tier configuration, Netdata 2.1-era",
+    "quoted_support": "Using the default Database Tier configuration, Netdata needs about 16KiB per unique metric collected, independently of the data collection frequency. ... Netdata by default should need 100MB to 200MB of RAM, depending on the number of metrics being collected.",
+    "numbers": ["16 KiB per unique metric", "100-200 MB child default"],
+    "entities": ["Netdata"],
+    "time_period": "Current docs (2026)",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "ram-utilization-resource-utilization-learn-netdata"
+  },
+  {
+    "claim": "Netdata Parent memory cost model: each actively-collected metric costs 26 KiB (1 KiB index + 20 KiB collection structures + 5 KiB ML model), each archived metric 1 KiB, and each active node 1034 KiB (10 KiB index + 512 KiB reception + 512 KiB dispatch buffers); a 2-Parent cluster with 1M active metrics from 500 nodes needs 35.7 GiB.",
+    "stance": "neutral",
+    "stance_target": "Sizing the central collector (HA broker/recorder in jupiterOS's case) for fleet metric ingestion",
+    "evidence_type": "statistical",
+    "scope_conditions": "Official vendor sizing model; worst-case figures",
+    "quoted_support": "Each metric currently being collected needs (1 index + 20 collection + 5 ml) = 26 KiB. When it stops being collected, it needs 1 KiB (index). Each node currently being collected needs (10 index + 512 reception + 512 dispatch) = 1034 KiB. ... Memory required per node 35.7 GiB.",
+    "numbers": ["26 KiB per active metric", "1034 KiB per active node", "1 KiB per archived metric", "35.7 GiB for 1M metrics/500 nodes/2 Parents", "512 KiB reception", "512 KiB dispatch"],
+    "entities": ["Netdata Parent", "Netdata"],
+    "time_period": "Current docs",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "ram-utilization-resource-utilization-learn-netdata"
+  },
+  {
+    "claim": "Netdata 2.1 added dbengine out-of-memory protection (default 10% of total system RAM, capped at 5 GiB) that automatically releases cache memory when free memory drops below the threshold, plus a 'use all ram for caches' mode.",
+    "stance": "neutral",
+    "stance_target": "Memory-pressure self-protection pattern applicable to any fleet agent on small jupiterOS hosts",
+    "evidence_type": "empirical",
+    "scope_conditions": "Netdata 2.1+ dbengine configuration",
+    "quoted_support": "[db].dbengine out of memory protection is by default 10% of total system RAM, but not more than 5GiB. When the amount of free memory is less than this, Netdata automatically starts releasing memory from its caches to avoid getting out of memory.",
+    "numbers": ["10% of system RAM default", "5 GiB cap"],
+    "entities": ["Netdata", "dbengine"],
+    "time_period": "Netdata 2.1+",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "ram-utilization-resource-utilization-learn-netdata"
+  }
+]

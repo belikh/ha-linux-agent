@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "lnxlink's module catalogue (~50 modules) defines the fullest feature envelope of any Linux HA agent, including rich desktop notifications, URL/file opening, keep-alive (prevent monitor sleep), idle-time sensing, media control with metadata, brightness control, screen on/off, fullscreen detection, desktop screenshot streaming to an HA image entity, audio device selection, keyboard hotkey capture (X11-only, not Wayland), mouse simulation, Steam game launcher, active window monitoring, clipboard view/update, unlocked-graphical-user monitoring, boot-select, power-profile toggling, per-unit systemd service management, NVIDIA/AMD GPU usage, restart-required and system-update tracking, disk IO/usage/mounts, Bluetooth control with device battery, WiFi strength, WOL toggle, BeaconDB WiFi-triangulation location, mic/speaker/camera/gamepad in-use sensors, webcam switch+feed, fingerprint, speech, GPIO, IR remote, bash custom entities, docker management, in-HA self-update, dynamic log level, and a sensor-collection-latency probe",
+    "stance": "supports",
+    "stance_target": "the feature bar for a 'proper Linux agent' is far above hardware monitoring — presence, notifications, media, input simulation, location, updates, and per-unit systemd control are all table stakes somewhere in the ecosystem; ha-linux-agent's roadmap should be scored against this envelope",
+    "evidence_type": "empirical",
+    "scope_conditions": "lnxlink docs as of 2026-08; module availability varies with desktop environment and hardware",
+    "quoted_support": "Notify: Send rich desktop notifications via notify.send_message ... Audio Select: Switch between available speaker or microphone input devices. ... Keyboard Hotkeys: Capture specific keypresses for automation triggers (Not for Wayland) ... SystemD: Manage Linux services; check status, start, or stop specific units. ... Screenshot: Stream your desktop directly to Home Assistant via an image entity. ... Inference Time: Debug performance by measuring sensor data collection latency.",
+    "numbers": ["~50 modules", "gamepad active threshold 40s"],
+    "entities": ["lnxlink", "BeaconDB", "PipeWire", "systemd", "NVIDIA", "AMD"],
+    "time_period": "2026-08",
+    "region": "Linux",
+    "confidence": "high",
+    "source_note_id": "lnxlink"
+  },
+  {
+    "claim": "lnxlink's docs publish the canonical Linux-agent alternatives table: Go Hass Agent (Linux/Windows/macOS, Native HA Mobile App API + MQTT), HASS.Agent (Windows, HA API + MQTT), System Bridge (Windows/Linux, HA API WebSocket), Glances (cross-platform, REST HTTP polling), IoTuring (cross-platform, MQTT) — with lnxlink itself Linux-only by design due to deep system dependencies",
+    "stance": "neutral",
+    "stance_target": "the competitive landscape for ha-linux-agent is five-plus projects across three architectural patterns (native API, MQTT, REST polling); positioning requires picking a lane and differentiating on jupiterOS fleet integration",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "as maintained by the lnxlink author, 2026-08",
+    "quoted_support": "LNXlink is built specifically for Linux. There are currently no plans for Windows or macOS support due to deep system dependencies. Here are some alternatives: ... Go Hass Agent | Linux, Windows, macOS | Native HA Mobile App API + MQTT ... HASS.Agent | Windows | HA API + MQTT ... System Bridge | Windows, Linux | HA API (WebSocket) ... Glances | Cross-platform (Linux, Windows, macOS, BSD) | REST API (HTTP polling) ... IoTuring | Cross-platform (Windows, Linux, macOS, BSD) | MQTT",
+    "numbers": ["5 alternatives listed"],
+    "entities": ["lnxlink", "Go Hass Agent", "HASS.Agent", "System Bridge", "Glances", "IoTuring"],
+    "time_period": "2026-08",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "lnxlink"
+  },
+  {
+    "claim": "lnxlink's audio-select module switches between speaker/microphone input devices — the exact capability a go-hass-agent user requested in January 2026 that go-hass-agent's control vocabulary cannot express",
+    "stance": "supports",
+    "stance_target": "feature gaps in one mature agent are already filled by another; ha-linux-agent's control model needs select-style entities for audio output switching",
+    "evidence_type": "empirical",
+    "scope_conditions": "lnxlink current modules",
+    "quoted_support": "🎧 Audio Select — Switch between available speaker or microphone input devices.",
+    "numbers": [],
+    "entities": ["lnxlink", "go-hass-agent", "PipeWire"],
+    "time_period": "2026",
+    "region": "Linux",
+    "confidence": "high",
+    "source_note_id": "lnxlink"
+  },
+  {
+    "claim": "lnxlink supports Wayland only partially: keyboard hotkey capture is documented as 'Not for Wayland', and the Wayland active-window monitor ships as a community custom module rather than a built-in",
+    "stance": "supports",
+    "stance_target": "X11/Wayland divergence is an unsolved portability tax across Linux HA agents — a jupiterOS fleet agent must state its Wayland position explicitly (kiosks vs general hosts may differ)",
+    "evidence_type": "empirical",
+    "scope_conditions": "lnxlink module documentation",
+    "quoted_support": "⌨️ Keyboard Hotkeys — Capture specific keypresses for automation triggers (Not for Wayland). ... Custom Modules: Active Window (Wayland) — Discussion #126",
+    "numbers": [],
+    "entities": ["lnxlink", "Wayland", "X11"],
+    "time_period": "2026-08",
+    "region": "Linux",
+    "confidence": "high",
+    "source_note_id": "lnxlink"
+  }
+]

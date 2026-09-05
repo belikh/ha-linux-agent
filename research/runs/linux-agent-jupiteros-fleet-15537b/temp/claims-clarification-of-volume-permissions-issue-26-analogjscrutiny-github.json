@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The NVMe admin ioctl NVME_IOCTL_ADMIN_CMD requires CAP_SYS_ADMIN at the kernel level (checked in nvme_user_cmd in drivers/nvme/host/pci.c) — CAP_SYS_RAWIO is insufficient — so containerised or capability-restricted SMART collectors must be granted CAP_SYS_ADMIN to read NVMe health; SATA/SCSI drives need only CAP_SYS_RAWIO.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent running as a non-root, capability-scoped service on NixOS hosts needs CAP_SYS_ADMIN (NVMe) + CAP_SYS_RAWIO (SATA) for SMART telemetry — a NixOS systemd unit AmbientCapabilities design point",
+    "evidence_type": "empirical",
+    "scope_conditions": "Linux NVMe driver (nvme_user_cmd capability check, verified against v4.4 source by Docker's Justin Cormack and reproduced through 2023); container capability semantics",
+    "quoted_support": "if you read the source code for NVME_IOCTL_ADMIN_CMD it requires CAP_SYS_ADMIN, so there is nothing you can do except grant that. ... So it looks like --cap-add SYS_ADMIN is required for NVMe drives, but --cap-add SYS_RAWIO is enough for SATA/SCSI drives. If you have a mix of both SATA/NVMe, you must include both flags",
+    "numbers": ["exit_status: 2", "smartctl 7.0"],
+    "entities": ["NVME_IOCTL_ADMIN_CMD", "CAP_SYS_ADMIN", "CAP_SYS_RAWIO", "nvme_user_cmd", "drivers/nvme/host/pci.c", "Justin Cormack"],
+    "time_period": "Sept 2020 (issue), corroborated by 2023 comments",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "clarification-of-volume-permissions-issue-26-analogjscrutiny-github"
+  },
+  {
+    "claim": "smartctl on NVMe without CAP_SYS_ADMIN fails with 'Read NVMe Identify Controller failed: NVME_IOCTL_ADMIN_CMD: Permission denied' (smartctl JSON exit_status 2) — a silent-failure mode the agent must detect and surface rather than reporting as 'no SMART data'.",
+    "stance": "supports",
+    "stance_target": "agent SMART collection must distinguish capability failure from absent hardware and report a diagnostic, matching the 'never reliable' complaint in the research query",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "smartctl 7.0 on Linux 5.4; capability-restricted process",
+    "quoted_support": "\"Read NVMe Identify Controller failed: NVME_IOCTL_ADMIN_CMD: Permission denied\", \"severity\": \"error\" ... \"exit_status\": 2",
+    "numbers": ["2"],
+    "entities": ["smartctl", "NVME_IOCTL_ADMIN_CMD"],
+    "time_period": "Sept 2020",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "clarification-of-volume-permissions-issue-26-analogjscrutiny-github"
+  },
+  {
+    "claim": "/run/udev (mounted read-only) is used by the Scrutiny collector for virtual-device filtering and as a fallback to look up WWN device identifiers; without it, serial numbers are used as the device identifier instead.",
+    "stance": "supports",
+    "stance_target": "agent device identification should prefer WWN via udev metadata with serial-number fallback — and the agent needs read access to udev data, a NixOS package/permission consideration",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Linux with udev; containerised or host collectors",
+    "quoted_support": "-v /run/udev is used to retrieve metadata for filtering virtual devices & as a fallback method to lookup WWN device identifiers. Though, if you don't have it, Scrutiny may use your serial number as a device identifier instead.",
+    "numbers": [],
+    "entities": ["/run/udev", "WWN", "serial number"],
+    "time_period": "Sept 2020",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "clarification-of-volume-permissions-issue-26-analogjscrutiny-github"
+  }
+]

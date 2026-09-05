@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "The companion-app clear_notification contract is documented verbatim: 'You can clear an existing notification which has a tag by sending clear_notification' — message: \"clear_notification\" plus the original tag in data (iOS requires app 2021.5+); notifications are replaced, not cleared, by reusing a tag.",
+    "stance": "supports",
+    "stance_target": "go-hass-agent issue #926's report that clear_notification 'simply sends a second notification instead' is a deviation from the documented companion-app semantics",
+    "evidence_type": "empirical",
+    "scope_conditions": "mobile_app notify platform; notifications carrying a tag",
+    "quoted_support": "Replacing: Replace an existing notification by using a tag for the notification. All subsequent notifications will take the place of a notification with the same tag. ... Clearing: You can clear an existing notification which has a tag by sending clear_notification. ... message: \"clear_notification\" ... data: tag: \"backyard-motion-detected\"",
+    "numbers": ["iOS requires app version 2021.5 or later"],
+    "entities": ["clear_notification", "tag", "notify.mobile_app", "companion apps"],
+    "time_period": "current as of Sep 2026",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "introduction-home-assistant-companion-docs"
+  },
+  {
+    "claim": "The mobile_app notify platform requires at least message: in the payload, exposes each device as a notify.mobile_app_<device_id> target, and supports group: for visual grouping — the base schema shared by all companion-app notification features.",
+    "stance": "neutral",
+    "stance_target": "Baseline notification schema for any agent adopting the mobile_app protocol",
+    "evidence_type": "empirical",
+    "scope_conditions": "mobile_app notify platform",
+    "quoted_support": "The mobile_app notify platform accepts the standard title, message and target parameters used by the notify platform. ... A requirement of the notify platform is that you must specify at least message: in your payload.",
+    "numbers": [],
+    "entities": ["notify.mobile_app", "title", "message", "target", "group"],
+    "time_period": "current as of Sep 2026",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "introduction-home-assistant-companion-docs"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Z2M's availability supervisor schedules per-device pings with bounded random jitter: delay = (timeout + 1s + random*max_jitter) * backoff, and MAX_TIMEOUT=2147483647 caps the setTimeout delay because Node stores delays as 32-bit signed ints.",
+    "stance": "supports",
+    "stance_target": "The ha-linux-agent supervisor should adopt the same jitter-per-host pattern to de-synchronise fleet-wide availability pings and avoid broker IO spikes (mirrors HA's own 'random delay recommended' birth advice).",
+    "evidence_type": "empirical",
+    "scope_conditions": "Zigbee2MQTT master availability.ts; TypeScript/Node setTimeout semantics",
+    "quoted_support": "const jitter = Math.random() * this.getMaxJitter(device); ... setTimeout(this.addToPingQueue.bind(this, device), Math.min((this.getTimeout(device) + utils.seconds(1) + jitter) * backoff, MAX_TIMEOUT)); ... const MAX_TIMEOUT = 2147483647;",
+    "numbers": ["MAX_TIMEOUT = 2147483647", "jitter ∈ [0, max_jitter)", "timeout + 1 s base delay"],
+    "entities": ["Zigbee2MQTT", "availability.ts", "max_jitter"],
+    "time_period": "master branch, fetched 2026-09",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "availabilityts"
+  },
+  {
+    "claim": "Failed pings multiply the next backoff by 1.5 for a device previously marked available and by 2 when already unavailable, producing the documented sequence ×1.5, ×3, ×6, ×12 (with default timeout: 10, 15, 30, 60, 120 minutes), and pause_on_backoff_gt parks devices in availability sleep to stop unbounded growth.",
+    "stance": "supports",
+    "stance_target": "The supervisor spec's offline hosts must stop being pinged at full cadence — multiplicative backoff plus a pause threshold prevents both broker load and unbounded timers from a permanently-dead fleet host.",
+    "evidence_type": "empirical",
+    "scope_conditions": "Zigbee2MQTT master availability.ts, backoff enabled per device or via active defaults",
+    "quoted_support": "this.pingBackoffs.set(device.ieeeAddr, currentBackoff * (available ? 1.5 : 2)); // results in backoffs: *1.5, *3, *6, *12... (with default timeout: 10, 15, 30, 60, 120)",
+    "numbers": ["×1.5 (was available)", "×2 (was unavailable)", "10/15/30/60/120 minute example ladder"],
+    "entities": ["Zigbee2MQTT", "pingBackoffs", "pause_on_backoff_gt"],
+    "time_period": "master branch, fetched 2026-09",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "availabilityts"
+  },
+  {
+    "claim": "Availability publishes are retained QoS 1 JSON payloads {state: online|offline} on <friendlyName>/availability, and identical consecutive states are deduped via a lastPublishedAvailabilities map.",
+    "stance": "supports",
+    "stance_target": "The agent's per-host availability topic should be retained QoS 1 (so HA learns state on subscribe even mid-gap) and deduplicated (so a flapping host doesn't spam).",
+    "evidence_type": "empirical",
+    "scope_conditions": "Zigbee2MQTT master availability.ts publish path",
+    "quoted_support": "const topic = `${entity.name}/availability`; const payload: Zigbee2MQTTAPI[\"{friendlyName}/availability\"] = {state: available ? \"online\" : \"offline\"}; ... await this.mqtt.publish(topic, JSON.stringify(payload), {clientOptions: {retain: true, qos: 1}});",
+    "numbers": ["qos 1", "retain true"],
+    "entities": ["Zigbee2MQTT", "availability topic"],
+    "time_period": "master branch, fetched 2026-09",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "availabilityts"
+  },
+  {
+    "claim": "On device reconnect (announce or offline→online transition) Z2M retrieves device state via a 2-second-debounced retrieveState that reads state/brightness/colour per RETRIEVE_ON_RECONNECT, and on rename it clears the old availability topic by publishing an empty retained payload.",
+    "stance": "supports",
+    "stance_target": "Reconnect handling must include state re-retrieval (republish full state after any availability recovery), and renames must tombstone the old retained topic — both apply directly to the agent's lifecycle supervisor.",
+    "evidence_type": "empirical",
+    "scope_conditions": "Zigbee2MQTT master availability.ts",
+    "quoted_support": "await this.mqtt.publish(`${data.from}/availability`, \"\", {clientOptions: {retain: true, qos: 1}}); ... if (entity.isDevice() && available && this.lastPublishedAvailabilities.get(entity.ieeeAddr) === false) { logger.debug(`Device '${entity.name}' reconnected`); this.retrieveState(entity); }",
+    "numbers": ["2 s debounce"],
+    "entities": ["Zigbee2MQTT", "retrieveState", "RETRIEVE_ON_RECONNECT"],
+    "time_period": "master branch, fetched 2026-09",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "availabilityts"
+  },
+  {
+    "claim": "The ping queue is strictly serial: one ping executes at a time, a previously-available device gets 2 attempts with a 3-second retry gap, and each queue item sleeps 2 seconds before the next ping runs.",
+    "stance": "supports",
+    "stance_target": "Probing in the supervisor should be queued and rate-limited rather than fanned out concurrently, bounding broker/radio load during mass-offline events.",
+    "evidence_type": "empirical",
+    "scope_conditions": "Zigbee2MQTT master availability.ts pingQueue",
+    "quoted_support": "const attempts = available ? 2 : 1; ... await device.zh.ping(!available || i !== 2); ... if (i !== attempts) { await utils.sleep(3); } ... // Sleep 2 seconds before executing next ping await utils.sleep(2);",
+    "numbers": ["2 attempts (if previously available)", "3 s retry gap", "2 s inter-ping gap"],
+    "entities": ["Zigbee2MQTT", "pingQueue"],
+    "time_period": "master branch, fetched 2026-09",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "availabilityts"
+  }
+]

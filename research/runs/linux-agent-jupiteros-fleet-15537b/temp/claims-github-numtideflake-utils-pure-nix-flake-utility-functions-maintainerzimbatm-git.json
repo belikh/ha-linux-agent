@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "flake-utils provides eachDefaultSystem (over defaultSystems = x86_64-linux, aarch64-linux, x86_64-darwin, aarch64-darwin) plus eachSystemPassThrough for outputs that must sit outside the per-system attrset, such as nixosConfigurations and homeConfigurations.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's flake should use flake-utils (or equivalent) to expose multi-arch packages and fleet-level nixosConfigurations cleanly",
+    "evidence_type": "empirical",
+    "scope_conditions": "flake-utils README (numtide, MIT, 1.6k stars); defaultSystems overridable via a nix-systems/* input follows",
+    "quoted_support": "inputs.flake-utils.lib.eachDefaultSystem (system: { checks.../packages.../devShells... }) // inputs.flake-utils.lib.eachDefaultSystemPassThrough (system: { homeConfigurations.\"<HOME_CONFIGURATION>\" = ...; nixosConfigurations.\"<NIXOS_CONFIGURATION>\" = ...; })",
+    "numbers": ["1.6k stars", "83 forks", "102 commits"],
+    "entities": ["flake-utils", "numtide", "eachDefaultSystem", "eachDefaultSystemPassThrough", "nixosConfigurations"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-numtideflake-utils-pure-nix-flake-utility-functions-maintainerzimbatm-git"
+  },
+  {
+    "claim": "flake-utils' defaultSystems list can be narrowed by overriding its systems input to a nix-systems flake (e.g. github:nix-systems/x86_64-linux) via follows, letting fleet consumers control the architectures built.",
+    "stance": "supports",
+    "stance_target": "jupiterOS fleet hosts (x86_64/aarch64 kiosks) can keep ha-linux-agent's flake evaluation lean by constraining systems",
+    "evidence_type": "empirical",
+    "scope_conditions": "flake-utils README, defaultSystems section; requires the consumer flake to define its own systems input and flake-utils follows",
+    "quoted_support": "inputs.systems.url = \"github:nix-systems/x86_64-linux\"; inputs.flake-utils.url = \"github:numtide/flake-utils\"; inputs.flake-utils.inputs.systems.follows = \"systems\";",
+    "numbers": [],
+    "entities": ["flake-utils", "nix-systems", "follows"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-numtideflake-utils-pure-nix-flake-utility-functions-maintainerzimbatm-git"
+  }
+]

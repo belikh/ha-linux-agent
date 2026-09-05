@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Kernel backlight sysfs exposes /sys/class/backlight/<backlight>/brightness (R/W requested level), actual_brightness (RO, the level actually used by hardware) and max_brightness (RO).",
+    "stance": "supports",
+    "stance_target": "kiosk brightness control in ha-linux-agent has a stable, documented sysfs interface; actual_brightness is the authoritative readback because writes may be clamped by hardware",
+    "evidence_type": "empirical",
+    "scope_conditions": "Linux backlight core; requires a registered backlight device (driver support); full attribute list in the stable/sysfs-class-backlight ABI file",
+    "quoted_support": "Several sysfs attributes are provided by the backlight core: - brightness R/W, set the requested brightness level - actual_brightness RO, the brightness level used by the HW - max_brightness RO, the maximum brightness level supported",
+    "numbers": [],
+    "entities": ["backlight sysfs", "brightness", "actual_brightness", "max_brightness"],
+    "time_period": "kernel docs current for 7.3.0-rc1",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "backlight-support-the-linux-kernel-documentation"
+  },
+  {
+    "claim": "Backlight power state is configurable from user space via /sys/class/backlight/<backlight>/bl_power with values 0 (full on) and 4 (full off).",
+    "stance": "supports",
+    "stance_target": "agent can blank/restore kiosk displays via sysfs in addition to setting brightness",
+    "evidence_type": "empirical",
+    "scope_conditions": "Linux backlight core",
+    "quoted_support": "User space can configure the power mode using the sysfs attribute: /sys/class/backlight/<backlight>/bl_power ... The possible values are: (0: full on, 4: full off)",
+    "numbers": ["0", "4"],
+    "entities": ["bl_power", "BACKLIGHT_POWER_ON", "BACKLIGHT_POWER_OFF"],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "backlight-support-the-linux-kernel-documentation"
+  },
+  {
+    "claim": "Backlight changes are reported to user space via a uevent on the actual_brightness attribute, and when brightness is changed by platform means (e.g. a hotkey) the driver must call backlight_force_update() to notify the core and generate that uevent — so uevents (not polling) are the event-driven way to track external brightness changes.",
+    "stance": "supports",
+    "stance_target": "agent brightness state can stay in sync with hotkey/firmware changes by listening for uevents instead of polling sysfs",
+    "evidence_type": "empirical",
+    "scope_conditions": "Linux backlight core; well-behaved backlight drivers",
+    "quoted_support": "When the backlight changes this is reported to user-space using an uevent connected to the actual_brightness attribute. When brightness is set by platform specific means, for example a hot-key to adjust backlight, the driver must notify the backlight core that brightness has changed using backlight_force_update().",
+    "numbers": [],
+    "entities": ["uevent", "backlight_force_update", "BACKLIGHT_UPDATE_HOTKEY", "BACKLIGHT_UPDATE_SYSFS"],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "backlight-support-the-linux-kernel-documentation"
+  },
+  {
+    "claim": "Backlight devices are typed RAW (hardware registers), PLATFORM (platform-specific interface) or FIRMWARE (standard firmware interface), and user space can use the type to make policy decisions about which interface to prefer.",
+    "stance": "supports",
+    "stance_target": "agent must enumerate and prefer backlight devices by type rather than assuming a single /sys/class/backlight entry, since a host can expose multiple backlight interfaces",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Linux backlight core",
+    "quoted_support": "The type of backlight control ... BACKLIGHT_RAW The backlight is controlled using hardware registers. BACKLIGHT_PLATFORM The backlight is controlled using a platform-specific interface. BACKLIGHT_FIRMWARE The backlight is controlled using a standard firmware interface. ... The backlight type allows userspace to make appropriate policy decisions based on the backlight type.",
+    "numbers": [],
+    "entities": ["BACKLIGHT_RAW", "BACKLIGHT_PLATFORM", "BACKLIGHT_FIRMWARE"],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "backlight-support-the-linux-kernel-documentation"
+  }
+]

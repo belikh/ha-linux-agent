@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Telegraf2Hassio's implementation is a hub-side HA add-on (Dockerfile + run.sh + config.yaml) that subscribes to Telegraf's MQTT topic wildcard (default 'telegraf/#') with broker credentials, and re-publishes measurements as HA self-discoverable MQTT sensors — all discovery logic lives on the HA side, not the monitored host",
+    "stance": "supports",
+    "stance_target": "the incumbent bridge pattern centralises discovery/translation in the hub, adding broker creds and a topic mapping layer a per-host agent with built-in discovery eliminates",
+    "evidence_type": "empirical",
+    "scope_conditions": "joaofl/hassio-addons telegraf2hassio add-on source tree, 2022; HA add-on architecture",
+    "quoted_support": "options: mqtt_broker: localhost, mqtt_port: 1883, mqtt_user: mqtt_user_here, mqtt_pass: mqtt_pass_here, telegraf_topic: telegraf/#, calc_rate: host_sensor_measurement_1,host_sensor_measurement_2, log_level: info",
+    "numbers": ["port 1883", "topic 'telegraf/#'"],
+    "entities": ["Telegraf2Hassio", "Home Assistant", "Telegraf", "MQTT"],
+    "time_period": "2022-present (repo live)",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "hassio-addonstelegraf2hassio-at-master-joaoflhassio-addons-github"
+  },
+  {
+    "claim": "Telegraf2Hassio's calc_rate option requires manually listing comma-separated measurement names (host_sensor_device_uid_measurement format) to derive rate-of-change _dt measurements — per-sensor derivative configuration done by hand on the hub",
+    "stance": "supports",
+    "stance_target": "an agent with native rate/derivative computation per sensor removes this manual per-metric configuration surface",
+    "evidence_type": "empirical",
+    "scope_conditions": "Telegraf2Hassio add-on config; e.g. 'myserver_net_enp2s0_12_bytes_recv'",
+    "quoted_support": "The calc_rate is an optional argument, but it allows to add calculated rate measurements on top of the measurements already provided by Telegraf. For example, if you want know the data rate on a given ethernet port, then the calc_rate setting should look like below: myserver_net_enp2s0_12_bytes_recv,nuvem_net_enp2s0_12_bytes_sent",
+    "numbers": [],
+    "entities": ["Telegraf2Hassio", "Telegraf"],
+    "time_period": "2022-present",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "hassio-addonstelegraf2hassio-at-master-joaoflhassio-addons-github"
+  },
+  {
+    "claim": "Telegraf2Hassio's discovery naming depends on Telegraf's own metric naming (host name + sensor + device name + unique ID + measurement), and the README tells users to read add-on logs after the first data batch to learn which entities appeared — entity identity is emergent rather than declared",
+    "stance": "supports",
+    "stance_target": "emergent entity naming complicates dashboards/automations; an agent should declare a fixed entity schema so consumers can predict IDs",
+    "evidence_type": "empirical",
+    "scope_conditions": "Telegraf2Hassio add-on; discovery workflow",
+    "quoted_support": "where myserver is the Telegraf client name, net is the sensor name, enp2s0_12 is the device name, followed by its unique ID (12), and finally the measurement name bytes_sent. ... If you are not sure about the names to expect, start the addon, and check the logs after the first batch of data is received.",
+    "numbers": [],
+    "entities": ["Telegraf2Hassio", "Telegraf"],
+    "time_period": "2022-present",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "hassio-addonstelegraf2hassio-at-master-joaoflhassio-addons-github"
+  }
+]

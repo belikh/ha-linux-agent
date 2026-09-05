@@ -1,0 +1,22 @@
+[
+ {
+  "claim": "mosquitto(8)'s $SYS/broker/mqtt/* topic listing (e.g. $SYS/broker/mqtt/publish/dropped, $SYS/broker/mqtt/connect/received) is wrong as of 2.1.2: sys_tree.c never publishes those topics ('Not published in $SYS, may be made available for plugins'), so a $SYS monitoring agent must use $SYS/broker/publish/messages/dropped and the load tree, not the mqtt/* variants.",
+  "stance": "refutes",
+  "stance_target": "Any implementation (or draft recommendation) that reads $SYS/broker/mqtt/* counters \u2014 including the mqtt/publish/dropped alias shown in the current man page",
+  "evidence_type": "empirical",
+  "scope_conditions": "mosquitto 2.1.2 (Aug 2026); issue open",
+  "quoted_support": "These are never published, as of version 2.1.2. In sys_tree.c, these topics are excluded explicitly from being published. The associated commit states 'Not published in $SYS, may be made available for plugins.'",
+  "numbers": [
+   "2.1.2",
+   "opened Aug 25, 2026"
+  ],
+  "entities": [
+   "Eclipse Mosquitto",
+   "sys_tree.c"
+  ],
+  "time_period": "August 2026",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "documentation-on-sysbrokermqtt-topics-is-wrong-issue-3726-eclipse-mosquittomosqu"
+ }
+]

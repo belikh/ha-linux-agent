@@ -1,0 +1,98 @@
+[
+  {
+    "claim": "sysinfo 0.39.6 (crate docs, July 2026) exposes Components for temperature monitoring (sourced from hwmon), Disks, Networks (per-interface received/transmitted totals and deltas), System (CPU/memory/processes) and CGroupLimits \u2014 but its hwmon-backed Components return nothing inside Docker/WSL because virtual systems lack /sys/class/hwmon and /sys/class/thermal passthrough.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's telemetry subsystem can be built on sysinfo for CPU/mem/disk/net, but thermal telemetry on virtualised or containerised hosts requires host sysfs access or a direct sysfs path",
+    "evidence_type": "empirical",
+    "scope_conditions": "sysinfo 0.39.6 on Linux; Docker/WSL caveat",
+    "quoted_support": "Virtual Linux systems, such as those run through Docker and Windows Subsystem for Linux (WSL), do not receive host hardware information via /sys/class/hwmon or /sys/class/thermal. As such, querying for components may return no results (or unexpected results) when using this library on virtual systems.",
+    "numbers": [
+      "0.39.6"
+    ],
+    "entities": [
+      "sysinfo",
+      "Components",
+      "Docker",
+      "WSL"
+    ],
+    "time_period": "2026-07-09",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "sysinfo-rust"
+  },
+  {
+    "claim": "The sysinfo Rust crate (v0.39.6, July 2026) uses a diff-based refresh model: structs must be explicitly refreshed to obtain current values, CPU usage requires a previous measurement, and the recommended pattern is to keep ONE System instance alive for the program's lifetime rather than recreating it.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's long-running daemon design is the correct match for sysinfo; a recreate-per-poll design would break CPU usage calculations and waste allocation on process lists",
+    "evidence_type": "empirical",
+    "scope_conditions": "sysinfo 0.39.6 crate; min rustc 1.95; applies to the Linux target and all supported OSes",
+    "quoted_support": "Before any attempt to read the different structs\u2019 information, you need to update them to get up-to-date information because for most of them, it works on diff between the current value and the old one. Which is why, it\u2019s much better to keep the same instance of System around instead of recreating it multiple times.",
+    "numbers": [
+      "0.39.6"
+    ],
+    "entities": [
+      "sysinfo",
+      "System",
+      "MINIMUM_CPU_UPDATE_INTERVAL"
+    ],
+    "time_period": "sysinfo 0.39.6 (2026-07-09)",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "sysinfo-rust"
+  },
+  {
+    "claim": "sysinfo performance guidance: use refresh_specifics(...) to refresh only needed information instead of refresh_all, and call set_open_files_limit(0) when the host process needs many file descriptors.",
+    "stance": "supports",
+    "stance_target": "agent telemetry loops should use targeted refresh kinds to keep per-host overhead low on the fleet",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "sysinfo crate on Linux (set_open_files_limit is Linux-only with system feature)",
+    "quoted_support": "Most of the time, you don\u2019t want all information provided by sysinfo but just a subset of it. In this case, it\u2019s recommended to use refresh_specifics(...) methods with only what you need to have much better performance. ... you\u2019d better use: sysinfo::set_open_files_limit(0);",
+    "numbers": [],
+    "entities": [
+      "sysinfo",
+      "refresh_specifics",
+      "set_open_files_limit"
+    ],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "sysinfo-rust"
+  },
+  {
+    "claim": "In Docker/WSL virtual Linux environments, sysinfo gets no host hardware information via /sys/class/hwmon or /sys/class/thermal, so component (temperature) queries may return empty or unexpected results.",
+    "stance": "supports",
+    "stance_target": "agent running in containers (a plausible jupiterOS deployment mode) cannot collect thermal telemetry via sysinfo \u2014 host hwmon/thermal sysfs must be mounted or the agent must run on the host",
+    "evidence_type": "empirical",
+    "scope_conditions": "Docker containers and WSL; sysinfo Components API",
+    "quoted_support": "Virtual Linux systems, such as those run through Docker and Windows Subsystem for Linux (WSL), do not receive host hardware information via /sys/class/hwmon or /sys/class/thermal. As such, querying for components may return no results (or unexpected results) when using this library on virtual systems.",
+    "numbers": [],
+    "entities": [
+      "sysinfo",
+      "Docker",
+      "WSL",
+      "/sys/class/hwmon",
+      "/sys/class/thermal"
+    ],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "sysinfo-rust"
+  },
+  {
+    "claim": "sysinfo supports Linux, FreeBSD, NetBSD, Android, iOS, macOS, Raspberry Pi and Windows, and on unsupported OSes it silently returns empty values; programs can check IS_SUPPORTED_SYSTEM.",
+    "stance": "supports",
+    "stance_target": "the crate is viable for a multi-platform agent binary covering the whole jupiterOS fleet",
+    "evidence_type": "empirical",
+    "scope_conditions": "sysinfo crate documented platform support",
+    "quoted_support": "It currently supports the following OSes (alphabetically sorted): Android, FreeBSD, NetBSD, iOS, Linux, macOS, Raspberry Pi, Windows. You can still use sysinfo on non-supported OSes, it\u2019ll simply do nothing and always return empty values.",
+    "numbers": [],
+    "entities": [
+      "sysinfo",
+      "IS_SUPPORTED_SYSTEM"
+    ],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "sysinfo-rust"
+  }
+]

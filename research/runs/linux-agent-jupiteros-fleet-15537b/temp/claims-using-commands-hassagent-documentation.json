@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "HASS.Agent commands are exposed in Home Assistant as entities attached under the MQTT integration, named after the host machine, with the entity_id taken from the configured Name and a recommendation to use the Button entity type for most commands.",
+    "stance": "supports",
+    "stance_target": "the established pattern for HA-to-host command execution is MQTT-attached button entities — the model ha-linux-agent follows for its command channel",
+    "evidence_type": "empirical",
+    "scope_conditions": "HASS.Agent 2.2 docs, Using Commands; Windows companion",
+    "quoted_support": "After clicking \"Store and Activate\" the commands should be immediately picked up by Home Assistant, you can find them in any place you would normally find them. Each command will be attached to the mqtt integration under the name of your computer.",
+    "numbers": [],
+    "entities": ["HASS.Agent", "MQTT", "Home Assistant", "Button"],
+    "time_period": "HASS.Agent 2.2 docs",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "using-commands-hassagent-documentation"
+  },
+  {
+    "claim": "HASS.Agent offers an availability check option that controls whether Home Assistant checks the computer is online before grabbing its last state — i.e. per-entity availability semantics are an explicit configuration concern in companion agents.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent needs proper MQTT availability (last-will/birth) handling so HA reflects agent-host offline state correctly — a reliability feature to implement",
+    "evidence_type": "empirical",
+    "scope_conditions": "HASS.Agent 2.2 docs, extra config section",
+    "quoted_support": "Enable/Disable availability check, this tells HA whether to check if the computer is online before grabbing the last state. If you want your sensor to always display last state even if the computer has been off for a while turn this on.",
+    "numbers": [],
+    "entities": ["HASS.Agent", "availability", "Home Assistant"],
+    "time_period": "HASS.Agent 2.2 docs",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "using-commands-hassagent-documentation"
+  }
+]

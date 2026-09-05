@@ -1,0 +1,20 @@
+[
+ {
+  "claim": "Current Nix manual (2.35.2 nix.conf): 'on Linux, builds run in private PID, mount, network, IPC and UTS namespaces', sandbox defaults to true on Linux, and the only network-namespace exception is fixed-output derivations; plain loopback TCP inside the sandbox requires no special permission, while setuid/capability programs (needed for userspace netns setup) are unavailable unless bind-mounted.",
+  "stance": "supports",
+  "stance_target": "gap-04: authoritative manual confirmation of the netns + default-on sandbox semantics the harness relies on; also explains why the harness needs no escape hatch",
+  "evidence_type": "legal",
+  "scope_conditions": "Nix 2.35.2 manual; Linux default sandbox=true",
+  "quoted_support": "In addition, on Linux, builds run in private PID, mount, network, IPC and UTS namespaces to isolate them from other processes in the system (except that fixed-output derivations do not run in private network namespace to ensure they can access the network).",
+  "numbers": [
+   "default true on Linux"
+  ],
+  "entities": [
+   "Nix"
+  ],
+  "time_period": "Nix 2.35.2 (2026)",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "nixconf-nix-2352-reference-manual"
+ }
+]

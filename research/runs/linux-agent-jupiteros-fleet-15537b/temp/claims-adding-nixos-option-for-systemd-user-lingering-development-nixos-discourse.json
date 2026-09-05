@@ -1,0 +1,79 @@
+[
+  {
+    "claim": "loginctl enable-linger spawns a user manager at boot and keeps it around after logouts, letting users who are not logged in run long-running services; mechanically it just creates an empty file at /var/lib/systemd/linger/USER",
+    "stance": "supports",
+    "stance_target": "lingering is the prerequisite for headless user-scoped agent deployment",
+    "evidence_type": "official-documentation (loginctl(1) quoted) + expert-opinion (NixOS Discourse)",
+    "scope_conditions": "systemd hosts",
+    "quoted_support": "enable-linger spawns a user manager at boot and keeps it around after logouts, letting users who are not logged in run long-running services; mechanically it just creates an empty file at /var/lib/systemd/linger/USER",
+    "numbers": [],
+    "entities": [
+      "loginctl enable-linger",
+      "/var/lib/systemd/linger/USER",
+      "user manager"
+    ],
+    "time_period": "June 2023",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "adding-nixos-option-for-systemd-user-lingering-development-nixos-discourse"
+  },
+  {
+    "claim": "A declarative NixOS workaround for enabling lingering without a dedicated option (as of June 2023) is systemd.tmpfiles.rules = [ \"f /var/lib/systemd/linger/alice\" ... ], i.e. declaratively creating the linger file via tmpfiles",
+    "stance": "supports",
+    "stance_target": "jupiterOS fleet config can declaratively enable linger for the agent user while awaiting the first-class option",
+    "evidence_type": "expert-opinion (rnhmjoj, 6 likes, NixOS Discourse)",
+    "scope_conditions": "NixOS; predates/absence of a first-class linger option (nixpkgs issue #3702 still open)",
+    "quoted_support": "rnhmjoj's interim workaround (6 likes): systemd.tmpfiles.rules = [ \"f /var/lib/systemd/linger/alice\" ... ] \u2014 declaratively creating the linger file without a dedicated option",
+    "numbers": [
+      "6 likes"
+    ],
+    "entities": [
+      "systemd.tmpfiles.rules",
+      "/var/lib/systemd/linger/",
+      "rnhmjoj",
+      "nixpkgs issue #3702"
+    ],
+    "time_period": "June 2023",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "adding-nixos-option-for-systemd-user-lingering-development-nixos-discourse"
+  },
+  {
+    "claim": "Named use-cases for lingering on headless servers: running Syncthing via home-manager when no one is logged in, and rootless Docker/podman containers that must stay up without a login session",
+    "stance": "neutral",
+    "stance_target": "lingering is an established pattern for headless user-scoped daemons beyond the agent use-case",
+    "evidence_type": "anecdotal (forum use-cases)",
+    "scope_conditions": "headless servers; NixOS/home-manager",
+    "quoted_support": "Use-cases named: headless servers running Syncthing via home-manager when no one is logged in, and rootless Docker/podman containers that must stay up without a login session.",
+    "numbers": [],
+    "entities": [
+      "Syncthing",
+      "home-manager",
+      "podman",
+      "Docker"
+    ],
+    "time_period": "June 2023",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "adding-nixos-option-for-systemd-user-lingering-development-nixos-discourse"
+  },
+  {
+    "claim": "Counter-position: for headless servers without interactive users, run the daemon as a system service (a NixOS module, or virtualisation.oci-containers with DynamicUser=yes) instead of using lingering user services",
+    "stance": "refutes",
+    "stance_target": "lingered user services as the fleet-wide agent mechanism on headless jupiterOS hosts",
+    "evidence_type": "expert-opinion (peterhoeg, NixOS Discourse)",
+    "scope_conditions": "headless servers without interactive users; NixOS",
+    "quoted_support": "Counter-position from peterhoeg: for headless servers without interactive users, run the daemon as a system service (nixos module, or virtualisation.oci-containers with DynamicUser=yes) instead of lingering user services.",
+    "numbers": [],
+    "entities": [
+      "peterhoeg",
+      "DynamicUser=yes",
+      "virtualisation.oci-containers",
+      "NixOS module"
+    ],
+    "time_period": "June 2023",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "adding-nixos-option-for-systemd-user-lingering-development-nixos-discourse"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "The Home Assistant MQTT notify entity publishes the notify.send_message payload to a configured command_topic, with an optional command_template to generate the payload, but the platform defines no title/message/actions JSON schema and no event round-trip for actionable notifications.",
+    "stance": "supports",
+    "stance_target": "MQTT notify entities cannot deliver actionable notifications (action buttons) with an HA event round-trip natively",
+    "evidence_type": "empirical",
+    "scope_conditions": "Home Assistant 2024.5+ MQTT notify platform; MQTT-discovered or YAML-configured notify entities",
+    "quoted_support": "The MQTT notify integration lets you send an MQTT message when the send_message action is called. This can be used to expose a action of a remote device that allows processing a message, such as showing it on a screen. ... command_template template (Optional): Defines a template to generate the payload to send to command_topic. ... command_topic string (Optional): The MQTT topic to publish send message commands at.",
+    "numbers": ["HA 2024.5", "48.6% of active installations"],
+    "entities": ["Home Assistant", "MQTT notify", "send_message", "command_topic", "command_template"],
+    "time_period": "Introduced HA 2024.5; doc current as of Sep 2026",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "mqtt-notify-home-assistant"
+  },
+  {
+    "claim": "The MQTT notify platform supports availability topics, qos, retain, encoding, and message_expiry_interval for queued/retained messages to offline subscribers, but none of these provide interactivity — the payload is one-way outbound from HA to the remote device.",
+    "stance": "supports",
+    "stance_target": "A build-your-own MQTT notify path requires custom payload parsing on the device and a separate event channel back to HA for interactive notifications",
+    "evidence_type": "empirical",
+    "scope_conditions": "MQTT notify entities in Home Assistant",
+    "quoted_support": "message_expiry_interval map (Optional): Controls how long queued or retained messages sent from Home Assistant persist at the broker for offline subscribers.",
+    "numbers": ["default qos 0", "default retain false", "default encoding utf-8"],
+    "entities": ["Home Assistant", "MQTT notify", "message_expiry_interval"],
+    "time_period": "HA 2024.5+",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "mqtt-notify-home-assistant"
+  }
+]

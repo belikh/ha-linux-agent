@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The Prometheus Node Exporter HA add-on (loganmarchione, community-distributed) requires disabling HAOS 'Protection mode' because node_exporter needs host-level access to read host CPU/memory/disk metrics from inside its container.",
+    "stance": "supports",
+    "stance_target": "Gap/awkwardness in the HAOS add-on approach to host metrics that a native agent avoids",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "HAOS add-on ecosystem, prometheus node_exporter, 2021-2026 community thread",
+    "quoted_support": "Node exporter requires host-level access (since it's running in a container) so that it can read CPU, memory, disk, etc… of the host. This is why protection mode needs to be disabled.",
+    "numbers": ["port 9100", "v3.0.0 released April 2026"],
+    "entities": ["loganmarchione", "prometheus node_exporter", "Home Assistant OS", "racksync"],
+    "time_period": "November 2021 - April 2026",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "new-add-on-prometheus-node-exporter-share-your-projects-home-assistant-community"
+  },
+  {
+    "claim": "Users confirm the official HA Prometheus integration exports only entity-related metrics, not host-related metrics, which is why a separate node_exporter add-on exists at all.",
+    "stance": "supports",
+    "stance_target": "HA lacks native host-metrics collection - the gap ha-linux-agent fills for jupiterOS hosts",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "HA community add-on FAQ, author-stated",
+    "quoted_support": "Doesn't Home Assistant already have Prometheus integration? Yes, but the official integration only exposes entity-related metrics, not host-related metrics.",
+    "numbers": [],
+    "entities": ["Home Assistant", "Prometheus", "node_exporter"],
+    "time_period": "2021-2026",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "new-add-on-prometheus-node-exporter-share-your-projects-home-assistant-community"
+  },
+  {
+    "claim": "The add-on was only tested on amd64 initially, with aarch64 (RPi 4) added after user request, and the Open Web UI button breaks when HA is behind a reverse proxy; SSL exposure was deliberately deferred to the user's proxy layer.",
+    "stance": "neutral",
+    "stance_target": "Operational fragility of the add-on distribution path (multi-arch coverage, proxying, TLS) vs a native NixOS-packaged agent",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Community add-on maintenance reality",
+    "quoted_support": "Only tested on amd64 builds. ... The \"Open Web UI\" button doesn't work when Home Assistant is behind a reverse proxy. ... It shouldn't be my add-on's job to do that [SSL].",
+    "numbers": [],
+    "entities": ["loganmarchione", "Home Assistant", "reverse proxy"],
+    "time_period": "2021-2026",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "new-add-on-prometheus-node-exporter-share-your-projects-home-assistant-community"
+  }
+]

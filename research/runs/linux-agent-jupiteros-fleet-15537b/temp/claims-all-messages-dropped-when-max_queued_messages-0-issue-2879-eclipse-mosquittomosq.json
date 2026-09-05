@@ -1,0 +1,37 @@
+[
+ {
+  "claim": "A second independent real-world witness of the silent-drop mechanism (mosquitto 2.0.16, unrelated to Home Assistant): the broker logged 'Outgoing messages are being dropped for client auto-BBB3F4DC-...' when the queue limit was hit, with no error delivered to the subscriber.",
+  "stance": "supports",
+  "stance_target": "gap-07: independent confirmation of silent per-client drops beyond the single HA #135266 source",
+  "evidence_type": "empirical",
+  "scope_conditions": "mosquitto 2.0.16, docker, max_queued_messages 0 config",
+  "quoted_support": "1692604552: Outgoing messages are being dropped for client auto-BBB3F4DC-A2B8-A350-CAE6-B3B99F9DAC9B.",
+  "numbers": [
+   "2.0.16",
+   "Aug 21, 2023"
+  ],
+  "entities": [
+   "Eclipse Mosquitto"
+  ],
+  "time_period": "August 2023",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "all-messages-dropped-when-max_queued_messages-0-issue-2879-eclipse-mosquittomosq"
+ },
+ {
+  "claim": "The drop notice is broker-side only: the subscriber receives no protocol error \u2014 the exact 'silent' quality HA #135266 reported (messages visible in MQTT Explorer but never delivered to the overloaded client).",
+  "stance": "supports",
+  "stance_target": "gap-07: silent (client-invisible) drop semantics",
+  "evidence_type": "empirical",
+  "scope_conditions": "mosquitto 2.0.x log behaviour",
+  "quoted_support": "Outgoing messages are being dropped for client %s. (MOSQ_LOG_NOTICE, logged once per is_dropping latch \u2014 no client-visible error)",
+  "numbers": [],
+  "entities": [
+   "Eclipse Mosquitto"
+  ],
+  "time_period": "2023",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "all-messages-dropped-when-max_queued_messages-0-issue-2879-eclipse-mosquittomosq"
+ }
+]

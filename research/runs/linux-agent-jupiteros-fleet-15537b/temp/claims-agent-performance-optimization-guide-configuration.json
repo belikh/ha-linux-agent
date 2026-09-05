@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Netdata's official optimisation guide confirms the out-of-the-box agent is too heavy for constrained hosts: its defaults (per-second collection, automatic app discovery, health alerting, per-metric ML training) consume meaningful resources, and only Parent-Child architecture, disabling active collectors, reducing collection frequency, trimming retention, RAM mode, and disabling ML on Children reduce the footprint.",
+    "stance": "supports",
+    "stance_target": "The premise that incumbent heavyweight agents need explicit tuning for fleet/edge duty - ha-linux-agent should be light by construction",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Official Netdata docs, Agent Performance Optimization Guide, Mar 2026",
+    "quoted_support": "These features deliver comprehensive monitoring but consume system resources. You might need to optimize when running Agents on resource-constrained systems or when scaling your monitoring infrastructure.",
+    "numbers": [],
+    "entities": ["Netdata", "Netdata Agent", "Netdata Parent", "Netdata Child"],
+    "time_period": "Mar 2026",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "agent-performance-optimization-guide-configuration"
+  },
+  {
+    "claim": "In Netdata's optimisation matrix only three strategies cut all three resources (CPU, RAM, disk IO): Parent-Child architecture, disabling unneeded collectors, and reducing collection frequency; only active collectors consume resources because inactive plugins shut down automatically.",
+    "stance": "neutral",
+    "stance_target": "Which optimisation levers matter most for a fleet agent design (fewer collectors, lower frequency, centralised storage)",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Official Netdata optimisation guidance",
+    "quoted_support": "Only active collectors consume resources. Inactive plugins and collectors shut down automatically, so you only save resources by disabling those currently running and collecting metrics. ... Children stream their metrics to Parents instead of storing everything locally.",
+    "numbers": [],
+    "entities": ["Netdata"],
+    "time_period": "Mar 2026",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "agent-performance-optimization-guide-configuration"
+  },
+  {
+    "claim": "Netdata's guide recommends ML on Parents only ('[ml] enabled = no' on Children), RAM database mode for Children in Parent-Child setups (no persistent local storage needed), and notes shorter retention also speeds agent startup.",
+    "stance": "neutral",
+    "stance_target": "Fleet-role separation (collect-and-publish child vs analyse-and-store parent) as the reference architecture for jupiterOS",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Official Netdata optimisation guidance",
+    "quoted_support": "We recommend: Enable ML on Parents ... Disable ML on Children: They focus on collecting and streaming metrics. ... Since Child nodes stream metrics to Parents, they don't need persistent local storage. RAM mode is ideal for this use case. ... Shorter retention periods mean ... Faster Agent startup times.",
+    "numbers": [],
+    "entities": ["Netdata"],
+    "time_period": "Mar 2026",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "agent-performance-optimization-guide-configuration"
+  }
+]

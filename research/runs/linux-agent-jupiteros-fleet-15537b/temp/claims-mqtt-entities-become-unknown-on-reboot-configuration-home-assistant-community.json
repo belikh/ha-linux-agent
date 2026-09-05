@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "A publisher that fails its first MQTT broker connection during the boot window (because HA/broker is still starting) and then never retries sits dead indefinitely — its entities stay Unknown/Unavailable until manually restarted.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent must retry broker connection with backoff (rumqttc poll loop) and/or systemd ordering (After=mosquitto) to survive NixOS boot races",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "CumulusMX on RaspiOS host, HA OS in Proxmox VM on Raspberry Pi 5, Feb 2025",
+    "quoted_support": "The problem seems to be a delay between CumulusMX and Home Assistant booting up. CumulusMX is up a few seconds after system reboot, while HA takes a few minutes ... It looks like that causes CumulusMX to fail to connect to the broker and then simply not trying again it seems.",
+    "numbers": ["5 min delayed restart workaround"],
+    "entities": ["CumulusMX", "Home Assistant", "Proxmox", "Raspberry Pi 5"],
+    "time_period": "2025-02",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "mqtt-entities-become-unknown-on-reboot-configuration-home-assistant-community"
+  },
+  {
+    "claim": "Changing the retain flag on a publisher's discovery/config messages caused HA to rediscover entities under their original names, breaking dashboards — retained-message churn has UI-level blast radius.",
+    "stance": "neutral",
+    "stance_target": "ha-linux-agent should treat retain semantics of its discovery messages as stable config; flipping retain in an upgrade path is a breaking change needing entity-name migration",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "CumulusMX MQTT config, retained vs non-retained topics",
+    "quoted_support": "I changed the MQTT configuration in CumulusMX to not retain, deleted the retained topics and rebooted. The sensors are back, but returned to their original names, breaking the dashboard again.",
+    "numbers": [],
+    "entities": ["retained messages", "entity names", "dashboards"],
+    "time_period": "2025-02",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "mqtt-entities-become-unknown-on-reboot-configuration-home-assistant-community"
+  },
+  {
+    "claim": "MQTT auth setup choice (creating a 'homeassistant' MQTT login vs an HA mqtt user) interacted with entity re-discovery: deleting and reinstalling the MQTT integration re-discovered entities but required dashboard rebuilds.",
+    "stance": "neutral",
+    "stance_target": "fleet documentation should pin one broker-auth pattern; auth-mode changes force integration reinstall with dashboard churn",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "HA OS MQTT integration setup, 2025",
+    "quoted_support": "The first time setting it up I followed the (supposedly wrong?) docs and created a 'homeassistant' login for MQTT ... The entities were re-discovered and reconnected to the previous data, but I had to remake the dashboard, which is quite annoying given the number of sensors.",
+    "numbers": [],
+    "entities": ["MQTT integration", "entity registry"],
+    "time_period": "2025-02",
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "mqtt-entities-become-unknown-on-reboot-configuration-home-assistant-community"
+  }
+]

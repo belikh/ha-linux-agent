@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "HA_Desktop_Companion (GamerClassN7, Windows, C#) is a Home Assistant desktop companion built specifically to avoid MQTT, using the native HA API with a long-lived token, inspired by ESPHome's native communication protocol.",
+    "stance": "supports",
+    "stance_target": "an MQTT-free native-HA-API architecture is a proven alternative for ha-linux-agent (relevant to users who reject MQTT as 'not a native way to integrate')",
+    "evidence_type": "empirical",
+    "scope_conditions": "Windows desktop companion; repo README; 85 stars, 7 forks, 209 commits",
+    "quoted_support": "Cause I don't like existing implementations using MQTT and I took inspiration from awesome ESphome and its native communication protocol to HA and implemented it my own way :)",
+    "numbers": ["85 stars", "209 commits"],
+    "entities": ["HA_Desktop_Companion", "GamerClassN7", "ESPHome", "Home Assistant"],
+    "time_period": "2024-2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-gamerclassn7ha_desktop_companion-app-which-is-using-native-ha-api-to-comu"
+  },
+  {
+    "claim": "HA_Desktop_Companion implements a compact sensor set (battery_level, battery_state, is_charging, wifi_ssid, cpu_temp, current_active_window, uptime, camera_in_use, cpu_temperature, free_ram) plus an extensible wmic platform allowing arbitrary WMI queries via configuration.yaml (wmic_path/wmic_selector/value_map), and notifications with images, audio, and send-key emulation.",
+    "stance": "supports",
+    "stance_target": "feature benchmark for ha-linux-agent: per-host sensors plus an extensible query-platform mechanism and rich notifications",
+    "evidence_type": "empirical",
+    "scope_conditions": "Windows; sensor list from README; wmic platform config in HA configuration.yaml; send-key requires 'keys:' in configuration.yaml",
+    "quoted_support": "Sensors implemented currently: battery_level battery_state is_charging wifi_ssid cpu_temp current_active_window uptime camera_in_use cpu_temperature (only native api supported) free_ram wmic (You can integrate any wmix query syou want :))",
+    "numbers": [],
+    "entities": ["HA_Desktop_Companion", "wmic", "Win32_Battery"],
+    "time_period": "2024-2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "github-gamerclassn7ha_desktop_companion-app-which-is-using-native-ha-api-to-comu"
+  },
+  {
+    "claim": "HA_Desktop_Companion's README points Linux users to muniter/halinuxcompanion as the Linux counterpart.",
+    "stance": "neutral",
+    "stance_target": "competitive landscape mapping for ha-linux-agent: halinuxcompanion is the designated Linux option in this ecosystem",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "README cross-reference",
+    "quoted_support": "Looking for linux version ? muniter/halinuxcompanion",
+    "numbers": [],
+    "entities": ["muniter", "halinuxcompanion", "HA_Desktop_Companion"],
+    "time_period": "2024-2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "github-gamerclassn7ha_desktop_companion-app-which-is-using-native-ha-api-to-comu"
+  }
+]

@@ -1,0 +1,54 @@
+[
+ {
+  "claim": "Nix's Linux build sandbox explicitly brings up the loopback interface inside the private network namespace: runChild() performs ioctl(SIOCSIFFLAGS) on 'lo' with flags IFF_UP | IFF_LOOPBACK | IFF_RUNNING, throwing 'cannot set loopback interface flags' on failure \u2014 so every sandboxed non-fixed-output build has a working 127.0.0.1.",
+  "stance": "supports",
+  "stance_target": "gap-04: the mosquitto-subprocess test harness (bind 127.0.0.1:0, spawn broker, TCP-probe) inside craneLib.cargoTest works as designed \u2014 no __noChroot or VM escape needed",
+  "evidence_type": "empirical",
+  "scope_conditions": "Nix 2.19.2 local-derivation-goal.cc; Linux; sandbox = true (default); non-fixed-output derivations",
+  "quoted_support": "if (privateNetwork) { /* Initialise the loopback interface. */ ... strcpy(ifr.ifr_name, \"lo\"); ifr.ifr_flags = IFF_UP | IFF_LOOPBACK | IFF_RUNNING; if (ioctl(fd.get(), SIOCSIFFLAGS, &ifr) == -1) throw SysError(\"cannot set loopback interface flags\"); }",
+  "numbers": [],
+  "entities": [
+   "Nix",
+   "CLONE_NEWNET",
+   "SIOCSIFFLAGS",
+   "loopback"
+  ],
+  "time_period": "Nix 2.19.2 (semantics unchanged through 2.x)",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "local-derivation-goalcc"
+ },
+ {
+  "claim": "The sandbox child is cloned with CLONE_NEWPID | CLONE_NEWNS | CLONE_NEWIPC | CLONE_NEWUTS | CLONE_PARENT | SIGCHLD, plus CLONE_NEWNET only for non-fixed-output derivations ('Fixed-output derivations are not run in a private network namespace to allow functions like fetchurl to work'), so craneLib.cargoTest builds (normal derivations) always get the private netns with the UP lo interface.",
+  "stance": "supports",
+  "stance_target": "gap-04: cargoTest/cargo build derivations are ordinary sandboxed builds, hence netns + loopback apply",
+  "evidence_type": "empirical",
+  "scope_conditions": "Nix 2.19.2; useChroot path",
+  "quoted_support": "options.cloneFlags = CLONE_NEWPID | CLONE_NEWNS | CLONE_NEWIPC | CLONE_NEWUTS | CLONE_PARENT | SIGCHLD; if (privateNetwork) options.cloneFlags |= CLONE_NEWNET;",
+  "numbers": [],
+  "entities": [
+   "Nix",
+   "CLONE_NEWNET"
+  ],
+  "time_period": "Nix 2.19.2",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "local-derivation-goalcc"
+ },
+ {
+  "claim": "Nix's own sandbox design comment states the private network namespace 'only has a private loopback interface' and that the fixed-output exception exists solely to let fetchers reach the network \u2014 the in-sandbox loopback is the intended (and only) networking surface for build-time tests.",
+  "stance": "supports",
+  "stance_target": "gap-04: design intent \u2014 in-sandbox loopback TCP is a supported, intended use, not an implementation accident",
+  "evidence_type": "empirical",
+  "scope_conditions": "Nix 2.19.2 source comments",
+  "quoted_support": "The private network namespace ensures that the builder cannot talk to the outside world (or vice versa). It only has a private loopback interface. (Fixed-output derivations are not run in a private network namespace to allow functions like fetchurl to work.)",
+  "numbers": [],
+  "entities": [
+   "Nix"
+  ],
+  "time_period": "Nix 2.19.2",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "local-derivation-goalcc"
+ }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "In the HA community discussion, the moderator-endorsed Linux options for an official-companion-like experience are glances, netdata, system bridge, and system monitor — no official Linux companion app existed as of Dec 2024.",
+    "stance": "supports",
+    "stance_target": "there is a real unmet gap for a proper Linux HA agent; ha-linux-agent addresses an officially-unfilled niche",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "HA Community 'Month of WTH' thread, Dec 2024; moderator 'Tinkerer' (DubhAd on GitHub) reply #2",
+    "quoted_support": "For Windows do check out https://github.com/LAB02-Research/HASS.Agent For Linux you've got glances, netdata, system bridge, and system monitor.",
+    "numbers": [],
+    "entities": ["Tinkerer", "glances", "netdata", "system bridge", "system monitor", "HASS.Agent"],
+    "time_period": "December 2024",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "wth-there-is-no-windows-and-linux-ha-app-similar-to-macos-month-of-what-the-heck"
+  },
+  {
+    "claim": "HASS.Agent depends on MQTT for most of its functionality — without MQTT only Quick Actions work — although it can connect to HA via API (long-lived token) for basic operations.",
+    "stance": "supports",
+    "stance_target": "MQTT is the load-bearing bidirectional transport for command execution in existing desktop agents; ha-linux-agent's MQTT choice matches the incumbent architecture",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "HA community thread, user Protoncek (HASS.Agent user) reply #6, Dec 2024",
+    "quoted_support": "You don't have to have MQTT to use HASS.Agent; however, most features rely on it for bidirectional communication. Without MQTT, only Quick Actions will work.",
+    "numbers": [],
+    "entities": ["HASS.Agent", "MQTT", "Quick Actions"],
+    "time_period": "December 2024",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "wth-there-is-no-windows-and-linux-ha-app-similar-to-macos-month-of-what-the-heck"
+  },
+  {
+    "claim": "The macOS HA app's low support cost is explained by it running the iOS companion app, so a bespoke Windows/Linux companion would need dedicated developers — an HA moderator notes 'All that needs is some Windows developers to step up and create it'.",
+    "stance": "supports",
+    "stance_target": "no official Linux companion is coming from HA itself; the Linux agent niche must be filled by third-party projects like ha-linux-agent",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "HA community thread Dec 2024; Participant (HA dev/participant) reply #11 and moderator reply #10",
+    "quoted_support": "Part of the reason is that MacOS is able to run the iOS companion app… I don't want to say it comes for \"free\", but the effort to support is much lower versus a bespoke app for Windows or Linux.",
+    "numbers": [],
+    "entities": ["Home Assistant", "iOS companion app", "macOS"],
+    "time_period": "December 2024",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "wth-there-is-no-windows-and-linux-ha-app-similar-to-macos-month-of-what-the-heck"
+  },
+  {
+    "claim": "Community participants state the differentiating value of a companion app over a browser is device sensors, and a 'native package to push sensor readings (and maybe execute local commands) over to HA' would suffice even without a GUI.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's core value proposition (headless sensor reporting + local command execution) matches what the community explicitly asked for",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "HA community thread, replies #11 and #19, Dec 2024",
+    "quoted_support": "Honestly, if it were just a native package to push sensor readings (and maybe execute local commands) over to HA, it'd be totally fine to still need a browser to view the interface.",
+    "numbers": [],
+    "entities": ["Home Assistant", "WallyR", "Participant"],
+    "time_period": "December 2024",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "wth-there-is-no-windows-and-linux-ha-app-similar-to-macos-month-of-what-the-heck"
+  },
+  {
+    "claim": "Mosquitto is available as an official Home Assistant addon, and a community member argues MQTT integration is 'more native than many things' in HA despite user resistance to MQTT.",
+    "stance": "refutes",
+    "stance_target": "the position that MQTT is a non-native/inferior integration path for a Linux HA agent (from the same thread's original poster)",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "HA community thread replies #7-#8, Dec 2024",
+    "quoted_support": "Native way… well, 70% of things in HA aren't \"native way\"… (like hacs etc…) so it's definitely more native than many things (at the end mosquitto is official addon)",
+    "numbers": ["70%"],
+    "entities": ["mosquitto", "Home Assistant", "MQTT", "HACS"],
+    "time_period": "December 2024",
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "wth-there-is-no-windows-and-linux-ha-app-similar-to-macos-month-of-what-the-heck"
+  }
+]

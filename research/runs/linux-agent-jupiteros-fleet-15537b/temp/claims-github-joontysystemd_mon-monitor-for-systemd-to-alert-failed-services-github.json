@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "systemd_mon subscribes to systemd unit state changes via DBus with no polling or busy loops, firing notifications only on failed-state entry/exit, and queues rapid intermediate state transitions to notify once with full history.",
+    "stance": "supports",
+    "stance_target": "Event-driven DBus subscription (mirroring zbus) as the correct architecture for ha-linux-agent's systemd module on jupiterOS hosts",
+    "evidence_type": "empirical",
+    "scope_conditions": "systemd_mon (Ruby gem, MIT, 108 stars), Linux with systemd; DBus access required (Docker needs /var/run/dbus mounted)",
+    "quoted_support": "The command line tool runs as a daemon, using dbus to get notifications of changes to systemd services. ... It works by subscribing to DBus notifications from Systemd. This means that there is no polling, and no busy-loops. ... SystemdMon queues up states until it comes across one that you think you should know about.",
+    "numbers": ["108 stars", "28 forks"],
+    "entities": ["systemd_mon", "joonty", "DBus", "systemd"],
+    "time_period": "Project active ~2014-2016 era (23 commits), still referenced",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "github-joontysystemd_mon-monitor-for-systemd-to-alert-failed-services-github"
+  },
+  {
+    "claim": "systemd_mon classifies unit state histories into summarised outcomes like 'recovered', 'automatically restarted', and 'still failed', and watches itself by attempting a final notification on shutdown - while acknowledging SIGKILL makes self-reporting impossible.",
+    "stance": "neutral",
+    "stance_target": "State-history summarisation and watchdog-self-awareness patterns portable to ha-linux-agent's MQTT unit-health messages",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "systemd_mon behaviour",
+    "quoted_support": "SystemdMon does simple analysis on the history of state changes, so it can summarise with statuses like \"recovered\", \"automatically restarted\", \"still failed\", etc. ... However, be aware that it might not send a notification in some conditions (e.g. in the case of a SIGKILL), or a network failure. The age-old question: who will watch the watcher?",
+    "numbers": [],
+    "entities": ["systemd_mon"],
+    "time_period": "same",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "github-joontysystemd_mon-monitor-for-systemd-to-alert-failed-services-github"
+  },
+  {
+    "claim": "Running systemd_mon in Docker requires mounting the host's /var/run/dbus into the container - the same host-bus exposure that motivates running a fleet agent natively on the host (as NixOS would) rather than containerised.",
+    "stance": "supports",
+    "stance_target": "Native host deployment (NixOS systemd service) over containerised monitoring for jupiterOS",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Docker deployment of systemd_mon",
+    "quoted_support": "Since systemd_mon relies on dbus, you need to mount the host dbus directory into your container.",
+    "numbers": [],
+    "entities": ["systemd_mon", "Docker", "DBus"],
+    "time_period": "same",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "github-joontysystemd_mon-monitor-for-systemd-to-alert-failed-services-github"
+  }
+]

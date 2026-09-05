@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Netdata's systemdunits collector monitors the state of systemd units and unit files via the system DBus, with no auto-detection, a default '*.service' include selector, and a set of 12 built-in failed-state alerts (one per unit type) on systemd.<type>_unit_state metrics.",
+    "stance": "supports",
+    "stance_target": "Concrete incumbent feature spec for ha-linux-agent's zbus systemd module to match or beat",
+    "evidence_type": "empirical",
+    "scope_conditions": "Official Netdata collector docs, go.d.plugin systemdunits module, all platforms",
+    "quoted_support": "This collector monitors the state of Systemd units and unit files. This integration doesn't support auto-detection. ... systemd_service_unit_failed_state ... systemd service unit in the failed state.",
+    "numbers": ["12 unit-type alerts", "default include '*.service'", "collect_unit_files_every=300s", "system bus timeout 1s"],
+    "entities": ["Netdata", "systemdunits", "go.d.plugin", "systemd"],
+    "time_period": "Current docs (2026)",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "systemd-units-operating-systems-learn-netdata"
+  },
+  {
+    "claim": "Netdata deliberately caches unit-file enablement state queries on a 300-second interval (collect_unit_files_every) because querying systemd about unit files and their enablement state increases system overhead - unit-file collection is opt-in and off by default.",
+    "stance": "neutral",
+    "stance_target": "Poll-cost management for unit-file (enablement) state in a fleet agent - cache rather than per-tick DBus queries",
+    "evidence_type": "empirical",
+    "scope_conditions": "Netdata systemdunits collector defaults",
+    "quoted_support": "If set to true, collect the state of installed unit files. Enabling this may increase system overhead. ... Interval for querying systemd about unit files and their enablement state, measured in seconds. Data is cached for this interval to reduce system overhead.",
+    "numbers": ["300 s cache interval"],
+    "entities": ["Netdata", "systemd"],
+    "time_period": "Current docs",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "systemd-units-operating-systems-learn-netdata"
+  }
+]

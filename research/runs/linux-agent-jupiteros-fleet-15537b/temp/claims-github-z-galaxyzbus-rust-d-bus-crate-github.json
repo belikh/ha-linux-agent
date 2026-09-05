@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "zbus is a pure-Rust D-Bus API whose goal is to provide a safe and simple high- and low-level API akin to GDBus without depending on C libraries.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent can expose or consume D-Bus interfaces (systemd host info, login sessions) without pulling in libdbus C dependencies on every jupiterOS host",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Rust D-Bus communication",
+    "quoted_support": "A Rust API for D-Bus communication. The goal is to provide a safe and simple high- and low-level API akin to GDBus, that doesn't depend on C libraries.",
+    "numbers": [],
+    "entities": ["zbus", "GDBus", "D-Bus"],
+    "time_period": "current (repo live 2026, 6,464 commits)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-z-galaxyzbus-rust-d-bus-crate-github"
+  },
+  {
+    "claim": "zbus examples assume a D-Bus broker is set up and a session bus is running with DBUS_SESSION_BUS_ADDRESS set, which is guaranteed on a typical Linux desktop session but NOT on headless hosts.",
+    "stance": "supports",
+    "stance_target": "a jupiterOS fleet agent running on headless kiosks/servers cannot assume a session bus; it must target the system bus or guarantee lingering + session bus per host",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "headless Linux hosts, kiosks, servers without desktop sessions",
+    "quoted_support": "Note that these examples assume that a D-Bus broker is setup on your machine and you've a session bus running (DBUS_SESSION_BUS_ADDRESS environment variable must be set). This is guaranteed to be the case on a typical Linux desktop session.",
+    "numbers": [],
+    "entities": ["DBUS_SESSION_BUS_ADDRESS", "D-Bus broker", "zbus"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-z-galaxyzbus-rust-d-bus-crate-github"
+  },
+  {
+    "claim": "zbus server interfaces are defined by applying #[interface(name = ...)] to an impl block, and served via connection::Builder::session()?.name(...)?.serve_at(path, interface)?.build().await, testable externally with busctl --user call.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent could expose a D-Bus interface (e.g. org.jupiter.Agent1) with a straightforward macro-based pattern, verifiable via busctl in integration tests",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "zbus 5.x, any async runtime",
+    "quoted_support": "#[interface(name = \"org.zbus.MyGreeter1\")] impl Greeter { fn say_hello(&mut self, name: &str) -> String ... } ... connection::Builder::session()?.name(\"org.zbus.MyGreeter\")?.serve_at(\"/org/zbus/MyGreeter\", greeter)?.build().await? ... $ busctl --user call org.zbus.MyGreeter /org/zbus/MyGreeter org.zbus.MyGreeter1 SayHello s \"Maria\"",
+    "numbers": [],
+    "entities": ["zbus", "interface macro", "busctl", "connection::Builder"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-z-galaxyzbus-rust-d-bus-crate-github"
+  },
+  {
+    "claim": "The zbus project is split into subcrates — zbus (API + wire format + name types), zbus_macros (#[proxy], #[interface], #[derive(DBusError)]), zbus_xml, zbus_xmlgen, zbus_utils — and dropped GVariant in favour of the sibling zgvariant project at 6.0.",
+    "stance": "neutral",
+    "stance_target": "dependency footprint and versioning awareness for adding D-Bus to ha-linux-agent",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "zbus 5.x/6.x line",
+    "quoted_support": "zbus: The main subcrate. It provides the API to interact with D-Bus, the D-Bus wire format (what used to be the zvariant crate) and the name types ... zgvariant is a sibling project. It implements GVariant, the format zbus itself dropped in 6.0.",
+    "numbers": ["6.0"],
+    "entities": ["zbus", "zbus_macros", "zbus_xml", "zbus_xmlgen", "zbus_utils", "zgvariant"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-z-galaxyzbus-rust-d-bus-crate-github"
+  }
+]

@@ -1,0 +1,44 @@
+[
+ {
+  "claim": "The MQTT notify platform was added to HA core by PR #115653 (jbouwh, Apr 15 2024), labelled new-feature/new-platform/integration:mqtt/has-tests/Quality Scale: gold, merged for the 2024.5 release together with docs PR home-assistant.io#32327.",
+  "stance": "supports",
+  "stance_target": "gap-02: notify.mqtt platform provenance and version pin (2024.5) \u2014 the adopt-vs-build resolution's version claim",
+  "evidence_type": "empirical",
+  "scope_conditions": "HA core 2024.5 release cycle",
+  "quoted_support": "Add mqtt notify platform ... labels core has-tests integration: mqtt new-feature new-platform",
+  "numbers": [
+   "PR #115653",
+   "opened Apr 15, 2024",
+   "docs PR home-assistant.io#32327"
+  ],
+  "entities": [
+   "home-assistant/core",
+   "jbouwh",
+   "emontnemery"
+  ],
+  "time_period": "April 2024",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "add-mqtt-notify-platform-by-jbouwh-pull-request-115653-home-assistantcore-github"
+ },
+ {
+  "claim": "HA 2024.5 shipped the notify entity model and the MQTT notify platform in the same release ('Add notify entity component' #110950; 'Add mqtt notify platform' #115653), so any HA >= 2024.5 instance (including callisto's connected HA) can host MQTT-notify-via-discovery entities.",
+  "stance": "supports",
+  "stance_target": "gap-02 version gate: jupiterOS callisto HA instance capability check",
+  "evidence_type": "empirical",
+  "scope_conditions": "HA core 2024.5 changelog",
+  "quoted_support": "Add notify entity component ([@jbouwh] - #110950) ... Add mqtt notify platform ([@jbouwh] - #115653)",
+  "numbers": [
+   "2024.5",
+   "#110950",
+   "#115653"
+  ],
+  "entities": [
+   "Home Assistant 2024.5"
+  ],
+  "time_period": "May 2024",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "add-mqtt-notify-platform-by-jbouwh-pull-request-115653-home-assistantcore-github"
+ }
+]

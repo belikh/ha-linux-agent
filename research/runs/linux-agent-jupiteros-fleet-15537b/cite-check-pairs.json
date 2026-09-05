@@ -1,0 +1,1395 @@
+{
+  "report": "/home/io/projects/ha-linux-agent/research/notes/final_report_linux-agent-jupiteros-fleet-15537b.md",
+  "summary": {
+    "total": 168,
+    "supported_mechanical": 0,
+    "dangling": 0,
+    "needs_llm": 168
+  },
+  "sampled_for_llm": [
+    {
+      "sentence": "The agent subscribes to its command topics exactly once in a fire-and-forget setup task (`agent.rs:134-138`) and swallows every connection acknowledgement in its poll loop (`Ok(_) => {}` at `agent.rs:190`): after the first broker restart or network blip the client reconnects forever but never re-establishes subscriptions, so every agent goes permanently deaf [[interim-report-mqtt-lifecycle-supervisor-spec]] [[automatic-reconnect-and-subscribed-topics-issue-250-bytebeamiorumqtt-github]].",
+      "note_id": "interim-report-mqtt-lifecycle-supervisor-spec",
+      "numbers": [
+        "134",
+        "138",
+        "190",
+        "250"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The agent subscribes to its command topics exactly once in a fire-and-forget setup task (`agent.rs:134-138`) and swallows every connection acknowledgement in its poll loop (`Ok(_) => {}` at `agent.rs:190`): after the first broker restart or network blip the client reconnects forever but never re-establishes subscriptions, so every agent goes permanently deaf [[interim-report-mqtt-lifecycle-supervisor-spec]] [[automatic-reconnect-and-subscribed-topics-issue-250-bytebeamiorumqtt-github]].",
+      "note_id": "automatic-reconnect-and-subscribed-topics-issue-250-bytebeamiorumqtt-github",
+      "numbers": [
+        "134",
+        "138",
+        "190",
+        "250"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The cure — a ConnAck-driven supervisor that re-subscribes, re-asserts availability, and republishes discovery on every connect — ships on the pinned rumqttc 0.24.0 with zero dependency churn, and is the same disease the incumbent Windows agent fixed in a patch release [[releases-hass-agenthassagent-github]].",
+      "note_id": "releases-hass-agenthassagent-github",
+      "numbers": [
+        "0.24",
+        "0"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The workspace is twelve crates, eleven commits, 43 files, audited at commit 8369f44 in September 2026, with a 198-line `Agent::run()` at its centre and backend-hardware, core/config, and backend-gamescope at the top of the reference graph [[repo-map-ha-linux-agent]].",
+      "note_id": "repo-map-ha-linux-agent",
+      "numbers": [
+        "43",
+        "8369",
+        "44",
+        "2026,",
+        "198"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The comment is false: sysfs attributes default to `root:root 0644`, so 0664 grants group-write to group *root*, and io's only group anywhere is `wheel` (`common.nix:139` — no host adds io to `video`) [[interim-report-fleet-service-model-by-host-class]].",
+      "note_id": "interim-report-fleet-service-model-by-host-class",
+      "numbers": [
+        "0644",
+        "0664",
+        "139"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**The backends the fleet never runs.** The audit closes on the three crates no host exercises: backend-kde hard-fails without a session bus (`Connection::session().await?` at `backend-kde/src/lib.rs:41`) and has zero fleet consumers because no jupiterOS host runs Plasma — greps for plasma/kde across hosts and modules return nothing, and the hard-fail is the stated boundary condition for ever hosting a desktop class (it must adopt the generic backend's warn-and-continue degradation first); backend-gamescope's only fleet consumer is callisto's arcade session, with kiosks reaching gamescope via the shared dashboard-gaming modeSpecs; backend-lutris ships behind the `jupiter.gaming.console` appCatalog but no host configuration exercises its launch-only buttons, its JSON field names hedged unverified — gamescope and lutris both among the backends the repo itself flags \"Unverified in a live environment\" [[interim-report-fleet-service-model-by-host-class]] [[repo-map-ha-linux-agent]] [[interim-report-adopt-vs-build-honest-verdict]].",
+      "note_id": "interim-report-fleet-service-model-by-host-class",
+      "numbers": [
+        "41"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**The backends the fleet never runs.** The audit closes on the three crates no host exercises: backend-kde hard-fails without a session bus (`Connection::session().await?` at `backend-kde/src/lib.rs:41`) and has zero fleet consumers because no jupiterOS host runs Plasma — greps for plasma/kde across hosts and modules return nothing, and the hard-fail is the stated boundary condition for ever hosting a desktop class (it must adopt the generic backend's warn-and-continue degradation first); backend-gamescope's only fleet consumer is callisto's arcade session, with kiosks reaching gamescope via the shared dashboard-gaming modeSpecs; backend-lutris ships behind the `jupiter.gaming.console` appCatalog but no host configuration exercises its launch-only buttons, its JSON field names hedged unverified — gamescope and lutris both among the backends the repo itself flags \"Unverified in a live environment\" [[interim-report-fleet-service-model-by-host-class]] [[repo-map-ha-linux-agent]] [[interim-report-adopt-vs-build-honest-verdict]].",
+      "note_id": "repo-map-ha-linux-agent",
+      "numbers": [
+        "41"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**The backends the fleet never runs.** The audit closes on the three crates no host exercises: backend-kde hard-fails without a session bus (`Connection::session().await?` at `backend-kde/src/lib.rs:41`) and has zero fleet consumers because no jupiterOS host runs Plasma — greps for plasma/kde across hosts and modules return nothing, and the hard-fail is the stated boundary condition for ever hosting a desktop class (it must adopt the generic backend's warn-and-continue degradation first); backend-gamescope's only fleet consumer is callisto's arcade session, with kiosks reaching gamescope via the shared dashboard-gaming modeSpecs; backend-lutris ships behind the `jupiter.gaming.console` appCatalog but no host configuration exercises its launch-only buttons, its JSON field names hedged unverified — gamescope and lutris both among the backends the repo itself flags \"Unverified in a live environment\" [[interim-report-fleet-service-model-by-host-class]] [[repo-map-ha-linux-agent]] [[interim-report-adopt-vs-build-honest-verdict]].",
+      "note_id": "interim-report-adopt-vs-build-honest-verdict",
+      "numbers": [
+        "41"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**The quality gates are absent, not merely failing.** Eight test functions exist — three in `discovery.rs`, five in `backend-launcher`, all pure shape guards, zero on any hardware, D-Bus (Linux's inter-process message bus), or MQTT path — but the flake's (the repo's Nix build definition) checks hold only a build and clippy (Rust's linter) with `--deny warnings`: no test hook exists, so zero of the eight ever run in any gate [[interim-report-testing-gate-for-hardware-daemon]].",
+      "note_id": "interim-report-testing-gate-for-hardware-daemon",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "A dead `tls` knob sits at `config.rs:88`, the README has drifted (backend-hardware undocumented; zfs, syncthing, and lutris flagged by the repo itself as \"Unverified in a live environment\"), and the hardware backend exposes placeholder select options rather than sysfs-enumerated values [[interim-report-adopt-vs-build-honest-verdict]].",
+      "note_id": "interim-report-adopt-vs-build-honest-verdict",
+      "numbers": [
+        "88"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**The fleet coverage fact.** The agent runs on four of seven hosts — the TCxWave kiosks (amalthea, adrastea, metis, thebe) — while callisto deliberately opts out (its arcade-console config strips the wiring), europa runs nothing despite the zfs/syncthing/headscale backends existing for exactly that host, and pallene — a ZFS-less Kamatera VPS whose own header reads \"No ZFS, no impermanence, no sops-nix, no ha-linux-agent\" — hard-opts-out [[interim-report-adopt-vs-build-honest-verdict]] [[interim-report-headless-privilege-ladder]]. \"Every host\" is an ambition the fleet's configuration contradicts.",
+      "note_id": "interim-report-headless-privilege-ladder",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The defect distribution is the strategic fact: failures cluster in the lifecycle core every host class shares — `agent.rs` and config plumbing — while the per-backend surfaces are small, self-contained crates of 100–330 lines behind two traits [[interim-report-adopt-vs-build-honest-verdict]].",
+      "note_id": "interim-report-adopt-vs-build-honest-verdict",
+      "numbers": [
+        "100",
+        "330"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "rumqttc's poll loop reconnects unconditionally — \"Continuing to poll will reconnect to the broker if there is a disconnection\" — and advertises \"Automatic reconnections by just continuing the eventloop.poll()/connection.iter() loop\", re-subscription conspicuously absent [[eventloop-in-rumqttc-rust]] [[rumqttc-rust]].",
+      "note_id": "eventloop-in-rumqttc-rust",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Issue #250, open since February 2021 and still labelled in-pipeline, documents the footgun: after a clean-session reconnect, \"I'm not seeing any data coming in from subscribed topics\", because subscriptions live only in broker-side session state [[automatic-reconnect-and-subscribed-topics-issue-250-bytebeamiorumqtt-github]].",
+      "note_id": "automatic-reconnect-and-subscribed-topics-issue-250-bytebeamiorumqtt-github",
+      "numbers": [
+        "250,",
+        "2021",
+        "250"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The in-pipeline fix, PR #1052, is open, unreviewed, v5-scoped, and only emits a reconnect *signal* — its own caller pattern re-subscribes in application code, so subscription ownership stays with the application even if it merges [[interim-report-rumqttc-dependency-fitness]].",
+      "note_id": "interim-report-rumqttc-dependency-fitness",
+      "numbers": [
+        "1052,",
+        "5"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "And the pinned version offers no alternative hook: 0.24.0's `Event` enum has exactly two variants — `Incoming` and `Outgoing`, no `Reconnect` — so `poll()` yielding `Packet::ConnAck` on every connect is the only reconnect signal the pinned version has, making the raw ConnAck match not a workaround but the mandatory design [[interim-report-rumqttc-dependency-fitness]].",
+      "note_id": "interim-report-rumqttc-dependency-fitness",
+      "numbers": [
+        "0.24",
+        "0"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Paho, the alternative, exposes rich reconnect callbacks but leaves re-subscription application-owned too, and drags a C toolchain onto every NixOS fleet build — default builds need CMake, a C compiler, and system OpenSSL, a foreign dependency chain in every host closure (the interim's one open question, whether nixpkgs' paho-c packaging is already clean, is unverified; the application-owned re-subscription point alone decides the client question) [[asyncclient-in-paho_mqttasync_client-rust]] [[github-eclipse-pahopahomqttrust-pahomqttrust-github]] [[interim-report-rumqttc-dependency-fitness]].",
+      "note_id": "asyncclient-in-paho_mqttasync_client-rust",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Paho, the alternative, exposes rich reconnect callbacks but leaves re-subscription application-owned too, and drags a C toolchain onto every NixOS fleet build — default builds need CMake, a C compiler, and system OpenSSL, a foreign dependency chain in every host closure (the interim's one open question, whether nixpkgs' paho-c packaging is already clean, is unverified; the application-owned re-subscription point alone decides the client question) [[asyncclient-in-paho_mqttasync_client-rust]] [[github-eclipse-pahopahomqttrust-pahomqttrust-github]] [[interim-report-rumqttc-dependency-fitness]].",
+      "note_id": "interim-report-rumqttc-dependency-fitness",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "rumqttc defaults to `clean_session=true`, keepalive 60 s, inflight 100 [[librs]], and callisto's mosquitto sets no `persistence`, so the default applies — \"stored in memory only\" — meaning every broker restart wipes all sessions fleet-wide [[mosquittoconf-man-page-eclipse-mosquitto]].",
+      "note_id": "librs",
+      "numbers": [
+        "60",
+        "100"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "rumqttc defaults to `clean_session=true`, keepalive 60 s, inflight 100 [[librs]], and callisto's mosquitto sets no `persistence`, so the default applies — \"stored in memory only\" — meaning every broker restart wipes all sessions fleet-wide [[mosquittoconf-man-page-eclipse-mosquitto]].",
+      "note_id": "mosquittoconf-man-page-eclipse-mosquitto",
+      "numbers": [
+        "60",
+        "100"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The community's step-by-step demonstration — publish state, sensor stays unavailable; publish availability, sensor appears — is the failure mode in miniature [[mqtt-discovery-availability-home-assistant-os-home-assistant-community]].",
+      "note_id": "mqtt-discovery-availability-home-assistant-os-home-assistant-community",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Issue #135266 shows the mechanism at scale: at 5,374 entities the broker's per-client queue overflowed during HA's startup retained replay and silently dropped messages — 56 of 112 affected topics arrived empty while MQTT Explorer showed them present — and the cure was \"I have raised the allowed maximum number of queued messages on my broker\" [[some-mqtt-devices-unavailable-after-ha-restart-issue-135266-home-assistantcore-g]] [[comments]].",
+      "note_id": "some-mqtt-devices-unavailable-after-ha-restart-issue-135266-home-assistantcore-g",
+      "numbers": [
+        "135266",
+        "5,374",
+        "56",
+        "112",
+        "135266"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Issue #135266 shows the mechanism at scale: at 5,374 entities the broker's per-client queue overflowed during HA's startup retained replay and silently dropped messages — 56 of 112 affected topics arrived empty while MQTT Explorer showed them present — and the cure was \"I have raised the allowed maximum number of queued messages on my broker\" [[some-mqtt-devices-unavailable-after-ha-restart-issue-135266-home-assistantcore-g]] [[comments]].",
+      "note_id": "comments",
+      "numbers": [
+        "135266",
+        "5,374",
+        "56",
+        "112",
+        "135266"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The queue mechanics are per-client: mosquitto counts each client's queued messages against `max_queued_messages` (default 1000), and for a disconnected client the in-flight adjustment zeroes, freeing the full queue depth for offline replay [[databasec]].",
+      "note_id": "databasec",
+      "numbers": [
+        "1000"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The older #38661 shows the same stranded-entity class ending in manual delete-and-rediscover [[mqtt-sensors-unavailable-in-01140bx-others-stay-unknown-issue-38661-home-assista]].",
+      "note_id": "mqtt-sensors-unavailable-in-01140bx-others-stay-unknown-issue-38661-home-assista",
+      "numbers": [
+        "38661",
+        "01140",
+        "38661"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Retention without republish strands entities when replay drops; republish without retention strands them when the broker forgets [[mqtt-client-component-esphome-smart-home-made-simple]] [[device-availability-zigbee2mqtt]].",
+      "note_id": "mqtt-client-component-esphome-smart-home-made-simple",
+      "numbers": [
+        "2"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Retention without republish strands entities when replay drops; republish without retention strands them when the broker forgets [[mqtt-client-component-esphome-smart-home-made-simple]] [[device-availability-zigbee2mqtt]].",
+      "note_id": "device-availability-zigbee2mqtt",
+      "numbers": [
+        "2"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "One calibration keeps the sizing honest: at the fleet's measured ~25 entities per host the default 1000 never binds — the binding quantity in #135266 was HA's own `#`-wildcard client against broker-wide retained replay — so the broker work is cheap hygiene plus a `$SYS` confirmation check on `$SYS/broker/publish/messages/dropped` (not the never-published `$SYS/broker/mqtt/*` variants mosquitto 2.1.2 excludes) rather than urgent resizing [[documentation-on-sysbrokermqtt-topics-is-wrong-issue-3726-eclipse-mosquittomosqu]] [[no-data-in-sysbrokermessagesinflight-issue-3021-eclipse-mosquittomosquitto-githu]].",
+      "note_id": "documentation-on-sysbrokermqtt-topics-is-wrong-issue-3726-eclipse-mosquittomosqu",
+      "numbers": [
+        "25",
+        "1000",
+        "135266",
+        "2.1",
+        "2",
+        "3726",
+        "3021"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "One calibration keeps the sizing honest: at the fleet's measured ~25 entities per host the default 1000 never binds — the binding quantity in #135266 was HA's own `#`-wildcard client against broker-wide retained replay — so the broker work is cheap hygiene plus a `$SYS` confirmation check on `$SYS/broker/publish/messages/dropped` (not the never-published `$SYS/broker/mqtt/*` variants mosquitto 2.1.2 excludes) rather than urgent resizing [[documentation-on-sysbrokermqtt-topics-is-wrong-issue-3726-eclipse-mosquittomosqu]] [[no-data-in-sysbrokermessagesinflight-issue-3021-eclipse-mosquittomosquitto-githu]].",
+      "note_id": "no-data-in-sysbrokermessagesinflight-issue-3021-eclipse-mosquittomosquitto-githu",
+      "numbers": [
+        "25",
+        "1000",
+        "135266",
+        "2.1",
+        "2",
+        "3726",
+        "3021"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The request-channel capacity of 64 at `agent.rs:62` contradicts rumqttc's recommendation to set capacity 0 when managing pending state — during an outage, up to 64 stale messages queue and replay as a burst [[rumqttrumqttcsrceventlooprs-at-main-bytebeamiorumqtt-github]].",
+      "note_id": "rumqttrumqttcsrceventlooprs-at-main-bytebeamiorumqtt-github",
+      "numbers": [
+        "64",
+        "62",
+        "0",
+        "64"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Worse is starvation: `backend-syncthing` builds its reqwest client with no timeout (reqwest has none by default), and `Agent::run` polls all backends sequentially in one task, so one hung syncthing daemon freezes every sensor while availability still reads \"online\" — sensors that lie rather than sensors that vanish, the worst failure class a fleet can carry [[interim-report-mqtt-lifecycle-supervisor-spec]].",
+      "note_id": "interim-report-mqtt-lifecycle-supervisor-spec",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "On every `ConnAck` — first connect or reconnect, either `session_present` — re-issue all command-topic subscribes (idempotent; subscribe-before-connect is safe because requests buffer in the bounded channel until post-ConnAck) and re-assert retained \"online\" [[rumqttrumqttcsrceventlooprs-at-main-bytebeamiorumqtt-github]].",
+      "note_id": "rumqttrumqttcsrceventlooprs-at-main-bytebeamiorumqtt-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Subscribe to `homeassistant/status` and republish all discovery on HA's birth with 0–30 s per-host jitter, after the production reference: Zigbee2MQTT applies `Math.random() * max_jitter` with a 30 s default, ×1.5/×3/×6/×12 backoff, retained QoS 1 (at-least-once delivery) availability, and dedup of consecutive identical states [[availabilityts]] [[device-availability-zigbee2mqtt]].",
+      "note_id": "availabilityts",
+      "numbers": [
+        "0",
+        "30",
+        "2",
+        "30",
+        "1.5",
+        "3",
+        "6",
+        "12",
+        "1",
+        "2"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Subscribe to `homeassistant/status` and republish all discovery on HA's birth with 0–30 s per-host jitter, after the production reference: Zigbee2MQTT applies `Math.random() * max_jitter` with a 30 s default, ×1.5/×3/×6/×12 backoff, retained QoS 1 (at-least-once delivery) availability, and dedup of consecutive identical states [[availabilityts]] [[device-availability-zigbee2mqtt]].",
+      "note_id": "device-availability-zigbee2mqtt",
+      "numbers": [
+        "0",
+        "30",
+        "2",
+        "30",
+        "1.5",
+        "3",
+        "6",
+        "12",
+        "1",
+        "2"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The unit hardening closes the crash leg: `Restart=on-failure` plus `WatchdogSec` via sd_notify — ESPHome's `reboot_timeout` analogue, rebooting the agent after 15 minutes without a healthy loop — so a panic costs one restart, not the host's telemetry until the next boot [[interim-report-mqtt-lifecycle-supervisor-spec]].",
+      "note_id": "interim-report-mqtt-lifecycle-supervisor-spec",
+      "numbers": [
+        "15"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "First, `clean_session = true` (explicit, stable client id) against the persistent-session instinct: a persistent session's only unique deliverable here is broker-side queueing of QoS 1 commands for an offline agent, and the kiosks power off overnight — a week-old launcher toggle or reboot replaying as fresh on Monday boot, with no TTL in v3.1.1 (issue #211, open and stale since December 2020) and no payload timestamp to age it by, is a hazard no source states directly but the overnight-off pattern and rumqtt's documented lack of any pending-message TTL jointly imply [[rumqttc-reconnection-to-mqtt-broker-and-pending-messages-ttl-issue-211-bytebeami]].",
+      "note_id": "rumqttc-reconnection-to-mqtt-broker-and-pending-messages-ttl-issue-211-bytebeami",
+      "numbers": [
+        "1",
+        "3.1",
+        "1",
+        "211,",
+        "2020",
+        "211"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Second, a premise correction that strengthens the design: 0.24.0 is *not* v3.1.1-locked — `src/lib.rs:113` declares `pub mod v5;` with full property support inside the pinned version, and the module is not a stubbed half-implementation: its single `unimplemented!()` sits on request variants (PubComp/SubAck/UnsubAck/PingResp) the public client never sends — unreachable from agent code — so message and session expiry are a module switch away, a named future option rather than the reason for any workaround [[interim-report-rumqttc-dependency-fitness]].",
+      "note_id": "interim-report-rumqttc-dependency-fitness",
+      "numbers": [
+        "0.24",
+        "0",
+        "3.1",
+        "1",
+        "113",
+        "5"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The 0.25.1 upgrade was actually run — check, test, clippy all exit 0, zero code changes — and reverted, because it buys nothing the supervisor needs; the identical public API across the two versions is itself evidence the bump is cosmetic [[interim-report-rumqttc-dependency-fitness]].",
+      "note_id": "interim-report-rumqttc-dependency-fitness",
+      "numbers": [
+        "0.25",
+        "1",
+        "0,"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The precedent that makes this credible: the incumbent Windows companion shipped the identical bug class and fixed it in a patch release — HASS.Agent 2.1.1, \"MQTT autodiscovery messages were not republished after connection was lost and recovered\" (#230), alongside rename-triggered discovery-removal failures (#376, #388) and a sensor class stopping on a WMI restart (#205) [[releases-hass-agenthassagent-github]].",
+      "note_id": "releases-hass-agenthassagent-github",
+      "numbers": [
+        "2.1",
+        "1,",
+        "230",
+        "376,",
+        "388",
+        "205"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The 2026 Linux field divides into companion-class candidates (go-hass-agent, lnxlink, halinuxcompanion) and monitoring-class stacks (Glances, Telegraf, Netdata — eliminated next); the alternatives table's remaining names, System Bridge (a WebSocket-API companion) and IoTuring (a thinner MQTT transport), are covered by the class arguments — System Bridge joins the native-API class and inherits exactly the halinuxcompanion concession (values stranded when a host goes offline, no LWT), IoTuring is MQTT-transport with a far thinner surface than lnxlink's ~50 modules [[lnxlink]].",
+      "note_id": "lnxlink",
+      "numbers": [
+        "2026",
+        "50"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**The sensor bar.** go-hass-agent (v14.15.1, 2026-08-09, packaged in nixpkgs — the NixOS package collection — for all 24 Linux platforms, ~monthly cosign-signed releases) sources its Linux surface from D-Bus (logind sessions, power state, screen lock, NetworkManager, XDG portal, UPower, MPRIS, fwupd), ProcFS (memory, disk, load, per-core CPU usage and frequency, uptime, kernel, CPU vulnerabilities), SysFS (disk I/O rates, hwmon), and Netlink (link states, rates) [[github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device]] [[go-hass-agent-mynixos]].",
+      "note_id": "github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device",
+      "numbers": [
+        "14.15",
+        "1,",
+        "2026",
+        "08",
+        "09,",
+        "24"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**The sensor bar.** go-hass-agent (v14.15.1, 2026-08-09, packaged in nixpkgs — the NixOS package collection — for all 24 Linux platforms, ~monthly cosign-signed releases) sources its Linux surface from D-Bus (logind sessions, power state, screen lock, NetworkManager, XDG portal, UPower, MPRIS, fwupd), ProcFS (memory, disk, load, per-core CPU usage and frequency, uptime, kernel, CPU vulnerabilities), SysFS (disk I/O rates, hwmon), and Netlink (link states, rates) [[github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device]] [[go-hass-agent-mynixos]].",
+      "note_id": "go-hass-agent-mynixos",
+      "numbers": [
+        "14.15",
+        "1,",
+        "2026",
+        "08",
+        "09,",
+        "24"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Its cadence is the depth evidence: v14.15.1 fixed a concurrent map-read data race in the CPU usage worker, v14.15.0 added NVIDIA and AMD GPU memory sensors, v14.10.3 fixed ddcutil backlight detection [[releases-joshuargo-hass-agent-github]]. lnxlink's ~50 modules — idle-time, media control, brightness, screenshot streaming, audio-device selection, systemd unit management, GPU usage, restart-required tracking, WOL, in-use sensors for mic, speaker, camera, gamepad — define the fullest desktop envelope [[lnxlink]].",
+      "note_id": "releases-joshuargo-hass-agent-github",
+      "numbers": [
+        "14.15",
+        "1",
+        "14.15",
+        "0",
+        "14.10",
+        "3",
+        "50"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Its cadence is the depth evidence: v14.15.1 fixed a concurrent map-read data race in the CPU usage worker, v14.15.0 added NVIDIA and AMD GPU memory sensors, v14.10.3 fixed ddcutil backlight detection [[releases-joshuargo-hass-agent-github]]. lnxlink's ~50 modules — idle-time, media control, brightness, screenshot streaming, audio-device selection, systemd unit management, GPU usage, restart-required tracking, WOL, in-use sensors for mic, speaker, camera, gamepad — define the fullest desktop envelope [[lnxlink]].",
+      "note_id": "lnxlink",
+      "numbers": [
+        "14.15",
+        "1",
+        "14.15",
+        "0",
+        "14.10",
+        "3",
+        "50"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "For example, if you configure a switch, any changes to the state you make outside of Home Assistant will not be reflected in Home Assistant automatically\" [[github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device]].",
+      "note_id": "github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Its users hit the wall in January 2026: a PipeWire output-device selector \"can't be expressed\" because the commands vocabulary has no dropdown [[go-hass-agent-a-native-app-integration-for-desktoplaptop-devices-share-your-proj]]. jupiterOS's session-switching requires a select whose options reflect real systemd unit state — grouped launcher profiles become one mutually exclusive select, the shared state topic reshaping through discovery — a vocabulary the incumbent architecturally lacks. lnxlink ships dropdowns (a Steam game-launcher select among them) and systemd unit control, but no mutual-exclusion semantics and no state round-trip tied to fleet power services [[lnxlink]].",
+      "note_id": "go-hass-agent-a-native-app-integration-for-desktoplaptop-devices-share-your-proj",
+      "numbers": [
+        "2026"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Its users hit the wall in January 2026: a PipeWire output-device selector \"can't be expressed\" because the commands vocabulary has no dropdown [[go-hass-agent-a-native-app-integration-for-desktoplaptop-devices-share-your-proj]]. jupiterOS's session-switching requires a select whose options reflect real systemd unit state — grouped launcher profiles become one mutually exclusive select, the shared state topic reshaping through discovery — a vocabulary the incumbent architecturally lacks. lnxlink ships dropdowns (a Steam game-launcher select among them) and systemd unit control, but no mutual-exclusion semantics and no state round-trip tied to fleet power services [[lnxlink]].",
+      "note_id": "lnxlink",
+      "numbers": [
+        "2026"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**The identity and notification bars.** go-hass-agent is dual-transport by mandate — mobile_app registration, no MQTT-only mode, optional MQTT v5 side — and documents the consequence itself: sensors and controls land as two HA devices that \"cannot be combined in a single place\" [[github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device]].",
+      "note_id": "github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device",
+      "numbers": [
+        "5"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "On notifications, HA 2024.5 shipped a native MQTT notify platform — PR #115653, Quality Scale gold, \"notify\" in the mqtt integration's `SUPPORTED_COMPONENTS`, upstream test payload `{\"name\": \"test\", \"command_topic\": \"test-topic\"}` — giving an MQTT-only agent a first-class notify entity, strictly better than the current payload-hack button, implementable today, with the notify.py source (MqttEntity wired via `async_setup_entity_entry_helper`, command_topic required) as the primary-source leg of the confirmation chain [[add-mqtt-notify-platform-by-jbouwh-pull-request-115653-home-assistantcore-github]] [[corehomeassistantcomponentsmqttconstpy-at-dev-home-assistantcore-github]] [[test_notifypy]] [[corehomeassistantcomponentsmqttnotifypy-at-dev-home-assistantcore-github]].",
+      "note_id": "add-mqtt-notify-platform-by-jbouwh-pull-request-115653-home-assistantcore-github",
+      "numbers": [
+        "2024.5",
+        "115653,",
+        "115653"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "On notifications, HA 2024.5 shipped a native MQTT notify platform — PR #115653, Quality Scale gold, \"notify\" in the mqtt integration's `SUPPORTED_COMPONENTS`, upstream test payload `{\"name\": \"test\", \"command_topic\": \"test-topic\"}` — giving an MQTT-only agent a first-class notify entity, strictly better than the current payload-hack button, implementable today, with the notify.py source (MqttEntity wired via `async_setup_entity_entry_helper`, command_topic required) as the primary-source leg of the confirmation chain [[add-mqtt-notify-platform-by-jbouwh-pull-request-115653-home-assistantcore-github]] [[corehomeassistantcomponentsmqttconstpy-at-dev-home-assistantcore-github]] [[test_notifypy]] [[corehomeassistantcomponentsmqttnotifypy-at-dev-home-assistantcore-github]].",
+      "note_id": "corehomeassistantcomponentsmqttconstpy-at-dev-home-assistantcore-github",
+      "numbers": [
+        "2024.5",
+        "115653,",
+        "115653"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "On notifications, HA 2024.5 shipped a native MQTT notify platform — PR #115653, Quality Scale gold, \"notify\" in the mqtt integration's `SUPPORTED_COMPONENTS`, upstream test payload `{\"name\": \"test\", \"command_topic\": \"test-topic\"}` — giving an MQTT-only agent a first-class notify entity, strictly better than the current payload-hack button, implementable today, with the notify.py source (MqttEntity wired via `async_setup_entity_entry_helper`, command_topic required) as the primary-source leg of the confirmation chain [[add-mqtt-notify-platform-by-jbouwh-pull-request-115653-home-assistantcore-github]] [[corehomeassistantcomponentsmqttconstpy-at-dev-home-assistantcore-github]] [[test_notifypy]] [[corehomeassistantcomponentsmqttnotifypy-at-dev-home-assistantcore-github]].",
+      "note_id": "test_notifypy",
+      "numbers": [
+        "2024.5",
+        "115653,",
+        "115653"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "On notifications, HA 2024.5 shipped a native MQTT notify platform — PR #115653, Quality Scale gold, \"notify\" in the mqtt integration's `SUPPORTED_COMPONENTS`, upstream test payload `{\"name\": \"test\", \"command_topic\": \"test-topic\"}` — giving an MQTT-only agent a first-class notify entity, strictly better than the current payload-hack button, implementable today, with the notify.py source (MqttEntity wired via `async_setup_entity_entry_helper`, command_topic required) as the primary-source leg of the confirmation chain [[add-mqtt-notify-platform-by-jbouwh-pull-request-115653-home-assistantcore-github]] [[corehomeassistantcomponentsmqttconstpy-at-dev-home-assistantcore-github]] [[test_notifypy]] [[corehomeassistantcomponentsmqttnotifypy-at-dev-home-assistantcore-github]].",
+      "note_id": "corehomeassistantcomponentsmqttnotifypy-at-dev-home-assistantcore-github",
+      "numbers": [
+        "2024.5",
+        "115653,",
+        "115653"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The platform is one-way — command topic plus optional template, no actions schema, no event round-trip [[mqtt-notify-home-assistant]] — and the round-trip exists on Linux in exactly one place: halinuxcompanion, the native-API-class exception, implements it over mobile_app with a local aiohttp HTTP server that HA POSTs to (its README advertises \"Actionable Notifications (Triggers event in Home Assistant)\" and \"Notification cleared/dismissed (Triggers event in Home Assistant)\", with its own to-do conceding \"Finish notifications functionality\") — a 90-star Python project whose roadmap's other item is \"Move sensors to MQTT\" because the native API strands values offline, the LWT problem already cited two paragraphs back [[github-muniterhalinuxcompanion-homeassistant-linux-companion-github]] [[interim-report-adopt-vs-build-honest-verdict]].",
+      "note_id": "mqtt-notify-home-assistant",
+      "numbers": [
+        "90"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The platform is one-way — command topic plus optional template, no actions schema, no event round-trip [[mqtt-notify-home-assistant]] — and the round-trip exists on Linux in exactly one place: halinuxcompanion, the native-API-class exception, implements it over mobile_app with a local aiohttp HTTP server that HA POSTs to (its README advertises \"Actionable Notifications (Triggers event in Home Assistant)\" and \"Notification cleared/dismissed (Triggers event in Home Assistant)\", with its own to-do conceding \"Finish notifications functionality\") — a 90-star Python project whose roadmap's other item is \"Move sensors to MQTT\" because the native API strands values offline, the LWT problem already cited two paragraphs back [[github-muniterhalinuxcompanion-homeassistant-linux-companion-github]] [[interim-report-adopt-vs-build-honest-verdict]].",
+      "note_id": "github-muniterhalinuxcompanion-homeassistant-linux-companion-github",
+      "numbers": [
+        "90"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The platform is one-way — command topic plus optional template, no actions schema, no event round-trip [[mqtt-notify-home-assistant]] — and the round-trip exists on Linux in exactly one place: halinuxcompanion, the native-API-class exception, implements it over mobile_app with a local aiohttp HTTP server that HA POSTs to (its README advertises \"Actionable Notifications (Triggers event in Home Assistant)\" and \"Notification cleared/dismissed (Triggers event in Home Assistant)\", with its own to-do conceding \"Finish notifications functionality\") — a 90-star Python project whose roadmap's other item is \"Move sensors to MQTT\" because the native API strands values offline, the LWT problem already cited two paragraphs back [[github-muniterhalinuxcompanion-homeassistant-linux-companion-github]] [[interim-report-adopt-vs-build-honest-verdict]].",
+      "note_id": "interim-report-adopt-vs-build-honest-verdict",
+      "numbers": [
+        "90"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "No MQTT-transport agent implements it: HASS.Agent on Windows remains the gold standard with its `hass_agent_notifications` event [[actionable-notifications-hassagent]] [[home-hassagent-documentation]], while go-hass-agent's actionable-notification requests (#667, December 2025) and clear_notification support (#926, August 2026) sit open with zero maintainer engagement [[interim-report-adopt-vs-build-honest-verdict]].",
+      "note_id": "actionable-notifications-hassagent",
+      "numbers": [
+        "667,",
+        "2025",
+        "926,",
+        "2026"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "No MQTT-transport agent implements it: HASS.Agent on Windows remains the gold standard with its `hass_agent_notifications` event [[actionable-notifications-hassagent]] [[home-hassagent-documentation]], while go-hass-agent's actionable-notification requests (#667, December 2025) and clear_notification support (#926, August 2026) sit open with zero maintainer engagement [[interim-report-adopt-vs-build-honest-verdict]].",
+      "note_id": "home-hassagent-documentation",
+      "numbers": [
+        "667,",
+        "2025",
+        "926,",
+        "2026"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "No MQTT-transport agent implements it: HASS.Agent on Windows remains the gold standard with its `hass_agent_notifications` event [[actionable-notifications-hassagent]] [[home-hassagent-documentation]], while go-hass-agent's actionable-notification requests (#667, December 2025) and clear_notification support (#926, August 2026) sit open with zero maintainer engagement [[interim-report-adopt-vs-build-honest-verdict]].",
+      "note_id": "interim-report-adopt-vs-build-honest-verdict",
+      "numbers": [
+        "667,",
+        "2025",
+        "926,",
+        "2026"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "I go directly from telegraf to influxdb, then use the influxdb integration inside HA\" [[system-design-architecting-ha-data-flows-with-telegraf-mqtt-influxdb-and-grafana]].",
+      "note_id": "system-design-architecting-ha-data-flows-with-telegraf-mqtt-influxdb-and-grafana",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The community demand signal ends the same way — a moderator answering \"there is no Windows and Linux HA app\" with the monitoring-class shelf while the original poster's \"I personally hate mqtt\" draws the correction that \"most features rely on it for bidirectional communication\" [[wth-there-is-no-windows-and-linux-ha-app-similar-to-macos-month-of-what-the-heck]].",
+      "note_id": "wth-there-is-no-windows-and-linux-ha-app-similar-to-macos-month-of-what-the-heck",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "go-hass-agent v14.15.1 is one `environment.systemPackages` line away on every host — verified in nixpkgs proper, not broken, not unfree, building for all 24 Linux platforms, maintained on a ~monthly cosign-signed cadence with 3,909 commits of sensor and hardware polish [[go-hass-agent-mynixos]] [[releases-joshuargo-hass-agent-github]].",
+      "note_id": "go-hass-agent-mynixos",
+      "numbers": [
+        "14.15",
+        "1",
+        "24",
+        "3,909"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "go-hass-agent v14.15.1 is one `environment.systemPackages` line away on every host — verified in nixpkgs proper, not broken, not unfree, building for all 24 Linux platforms, maintained on a ~monthly cosign-signed cadence with 3,909 commits of sensor and hardware polish [[go-hass-agent-mynixos]] [[releases-joshuargo-hass-agent-github]].",
+      "note_id": "releases-joshuargo-hass-agent-github",
+      "numbers": [
+        "14.15",
+        "1",
+        "24",
+        "3,909"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Its maintainer designs the systemd path for servers (\"The systemctl service is primarily for 'headless' usage (i.e., servers)\"), its changelog shows it paying the MQTT lifecycle dues in public — \"reconnect to MQTT on disconnect and fix issue with MQTT commands not working\", graceful channel shutdown, constant device ids — and it carries SMART with capability handling, per-core frequencies, link rates, OOM events, fwupd firmware security [[changelogmd]] [[github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device]]. lnxlink covers the desktop long tail, including a Steam game-launcher dropdown, a Lutris launcher dropdown shipped as a custom module, and a bash-command module creating sensors, buttons, and switches from shell scripts [[lnxlink]].",
+      "note_id": "github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The sharpest form of the objection: the launcher mutual-exclusion select is one custom module away — lnxlink's bash surface cannot emit a select at all (\"Create custom sensors, binary_sensors, buttons, or switches using shell scripts\"), but its custom-module surface demonstrably can (the Lutris Game Launcher dropdown ships that way), and the mutual exclusion already lives in the systemd units and polkit rules (the system action-authorization layer) jupiter-os owns — the backend is a systemd-and-polkit design wearing a Rust relay as a coat, and relays are commodities [[interim-report-adopt-vs-build-honest-verdict]] [[repo-map-ha-linux-agent]] [[lnxlink]].",
+      "note_id": "interim-report-adopt-vs-build-honest-verdict",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The sharpest form of the objection: the launcher mutual-exclusion select is one custom module away — lnxlink's bash surface cannot emit a select at all (\"Create custom sensors, binary_sensors, buttons, or switches using shell scripts\"), but its custom-module surface demonstrably can (the Lutris Game Launcher dropdown ships that way), and the mutual exclusion already lives in the systemd units and polkit rules (the system action-authorization layer) jupiter-os owns — the backend is a systemd-and-polkit design wearing a Rust relay as a coat, and relays are commodities [[interim-report-adopt-vs-build-honest-verdict]] [[repo-map-ha-linux-agent]] [[lnxlink]].",
+      "note_id": "lnxlink",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The packaging counter first. \"One custom module away\" carries a heavy deployment cost on this fleet: lnxlink is not in nixpkgs at all — an individual hit a wall packaging it in October 2025 and no one has upstreamed a service module in the year since an unmerged draft appeared in August 2024 — and its Python dependency surface (pygobject3, ewmh, xlib, opencv-python, pulsectl, pyalsaaudio, docker, speechrecognition in one propagated list) is the ongoing per-release maintenance cost for whoever owns that packaging [[python-packaging-error-needs-specific-setuptools-version-nixos-discourse]].",
+      "note_id": "python-packaging-error-needs-specific-setuptools-version-nixos-discourse",
+      "numbers": [
+        "2025",
+        "2024",
+        "3,"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "No module precedent exists for that class: lnxlink modules are hand-written per host, not generated from fleet configuration [[lnxlink]]. go-hass-agent is packaged as a *binary* but has no NixOS service module: a full-text pass over module-list.nix returns zero occurrences of either incumbent, while the home-automation directory hosts home-assistant, esphome, zigbee2mqtt, zwave-js, matter-server, govee2mqtt, evcc, ebusd, and homebridge [[module-listnix]].",
+      "note_id": "lnxlink",
+      "numbers": [
+        "2",
+        "2"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "No module precedent exists for that class: lnxlink modules are hand-written per host, not generated from fleet configuration [[lnxlink]]. go-hass-agent is packaged as a *binary* but has no NixOS service module: a full-text pass over module-list.nix returns zero occurrences of either incumbent, while the home-automation directory hosts home-assistant, esphome, zigbee2mqtt, zwave-js, matter-server, govee2mqtt, evcc, ebusd, and homebridge [[module-listnix]].",
+      "note_id": "module-listnix",
+      "numbers": [
+        "2",
+        "2"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The evidence on record prices that path: it runs through a maintainer whose changelog shows zero select/state-sync occurrences across 3,909 commits and whose two open notification feature requests have sat unassigned since December 2025 [[interim-report-adopt-vs-build-honest-verdict]] [[changelogmd]].",
+      "note_id": "interim-report-adopt-vs-build-honest-verdict",
+      "numbers": [
+        "3,909",
+        "2025"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The evidence on record prices that path: it runs through a maintainer whose changelog shows zero select/state-sync occurrences across 3,909 commits and whose two open notification feature requests have sat unassigned since December 2025 [[interim-report-adopt-vs-build-honest-verdict]] [[changelogmd]].",
+      "note_id": "changelogmd",
+      "numbers": [
+        "3,909",
+        "2025"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Third, the expressibility record. go-hass-agent's complete changelog from v4.3.1 through v14.15.1 contains zero occurrences of select entities, control state synchronisation, or NixOS support — the gaps persist through the current era [[interim-report-adopt-vs-build-honest-verdict]] [[changelogmd]].",
+      "note_id": "interim-report-adopt-vs-build-honest-verdict",
+      "numbers": [
+        "4.3",
+        "1",
+        "14.15",
+        "1"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Third, the expressibility record. go-hass-agent's complete changelog from v4.3.1 through v14.15.1 contains zero occurrences of select entities, control state synchronisation, or NixOS support — the gaps persist through the current era [[interim-report-adopt-vs-build-honest-verdict]] [[changelogmd]].",
+      "note_id": "changelogmd",
+      "numbers": [
+        "4.3",
+        "1",
+        "14.15",
+        "1"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Then it happens again\"), integrations that \"loses connection and doesn't automatically recover\" (closed as not planned, the reporter hitting reload \"for several days until it happens again\"), and sensors that \"sometimes stops reporting current data\" — years of exactly the unreliability class this project exists to eliminate, maintained by a single integration owner, used by 1.3 % of active installations [[glances-sensors-are-renamed-after-a-restart-issue-32328-home-assistantcore-githu]] [[glances-integration-loses-connection-and-doesnt-automatically-recover-issue-1105]] [[glances-integration-sometimes-stops-reporting-current-data-issue-170384-home-ass]] [[glances-home-assistant]].",
+      "note_id": "glances-sensors-are-renamed-after-a-restart-issue-32328-home-assistantcore-githu",
+      "numbers": [
+        "1.3",
+        "32328",
+        "1105",
+        "170384"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Then it happens again\"), integrations that \"loses connection and doesn't automatically recover\" (closed as not planned, the reporter hitting reload \"for several days until it happens again\"), and sensors that \"sometimes stops reporting current data\" — years of exactly the unreliability class this project exists to eliminate, maintained by a single integration owner, used by 1.3 % of active installations [[glances-sensors-are-renamed-after-a-restart-issue-32328-home-assistantcore-githu]] [[glances-integration-loses-connection-and-doesnt-automatically-recover-issue-1105]] [[glances-integration-sometimes-stops-reporting-current-data-issue-170384-home-ass]] [[glances-home-assistant]].",
+      "note_id": "glances-integration-loses-connection-and-doesnt-automatically-recover-issue-1105",
+      "numbers": [
+        "1.3",
+        "32328",
+        "1105",
+        "170384"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Then it happens again\"), integrations that \"loses connection and doesn't automatically recover\" (closed as not planned, the reporter hitting reload \"for several days until it happens again\"), and sensors that \"sometimes stops reporting current data\" — years of exactly the unreliability class this project exists to eliminate, maintained by a single integration owner, used by 1.3 % of active installations [[glances-sensors-are-renamed-after-a-restart-issue-32328-home-assistantcore-githu]] [[glances-integration-loses-connection-and-doesnt-automatically-recover-issue-1105]] [[glances-integration-sometimes-stops-reporting-current-data-issue-170384-home-ass]] [[glances-home-assistant]].",
+      "note_id": "glances-integration-sometimes-stops-reporting-current-data-issue-170384-home-ass",
+      "numbers": [
+        "1.3",
+        "32328",
+        "1105",
+        "170384"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Then it happens again\"), integrations that \"loses connection and doesn't automatically recover\" (closed as not planned, the reporter hitting reload \"for several days until it happens again\"), and sensors that \"sometimes stops reporting current data\" — years of exactly the unreliability class this project exists to eliminate, maintained by a single integration owner, used by 1.3 % of active installations [[glances-sensors-are-renamed-after-a-restart-issue-32328-home-assistantcore-githu]] [[glances-integration-loses-connection-and-doesnt-automatically-recover-issue-1105]] [[glances-integration-sometimes-stops-reporting-current-data-issue-170384-home-ass]] [[glances-home-assistant]].",
+      "note_id": "glances-home-assistant",
+      "numbers": [
+        "1.3",
+        "32328",
+        "1105",
+        "170384"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Telegraf's MQTT output plugin is real and current — protocols 3.1.1 and 5, QoS control, retain flags, homie v4 layout — but it emits measurement topics, not HA discovery payloads; entities require telegraf2hassio-style hub-side glue subscribing to `telegraf/#` and re-publishing as discoverable sensors, discovery logic on the far side of a translation shim [[telegrafpluginsoutputsmqttreadmemd-at-master-influxdatatelegraf-github]] [[hassio-addonstelegraf2hassio-at-master-joaoflhassio-addons-github]].",
+      "note_id": "telegrafpluginsoutputsmqttreadmemd-at-master-influxdatatelegraf-github",
+      "numbers": [
+        "3.1",
+        "1",
+        "5,",
+        "4",
+        "2",
+        "2"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Telegraf's MQTT output plugin is real and current — protocols 3.1.1 and 5, QoS control, retain flags, homie v4 layout — but it emits measurement topics, not HA discovery payloads; entities require telegraf2hassio-style hub-side glue subscribing to `telegraf/#` and re-publishing as discoverable sensors, discovery logic on the far side of a translation shim [[telegrafpluginsoutputsmqttreadmemd-at-master-influxdatatelegraf-github]] [[hassio-addonstelegraf2hassio-at-master-joaoflhassio-addons-github]].",
+      "note_id": "hassio-addonstelegraf2hassio-at-master-joaoflhassio-addons-github",
+      "numbers": [
+        "3.1",
+        "1",
+        "5,",
+        "4",
+        "2",
+        "2"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "And that's just in a single month\", and the maintainer-endorsed production recipe disables most of the product — alloc mode, ML off, health off — to fit edge hosts [[resource-utilization-netdata-agent-learn-netdata]] [[insane-netdata-memory-usage-help-netdata-community-forums]] [[agent-performance-optimization-guide-configuration]].",
+      "note_id": "insane-netdata-memory-usage-help-netdata-community-forums",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Both sides are right in scope — official figures describe an empty system, community figures metric-heavy reality, the per-metric cost model (16 KiB per unique metric) explains the divergence [[ram-utilization-resource-utilization-learn-netdata]] — so for TCxWave-class kiosks the *effective* Netdata is the stripped one, at which point a purpose-built agent is the lighter choice before any feature argument begins. node_exporter is eliminated by direction: HA's Prometheus integration exposes HA entity metrics to an external scraper; it does not ingest host metrics into entities [[prometheus-home-assistant]].",
+      "note_id": "ram-utilization-resource-utilization-learn-netdata",
+      "numbers": [
+        "16"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Both sides are right in scope — official figures describe an empty system, community figures metric-heavy reality, the per-metric cost model (16 KiB per unique metric) explains the divergence [[ram-utilization-resource-utilization-learn-netdata]] — so for TCxWave-class kiosks the *effective* Netdata is the stripped one, at which point a purpose-built agent is the lighter choice before any feature argument begins. node_exporter is eliminated by direction: HA's Prometheus integration exposes HA entity metrics to an external scraper; it does not ingest host metrics into entities [[prometheus-home-assistant]].",
+      "note_id": "prometheus-home-assistant",
+      "numbers": [
+        "16"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "A NixOS host runs services in two shapes: system services, managed by the system manager and ordered against the network and each other, and user services, managed per-user and unable to order against system units \"by design\" [[what-is-the-difference-between-systemdservices-and-systemduserservices-help-nixo]].",
+      "note_id": "what-is-the-difference-between-systemdservices-and-systemduserservices-help-nixo",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "PR #517768, merged May 2026, made it worse: switch-to-configuration-ng now runs a full per-user switch for any user with an active manager — enumerate via `logind.list_users()`, stat `/run/user/{uid}` as the liveness check (linger included), spawn a setuid child per live manager running daemon-reload plus stop/reload/restart passes with literal `restart_unit` calls [[switch-to-configuration-ng-harden-user-unit-migration-second-pass-by-r-vdp-pull]] [[mainrs]].",
+      "note_id": "switch-to-configuration-ng-harden-user-unit-migration-second-pass-by-r-vdp-pull",
+      "numbers": [
+        "517768,",
+        "2026,"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "PR #517768, merged May 2026, made it worse: switch-to-configuration-ng now runs a full per-user switch for any user with an active manager — enumerate via `logind.list_users()`, stat `/run/user/{uid}` as the liveness check (linger included), spawn a setuid child per live manager running daemon-reload plus stop/reload/restart passes with literal `restart_unit` calls [[switch-to-configuration-ng-harden-user-unit-migration-second-pass-by-r-vdp-pull]] [[mainrs]].",
+      "note_id": "mainrs",
+      "numbers": [
+        "517768,",
+        "2026,"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The regression fired on real fleets within days: users kicked out to GDM mid-switch as user-manager restarts collapsed `graphical-session.target` — a one-way teardown, the target declaring `RefuseManualStart=yes` — one reporter hitting seven occurrences in 57 switches, session units stopping 150–730 ms after the daemon-reload and never returning [[anyone-seeing-nixos-rebuild-switch-kick-you-out-to-gdm-andor-log-gpf-errors-spec]].",
+      "note_id": "anyone-seeing-nixos-rebuild-switch-kick-you-out-to-gdm-andor-log-gpf-errors-spec",
+      "numbers": [
+        "57",
+        "150",
+        "730"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "One `systemd.services.ha-linux-agent` per host, `User=io`, `Restart=on-failure`, `RestartSec=5s`, `After=network-online.target`, plus a `role` option — `kiosk | server | minimal` — driving mkIf branches (NixOS's conditional-configuration idiom) [[interim-report-fleet-service-model-by-host-class]].",
+      "note_id": "interim-report-fleet-service-model-by-host-class",
+      "numbers": [
+        "5"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Session-bus reachability: a `User=io` system service reaches the per-user bus at `/run/user/1000/bus` with two `Environment=` lines (`XDG_RUNTIME_DIR` + `DBUS_SESSION_BUS_ADDRESS`), because access control on the per-user bus is purely the socket's filesystem mode — jupiter-os's own `mkSessionLauncher` proves the pattern from the system side for cage sessions [[interim-report-fleet-service-model-by-host-class]] [[d-bus]].",
+      "note_id": "interim-report-fleet-service-model-by-host-class",
+      "numbers": [
+        "1000"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Session-bus reachability: a `User=io` system service reaches the per-user bus at `/run/user/1000/bus` with two `Environment=` lines (`XDG_RUNTIME_DIR` + `DBUS_SESSION_BUS_ADDRESS`), because access control on the per-user bus is purely the socket's filesystem mode — jupiter-os's own `mkSessionLauncher` proves the pattern from the system side for cage sessions [[interim-report-fleet-service-model-by-host-class]] [[d-bus]].",
+      "note_id": "d-bus",
+      "numbers": [
+        "1000"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Headless boxes without a session bus produce the \"Failed to connect to bus: No medium found\" ladder, which is why the generic backend already degrades to warn-and-disable where no session exists — correct behaviour on europa and pallene [[systemduser-archwiki]] [[openclaw-gateway-status-fails-on-ec2headless-servers-due-to-missing-user-level-s]].",
+      "note_id": "systemduser-archwiki",
+      "numbers": [
+        "2"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Headless boxes without a session bus produce the \"Failed to connect to bus: No medium found\" ladder, which is why the generic backend already degrades to warn-and-disable where no session exists — correct behaviour on europa and pallene [[systemduser-archwiki]] [[openclaw-gateway-status-fails-on-ec2headless-servers-due-to-missing-user-level-s]].",
+      "note_id": "openclaw-gateway-status-fails-on-ec2headless-servers-due-to-missing-user-level-s",
+      "numbers": [
+        "2"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Declarative linger (NixOS 23.11, closing a nine-year gap) stays useful for the cage sessions, not the agent — and its habit of disabling undeclared users' managers is a footgun when enabled [[enabling-persistent-user-instance-systemd-issue-3702-nixosnixpkgs-github]] [[nixosusers-groups-add-user-option-to-enable-lingering-by-toxicfrog-pull-request]].",
+      "note_id": "enabling-persistent-user-instance-systemd-issue-3702-nixosnixpkgs-github",
+      "numbers": [
+        "23.11",
+        "3702"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Declarative linger (NixOS 23.11, closing a nine-year gap) stays useful for the cage sessions, not the agent — and its habit of disabling undeclared users' managers is a footgun when enabled [[enabling-persistent-user-instance-systemd-issue-3702-nixosnixpkgs-github]] [[nixosusers-groups-add-user-option-to-enable-lingering-by-toxicfrog-pull-request]].",
+      "note_id": "nixosusers-groups-add-user-option-to-enable-lingering-by-toxicfrog-pull-request",
+      "numbers": [
+        "23.11",
+        "3702"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The audited evidence contains one direct internal disagreement: one position holds `AmbientCapabilities=CAP_SYS_ADMIN CAP_SYS_RAWIO` where SMART is enabled; the live-proven finding is that every subsystem has an unprivileged channel, so the capability grant becomes the named, explicitly-rejected alternative [[interim-report-fleet-service-model-by-host-class]] [[interim-report-headless-privilege-ladder]].",
+      "note_id": "interim-report-fleet-service-model-by-host-class",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The kernel matrix makes the stakes concrete: NVME_IOCTL_ADMIN_CMD requires CAP_SYS_ADMIN, and as the Scrutiny maintainer puts it, \"there is nothing you can do except grant that\" — the \"new root\" catch-all, to displace a daemon that already runs [[clarification-of-volume-permissions-issue-26-analogjscrutiny-github]].",
+      "note_id": "clarification-of-volume-permissions-issue-26-analogjscrutiny-github",
+      "numbers": [
+        "26"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The channel has two audited designs — the hook (a root-owned script, the smartd-warning.d convention, wired via a `jupiter.storage.smartMonitoring.hook` option or a fixed `/usr/share/smartmontools/smartd_warning.d/` entry) either drops a JSON line into `/var/lib/ha-linux-agent/smartd/` for the agent to pick up, or publishes directly to the agent's MQTT user as a low-privilege client [[smart-archwiki]] [[smartdconf5-smartmontools-debian-testing-debian-manpages]] [[interim-report-headless-privilege-ladder]].",
+      "note_id": "smart-archwiki",
+      "numbers": [
+        "5"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The channel has two audited designs — the hook (a root-owned script, the smartd-warning.d convention, wired via a `jupiter.storage.smartMonitoring.hook` option or a fixed `/usr/share/smartmontools/smartd_warning.d/` entry) either drops a JSON line into `/var/lib/ha-linux-agent/smartd/` for the agent to pick up, or publishes directly to the agent's MQTT user as a low-privilege client [[smart-archwiki]] [[smartdconf5-smartmontools-debian-testing-debian-manpages]] [[interim-report-headless-privilege-ladder]].",
+      "note_id": "smartdconf5-smartmontools-debian-testing-debian-manpages",
+      "numbers": [
+        "5"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The channel has two audited designs — the hook (a root-owned script, the smartd-warning.d convention, wired via a `jupiter.storage.smartMonitoring.hook` option or a fixed `/usr/share/smartmontools/smartd_warning.d/` entry) either drops a JSON line into `/var/lib/ha-linux-agent/smartd/` for the agent to pick up, or publishes directly to the agent's MQTT user as a low-privilege client [[smart-archwiki]] [[smartdconf5-smartmontools-debian-testing-debian-manpages]] [[interim-report-headless-privilege-ladder]].",
+      "note_id": "interim-report-headless-privilege-ladder",
+      "numbers": [
+        "5"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The exporter shape — smartctl_exporter, root by design, 60-second polls — remains a per-host opt-in for sub-minute freshness no current host needs [[github-prometheus-communitysmartctl_exporter-export-smartctl-statistics-to-prome]].",
+      "note_id": "github-prometheus-communitysmartctl_exporter-export-smartctl-statistics-to-prome",
+      "numbers": [
+        "60"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The deployment cost is near zero because `zfs-zed.service` ships inside the zfs package and is wanted by `zfs.target` unconditionally when ZFS is enabled — jupiterOS defines no unit for ZED, only zed.rc values via `services.zfs.zed.settings` plus one custom zedlet [[interim-report-headless-privilege-ladder]] [[zed8in]] [[zfsnix]].",
+      "note_id": "interim-report-headless-privilege-ladder",
+      "numbers": [
+        "8"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The deployment cost is near zero because `zfs-zed.service` ships inside the zfs package and is wanted by `zfs.target` unconditionally when ZFS is enabled — jupiterOS defines no unit for ZED, only zed.rc values via `services.zfs.zed.settings` plus one custom zedlet [[interim-report-headless-privilege-ladder]] [[zed8in]] [[zfsnix]].",
+      "note_id": "zed8in",
+      "numbers": [
+        "8"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The deployment cost is near zero because `zfs-zed.service` ships inside the zfs package and is wanted by `zfs.target` unconditionally when ZFS is enabled — jupiterOS defines no unit for ZED, only zed.rc values via `services.zfs.zed.settings` plus one custom zedlet [[interim-report-headless-privilege-ladder]] [[zed8in]] [[zfsnix]].",
+      "note_id": "zfsnix",
+      "numbers": [
+        "8"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Thresholds from the monitoring literature: capacity warn 80 %, critical 90 %; fragmentation 30/50; any non-ONLINE state as the binary_sensor problem [[how-to-monitor-zfs-pool-health-and-status-on-ubuntu]].",
+      "note_id": "how-to-monitor-zfs-pool-health-and-status-on-ubuntu",
+      "numbers": [
+        "80",
+        "90",
+        "30",
+        "50"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The proof has a negative half that pins the design: the more obvious observability API, BecomeMonitor (`busctl --system monitor`), was tried live and polkit-denied for io, so the design commits to match-rule subscription (zbus receive_signal / MessageStream with a match rule) specifically, never BecomeMonitor [[interim-report-headless-privilege-ladder]].",
+      "note_id": "interim-report-headless-privilege-ladder",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Two subtleties: Manager signals require an explicit `Subscribe()` call at startup (PropertiesChanged does not — a lazy-signals design), and the daemon shape has a production precedent in systemd_mon, which has subscribed \"no polling, and no busy-loops\" since the v204 era, queuing rapid intermediate transitions into one notified change [[github-joontysystemd_mon-monitor-for-systemd-to-alert-failed-services-github]].",
+      "note_id": "github-joontysystemd_mon-monitor-for-systemd-to-alert-failed-services-github",
+      "numbers": [
+        "204"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The rejected alternative is the OnFailure drop-in pattern, which needs root-owned writes into `/etc/systemd/system/` [[see-also-3]].",
+      "note_id": "see-also-3",
+      "numbers": [
+        "3"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "One write-path subtlety from the fleet audit: kiosks run the hardware backend's backlight disabled, so the deployed brightness entity is the launcher's screen-power light profile (backlight = \"\") whose writes go through the same raw sysfs path — the udev rule must therefore cover the *launcher* backend's write path, which is the consumer the kiosks actually use, not only the backend-hardware surface the Section 1 audit names [[sysfs-class-backlight]] [[backlight-support-the-linux-kernel-documentation]] [[interim-report-fleet-service-model-by-host-class]].",
+      "note_id": "sysfs-class-backlight",
+      "numbers": [
+        "1"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "One write-path subtlety from the fleet audit: kiosks run the hardware backend's backlight disabled, so the deployed brightness entity is the launcher's screen-power light profile (backlight = \"\") whose writes go through the same raw sysfs path — the udev rule must therefore cover the *launcher* backend's write path, which is the consumer the kiosks actually use, not only the backend-hardware surface the Section 1 audit names [[sysfs-class-backlight]] [[backlight-support-the-linux-kernel-documentation]] [[interim-report-fleet-service-model-by-host-class]].",
+      "note_id": "backlight-support-the-linux-kernel-documentation",
+      "numbers": [
+        "1"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "One write-path subtlety from the fleet audit: kiosks run the hardware backend's backlight disabled, so the deployed brightness entity is the launcher's screen-power light profile (backlight = \"\") whose writes go through the same raw sysfs path — the udev rule must therefore cover the *launcher* backend's write path, which is the consumer the kiosks actually use, not only the backend-hardware surface the Section 1 audit names [[sysfs-class-backlight]] [[backlight-support-the-linux-kernel-documentation]] [[interim-report-fleet-service-model-by-host-class]].",
+      "note_id": "interim-report-fleet-service-model-by-host-class",
+      "numbers": [
+        "1"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The read side upgrades to push for free: the kernel emits a `KOBJ_CHANGE` uevent and a `sysfs_notify` on `actual_brightness` after every store attempt, hotkey path included, so the 1-second poll-everything default becomes event-driven plus a slow heartbeat [[interim-report-headless-privilege-ladder]].",
+      "note_id": "interim-report-headless-privilege-ladder",
+      "numbers": [
+        "1"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Secrets wiring is unchanged: sops-nix (the fleet's secrets-decryption module) decrypts to `/run/secrets` with per-secret owner and `restartUnits`, so `sops.secrets.mqtt_ha_linux_agent.owner = \"io\"` works identically for a system service — per-secret owner and restartUnits are the system-module semantics, while the home-manager path a user unit would have depended on runs as a user service into `$XDG_RUNTIME_DIR/secrets.d` with ordering requirements, so the system-service move lands on the simpler of the two documented shapes [[github-mic92sops-nix-atomic-secret-provisioning-for-nixos-based-on-sops-github]].",
+      "note_id": "github-mic92sops-nix-atomic-secret-provisioning-for-nixos-based-on-sops-github",
+      "numbers": [
+        "92"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Pallene is the one decision only the user can make — a sops bootstrap or a minimal profile with inline credentials — because its configuration explicitly refuses sops-nix, and no agent choice changes that [[interim-report-fleet-service-model-by-host-class]].",
+      "note_id": "interim-report-fleet-service-model-by-host-class",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "One residual risk is named rather than hedged: notification delivery from a system service into a session (the Environment block's untested leg, estimated at 20–25 % risk) — and its shape is conditional, not kiosk-shaped: an audited grep of the fleet checkout (mako, dunst, swaync, fnott, notify-send across `modules/` and `hosts/*/`) returns zero matches, so no notification daemon ships anywhere and the session-bus last mile is dead code on every host today, while the kiosks' real last mile is the customer-display VFD overlay, whose daemon already renders anything published to its MQTT topic [[jupiteros-notification-ground-truth]] [[interim-report-fleet-service-model-by-host-class]].",
+      "note_id": "jupiteros-notification-ground-truth",
+      "numbers": [
+        "20",
+        "25"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "One residual risk is named rather than hedged: notification delivery from a system service into a session (the Environment block's untested leg, estimated at 20–25 % risk) — and its shape is conditional, not kiosk-shaped: an audited grep of the fleet checkout (mako, dunst, swaync, fnott, notify-send across `modules/` and `hosts/*/`) returns zero matches, so no notification daemon ships anywhere and the session-bus last mile is dead code on every host today, while the kiosks' real last mile is the customer-display VFD overlay, whose daemon already renders anything published to its MQTT topic [[jupiteros-notification-ground-truth]] [[interim-report-fleet-service-model-by-host-class]].",
+      "note_id": "interim-report-fleet-service-model-by-host-class",
+      "numbers": [
+        "20",
+        "25"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**SMART/NVMe (europa; opt-in elsewhere).** The smartd hook keeps smartd as the privileged detector and the agent as consumer, surviving smartd's scheduling and self-test logic for free — displacing it would cost a capability grant and a polling loop to replace a daemon that already runs the fleet's chosen tests [[interim-report-headless-privilege-ladder]] [[smart-archwiki]].",
+      "note_id": "interim-report-headless-privilege-ladder",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Three caveats the hook design carries: device self-test support is optional per drive (an Intel 600p reports \"Device Self-test Not Supported\" via the oacs bit while still reading healthy), so the inherited scheduling needs a capability check, not an assumption [[how-to-check-nvme-ssd-health-newbie-corner-arch-linux-forums]]; the surface decision — separate entities versus attributes on a disk entity — has an incumbent cautionary precedent in go-hass-agent exposing SMART as attributes that template sensors must individually surface [[how-to-see-your-ssdhdd-health-directly-in-home-assistant-diy-ideas]]; and the bridge should expose wear and vendor product-EOL as distinct sensors, since a drive at ~1 % of rated TBW can already be flagged EOL [[whats-the-best-way-to-monitor-nvme-health-applications-endeavouros]].",
+      "note_id": "how-to-check-nvme-ssd-health-newbie-corner-arch-linux-forums",
+      "numbers": [
+        "600",
+        "1"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Three caveats the hook design carries: device self-test support is optional per drive (an Intel 600p reports \"Device Self-test Not Supported\" via the oacs bit while still reading healthy), so the inherited scheduling needs a capability check, not an assumption [[how-to-check-nvme-ssd-health-newbie-corner-arch-linux-forums]]; the surface decision — separate entities versus attributes on a disk entity — has an incumbent cautionary precedent in go-hass-agent exposing SMART as attributes that template sensors must individually surface [[how-to-see-your-ssdhdd-health-directly-in-home-assistant-diy-ideas]]; and the bridge should expose wear and vendor product-EOL as distinct sensors, since a drive at ~1 % of rated TBW can already be flagged EOL [[whats-the-best-way-to-monitor-nvme-health-applications-endeavouros]].",
+      "note_id": "how-to-see-your-ssdhdd-health-directly-in-home-assistant-diy-ideas",
+      "numbers": [
+        "600",
+        "1"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Three caveats the hook design carries: device self-test support is optional per drive (an Intel 600p reports \"Device Self-test Not Supported\" via the oacs bit while still reading healthy), so the inherited scheduling needs a capability check, not an assumption [[how-to-check-nvme-ssd-health-newbie-corner-arch-linux-forums]]; the surface decision — separate entities versus attributes on a disk entity — has an incumbent cautionary precedent in go-hass-agent exposing SMART as attributes that template sensors must individually surface [[how-to-see-your-ssdhdd-health-directly-in-home-assistant-diy-ideas]]; and the bridge should expose wear and vendor product-EOL as distinct sensors, since a drive at ~1 % of rated TBW can already be flagged EOL [[whats-the-best-way-to-monitor-nvme-health-applications-endeavouros]].",
+      "note_id": "whats-the-best-way-to-monitor-nvme-health-applications-endeavouros",
+      "numbers": [
+        "600",
+        "1"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**Verified ZFS status (europa only).** The procfs-state plus zedlet two-channel design, with the premise correction that scopes it: pallene is ZFS-less and callisto's only ZFS exposure is the iSCSI zvol with no local pool, where the backend's `detect()` already returns false — correct today [[interim-report-headless-privilege-ladder]] [[repo-map-ha-linux-agent]].",
+      "note_id": "interim-report-headless-privilege-ladder",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**Mesh/exit-node health (europa, fleet visibility).** The tailscale `ipnstate` schema is the surface for peer and exit-node state — PeerStatus with HostName, Online, and ExitNodeStatus for the current exit node's liveness [[ipnstate-package-tailscalecomipnipnstate-go-packages]].",
+      "note_id": "ipnstate-package-tailscalecomipnipnstate-go-packages",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The schema is authoritative but explicitly unstable-by-policy across versions, so the parser is version-tolerant; the operational surface around it — `tailscale wait` / tailscale-online.target as the readiness gate where mesh reachability orders the agent, `BackendState` as the reliable running-indicator, and the frozen-by-policy `--json` contract that makes version-tolerance a schema check rather than a re-parse — completes the feature the same way SMART and ZFS get their mechanisms named [[how-to-check-if-tailscale-is-running-alexwlchan]].",
+      "note_id": "how-to-check-if-tailscale-is-running-alexwlchan",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The corpus still fixes the design for the day one is attached, because the HA-native shape is NUT and its ceilings are the agent-side consumer's requirements: the integration cannot talk to a UPS directly (a NUT server is required, port 3493, 60-second default polling), it can retrieve but not set NUT variables and supports no parameterised commands, device actions (instcmds such as beeper.disable, test.battery.start.quick, power-cycle outlet) require credentialled upsd.users grants, it cannot auto-detect a server IP change (DNS-name resolution, never baked IPs), and most diagnostic sensors are disabled by default as a deliberate recorder-cost trim — with `upsc`/`upscmd` enumerating the raw surface an agent-side consumer reads directly [[network-ups-tools-nut-home-assistant]].",
+      "note_id": "network-ups-tools-nut-home-assistant",
+      "numbers": [
+        "3493,",
+        "60"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**Remote reboot/poweroff.** Present through the launcher and systemd backends [[repo-map-ha-linux-agent]]; what is missing is the idempotency contract — an audit of the fleet's command handlers for non-idempotent semantics (reboot/power among them) is the named next step, because whether any launcher-style command is non-idempotent calibrates how much the clean-session rejection depends on it: if none are, a replayed stale message damages nothing, and the persistence question becomes lower-stakes than the lifecycle design argues.",
+      "note_id": "repo-map-ha-linux-agent",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**Notifications, end to end.** notify.mqtt replaces the payload-hack button (HA 2024.5+; callisto's HA qualifies), one-way [[add-mqtt-notify-platform-by-jbouwh-pull-request-115653-home-assistantcore-github]] [[mqtt-notify-home-assistant]].",
+      "note_id": "add-mqtt-notify-platform-by-jbouwh-pull-request-115653-home-assistantcore-github",
+      "numbers": [
+        "2024.5",
+        "115653"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**Notifications, end to end.** notify.mqtt replaces the payload-hack button (HA 2024.5+; callisto's HA qualifies), one-way [[add-mqtt-notify-platform-by-jbouwh-pull-request-115653-home-assistantcore-github]] [[mqtt-notify-home-assistant]].",
+      "note_id": "mqtt-notify-home-assistant",
+      "numbers": [
+        "2024.5",
+        "115653"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**CPU performance knobs (kiosks).** The global boost switch lives at `/sys/devices/system/cpu/cpufreq/boost` (values 0/1, the recommended interface over the legacy per-policy AMD knob) — a natural governor/EPP sibling for the hardware backend's existing write path, gated by the same udev video-group pattern [[cpu-performance-scaling-the-linux-kernel-documentation]].",
+      "note_id": "cpu-performance-scaling-the-linux-kernel-documentation",
+      "numbers": [
+        "0",
+        "1,"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**The future desktop host class.** A niri-based desktop host is speculative (niri, a Wayland compositor, appears in zero jupiterOS host configurations), but its boundary is solved from source: the compositor's IPC socket is created as `niri.{wayland_socket_name}.{pid}.sock` under the user's runtime directory — filesystem-permission-gated, so a same-UID `User=io` system service reaches it by globbing, no session unit required (the niri-ipc client library's explicit-path `connect_to()` / `NIRI_SOCKET` being the cleaner reach than globbing) — and the event-stream contract delivers complete state up-front followed by updates, so \"your state can never 'desync'\" [[serverrs]] [[ipc-niri-msg-niri]] [[niriniri-ipcsrcsocketrs-at-main-niri-wmniri-github]].",
+      "note_id": "serverrs",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**The future desktop host class.** A niri-based desktop host is speculative (niri, a Wayland compositor, appears in zero jupiterOS host configurations), but its boundary is solved from source: the compositor's IPC socket is created as `niri.{wayland_socket_name}.{pid}.sock` under the user's runtime directory — filesystem-permission-gated, so a same-UID `User=io` system service reaches it by globbing, no session unit required (the niri-ipc client library's explicit-path `connect_to()` / `NIRI_SOCKET` being the cleaner reach than globbing) — and the event-stream contract delivers complete state up-front followed by updates, so \"your state can never 'desync'\" [[serverrs]] [[ipc-niri-msg-niri]] [[niriniri-ipcsrcsocketrs-at-main-niri-wmniri-github]].",
+      "note_id": "niriniri-ipcsrcsocketrs-at-main-niri-wmniri-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The web's consensus names mosquitto-in-testcontainers as the right harness — `Mosquitto::default().start()`, broker URL from the mapped port, no authentication [[testcontainers-mosquitto-module]] [[mosquitto-in-testcontainers_modulesmosquitto-rust]].",
+      "note_id": "testcontainers-mosquitto-module",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The audited fleet facts refute it on arrival: no docker or podman on any jupiterOS host, no container runtime in any host configuration, and the Nix remote builders cannot expose container sockets inside build sandboxes at all — a testcontainers gate would be dead on arrival, not merely awkward [[interim-report-testing-gate-for-hardware-daemon]].",
+      "note_id": "interim-report-testing-gate-for-hardware-daemon",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Practice confirms the mechanism on both sides: merged nixpkgs PR #283878 ran a localhost server-client pair inside checkPhase, the build log showing \"Serving HTTP on 127.0.0.1 port 8000\" serving requests from the test client [[single-file-cli-init-at-1149-by-n8henrie-pull-request-283878-nixosnixpkgs-github]], while the same author's Discourse thread shows the cross-boundary shape failing — a server started outside the build is unreachable from checkPhase because \"there are different loopback interfaces in different namespaces\", which is precisely why the harness spawns mosquitto inside the test rather than reusing a host broker [[local-networking-in-checkphase-help-nixos-discourse]].",
+      "note_id": "single-file-cli-init-at-1149-by-n8henrie-pull-request-283878-nixosnixpkgs-github",
+      "numbers": [
+        "283878",
+        "127.0",
+        "0.1",
+        "8000",
+        "1149",
+        "8",
+        "283878"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Practice confirms the mechanism on both sides: merged nixpkgs PR #283878 ran a localhost server-client pair inside checkPhase, the build log showing \"Serving HTTP on 127.0.0.1 port 8000\" serving requests from the test client [[single-file-cli-init-at-1149-by-n8henrie-pull-request-283878-nixosnixpkgs-github]], while the same author's Discourse thread shows the cross-boundary shape failing — a server started outside the build is unreachable from checkPhase because \"there are different loopback interfaces in different namespaces\", which is precisely why the harness spawns mosquitto inside the test rather than reusing a host broker [[local-networking-in-checkphase-help-nixos-discourse]].",
+      "note_id": "local-networking-in-checkphase-help-nixos-discourse",
+      "numbers": [
+        "283878",
+        "127.0",
+        "0.1",
+        "8000",
+        "1149",
+        "8",
+        "283878"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "So the mosquitto-subprocess harness inside the test hook — bind a `TcpListener` to `127.0.0.1:0`, read the port, hand it to `mosquitto -p <port>` (the no-config default is anonymous and loopback-only), TCP-probe with a fail-fast, kill on Drop — needs no sandbox escape and no VM [[mosquitto8-mosquitto-debian-unstable-debian-manpages]].",
+      "note_id": "mosquitto8-mosquitto-debian-unstable-debian-manpages",
+      "numbers": [
+        "127.0",
+        "0.1",
+        "0",
+        "8"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**The seven-step ladder, in dependency order** [[interim-report-testing-gate-for-hardware-daemon]]:",
+      "note_id": "interim-report-testing-gate-for-hardware-daemon",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "7. **`runNixOSTest` for the module** — the out-of-tree invocation the NixOS manual documents, headless in QEMU where a full system bus and real systemd exist, cribbed from nixpkgs' own mosquitto test with a single node (the kiosk failure mode is local): enable the module, `wait_for_unit(\"ha-linux-agent.service\")`, assert retained \"online\", then `machine.systemctl(\"restart mosquitto.service\")` mid-test and assert re-subscribe and availability return — the module-level replay of the two root defects, and the gate that pins the fleet unit shape in one stroke [[nixos-manual]] [[mosquittonix]].",
+      "note_id": "nixos-manual",
+      "numbers": [
+        "7."
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "7. **`runNixOSTest` for the module** — the out-of-tree invocation the NixOS manual documents, headless in QEMU where a full system bus and real systemd exist, cribbed from nixpkgs' own mosquitto test with a single node (the kiosk failure mode is local): enable the module, `wait_for_unit(\"ha-linux-agent.service\")`, assert retained \"online\", then `machine.systemctl(\"restart mosquitto.service\")` mid-test and assert re-subscribe and availability return — the module-level replay of the two root defects, and the gate that pins the fleet unit shape in one stroke [[nixos-manual]] [[mosquittonix]].",
+      "note_id": "mosquittonix",
+      "numbers": [
+        "7."
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Remove or wire the dead `tls` knob at `config.rs:88`; document backend-hardware in the README; land the notify.mqtt discovery entity — strictly better than the payload-hack button, and independent of everything else [[test_notifypy]].",
+      "note_id": "test_notifypy",
+      "numbers": [
+        "88"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Three developments would legitimately reopen settled questions and deserve standing watch: a merged-and-released upstream reconnect signal (which would let the raw ConnAck match become an event variant and trigger the version bump — but would not change the design, since subscriptions stay application-owned); an incumbent shipping native select controls with state sync or a NixOS service module (go-hass-agent's zero-occurrence record through v14.15.1 is the current evidence against) [[changelogmd]]; and an end-to-end MQTT v5 decision, which loosens the clean-session reasoning and makes message expiry the stale-command cure — the v5 module already ships inside the pinned version [[interim-report-rumqttc-dependency-fitness]].",
+      "note_id": "changelogmd",
+      "numbers": [
+        "14.15",
+        "1",
+        "5",
+        "5"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Three developments would legitimately reopen settled questions and deserve standing watch: a merged-and-released upstream reconnect signal (which would let the raw ConnAck match become an event variant and trigger the version bump — but would not change the design, since subscriptions stay application-owned); an incumbent shipping native select controls with state sync or a NixOS service module (go-hass-agent's zero-occurrence record through v14.15.1 is the current evidence against) [[changelogmd]]; and an end-to-end MQTT v5 decision, which loosens the clean-session reasoning and makes message expiry the stale-command cure — the v5 module already ships inside the pinned version [[interim-report-rumqttc-dependency-fitness]].",
+      "note_id": "interim-report-rumqttc-dependency-fitness",
+      "numbers": [
+        "14.15",
+        "1",
+        "5",
+        "5"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    }
+  ],
+  "dangling": []
+}

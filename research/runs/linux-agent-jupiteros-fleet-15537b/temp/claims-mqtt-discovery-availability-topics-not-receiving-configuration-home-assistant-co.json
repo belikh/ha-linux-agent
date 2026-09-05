@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "A third-party cloud MQTT broker (EMQX, emqxsl.com) can silently drop delivery of MQTT messages to HA subscriptions that HA has correctly registered — HA debug logs show subscribe + healthy write cycles but no incoming message delivery; switching to Mosquitto resolved it.",
+    "stance": "supports",
+    "stance_target": "jupiterOS fleet should standardise on Mosquitto (or extensively test a non-Mosquitto broker); availability/state topics can silently fail on EMQX cloud",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "HA MQTT integration + EMQX Cloud (emqxsl.com, eu-central-1), Aug 2024; n=1 report",
+    "quoted_support": "Turns out the issue is related to using the external third party MQTT Broker. EMQX in my case. ... If you have issues receiving MQTT messages in Home Assistant using external 3rd party MQTT broker - check first if the issue persists when using Mosquitto.",
+    "numbers": ["qos 0"],
+    "entities": ["EMQX", "emqxsl.com", "Mosquitto", "Home Assistant"],
+    "time_period": "2024-08",
+    "region": "eu-central-1 cloud broker",
+    "confidence": "medium",
+    "source_note_id": "mqtt-discovery-availability-topics-not-receiving-configuration-home-assistant-co"
+  },
+  {
+    "claim": "HA's discovery processing log ('Found new component: switch dev1' followed by 'Subscribing with mid: 24 to topics with qos: [...]') is the verifiable debug signature that a discovery payload was accepted and its subscriptions registered.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent integration tests can assert against HA debug logs to verify discovery acceptance end-to-end",
+    "evidence_type": "empirical",
+    "scope_conditions": "HA debug logging for homeassistant.components.mqtt.client/discovery",
+    "quoted_support": "2024-08-09 14:21:48.706 INFO (MainThread) [homeassistant.components.mqtt.discovery] Found new component: switch dev1 ... Subscribing with mid: 24 to topics with qos: [('b/office/dev1/available', 0), ('b/office/dev1/state', 0)]",
+    "numbers": ["mid: 24", "qos 0"],
+    "entities": ["homeassistant.components.mqtt.discovery", "homeassistant.components.mqtt.client"],
+    "time_period": "2024-08",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "mqtt-discovery-availability-topics-not-receiving-configuration-home-assistant-co"
+  }
+]

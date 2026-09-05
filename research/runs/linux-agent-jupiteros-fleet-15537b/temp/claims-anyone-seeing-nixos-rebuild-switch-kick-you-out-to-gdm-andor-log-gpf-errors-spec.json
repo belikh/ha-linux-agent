@@ -1,0 +1,91 @@
+[
+ {
+  "claim": "As of mid-2026 NixOS unstable, nixos-rebuild switch DOES restart systemd user units other than nixos-activation.service \u2014 a behaviour change introduced via the switch-to-configuration-ng Rust rewrite that replaced the old reload-only handling.",
+  "stance": "refutes",
+  "stance_target": "gap-03 target position that 'nixos-rebuild switch does not restart systemd user services for lingered/not-logged-in users' remains true on 2026 NixOS",
+  "evidence_type": "empirical",
+  "scope_conditions": "NixOS unstable 26.11 / nixpkgs 26.05 era after 2026-05-26; GNOME and niri sessions; both Linger=yes and Linger=no",
+  "quoted_support": "Namely, the change was that `nixos-rebuild switch` now restarts user units other than `nixos-activation.service`. Since that change, some user services (`niri.service`, `gnome-session-monitor.service`, there might be more) started restarting on `nixos-rebuild switch` and causing instability",
+  "numbers": [
+   "2026-05-26 (first regression occurrence)",
+   "7 session teardowns in 57 switches",
+   "2-5 seconds after daemon-reload"
+  ],
+  "entities": [
+   "nixos-rebuild switch",
+   "switch-to-configuration-ng",
+   "niri.service",
+   "gnome-session-monitor.service",
+   "PR #517768",
+   "PR #536457",
+   "PR #519740"
+  ],
+  "time_period": "May-August 2026",
+  "region": "global (NixOS unstable)",
+  "confidence": "high",
+  "source_note_id": "anyone-seeing-nixos-rebuild-switch-kick-you-out-to-gdm-andor-log-gpf-errors-spec"
+ },
+ {
+  "claim": "The user-unit restart regression fired first on 2026-05-26, isolating nixpkgs 26.05.20260515.d233902 \u2192 26.05.20260523.64c08a7 with systemd constant at 260.1, implicating PR #517768 commits 6ced06a1b and 76c8d4509 as the trigger.",
+  "stance": "refutes",
+  "stance_target": "gap-03: that the restart behaviour is unchanged since the Feb 2023 Discourse evidence chain",
+  "evidence_type": "empirical",
+  "scope_conditions": "flake/channel updates where a unit's store path changes; not small config edits",
+  "quoted_support": "The switch that first did it moved nixpkgs `26.05.20260515.d233902` \u2192 `26.05.20260523.64c08a7`. systemd is 260.1 on both sides, so it isn't a systemd bump. The only commits in that range touching the relevant code are from #517768",
+  "numbers": [
+   "26.05.20260515.d233902",
+   "26.05.20260523.64c08a7",
+   "systemd 260.1",
+   "7 in 57 switches"
+  ],
+  "entities": [
+   "nixpkgs",
+   "PR #517768",
+   "commit 6ced06a1b",
+   "commit 76c8d4509"
+  ],
+  "time_period": "May 2026",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "anyone-seeing-nixos-rebuild-switch-kick-you-out-to-gdm-andor-log-gpf-errors-spec"
+ },
+ {
+  "claim": "When a restarted user unit collapses the graphical session, switch-to-configuration-ng loses its stdout pipe and exits 101 (Rust panic exit code), aborting activation mid-way and leaving system services like docker, home-assistant and NetworkManager stopped \u2014 a half-applied generation worse than the logout itself.",
+  "stance": "neutral",
+  "stance_target": "fleet-reliability risk assessment of running agents as user units on NixOS (relevant to ha-linux-agent architecture)",
+  "evidence_type": "anecdotal",
+  "scope_conditions": "switch launched from a terminal inside the affected session; avoidable by running switch from TTY or SSH",
+  "quoted_support": "switch-to-configuration-ng loses its stdout pipe and exits 101 \u2014 the Rust panic exit code \u2014 so activation aborts partway through and leaves behind whatever it had already stopped. On my last occurrence that was docker, home-assistant and NetworkManager, none of which came back.",
+  "numbers": [
+   "exit code 101"
+  ],
+  "entities": [
+   "switch-to-configuration-ng",
+   "docker",
+   "home-assistant",
+   "NetworkManager"
+  ],
+  "time_period": "2026",
+  "region": "global",
+  "confidence": "medium",
+  "source_note_id": "anyone-seeing-nixos-rebuild-switch-kick-you-out-to-gdm-andor-log-gpf-errors-spec"
+ },
+ {
+  "claim": "The session teardown occurs with Linger=no and independently of the systemd-logind GPF reported by the OP, meaning the user-unit restart pass is not gated on lingering at all.",
+  "stance": "refutes",
+  "stance_target": "gap-03: that the restart question is specifically about lingered users (it affects all user managers that are running)",
+  "evidence_type": "anecdotal",
+  "scope_conditions": "GNOME 50, mutter 50.4, GDM autologin, home-manager as NixOS module",
+  "quoted_support": "I get the same \"kicked out to GDM mid-switch\" behaviour, but without linger (Linger=no, never set in my config) and without any systemd-logind GPF",
+  "numbers": [],
+  "entities": [
+   "systemd-logind",
+   "GDM",
+   "GNOME"
+  ],
+  "time_period": "2026-05-26 to 2026-08-16",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "anyone-seeing-nixos-rebuild-switch-kick-you-out-to-gdm-andor-log-gpf-errors-spec"
+ }
+]

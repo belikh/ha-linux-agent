@@ -1,0 +1,36 @@
+{
+  "manifest_version": 1,
+  "vault_tag": "linux-agent-jupiteros-fleet-",
+  "profile": "full",
+  "profile_steps": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16"
+  ],
+  "status": "running",
+  "started_at": "2026-09-02T03:45:23.558096+00:00",
+  "updated_at": "2026-09-02T03:45:23.558117+00:00",
+  "budget_usd": null,
+  "blocked_on": null,
+  "steps": {},
+  "chapters": {},
+  "spend": {
+    "estimated_usd": 0.0,
+    "sources_fetched": 0,
+    "notes_written": 0,
+    "agents_spawned": 0
+  }
+}

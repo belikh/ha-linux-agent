@@ -1,0 +1,45 @@
+[
+  {
+    "claim": "default.target is the main target of the user service manager, analogous to multi-user.target for the system instance but a real unit rather than an alias",
+    "stance": "supports",
+    "stance_target": "user-service agents hang off a well-defined default target within the user manager",
+    "evidence_type": "theoretical",
+    "scope_conditions": "user service manager instances, systemd 242+",
+    "quoted_support": "This is the main target of the user service manager, started by default when the service manager is invoked. Various services that compose the normal user session should be pulled into this target. In this regard, default.target is similar to multi-user.target in the system instance, but it is a real unit, not an alias.",
+    "numbers": ["version 242"],
+    "entities": ["default.target", "multi-user.target", "systemd --user"],
+    "time_period": "systemd 242+",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "systemdspecial"
+  },
+  {
+    "claim": "user.slice collects all user processes and services started on behalf of the user, including the per-user systemd instance, and is pulled in by systemd-logind.service",
+    "stance": "supports",
+    "stance_target": "resource-accounting placement of user-mode fleet agents under the user manager",
+    "evidence_type": "theoretical",
+    "scope_conditions": "systemd system instance, any user manager",
+    "quoted_support": "By default, all user processes and services started on behalf of the user, including the per-user systemd instance are found in this slice. This is pulled in by systemd-logind.service.",
+    "numbers": ["version 206"],
+    "entities": ["user.slice", "systemd-logind.service", "systemd --user"],
+    "time_period": "systemd 206+",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "systemdspecial"
+  },
+  {
+    "declare": true,
+    "claim": "graphical-session.target is a passive user-unit target that stops user services bound to it (via PartOf=graphical-session.target) when the graphical session terminates",
+    "stance": "supports",
+    "stance_target": "user-service lifetime is bound to session types; session-bound user services die with the session",
+    "evidence_type": "theoretical",
+    "scope_conditions": "user service manager instances with graphical sessions",
+    "quoted_support": "This target is active whenever any graphical session is running. It is used to stop user services which only apply to a graphical (X, Wayland, etc.) session when the session is terminated. Such services should have \"PartOf=graphical-session.target\" in their [Unit] section.",
+    "numbers": [],
+    "entities": ["graphical-session.target", "PartOf="],
+    "time_period": "current upstream documentation",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "systemdspecial"
+  }
+]

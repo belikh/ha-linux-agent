@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "zbus integration tests themselves currently require a session bus running on the build host — a CI constraint any ha-linux-agent D-Bus test suite inherits.",
+    "stance": "supports",
+    "stance_target": "adding D-Bus to the agent means CI must provide a session bus (or the tests must gate on one), mirroring zbus's own build requirements",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "zbus repo CI, Linux as main target",
+    "quoted_support": "Supported targets include Unix, Windows and macOS with Linux as the main target. Integration tests of zbus crate currently require a session bus running on the build host.",
+    "numbers": [],
+    "entities": ["zbus", "session bus", "CI"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-z-galaxyzbus-rust-d-bus-crate-github-2"
+  },
+  {
+    "claim": "github.com/dbus2/zbus serves the same 'z-galaxy/zbus' page content (org rename/redirect), confirming z-galaxy/dbus2 as the current home of the canonical zbus repo.",
+    "stance": "neutral",
+    "stance_target": "provenance accuracy for citations of the zbus repository",
+    "evidence_type": "empirical",
+    "scope_conditions": "fetched 2 Sept 2026; both URLs render identical README",
+    "quoted_support": "GitHub - z-galaxy/zbus: Rust D-Bus crate. (fetched at URL https://github.com/dbus2/zbus)",
+    "numbers": ["746", "160", "6464"],
+    "entities": ["dbus2", "z-galaxy", "zbus"],
+    "time_period": "September 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-z-galaxyzbus-rust-d-bus-crate-github-2"
+  }
+]

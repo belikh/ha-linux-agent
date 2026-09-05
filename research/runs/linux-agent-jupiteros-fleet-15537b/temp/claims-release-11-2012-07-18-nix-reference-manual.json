@@ -1,0 +1,20 @@
+[
+ {
+  "claim": "The Nix manual's canonical statement (since release 1.1, 2012, retained verbatim through current manuals): 'The private network namespace ensures that builders cannot talk to the outside world (or vice versa): each build only sees a private loopback interface. This also means that two concurrent builds can listen on the same port (e.g. as part of a test) without conflicting with each other.'",
+  "stance": "supports",
+  "stance_target": "gap-04: upstream explicitly endorses in-sandbox listen-on-a-port tests; parallel flake check builds can't conflict on the harness port",
+  "evidence_type": "legal",
+  "scope_conditions": "Nix Linux sandbox; all versions 1.1 (2012) \u2192 2.35",
+  "quoted_support": "This also means that two concurrent builds can listen on the same port (e.g. as part of a test) without conflicting with each other.",
+  "numbers": [
+   "2012-07-18"
+  ],
+  "entities": [
+   "Nix"
+  ],
+  "time_period": "2012 \u2192 present",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "release-11-2012-07-18-nix-reference-manual"
+ }
+]

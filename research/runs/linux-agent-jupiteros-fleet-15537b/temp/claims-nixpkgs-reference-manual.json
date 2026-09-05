@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "pkgs.testers.runNixOSTest is a helper that behaves exactly like the NixOS runTest but pins the nixpkgs package set of the caller and makes nixpkgs.* options read-only.",
+    "stance": "supports",
+    "stance_target": "An out-of-tree flake should use its own nixpkgs input's testers.runNixOSTest so the tested VM uses the flake's pinned nixpkgs",
+    "evidence_type": "empirical",
+    "scope_conditions": "nixpkgs unstable manual, sec-testing-runNixOSTest",
+    "quoted_support": "A helper function that behaves exactly like the NixOS runTest, except it also assigns this Nixpkgs package set as the pkgs of the test and makes the nixpkgs.* options read-only. If your test is part of the Nixpkgs repository, or if you need a more general entrypoint, see \"Calling a test\" in the NixOS manual.",
+    "numbers": [],
+    "entities": ["pkgs.testers.runNixOSTest", "runTest", "nixpkgs"],
+    "time_period": "2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "nixpkgs-reference-manual"
+  },
+  {
+    "claim": "The documented in-tree invocation shape is pkgs.testers.runNixOSTest ({ lib, ... }: { name; nodes.machine = { pkgs, ... }: { environment.systemPackages = ...; }; testScript = ''machine.succeed(\"hello\")''; }) and it returns a derivation with notable attributes nodes and driverInteractive.",
+    "stance": "supports",
+    "stance_target": "The test module shape for a CI gate: name + nodes.<hostname> NixOS modules + Python testScript",
+    "evidence_type": "empirical",
+    "scope_conditions": "nixpkgs unstable manual",
+    "quoted_support": "pkgs.testers.runNixOSTest ( { lib, ... }: { name = \"hello\"; nodes.machine = { pkgs, ... }: { environment.systemPackages = [ pkgs.hello ]; }; testScript = '' machine.succeed(\"hello\") ''; } )",
+    "numbers": [],
+    "entities": ["runNixOSTest", "nodes", "testScript", "driverInteractive"],
+    "time_period": "2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "nixpkgs-reference-manual"
+  },
+  {
+    "claim": "nixosTest (also under testers) is 'primarily for external use' and is mostly equivalent to importing make-test-python.nix from the NixOS manual, except the caller's pkgs application is used; if a test machine needs nixpkgs options it must set only nixpkgs.pkgs.",
+    "stance": "neutral",
+    "stance_target": "Alternative entrypoint if runNixOSTest's read-only nixpkgs.* restriction is a problem",
+    "evidence_type": "empirical",
+    "scope_conditions": "nixpkgs unstable manual",
+    "quoted_support": "NOTE: This function is primarily for external use. NixOS itself uses make-test-python.nix directly. ... If a test machine needs to set NixOS options under nixpkgs, it must set only the nixpkgs.pkgs option.",
+    "numbers": [],
+    "entities": ["nixosTest", "make-test-python.nix", "nixpkgs.pkgs"],
+    "time_period": "2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "nixpkgs-reference-manual"
+  },
+  {
+    "claim": "The manual's runNixOSTest section itself contains no QEMU display/headless configuration guidance; headless behaviour and interactive testing are documented in the NixOS manual (see nixos-manual-2), not the nixpkgs testers chapter.",
+    "stance": "neutral",
+    "stance_target": "Whether URL 2 alone answers the headless/interactive wiring question",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "nixpkgs unstable manual, fetched 2026-09-02",
+    "quoted_support": "If your test is part of the Nixpkgs repository, or if you need a more general entrypoint, see \"Calling a test\" in the NixOS manual.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "nixpkgs-reference-manual"
+  }
+]

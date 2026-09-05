@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "ExecStopPost= in systemd.service(5) defines additional commands executed after the service is stopped, covering all exit paths: when ExecStop= was used, when no ExecStop= is defined, and when the service exited unexpectedly — making it the correct hook for post-mortem/failure cleanup, whereas ExecStop= is recommended for requesting clean termination.",
+    "stance": "supports",
+    "stance_target": "agent helper units and failure-notification hooks should use ExecStopPost= since it fires on failure paths (including failed startup), matching the KDE thread's recommendation with canonical semantics",
+    "evidence_type": "empirical",
+    "scope_conditions": "systemd service units; [Service] section; $MAINPID unset when main process already exited",
+    "quoted_support": "ExecStopPost= Additional commands that are executed after the service is stopped. This includes cases where the commands configured in ExecStop= were used, where the service does not have any ExecStop= defined, or where the service exited unexpectedly. ... It is recommended to use this setting for commands that communicate with the service requesting clean termination. For post-mortem clean-up steps use ExecStopPost= instead.",
+    "numbers": [],
+    "entities": ["ExecStopPost", "ExecStop", "$MAINPID"],
+    "time_period": "current systemd main",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "see-also-2"
+  },
+  {
+    "claim": "Service restarts are implemented as stop operations followed by start operations, so ExecStop= and ExecStopPost= both execute during every service restart — failure-hook logic in ExecStopPost must tolerate restarts and should distinguish failure exit codes.",
+    "stance": "supports",
+    "stance_target": "agent notification hooks must not fire user-visible alerts on routine restarts — they need exit-status awareness",
+    "evidence_type": "empirical",
+    "scope_conditions": "systemd service units under restart",
+    "quoted_support": "Service restart requests are implemented as stop operations followed by start operations. This means that ExecStop= and ExecStopPost= are executed during a service restart operation.",
+    "numbers": [],
+    "entities": ["ExecStopPost", "restart"],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "see-also-2"
+  },
+  {
+    "claim": "systemd supports service templates (service@argument.service, instantiated from a template unit) and systemd-run can create transient .service and .scope units dynamically from the command line — the mechanism for agent-initiated, on-the-fly units without writing unit files.",
+    "stance": "supports",
+    "stance_target": "the agent can run fleet operations as transient scoped units (systemd-run --unit=...) so its actions are visible/supervisable in systemd, rather than detached child processes",
+    "evidence_type": "empirical",
+    "scope_conditions": "systemd",
+    "quoted_support": "The systemd-run command allows creating .service and .scope units dynamically and transiently from the command line. ... It is possible for systemd services to take a single argument via the service@argument.service syntax. Such services are called \"instantiated\" services",
+    "numbers": [],
+    "entities": ["systemd-run", "service templates", "transient units", "scope"],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "see-also-2"
+  }
+]

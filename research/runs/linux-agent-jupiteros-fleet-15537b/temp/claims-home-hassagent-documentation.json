@@ -1,0 +1,16 @@
+[
+  {
+    "claim": "HASS.Agent is documented as a Windows-only Home Assistant companion app built around four pillars — Sensors, Commands, Notifications, Quick Actions — and explicitly describes itself as 'A windows Home Assistant client(Companion App)'.",
+    "stance": "supports",
+    "stance_target": "the Linux HA companion niche is genuinely unoccupied by the incumbent HASS.Agent, leaving room for ha-linux-agent on jupiterOS hosts",
+    "evidence_type": "empirical",
+    "scope_conditions": "HASS.Agent 2.2 documentation home page",
+    "quoted_support": "Welcome to HASS.Agent A windows Home Assistant client(Companion App) that provides powerful features for automating your windows system.",
+    "numbers": [],
+    "entities": ["HASS.Agent", "Windows", "Home Assistant"],
+    "time_period": "HASS.Agent 2.2 docs (2023-2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "home-hassagent-documentation"
+  }
+]

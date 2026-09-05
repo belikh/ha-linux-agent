@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Real-world Netdata agents on Debian 10/11 (v1.36.1) used 200-1000+ MB RAM, and one practitioner measured 2.5 GB reserved / 1.4 GB used on 16 GB hosts collecting ~7500 metrics, despite docs promising under 100 MB.",
+    "stance": "refutes",
+    "stance_target": "The claim that heavyweight monitoring agents are cheap enough to run on every fleet host without resource tuning",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Netdata 1.36.1/1.37-era, Debian 10/11 and CentOS 9 Stream, dbengine mode, 2022-2023; practitioner forum reports corroborated by Netdata founder",
+    "quoted_support": "Installed \"default\", had some insane memory usage for netdata daemon. From 200-400 MB for regular servers to 700-1000+MB for kvm hypervisors. USED memory. And that's just in a single month. ... I'm facing a similar issue where the agents are using 2.5GB of RAM a few seconds after restarting the service on nodes that only come with 16GB of RAM.",
+    "numbers": ["200-400 MB regular servers", "700-1000+ MB hypervisors", "2.5 GB reserved", "1.4 GB used", "16 GB hosts", "~7500 metrics", "~10 GB committed", "850 MB used on worst host"],
+    "entities": ["Netdata", "dbengine", "ARAL allocator"],
+    "time_period": "October 2022 - January 2023",
+    "region": "global (Debian, CentOS)",
+    "confidence": "high",
+    "source_note_id": "insane-netdata-memory-usage-help-netdata-community-forums"
+  },
+  {
+    "claim": "Netdata's founder confirmed dbengine's in-memory index is the main memory offender and recommended a production-child config of [db] mode=alloc retention=1800, storage tiers=1, [ml] enabled=no, [health] enabled=no, yielding under 50 MB RAM per child that streams to Parent nodes.",
+    "stance": "supports",
+    "stance_target": "Edge-light/centralised-heavy architecture as the pattern for jupiterOS fleet agents",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Netdata agent, production child nodes, v1.36-era defaults before dbengine v2",
+    "quoted_support": "Generally, on production systems you should use (in netdata.conf) something like this: [db] storage tiers = 1, mode = alloc, retention = 1800 ... [ml] enabled = no ... [health] enabled = no. With these settings, netdata should not use more than 50MB of RAM.",
+    "numbers": ["<50 MB RAM", "retention 1800 s", "1 storage tier"],
+    "entities": ["Netdata", "Costa_Tsaousis", "dbengine"],
+    "time_period": "October 2022",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "insane-netdata-memory-usage-help-netdata-community-forums"
+  },
+  {
+    "claim": "dbengine v2 (merged January 2023, shipped in v1.37) reduced a default-config Netdata agent on 64-bit machines to about 100 MB RAM with 3 storage tiers and about 1 year retention, and the journal-file PR #13885 reduced dbengine memory footprint by 80-90% at a cost of 15% speed and 10% disk.",
+    "stance": "neutral",
+    "stance_target": "How much engineering effort incumbent agents spent to reach a ~100 MB fleet footprint",
+    "evidence_type": "statistical",
+    "scope_conditions": "Netdata 1.37+, 64-bit machines, default settings, 3 tiers",
+    "quoted_support": "A Netdata Agent running with default settings on a 64 bit machine should now use about 100MB of RAM, using 3 storage tiers, providing about 1 year of data retention ... this reduces the memory footprint of dbengine by 80 - 90%, while sacrificing just 15% of its speed and 10% of disk space.",
+    "numbers": ["~100 MB RAM", "80-90% memory reduction", "15% speed penalty", "10% disk increase", "PR #13885", "PR #13873", "v1.37", "Jan 2023"],
+    "entities": ["Netdata", "dbengine v2"],
+    "time_period": "January 2023",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "insane-netdata-memory-usage-help-netdata-community-forums"
+  },
+  {
+    "claim": "A confirmed ARAL array-allocator memory leak magnified Netdata's memory consumption (fixed October 2022), and a separate leak on CentOS 9 Stream (issue #14288) was traced to the ebpf.plugin, which the maintainer recommended disabling.",
+    "stance": "neutral",
+    "stance_target": "Evidence that heavyweight agents carry reliability risk from complex plugin subsystems (eBPF), relevant to ha-linux-agent's reliability critique",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Netdata 1.36-1.37, CentOS 9 Stream, ebpf.plugin",
+    "quoted_support": "And we found a memory leak in the way dbengine allocated memory, so we also had a leak magnifying the problem. ... this line show on 2 machine where leak happens: systemd-coredump ... (ebpf.plugin) of user 986 dumped core.",
+    "numbers": ["1.4 GB leaked on CentOS 9 Stream", "issue #14288", "v1.37.0-148-g906fd2daf"],
+    "entities": ["Netdata", "ARAL", "ebpf.plugin"],
+    "time_period": "October 2022 - January 2023",
+    "region": "global (CentOS 9 Stream)",
+    "confidence": "high",
+    "source_note_id": "insane-netdata-memory-usage-help-netdata-community-forums"
+  }
+]

@@ -1,0 +1,45 @@
+[
+ {
+  "claim": "Neither go-hass-agent nor lnxlink appears in nixpkgs' nixos/modules/module-list.nix (master, 2026) \u2014 there is no services.go-hass-agent or services.lnxlink NixOS module; the services/home-automation/ directory hosts modules for home-assistant, esphome, zigbee2mqtt, zwave-js, matter-server, govee2mqtt, evcc, ebusd, homebridge and others, but neither Linux-agent incumbent.",
+  "stance": "supports",
+  "stance_target": "gap-05: incumbents cannot be deployed declaratively as NixOS services in 2026",
+  "evidence_type": "empirical",
+  "scope_conditions": "nixpkgs master module-list.nix as of 2026-09",
+  "quoted_support": "module-list.nix contains zero occurrences of 'go-hass', 'lnxlink', or 'hass-agent'; services/home-automation/ enumerates home-assistant.nix, esphome.nix, zigbee2mqtt.nix, zwave-js.nix, matter-server.nix, govee2mqtt.nix, evcc.nix, ebusd.nix, homebridge.nix \u2014 no Linux-agent module",
+  "numbers": [
+   "0 occurrences of go-hass",
+   "0 occurrences of lnxlink",
+   "19 home-automation modules listed"
+  ],
+  "entities": [
+   "nixpkgs",
+   "go-hass-agent",
+   "lnxlink",
+   "module-list.nix",
+   "services/home-automation/"
+  ],
+  "time_period": "2026-09",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "module-listnix"
+ },
+ {
+  "claim": "go-hass-agent exists in nixpkgs as a package only (pkgs/by-name/go/go-hass-agent/package.nix per mynixos.com); lnxlink has no nixpkgs package at all \u2014 a direct fetch of pkgs/by-name/ln/lnxlink/package.nix returns 404.",
+  "stance": "supports",
+  "stance_target": "gap-05: lnxlink has no maintained NixOS packaging; go-hass-agent has packaging but no service module",
+  "evidence_type": "empirical",
+  "scope_conditions": "nixpkgs master by-name tree, 2026-09",
+  "quoted_support": "Source: pkgs/by-name/go/go-hass-agent/package.nix:54 (mynixos.com package page) \u2014 while https://raw.githubusercontent.com/NixOS/nixpkgs/master/pkgs/by-name/ln/lnxlink/package.nix returns 404 Not Found",
+  "numbers": [],
+  "entities": [
+   "go-hass-agent",
+   "lnxlink",
+   "pkgs/by-name",
+   "mynixos.com"
+  ],
+  "time_period": "2026-09",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "module-listnix"
+ }
+]

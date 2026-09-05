@@ -1,0 +1,57 @@
+[
+ {
+  "claim": "mosquitto source (database.c db__message_write_queued_out): when a message fails both db__ready_for_flight and db__ready_for_queue, it is dropped with a one-time NOTICE log ('Outgoing messages are being dropped for client %s', latched by context->is_dropping), incrementing the publish_dropped counter and the client's messages_dropped stat \u2014 no error is sent to the subscriber.",
+  "stance": "supports",
+  "stance_target": "gap-07: the silent-drop mechanism confirmed in broker source code, independent of HA #135266",
+  "evidence_type": "empirical",
+  "scope_conditions": "mosquitto master (2026); db.c queue admission path",
+  "quoted_support": "/* Dropping message due to full queue. */ if(context->is_dropping == false){ context->is_dropping = true; log__printf(NULL, MOSQ_LOG_NOTICE, \"Outgoing messages are being dropped for client %s.\", context->id); } metrics__int_inc(mosq_counter_mqtt_publish_dropped, 1); context->stats.messages_dropped++;",
+  "numbers": [],
+  "entities": [
+   "Eclipse Mosquitto",
+   "db__ready_for_queue",
+   "db__ready_for_flight"
+  ],
+  "time_period": "mosquitto 2.x source (2026)",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "databasec"
+ },
+ {
+  "claim": "Queue admission is PER-CLIENT and counts queued messages against max_queued_messages (default 1000): db__ready_for_queue computes valid_count = source_count - adjust_count < db.config->max_queued_messages on the client's own msg_data, and for a disconnected client the inflight adjustment zeroes out (adjust_count = 0 when !net__is_connected), making the full queue depth available to the offline replay.",
+  "stance": "supports",
+  "stance_target": "gap-07 sizing calibration: the binding quantity is per-client queued messages (not broker-wide retained inventory); at jupiterOS's ~25 agent entities the default 1000 is far from binding, so D9 lands as hygiene + $SYS monitoring, not urgent sizing",
+  "evidence_type": "empirical",
+  "scope_conditions": "mosquitto master source; QoS 1/2 or (QoS 0 with queue_qos0_messages)",
+  "quoted_support": "valid_count = source_count - adjust_count < db.config->max_queued_messages; /* nothing in flight for offline clients */ if(!net__is_connected(context)){ adjust_bytes = 0; adjust_count = 0; }",
+  "numbers": [
+   "default 1000"
+  ],
+  "entities": [
+   "Eclipse Mosquitto",
+   "max_queued_messages"
+  ],
+  "time_period": "mosquitto 2.x source (2026)",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "databasec"
+ },
+ {
+  "claim": "QoS 0 is NOT exempt from the queue cap: db__ready_for_flight's QoS-0 branch checks context->out_packet_count < db.config->max_queued_messages (outgoing direction) before delivering, so QoS-0 traffic to a slow reader \u2014 HA's '#' wildcard retained replay at QoS 0 in #135266 \u2014 is also bounded by max_queued_messages.",
+  "stance": "supports",
+  "stance_target": "gap-07: pins that the #135266 mechanism (QoS 0 retained replay overflow) routes through the same max_queued_messages cap, completing the causal chain",
+  "evidence_type": "empirical",
+  "scope_conditions": "mosquitto master source; QoS 0 outgoing; queue_qos0_messages false",
+  "quoted_support": "if(qos == 0){ /* Deliver QoS 0 messages unless the queue is already full. For QoS 0 messages the choice is either \"inflight\" or dropped. */ ... if(dir == mosq_md_out){ valid_count = context->out_packet_count < db.config->max_queued_messages; }",
+  "numbers": [],
+  "entities": [
+   "Eclipse Mosquitto",
+   "QoS 0",
+   "max_queued_messages"
+  ],
+  "time_period": "mosquitto 2.x source (2026)",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "databasec"
+ }
+]

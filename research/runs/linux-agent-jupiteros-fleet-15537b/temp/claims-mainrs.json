@@ -1,0 +1,59 @@
+[
+ {
+  "claim": "switch-to-configuration-ng enumerates users via logind.list_users() and processes every user whose /run/user/{uid} exists \u2014 '/run/user/ exists iff the user manager is active (BindsTo= on user@.service)' \u2014 so lingered users with an active manager are included, while users whose manager is not running are skipped with an explicit message.",
+  "stance": "refutes",
+  "stance_target": "gap-03: that lingered/not-logged-in users' user services are never restarted on switch \u2014 current code processes any live user manager regardless of login session",
+  "evidence_type": "theoretical",
+  "scope_conditions": "nixpkgs master stc-ng (2026); user manager must be active (lingered or logged-in)",
+  "quoted_support": "let runtime_path = PathBuf::from(format!(\"/run/user/{uid}\")); ... Err(err) if err.kind() == std::io::ErrorKind::NotFound => { eprintln!(\"skipping user {name}: {} not found (user manager not running)\", ...); continue; }",
+  "numbers": [],
+  "entities": [
+   "logind.list_users()",
+   "/run/user/{uid}",
+   "user@.service",
+   "switch-to-configuration-ng"
+  ],
+  "time_period": "2026 (nixpkgs master)",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "mainrs"
+ },
+ {
+  "claim": "For each live user manager, stc-ng spawns a setuid(uid) child process with env_clear() and XDG_RUNTIME_DIR set, which performs a full user-scope switch: daemon-reload, reset-failed, and stop/reload/restart passes over units loaded from /etc/systemd/user \u2014 including explicit restart_unit calls for changed units.",
+  "stance": "refutes",
+  "stance_target": "gap-03: that switch only reloads (never restarts) user units",
+  "evidence_type": "theoretical",
+  "scope_conditions": "user units whose FragmentPath is under the NixOS-managed /etc/systemd/user; units shadowed by ~/.config/systemd/user are handled by the migration pass",
+  "quoted_support": "print_units(\"restarting\", &units_to_restart); for unit in units_to_restart.keys() { match systemd.restart_unit(unit, \"replace\") {",
+  "numbers": [],
+  "entities": [
+   "do_user_switch",
+   "/etc/systemd/user",
+   "XDG_RUNTIME_DIR",
+   "restart_unit"
+  ],
+  "time_period": "2026 (nixpkgs master)",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "mainrs"
+ },
+ {
+  "claim": "The user-scope pass persists its stop/start/reload/restart action lists under $XDG_RUNTIME_DIR/nixos/ so an interrupted switch can resume where it left off \u2014 the same resume-after-interrupt machinery as the system scope.",
+  "stance": "neutral",
+  "stance_target": "fleet-operations reliability of NixOS user-service-based agents (resume semantics after partial activation)",
+  "evidence_type": "theoretical",
+  "scope_conditions": "user scope of stc-ng",
+  "quoted_support": "Directory where unit action lists are persisted for resume-after-interrupt. The user scope uses XDG_RUNTIME_DIR so the unprivileged child can write to it.",
+  "numbers": [],
+  "entities": [
+   "XDG_RUNTIME_DIR/nixos",
+   "start-list",
+   "restart-list",
+   "reload-list"
+  ],
+  "time_period": "2026",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "mainrs"
+ }
+]

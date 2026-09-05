@@ -1,0 +1,20 @@
+[
+ {
+  "claim": "The niri msg CLI has no --socket flag or socket-path option \u2014 every subcommand (Outputs, Workspaces, Windows, Action, EventStream, etc.) depends on the NIRI_SOCKET environment variable, so an external service wanting to use niri msg must inject NIRI_SOCKET explicitly or speak the JSON protocol over the socket file directly.",
+  "stance": "neutral",
+  "stance_target": "gap-06: practical mechanism for an out-of-session service to drive niri IPC",
+  "evidence_type": "theoretical",
+  "scope_conditions": "niri main branch CLI definition (clap)",
+  "quoted_support": "pub enum Sub { /// Communicate with the running niri instance. Msg { #[command(subcommand)] msg: Msg, /// Format output as JSON. #[arg(short, long)] json: bool, }, ... } \u2014 no socket option anywhere in the CLI definition",
+  "numbers": [],
+  "entities": [
+   "niri msg",
+   "NIRI_SOCKET",
+   "clap"
+  ],
+  "time_period": "2026 (main)",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "clirs"
+ }
+]

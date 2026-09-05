@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "HA community thread (June 2021): the motive for routing host metrics Telegraf→MQTT→HA instead of Telegraf→InfluxDB-direct is that metrics must trigger HA automations (e.g. network activity above a threshold turns on a light), which Grafana alerting cannot do",
+    "stance": "supports",
+    "stance_target": "the community has long wanted agent metrics to drive HA automations — an agent publishing native MQTT discovery sensors gets automations for free",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Home Assistant + Telegraf + Mosquitto architecture discussion, 2021",
+    "quoted_support": "The main reason for my logic (perhaps flawed), was that I would like to be able to trigger automations. ... A simple automation example could be that when network activity on a device goes above a threshold during certain hours, that a light will turn on.",
+    "numbers": ["June 2 2021"],
+    "entities": ["Telegraf", "Home Assistant", "Mosquitto", "InfluxDB", "Grafana", "adenoz"],
+    "time_period": "June 2021",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "system-design-architecting-ha-data-flows-with-telegraf-mqtt-influxdb-and-grafana"
+  },
+  {
+    "claim": "Experienced community member koying calls the Telegraf→MQTT→HA→InfluxDB path 'an unnecessary point of failure' and instead runs Telegraf direct to InfluxDB, importing data into HA via the InfluxDB integration",
+    "stance": "refutes",
+    "stance_target": "MQTT as the transport for host metrics into HA is contested by practitioners; ha-linux-agent's MQTT choice must acknowledge the counter-position (extra broker hop = extra failure point) while noting MQTT's unique automation + LWT advantages",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Home Assistant community architecture debate, June 2021; koying is a well-known HA contributor",
+    "quoted_support": "Could you clarify your reasoning behind going through MQTT for influxdb injection? Seems an unnecessary point of failure to me. I go directly from telegraf to influxdb, then use the influxdb integration inside HA to \"import\" the data I need inside HA.",
+    "numbers": [],
+    "entities": ["koying", "Telegraf", "InfluxDB", "Home Assistant", "MQTT"],
+    "time_period": "June 2021",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "system-design-architecting-ha-data-flows-with-telegraf-mqtt-influxdb-and-grafana"
+  },
+  {
+    "claim": "The HA InfluxDB integration cannot import tags as attributes, limiting the fidelity of Telegraf metrics read back into HA via the database path",
+    "stance": "supports",
+    "stance_target": "the DB-read-back alternative to MQTT loses metric metadata (tags), so MQTT discovery sensors remain the higher-fidelity path into HA",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Home Assistant InfluxDB integration, 2021",
+    "quoted_support": "It seems you cannot import tags as attributes, though",
+    "numbers": [],
+    "entities": ["Home Assistant", "InfluxDB", "koying"],
+    "time_period": "June 2021",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "system-design-architecting-ha-data-flows-with-telegraf-mqtt-influxdb-and-grafana"
+  },
+  {
+    "claim": "The asker concluded that HA's InfluxDB export only captures state changes, so attribute-level metric churn would be lost on the Telegraf→MQTT→HA→InfluxDB circuitous path — making the double-hop lossy for history",
+    "stance": "supports",
+    "stance_target": "routing agent telemetry through HA's state machine before storage loses data; an agent should publish to the broker for automations and let history go a separate direct path",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Home Assistant state object semantics; InfluxDB export, 2021",
+    "quoted_support": "This leads me to believe that the InfluxDB integration only feeds state changes from HA to InfluxDB and not state attribute changes.(?) I think many metrics from Telegraf could be considered attribute changes and not overall state changes so they would not make it into InfluxDB via the proposed circuitous pathway.(?)",
+    "numbers": [],
+    "entities": ["Home Assistant", "InfluxDB", "Telegraf"],
+    "time_period": "June 2021",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "system-design-architecting-ha-data-flows-with-telegraf-mqtt-influxdb-and-grafana"
+  }
+]

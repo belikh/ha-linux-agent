@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "go-hass-agent v14.15.1 is packaged in nixpkgs proper, is not marked broken, insecure, or unfree, and builds for all 24 Linux platforms nixpkgs supports",
+    "stance": "supports",
+    "stance_target": "the build-vs-adopt decision for ha-linux-agent must be argued against an already-packaged, maintained alternative that is one NixOS config line away for every jupiterOS host",
+    "evidence_type": "empirical",
+    "scope_conditions": "nixpkgs unstable/current as of Sep 2026; source pkgs/by-name/go/go-hass-agent/package.nix",
+    "quoted_support": "Install Version 14.15.1 ... Status Broken No Insecure No Unfree No Unsupported No ... Platforms 24 (24) Linux",
+    "numbers": ["v14.15.1", "24 platforms", "2 maintainers"],
+    "entities": ["go-hass-agent", "nixpkgs", "Ethan Carter Edwards", "nadir-ishiguro"],
+    "time_period": "2026-09 (current nixpkgs)",
+    "region": "NixOS ecosystem",
+    "confidence": "high",
+    "source_note_id": "go-hass-agent-mynixos"
+  },
+  {
+    "claim": "MyNixOS describes go-hass-agent's scope as running on any Go-capable Linux device — desktop, server, Raspberry Pi — with MQTT extension for additional sensors/controls and script extensibility, positioning it beyond kiosk-only use",
+    "stance": "supports",
+    "stance_target": "a mature agent already covers the every-host ambition the user has for ha-linux-agent, so the improvement plan must differentiate on jupiterOS-native integration (NixOS module, fleet config) rather than on raw capability existence",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "package description as packaged in nixpkgs",
+    "quoted_support": "You can think of it as something similar to the Home Assistant companion app for mobile devices, but for your desktop, server, Raspberry Pi, Arduino, toaster, whatever. If it can run Go and Linux, it can run Go Hass Agent!",
+    "numbers": [],
+    "entities": ["go-hass-agent", "MyNixOS", "nixpkgs"],
+    "time_period": "2026-09",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "go-hass-agent-mynixos"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "testcontainers-modules is community-maintained, with every module shipped as a cargo feature, and testcontainers itself is re-exported with an aligned version so no separate dependency is needed.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent can adopt the Mosquitto module with a single dev-dependency + feature flag",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "testcontainers-modules Rust crate",
+    "quoted_support": "Community maintained modules for testcontainers ... Every module is treated as a feature inside this crate. ... you don't need to explicitly depend on testcontainers as it's re-exported dependency of testcontainers-modules with aligned version between these crates.",
+    "numbers": [],
+    "entities": ["testcontainers-modules", "testcontainers-rs"],
+    "time_period": "current (repo live 2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-testcontainerstestcontainers-rs-modules-community-community-maintained-mo"
+  },
+  {
+    "claim": "Module image versions, tags and env vars can be overridden at container-request time (e.g. Redis::default().with_tag(\"6.2-alpine\").with_env_var(...)), and the blocking feature gates SyncRunner for synchronous tests.",
+    "stance": "supports",
+    "stance_target": "the agent's test harness can pin an exact eclipse-mosquitto tag and run in both sync and async test styles",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "testcontainers-modules ContainerRequest/ImageExt API",
+    "quoted_support": "Redis::default() .with_tag(\"6.2-alpine\") .with_env_var(\"REDIS_PASSWORD\", \"my_secret_password\") ... Enable blocking feature if you want to use modules within synchronous tests (feature-gate for SyncRunner)",
+    "numbers": ["6.2-alpine"],
+    "entities": ["ContainerRequest", "ImageExt", "SyncRunner", "AsyncRunner"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-testcontainerstestcontainers-rs-modules-community-community-maintained-mo"
+  }
+]

@@ -1,0 +1,23 @@
+[
+ {
+  "claim": "A merged nixpkgs derivation (single-file-cli, PR #283878, Feb 2024) runs a localhost TCP server/client test inside checkPhase in the Linux build sandbox: the nixpkgs-review build log shows 'Running phase: checkPhase / Serving HTTP on 127.0.0.1 port 8000 ... \"GET / HTTP/1.1\" 200' with the server spawned by the test itself.",
+  "stance": "supports",
+  "stance_target": "gap-04: direct in-tree precedent for the mosquitto-subprocess harness pattern inside a Nix build sandbox",
+  "evidence_type": "empirical",
+  "scope_conditions": "nixpkgs master, Feb 2024, x86_64-linux, sandboxed build",
+  "quoted_support": "Running phase: checkPhase Serving HTTP on 127.0.0.1 port 8000 (http://127.0.0.1:8000/) ... 127.0.0.1 - - [22/Feb/2024 20:22:54] \"GET / HTTP/1.1\" 200",
+  "numbers": [
+   "port 8000",
+   "Feb 22, 2024"
+  ],
+  "entities": [
+   "nixpkgs",
+   "n8henrie",
+   "single-file-cli"
+  ],
+  "time_period": "February 2024",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "single-file-cli-init-at-1149-by-n8henrie-pull-request-283878-nixosnixpkgs-github"
+ }
+]

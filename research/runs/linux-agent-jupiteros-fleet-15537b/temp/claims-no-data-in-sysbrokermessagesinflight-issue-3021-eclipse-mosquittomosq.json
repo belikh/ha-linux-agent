@@ -1,0 +1,40 @@
+[
+ {
+  "claim": "Live $SYS dump from a loaded broker (v2.0.15/2.0.18) confirms the drop counters are actually published: '$SYS/broker/publish/messages/dropped 0' alongside '$SYS/broker/publish/messages/received 1000000' and '$SYS/broker/store/messages/count 51' = '$SYS/broker/retained messages/count 51' (no queue divergence).",
+  "stance": "supports",
+  "stance_target": "gap-07: the $SYS confirmation check is implementable today \u2014 counters exist and publish under load",
+  "evidence_type": "empirical",
+  "scope_conditions": "mosquitto 2.0.15/2.0.18 in Kubernetes; $SYS subscription",
+  "quoted_support": "$SYS/broker/publish/messages/dropped 0 $SYS/broker/publish/messages/received 1000000 ... $SYS/broker/retained messages/count 51",
+  "numbers": [
+   "1,000,000 publish received",
+   "51 retained",
+   "0 dropped"
+  ],
+  "entities": [
+   "Eclipse Mosquitto",
+   "$SYS"
+  ],
+  "time_period": "March 2024",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "no-data-in-sysbrokermessagesinflight-issue-3021-eclipse-mosquittomosq"
+ },
+ {
+  "claim": "Maintainer guidance in #3021 gives the operational drop heuristic: 'Before messages get dropped, you may notice an increasing difference between $SYS/broker/store/messages/count and $SYS/broker/retained messages/count'; monitoring publish/messages/dropped 'should give you a hint when the broker gets clogged'.",
+  "stance": "supports",
+  "stance_target": "gap-07: the D9 recommendation should be 'raise the queue + watch $SYS' rather than an urgent default-1000-is-too-small claim",
+  "evidence_type": "expert-opinion",
+  "scope_conditions": "mosquitto 2.x; durable offline clients",
+  "quoted_support": "For you purpose monitoring $SYS/broker/publish/messages/dropped should give you a hint when the the broker gets clogged. Before messages get dropped, you may notice an increasing difference between $SYS/broker/store/messages/count and $SYS/broker/retained messages/count",
+  "numbers": [],
+  "entities": [
+   "Eclipse Mosquitto",
+   "ralight"
+  ],
+  "time_period": "2024",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "no-data-in-sysbrokermessagesinflight-issue-3021-eclipse-mosquittomosq"
+ }
+]

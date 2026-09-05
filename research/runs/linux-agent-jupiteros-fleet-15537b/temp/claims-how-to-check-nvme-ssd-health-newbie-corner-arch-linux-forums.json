@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "NVMe device self-test capability is optional per-drive: on an Intel SSDPEKKF256G7L (600p series), 'nvme intel-id-ctrl -H' shows 'Device Self-test Not Supported' (oacs bit [4:4] = 0, edstt = 0, dsto = 0) despite the drive reporting 'health: healthy' — so an agent cannot assume smartctl self-tests work on all NVMe drives.",
+    "stance": "refutes",
+    "stance_target": "the assumption that SMART self-test commands are uniformly available across NVMe fleet hardware; agents must feature-detect (oacs/dsto bits) and fall back to controller health log polling",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Intel SSD 600p series NVMe (SSDPEKKF256G7L, fw 121P); consumer NVMe drives generally; capability varies by vendor",
+    "quoted_support": "It seems that self-test are not supported: #nvme intel-id-ctrl /dev/nvme0 -H ... oacs : 0x7 [4:4] : 0 Device Self-test Not Supported ... edstt : 0 dsto : 0 ... health : healthy",
+    "numbers": ["0x7", "edstt: 0", "dsto: 0", "wctemp: 343", "cctemp: 353"],
+    "entities": ["nvme-cli", "Intel SSDPEKKF256G7L", "oacs", "nvme-device-self-test"],
+    "time_period": "August 2019 (thread); drive firmware 121P",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "how-to-check-nvme-ssd-health-newbie-corner-arch-linux-forums"
+  },
+  {
+    "claim": "Per Arch forum moderator V1del: smartctl supports NVMe drives in recent versions; nvme-cli's nvme-smart-log / nvme-device-self-test / nvme-self-test-log are the relevant commands; vendor-specific nvme-cli commands may expose additional information; SMART checks and self-tests are usually doable during normal operation while fsck needs an unmounted filesystem.",
+    "stance": "supports",
+    "stance_target": "agent NVMe health monitoring can run non-destructively on live, mounted root devices using smartctl or nvme-cli without unmounting",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "smartmontools 7.0+; nvme-cli; Linux 5.x era; capabilities depend on exact drive model",
+    "quoted_support": "Smartctl has support for NVME drives in recent times ... Alternatively see the following nvme cli commands' manpages ... In general all of the tools you list here are non-destructive by default ... smartctls and self tests should usually be doable during normal operation. fsck should be done unmounted",
+    "numbers": ["smartctl 7.0"],
+    "entities": ["smartctl", "nvme-cli", "nvme-smart-log", "V1Del"],
+    "time_period": "August 2019",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "how-to-check-nvme-ssd-health-newbie-corner-arch-linux-forums"
+  },
+  {
+    "claim": "The Intel 600p in the thread reports warning/critical composite temperature thresholds of 70°C / 80°C (wctemp 343K, cctemp 353K) and five power states ranging from 9.00W operational to 0.005W non-operational — temperature thresholds are queryable per-drive from identify data.",
+    "stance": "supports",
+    "stance_target": "agent can derive per-drive thermal warning thresholds from NVMe identify-controller data rather than hardcoding",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Intel 600p NVMe; values are per-model",
+    "quoted_support": "wctemp : 343 cctemp : 353 ... ps 0 : mp:9.00W operational ... ps 4 : mp:0.0050W non-operational",
+    "numbers": ["343", "353", "70", "80", "9.00", "0.0050"],
+    "entities": ["wctemp", "cctemp", "Intel 600p"],
+    "time_period": "August 2019",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "how-to-check-nvme-ssd-health-newbie-corner-arch-linux-forums"
+  }
+]

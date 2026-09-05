@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "HA Glances integration issue #170384 (core-2026.5.1, HA Container, opened May 12 2026, still OPEN): the integration works then suddenly stops updating with flat-line charts, occasionally self-recovers then stops again, with no related HA log lines and no diagnostics available for the integration",
+    "stance": "supports",
+    "stance_target": "the Glances silent-failure mode persists in 2026 releases — 12 years of issue history (#32328 in 2020, #110551 in 2024, #170384 in 2026) shows an unresolved reliability gap in the polling pattern",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Home Assistant 2026.5.1 in HA Container install; single Linux host; issue open with integration:glances label, no assignee",
+    "quoted_support": "The integration usually works fine for a while, then suddenly stops to update. I'd get flat line charts: Every now and then it would go back to work, just to stop after a while again. I haven't found any obviously related line in the HA log file.",
+    "numbers": ["core-2026.5.1", "opened May 12 2026", "broke around May 1st/2nd 2026"],
+    "entities": ["Home Assistant", "Glances", "michaelherger"],
+    "time_period": "May 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "glances-integration-sometimes-stops-reporting-current-data-issue-170384-home-ass"
+  },
+  {
+    "claim": "The 2026 reporter's historical data suggests Glances monitoring broke around May 1st/2nd 2026 and he suspects the HA 2026.05 release broke it — indicating version-coupled regressions in the integration remain live in current HA",
+    "stance": "supports",
+    "stance_target": "the incumbent integration is regression-prone across HA releases; fleet monitoring cannot depend on it",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Home Assistant 2026.5.x timeline; reporter updates HA timely",
+    "quoted_support": "I don't have the version with which this broke. But looking at the historical data it seems that it was working fine up until May 1st/2nd (see above screenshot). Earlier data is looking good. I often do update timely. So it might have been the 2026.05 release which broke this?",
+    "numbers": ["May 1st/2nd 2026", "2026.05 release"],
+    "entities": ["Home Assistant", "Glances"],
+    "time_period": "May 2026",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "glances-integration-sometimes-stops-reporting-current-data-issue-170384-home-ass"
+  },
+  {
+    "claim": "Diagnostics are 'not available' for the Glances integration as of HA 2026.5 — the integration offers no diagnostic download to debug the flatline failure",
+    "stance": "supports",
+    "stance_target": "observability gap: even the debug path is missing in the incumbent; an agent should ship structured diagnostics/logging",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Home Assistant Glances integration, 2026.5",
+    "quoted_support": "Diagnostics information: Not available for this integration?",
+    "numbers": [],
+    "entities": ["Home Assistant", "Glances"],
+    "time_period": "May 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "glances-integration-sometimes-stops-reporting-current-data-issue-170384-home-ass"
+  }
+]

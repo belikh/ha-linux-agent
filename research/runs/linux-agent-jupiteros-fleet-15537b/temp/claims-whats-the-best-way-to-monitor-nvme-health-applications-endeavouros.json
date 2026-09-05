@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "For NVMe health monitoring on Linux, practitioners converge on nvme-cli (sudo nvme smart-log /dev/nvme0) and smartmontools' smartctl (sudo smartctl -a /dev/nvme0n1, checking for 'SMART overall-health self-assessment test result: PASSED') as the standard tools, with smartctl output considered more user-friendly.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent NVMe sensors should be built on nvme-cli or smartctl JSON output rather than raw ioctl code; smartctl has the friendlier normalised surface",
+    "evidence_type": "community-consensus",
+    "scope_conditions": "Arch-family Linux (EndeavourOS); consumer NVMe drives; forum thread Nov 2025",
+    "quoted_support": "I use smartctl\nIt's a tool for checking SMART data on all kinds of drives.\nInstall smartmontools If you don't have it.\n\nCheck drive health: Use smartctl to get a general health status.",
+    "numbers": [],
+    "entities": ["nvme-cli", "smartctl", "smartmontools", "Arch Wiki"],
+    "time_period": "2025-11-10",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "whats-the-best-way-to-monitor-nvme-health-applications-endeavouros"
+  },
+  {
+    "claim": "Consumer NVMe endurance context from the thread: TBW ratings run 150-600 TB; the OP's drive was rated 220 TB with only ~5.43 TB written (~1% used) yet was already marked EOL by the vendor — product-EOL and wear-EOL are distinct signals.",
+    "stance": "neutral",
+    "stance_target": "agent NVMe alerts should contextualise percentage-used against rated TBW, and product-EOL is not a health failure",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "consumer NVMe drives",
+    "quoted_support": "To my knowledge, it depends on how much TBW is specified by the disk manufacturer.\n\nNormally between 150 and 600 TB.",
+    "numbers": ["150-600 TB typical TBW", "220 TB rated", "5.43 TB written", "~1% used"],
+    "entities": ["TBW", "NVMe", "Endurance"],
+    "time_period": "2025-11-10",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "whats-the-best-way-to-monitor-nvme-health-applications-endeavouros"
+  },
+  {
+    "claim": "Practitioner recovery guidance from the thread: physical/NAND-level NVMe failure is effectively unfixable for average users, filesystem-level damage is commonly fixable with disk checkers, but recurring filesystem errors can indicate underlying hardware failure — media errors and filesystem errors warrant different alert severities.",
+    "stance": "supports",
+    "stance_target": "agent alert taxonomy: separate SMART/media-error alerts from filesystem-error alerts; escalating fs errors imply hardware failure",
+    "evidence_type": "community-consensus",
+    "scope_conditions": "consumer NVMe on Linux",
+    "quoted_support": "Errors at filesystem/software level might be fixable. Depending on the filesystem there are some tools to be used to check the health and fix some issues.\n\nIf you get filesystem errors often, that may also be indicative of hardware failure.",
+    "numbers": [],
+    "entities": ["filesystem errors", "media errors", "NVMe"],
+    "time_period": "2025-11-10",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "whats-the-best-way-to-monitor-nvme-health-applications-endeavouros"
+  },
+  {
+    "claim": "Scrutiny (web-UI S.M.A.R.T. monitoring hub wrapping smartctl) was recommended in the thread as a higher-level alternative — evidence that smartctl is the common substrate under both ad-hoc and hub-style Linux disk-health tooling.",
+    "stance": "neutral",
+    "stance_target": "build-vs-buy for fleet disk health: agents standardise on smartctl; hub UIs layer on top",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Linux; Scrutiny project",
+    "quoted_support": "I like Scrutiny to monitor Drive Health. It also uses smartctl.\n\nScrutiny has also a nice WebUI",
+    "numbers": [],
+    "entities": ["Scrutiny", "smartctl"],
+    "time_period": "2025-11-10",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "whats-the-best-way-to-monitor-nvme-health-applications-endeavouros"
+  }
+]

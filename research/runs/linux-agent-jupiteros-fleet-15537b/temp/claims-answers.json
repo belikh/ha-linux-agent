@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "On current Linux, both the NVMe control device node (/dev/nvme0) and the block-storage namespace node (/dev/nvme0n1) accept SMART ioctls, though the control node is more appropriate because SMART information is global to the device.",
+    "stance": "supports",
+    "stance_target": "agent SMART collection can use either NVMe device node on modern kernels, but should prefer the control node; enumeration must distinguish nodes from namespaces",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "current Linux versions; consumer NVMe SSDs typically single-namespace; verified on the superuser thread's context (2022)",
+    "quoted_support": "In general, SMART information (and any other kind of hardware status) is global to the device, so using the nvme0 node would be more appropriate, but in current Linux versions both the control device and the block-storage devices will accept SMART ioctls all the same.",
+    "numbers": [],
+    "entities": ["/dev/nvme0", "/dev/nvme0n1", "SMART", "namespace", "SCSI LUN"],
+    "time_period": "answer dated Oct 2022 (last edited 2022-11-01)",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "answers"
+  },
+  {
+    "claim": "SMART checks the physical drive, not partitions: running smartctl on /dev/sda versus /dev/sda1 produces identical output referencing the physical drive.",
+    "stance": "supports",
+    "stance_target": "agent should enumerate whole devices (smartctl --scan) and skip partition-level devices to avoid duplicated SMART polling",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "ATA/SATA drives and smartctl behaviour",
+    "quoted_support": "SMART is not for checking partitions, but for checking hardware drives for their physical stats/errors. It will make no difference if you run smartctl on /dev/sda or /dev/sda1, the output will always reference the physical drive /dev/sda.",
+    "numbers": [],
+    "entities": ["smartctl", "/dev/sda"],
+    "time_period": "Oct 2022",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "answers"
+  },
+  {
+    "claim": "An NVMe namespace is a logical division at hardware level similar to partitions but analogous to SCSI LUNs; a single NVMe device can theoretically have several namespaces with different settings (e.g. encryption).",
+    "stance": "neutral",
+    "stance_target": "device-model understanding for the agent's disk inventory",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "NVMe devices",
+    "quoted_support": "Specifically, nvme0n1 is a namespace – a logical division similar to partitions but at \"hardware\" level, slightly similar to SCSI LUNs. A single NVMe device could in theory have several namespaces with e.g. different encryption settings.",
+    "numbers": [],
+    "entities": ["NVMe namespace"],
+    "time_period": "Oct 2022",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "answers"
+  }
+]

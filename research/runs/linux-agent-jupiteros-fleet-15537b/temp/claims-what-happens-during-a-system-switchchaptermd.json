@@ -1,0 +1,23 @@
+[
+ {
+  "claim": "The NixOS manual's canonical switch action order includes 'Reload systemd user instances (systemctl --user daemon-reload)' as a first-class step, but the chapter does not document the per-user restart pass that stc-ng implements \u2014 the manual's step list is at summary level.",
+  "stance": "neutral",
+  "stance_target": "gap-03 documentation trail: manual corroborates user-instance handling on switch but omits restart details found in source and PRs",
+  "evidence_type": "expert-opinion",
+  "scope_conditions": "nixpkgs master manual, 2026",
+  "quoted_support": "The order of actions is always the same: ... Reload systemd (`systemctl daemon-reload`) - Reload systemd user instances (`systemctl --user daemon-reload`) - Reactivate sysinit ... Restart units (`systemctl restart`) - Start units (`systemctl start`)",
+  "numbers": [
+   "STC_DISPLAY_ALL_UNITS=1",
+   "STC_DEBUG=1"
+  ],
+  "entities": [
+   "nixos-rebuild switch",
+   "switch-to-configuration",
+   "systemctl --user daemon-reload"
+  ],
+  "time_period": "2026",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "what-happens-during-a-system-switchchaptermd"
+ }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "A Spring Boot MQTT client that connected successfully to a local Mosquitto broker at tcp://localhost:1883 failed at client.connect when the same test ran under Testcontainers, because the broker URL/hardcoded port did not match the container's mapped address.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's MQTT test harness must always derive the broker URL from the container's get_host()/get_host_port_ipv4(), never hardcode localhost:1883",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Java/Spring Boot, Eclipse Paho, Mosquitto 2.0.18, Testcontainers on Docker Desktop 4.27.0; single practitioner repo (0 stars)",
+    "quoted_support": "The MQTT Mosquitto client is available at tcp://localhost:1883. ... The test fails on 'client.connect',:",
+    "numbers": ["1883", "2.0.18", "4.27.0"],
+    "entities": ["Mosquitto", "Eclipse Paho", "Testcontainers", "paho.mqtt.java"],
+    "time_period": "January 2024",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "github-dbraun1991mqtt-test-testing-the-mqtt-mosquitto-client-v2018-using-testcon"
+  },
+  {
+    "claim": "The repo exists to make a Mosquitto test scenario reproducible, motivated by an unanswered 2020 request in eclipse-paho/paho.mqtt.java#673 for MQTT testcontainers support.",
+    "stance": "neutral",
+    "stance_target": "history of the MQTT testing tooling gap",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "GitHub ecosystem, 2020-2024",
+    "quoted_support": "Its main goal is reproducability. ... On 'Apr 3, 2020' requested in: eclipse-paho/paho.mqtt.java#673",
+    "numbers": ["673", "2.0.18"],
+    "entities": ["eclipse-paho", "mosquitto", "Testcontainers"],
+    "time_period": "2020-2024",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "github-dbraun1991mqtt-test-testing-the-mqtt-mosquitto-client-v2018-using-testcon"
+  }
+]

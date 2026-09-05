@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Netdata's systemd-units collector exposes per-unit state metrics named systemd.<type>_unit_state across 12 unit types (service, socket, target, path, device, mount, automount, swap, timer, scope, slice), with states including active, inactive, activating, deactivating, and failed.",
+    "stance": "supports",
+    "stance_target": "Systemd unit health monitoring as a required feature for a jupiterOS fleet agent (ha-linux-agent's zbus module)",
+    "evidence_type": "empirical",
+    "scope_conditions": "Netdata systemd-journal/systemd-units collector; Linux systems running systemd",
+    "quoted_support": "Monitoring Systemd Units involves tracking several key metrics ... Service Unit State: Monitors the state of a service unit, which can be active, inactive, activating, deactivating, or failed. ... Metric Name systemd.service_unit_state State of service units.",
+    "numbers": ["12 unit types"],
+    "entities": ["Netdata", "systemd"],
+    "time_period": "Current (2026)",
+    "region": "global",
+    "confidence": "medium",
+    "source_note_id": "systemd-units-monitoring-netdata"
+  },
+  {
+    "claim": "Netdata's homepage (same marketing site) claims an agent footprint of 5% CPU, 150 MB RAM, 3 GB disk with >1 year retention, 800+ integrations, per-second metrics, and a GPLv3-licensed agent with 76k GitHub stars and 668M+ Docker pulls.",
+    "stance": "neutral",
+    "stance_target": "Competitive footprint baseline a Rust single-binary agent should undercut for jupiterOS fleet deployment",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Vendor self-published marketing claims; treat as upper-bound marketing figures, not independently verified",
+    "quoted_support": "5% CPU, 150MB RAM. 3GB disk, >1 year retention. 800+ integrations, zero config ... 76k [GitHub stars] 668M+ docker pulls.",
+    "numbers": ["5% CPU", "150 MB RAM", "3 GB disk", ">1 year retention", "800+ integrations", "76k stars", "668M+ Docker pulls", "615+ contributors", "1.5M daily downloads"],
+    "entities": ["Netdata"],
+    "time_period": "2026 (site claims)",
+    "region": "global",
+    "confidence": "low",
+    "source_note_id": "systemd-units-monitoring-netdata"
+  }
+]

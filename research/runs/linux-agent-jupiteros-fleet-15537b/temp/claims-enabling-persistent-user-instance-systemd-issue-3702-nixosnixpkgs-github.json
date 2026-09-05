@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "User-specific systemd instances only exist while a session exists — the instance exits when the last session closes; loginctl enable-linger username makes it persistent so users can run unattended long-running services",
+    "stance": "supports",
+    "stance_target": "the user-manager lifecycle is the core obstacle to user-scoped agents surviving on headless hosts",
+    "evidence_type": "historical (upstream issue report, Aug 2014)",
+    "scope_conditions": "systemd; NixOS (2014 state)",
+    "quoted_support": "Apparently user specific systemd instances only exist while there is a session for a specific user. If the last session exits, then the user specific systemd instance exits as well. There's a way to make a user specific systemd instance persistent, so that users can run unattended long running services ... Basically you need to activate this option: loginctl enable-linger username",
+    "numbers": ["issue #3702", "opened Aug 21, 2014"],
+    "entities": ["CMCDragonkai", "loginctl enable-linger", "NixOS", "nixpkgs"],
+    "time_period": "August 2014 (issue lifetime 2014-2023)",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "enabling-persistent-user-instance-systemd-issue-3702-nixosnixpkgs-github"
+  },
+  {
+    "claim": "As of Aug 2014 no NixOS option or logind extraConfig covered enable-linger; the requested design was a declarative user-management option that runs enable-linger idempotently on bootup and disable-linger when the setting is removed",
+    "stance": "supports",
+    "stance_target": "documents the 9-year declarative-linger gap in NixOS (closed only in Oct 2023 by PR #260248) — old fleet configs may still carry manual linger files",
+    "evidence_type": "historical (upstream issue report)",
+    "scope_conditions": "NixOS 2014",
+    "quoted_support": "However this option is not available in NixOS or NixPkgs, I searched the repo. Also the logind extraConfig doesn't cover it. I think there might need to be a new option as part of the user management that makes the user instance systemd persistent, and run the above command on bootup and the opposite if the setting changes?",
+    "numbers": ["9-year gap 2014-2023"],
+    "entities": ["NixOS", "logind extraConfig", "nixpkgs"],
+    "time_period": "August 2014",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "enabling-persistent-user-instance-systemd-issue-3702-nixosnixpkgs-github"
+  }
+]

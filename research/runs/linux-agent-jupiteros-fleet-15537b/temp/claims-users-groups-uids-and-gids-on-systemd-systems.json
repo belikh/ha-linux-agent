@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "systemd reserves UID range 61184-65519 for DynamicUser= allocations, and nss-systemd synthesises userdb records for them so resolution works without /etc/passwd",
+    "stance": "neutral",
+    "stance_target": "choosing a UID for a static agent system user must avoid the dynamic range 61184-65519",
+    "evidence_type": "theoretical",
+    "scope_conditions": "systemd systems, dynamic user allocation",
+    "quoted_support": "61184\u202665519 \u2192 UIDs for dynamic users are allocated from this range (see the DynamicUser= documentation in systemd.exec(5)). ... The nss-systemd module will synthesize user records implicitly for all currently allocated dynamic users from this range. Thus, NSS-based user record resolving works correctly without those users being in /etc/passwd.",
+    "numbers": ["61184", "65519", "0xEF00", "0xFFEF"],
+    "entities": ["DynamicUser=", "nss-systemd", "/etc/passwd"],
+    "time_period": "current upstream documentation",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "users-groups-uids-and-gids-on-systemd-systems"
+  },
+  {
+    "claim": "System users (UIDs 1-999) must be resolvable without network — remote LDAP/NIS storage is not allowed for them, unlike regular users",
+    "stance": "supports",
+    "stance_target": "fleet agent system-user accounts must be locally declared (sysusers.d / NixOS users.users), not network-resolved",
+    "evidence_type": "theoretical",
+    "scope_conditions": "systemd systems; UIDs 1-999 (system users)",
+    "quoted_support": "Note that systemd requires that system users and groups are resolvable without network \u2014 a requirement that is not made for regular users. This means regular users may be stored in remote LDAP or NIS databases, but system users may not (except when there\u2019s a consistent local cache kept, that is available during earliest boot, including in the initrd).",
+    "numbers": ["1", "999", "1000", "60000"],
+    "entities": ["sysusers.d", "LDAP", "NIS", "initrd"],
+    "time_period": "current upstream documentation",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "users-groups-uids-and-gids-on-systemd-systems"
+  },
+  {
+    "claim": "The tty group must have GID 5 because it is encoded in the devpts mount parameters during earliest boot before NSS lookups are possible",
+    "stance": "neutral",
+    "stance_target": "GID allocation constraints on systemd systems",
+    "evidence_type": "theoretical",
+    "scope_conditions": "systemd systems, devpts mounting",
+    "quoted_support": "There\u2019s one exception however: the tty group must have the GID 5. That\u2019s because it must be encoded in the devpts mount parameters during earliest boot, at a time where NSS lookups are not possible.",
+    "numbers": ["GID 5"],
+    "entities": ["tty group", "devpts"],
+    "time_period": "current upstream documentation",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "users-groups-uids-and-gids-on-systemd-systems"
+  }
+]

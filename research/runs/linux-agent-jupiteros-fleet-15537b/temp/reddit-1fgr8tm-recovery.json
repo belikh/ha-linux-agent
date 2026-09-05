@@ -1,0 +1,11 @@
+{
+  "note_id": "reddit",
+  "url": "https://www.reddit.com/r/homeassistant/comments/1fgr8tm/hass_agent_alternative_for_linux/",
+  "status": "rescued_via_search",
+  "fetch_outcome": "FETCHED_BOT_WALL_STUB (1 word, 'Reddit')",
+  "recovered_excerpt": "There is a Hass agent for Linux. Its called lnxlink. This one works pretty great on my Linux laptop https://github.com/joshuar/go-hass-agent",
+  "recovery_source": "Parallel web search excerpt of the Reddit thread",
+  "recovery_search_id": "search_022b93e87b8978504a0195e5e9164825",
+  "reliability": "LOW — excerpt recovered via third-party search index; original page unreachable through tooling",
+  "claims": []
+}

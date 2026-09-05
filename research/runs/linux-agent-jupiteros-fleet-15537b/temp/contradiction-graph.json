@@ -1,0 +1,132 @@
+[
+  {
+    "cluster_id": "mqtt-vs-native-transport",
+    "fight": "Should a Linux HA agent transport telemetry/commands over MQTT discovery, or over HA's native websocket/mobile_app API?",
+    "side_a": {
+      "position": "MQTT discovery is the established, community-endorsed bidirectional channel for companion agents; LWT gives offline detection nothing else provides; halinuxcompanion is migrating TO MQTT precisely for last-will semantics.",
+      "claims": [
+        "MQTT discovery is the established bidirectional channel for companion agents",
+        "ha-linux-agent's MQTT architecture (with last-will/availability topics) is the correct design choice — halinuxcompanion author migrating to MQTT for offline detection",
+        "MQTT is the load-bearing bidirectional transport for command execution in existing desktop companions (HASS.Agent)",
+        "an external MQTT client publishing discovery directly is the community-validated pattern (HA mqtt.publish service renders templates at publish time and breaks discovery payloads)"
+      ],
+      "sources": ["github-hass-agenthassagent-unofficial-development-project-for-the-hassagent-plat", "github-muniterhalinuxcompanion-homeassistant-linux-companion-github", "wth-there-is-no-windows-and-linux-ha-app-similar-to-macos", "use-automation-for-mqtt-autodiscovery-co", "github-bkbillylnxlink-effortlessly-manage-your-linux-machine-using-mqtt-github", "the-homie-convention"]
+    },
+    "side_b": {
+      "position": "MQTT is an unnecessary point of failure for host metrics; route telemetry directly into storage (Telegraf→InfluxDB) or use HA's native API with long-lived tokens — no broker dependency, no discovery staleness.",
+      "claims": [
+        "koying's counter-position: routing host metrics through MQTT before storage adds an unnecessary point of failure",
+        "routing agent telemetry through HA's state machine before storage loses data (tags/metadata); an agent should publish to a database directly",
+        "an MQTT-free native-HA-API architecture is a proven alternative (ha_desktop_companion, go-hass-agent's mobile_app registration)"
+      ],
+      "sources": ["system-design-architecting-ha-data-flows-with-telegraf-mqtt-influxdb-and-grafana", "github-gamerclassn7ha_desktop_companion-", "github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device"]
+    },
+    "evidence_quality_delta": "Side A is empirical (multiple production agents, spec docs); side B is practitioner-argument + one production counter-example (go-hass-agent dual-transport). Note go-hass-agent itself straddles: native API for sensors, MQTT for controls.",
+    "scope_overlap": "Partially scoped differently — side A argues the companion-agent use case (bidirectional control + availability); side B argues the metrics-pipeline use case (time-series fidelity). Both can be right in their own scope; the fork is real for ha-linux-agent because its kiosk control features need bidirectionality but its server sensors need fidelity.",
+    "decision_relevance": "high — determines whether the improvement roadmap doubles down on MQTT (fix lifecycle, keep rumqttc) or re-architects"
+  },
+  {
+    "cluster_id": "user-vs-system-service",
+    "fight": "Should a fleet-wide Linux agent run as a systemd --user service (with linger) or as a system service (root or capability-scoped)?",
+    "side_a": {
+      "position": "User service + linger: no root, natural D-Bus session access for desktop features, jupiter-os already ships this pattern (ConditionUser=io, users.users.io.linger), go-hass-agent refuses root entirely.",
+      "claims": [
+        "user-scoped systemd services are a viable mechanism for running an agent without granting sudo",
+        "privilege on a Linux HA agent is per-capability, not per-root; a NixOS fleet agent needs a wrapper or per-feature capabilities",
+        "fleet-wide headless deployment of a user-scoped agent on NixOS requires explicit lingering configuration (users.users.<name>.linger, NixOS 23.11+)",
+        "go-hass-agent refuses root; uses per-feature file capabilities"
+      ],
+      "sources": ["systemduser-services-official-nixos-wiki", "github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device", "nixosusers-groups-add-user-option-to-ena", "see-also"]
+    },
+    "side_b": {
+      "position": "System service: user services have a rebuild/restart gap (systemd user units don't restart on nixos-rebuild switch), can't order after system units, need linger per user on every host, and jupiter-os's sysfs-perms already chmods nodes for the agent — a system service with User=/AmbientCapabilities is the fleet-native answer.",
+      "claims": [
+        "a fleet agent targeting every host should run as a system service (optionally with User=)",
+        "an agent running as a user service cannot order itself after system-level units — a structural constraint",
+        "user services as a fleet-deployment mechanism on NixOS have a rebuild/restart gap that system services don't",
+        "the user-manager lifecycle is the core obstacle to user-scoped agents surviving on headless hosts (9-year declarative-linger gap, closed only Oct 2023)"
+      ],
+      "sources": ["what-is-the-difference-between-systemdse", "systemduser-archwiki", "enabling-persistent-user-instance-system", "see-also-3", "how-to-create-user-systemd-service-help-"]
+    },
+    "evidence_quality_delta": "Side B has the stronger structural argument for SERVER hosts (ordering, lifecycle); side A has the stronger security/practical argument for DESKTOP hosts (session bus for notifications/niri). The evidence reconciles by host-class, not by winner.",
+    "scope_overlap": "Genuine disagreement for the headless-server case; both right if scoped: user-service on desktops/kiosks (session bus needed), system-service on headless hosts (no session, needs ordering). ha-linux-agent currently ships user-service-only — the fork decides europa/pallene/callisto coverage.",
+    "decision_relevance": "high — this IS the 'every host in jupiterOS' question"
+  },
+  {
+    "cluster_id": "retained-discovery-sufficiency",
+    "fight": "Is retained MQTT discovery alone sufficient for restart resilience, or must the agent also republish on HA birth-message and reconnection?",
+    "side_a": {
+      "position": "Retained discovery alone suffices — HA reads retained configs on every startup; ESPHome defaults discovery_retain=true for exactly this; hand-built devices with retained configs survive HA restarts.",
+      "claims": [
+        "retained config+state+availability is the mechanism that makes Z2M-grade restart resilience",
+        "discovery_retain defaults true so entities re-appear automatically on Home Assistant restart"
+      ],
+      "sources": ["my-hand-built-mqtt-devices-are-unavailable-after-hassio-restart-but-zigbee2mqtt", "mqtt-client-component-esphome-smart-home-made-simple"]
+    },
+    "side_b": {
+      "position": "Retained alone is insufficient at fleet scale — HA's own docs mandate subscribing to the birth message and re-sending discovery on it; retained-message replay can overflow broker queue limits (5374-entity case); HASS.Agent shipped the republish bug (#230); retained staleness creates undeletable ghost entities.",
+      "claims": [
+        "the assumption that retained discovery alone is sufficient for restart resilience is refuted (availability topic must receive payload; broker queue limits silently drop retained replay)",
+        "HA docs: a device exposing MQTT discovery should subscribe to the Birth message and use it as the trigger to send the discovery payload",
+        "HASS.Agent 2.1.1 fixed 'MQTT autodiscovery messages were not republished after connection was lost and recovered' — the same bug class ha-linux-agent has today",
+        "entity cleanup needs deliberate empty-payload publishes or ghosts persist (telegraf2hassio undeletable-entities complaint)"
+      ],
+      "sources": ["mqtt-availability-community", "mqtt-home-assistant", "releases-hass-agenthassagent-github", "the-homie-convention", "comments-135266", "mqtt-sensors-unavailable-in-01140bx-othe"]
+    },
+    "evidence_quality_delta": "Side B is decisively stronger: HA official documentation + a maintainer-commented root-cause thread + a production agent's changelog. Side A describes the simple case that works until it doesn't.",
+    "scope_overlap": "Genuine disagreement on the same scope; side B subsumes side A (retain AND republish).",
+    "decision_relevance": "high — this is the direct fix for the user's 'never reliable' complaint"
+  },
+  {
+    "cluster_id": "adopt-vs-build",
+    "fight": "Given go-hass-agent v14.15.1 is already in nixpkgs and lnxlink is community-endorsed, should ha-linux-agent be improved at all — or replaced/deprecated in favour of an incumbent?",
+    "side_a": {
+      "position": "Adopt: a mature agent already covers the every-host ambition; packaging, sensors, and controls exist; ha-linux-agent's differentiation (launcher groups, kiosk session control, ZFS, headscale) is small against the maintenance burden of a custom agent.",
+      "claims": [
+        "a mature agent already covers the every-host ambition the user has for ha-linux-agent, so the build-vs-adopt decision must be argued",
+        "the build-vs-adopt decision for ha-linux-agent must be argued against an already-packaged, actively-maintained alternative",
+        "community mindshare for Linux HA agents centres on lnxlink and go-hass-agent"
+      ],
+      "sources": ["go-hass-agent-mynixos", "go-hass-agent-a-native-app-integration-for-desktop-laptop-devices-share-your-proj", "github-bkbillylnxlink-effortlessly-manage-your-linux-machine-using-mqtt-github"]
+    },
+    "side_b": {
+      "position": "Build (fix) ha-linux-agent: jupiterOS-native differentiation is real — declarative NixOS module integration (jupiter.services.haAgent), launcher mutual-exclusion groups for kiosk/gaming session switching, ZFS/headscale/jupiter-specific backends, MQTT-only single-device identity (no go-hass-agent split-brain between mobile_app and MQTT integrations), systemd unit control with scope awareness.",
+      "claims": [
+        "ha-linux-agent's MQTT-only design avoids the split-brain device identity problem that even the most mature Linux agent (go-hass-agent: two HA integrations for one device) has",
+        "NixOS users already hand-roll packaging for HA Linux agents — a first-class NixOS module is an unmet need ha-linux-agent fills",
+        "differentiation should centre on jupiterOS-native fleet integration (declarative per-host config, systemd hardening) rather than capability existence",
+        "fleet scaling of incumbents is linear manual work per host; declarative per-host modules are the NixOS-native answer"
+      ],
+      "sources": ["github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device", "go-hass-agent-a-native-app-integration-for-desktop-laptop-devices-share-your-proj", "home-assistant-monitor-proxmox-with-glan", "mqtt-client-component-esphome-smart-home-made-simple"]
+    },
+    "evidence_quality_delta": "Balanced fight. Side A is factual (the incumbents exist and are packaged); side B is architectural (specific unmet jupiterOS needs). The honest synthesis must name what ha-linux-agent genuinely has that go-hass-agent lacks (launcher groups, ZFS, kiosk session switching) and concede what it lacks (audio select, events, script sensors, GPU sensors, packaging maturity).",
+    "scope_overlap": "Same scope, values-weighted disagreement (maintenance cost vs integration fit).",
+    "decision_relevance": "high — the user asked to 'improve it', but the research must honestly test whether improvement beats adoption"
+  },
+  {
+    "cluster_id": "polling-vs-event-driven",
+    "fight": "Should the agent poll its sensor/command sources on an interval (current design), or subscribe to event streams (D-Bus signals, udev, niri event stream, zed, smartd hooks)?",
+    "side_a": {
+      "position": "Polling is simpler, bounded, and adequate at 30s cadence; sysinfo is diff-based and wants exactly one long-lived instance polling; interval publishes double as heartbeat (expire_after).",
+      "claims": [
+        "sysinfo's design matches a long-running daemon; keep one System instance and poll it",
+        "periodic state publishes + expire_after gives availability without extra machinery",
+        "poll-interval selection is a real design parameter for storage/system collectors"
+      ],
+      "sources": ["sysinfo-rust", "working-with-devices-birth-lwt-configura", "best-nvme-ssd-health-monitoring-tools-9-"]
+    },
+    "side_b": {
+      "position": "Event-driven where events exist: D-Bus systemd signals beat failed-unit polling (systemd_mon), niri's event-stream pushes complete state then incremental updates, zed beats zpool polling, smartd -M exec is the sanctioned disk-event bridge, udev uevents keep backlight state in sync with hotkeys.",
+      "claims": [
+        "event-driven DBus subscription (mirroring zbus) is the correct architecture for unit-state monitoring — no polling, no busy-loops",
+        "a jupiterOS kiosk agent can consume compositor state via niri's event stream (complete state up-front then incremental updates) instead of polling niri msg",
+        "disk-failure alerting can be event-driven: smartd -M exec hooks are the sanctioned bridge",
+        "agent brightness state stays in sync with hotkey/firmware changes by listening for uevents"
+      ],
+      "sources": ["github-joontysystemd_mon-monitor-for-sys", "ipc-niri-msg-niri", "smart-archwiki", "backlight-support-the-linux-kernel-docum", "see-also-3"]
+    },
+    "evidence_quality_delta": "Both sides are correct in their own layer — the reconciliation is hybrid: poll cheap sysfs/procfs sensors, subscribe where kernel/D-Bus events exist. Side B's evidence is architectural-primary; side A's is operational.",
+    "scope_overlap": "Scoped differently (sysfs scalar sensors vs stateful subsystems); both right — hybrid design.",
+    "decision_relevance": "medium-high — shapes the sensor architecture for fleet scale and the watchdog story"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Testing MQTT applications is hard because it requires a deployed broker, and sharing one broker deployment across multiple tests causes interference and flaky results.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's 'never reliable' symptom is consistent with missing/brittle MQTT integration tests; per-test ephemeral brokers are the remedy",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "MQTT integration testing generally; vendor blog framing",
+    "quoted_support": "When testing MQTT client applications, you need a deployed MQTT broker. But sharing the deployment across multiple tests can cause unwanted interference between them and produce unexpected results and flaky tests.",
+    "numbers": [],
+    "entities": ["HiveMQ", "Testcontainers"],
+    "time_period": "April 27, 2022",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "hivemq-is-now-available-in-testcontainers"
+  },
+  {
+    "claim": "Testcontainers mitigates flaky broker tests by automatically creating per-container port mappings to avoid port collisions and deleting all containers after tests to conserve resources.",
+    "stance": "supports",
+    "stance_target": "Testcontainers is the right primitive for reliable, parallel-safe MQTT broker tests for ha-linux-agent",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Testcontainers Java/Rust/Python ecosystems",
+    "quoted_support": "Testcontainers also automatically creates port-mapping for each container to mitigate the risk of port-collisions and other interference. After the tests are executed, Testcontainers deletes all containers, to conserve resources.",
+    "numbers": [],
+    "entities": ["Testcontainers"],
+    "time_period": "April 27, 2022",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "hivemq-is-now-available-in-testcontainers"
+  },
+  {
+    "claim": "For ephemeral test setups, broker disk persistence is pointless — HiveMQ's module pre-configures in-memory persistence and adds lifecycle management to guarantee the broker is up before tests execute.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's Mosquitto test container should be configured for ephemeral in-memory operation with explicit readiness gating",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "HiveMQ module; pattern transfers to Mosquitto configuration",
+    "quoted_support": "HiveMQ specific lifecycle management to make sure that HiveMQ and all HiveMQ extensions are up and running before tests are executed ... HiveMQ is pre-configured with in-memory persistence as disk-persistence is not required for ephemeral test-setups.",
+    "numbers": [],
+    "entities": ["HiveMQ", "Testcontainers"],
+    "time_period": "April 27, 2022",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "hivemq-is-now-available-in-testcontainers"
+  }
+]

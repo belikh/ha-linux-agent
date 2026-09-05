@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Inspecting user services with plain 'systemctl status' fails; you must pass --user, and running 'systemctl --user' as root (including via sudo -i) fails with 'Failed to connect to user scope bus: No medium found' because root has no live user-manager bus — machinectl shell <user>@ is the correct way to inspect another user's units",
+    "stance": "supports",
+    "stance_target": "user-scoped services carry operational traps for fleet tooling/automation that system services avoid",
+    "evidence_type": "anecdotal (worked forum example with verbatim errors)",
+    "scope_conditions": "NixOS; systemd user services",
+    "quoted_support": "running 'systemctl --user' as root (incl. via sudo -i) fails with 'Failed to connect to user scope bus: No medium found' because root has no live user-manager bus; machinectl shell <user>@ is the correct way to inspect another user's units",
+    "numbers": [],
+    "entities": ["systemctl --user", "machinectl shell", "sudo -i", "user scope bus"],
+    "time_period": "December 2024",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "how-to-create-user-systemd-service-help-nixos-discourse"
+  },
+  {
+    "claim": "Setting serviceConfig.User inside a systemd user unit fails — user services necessarily run as the owning user ('Failed to determine supplementary groups: Operation not permitted', status=216/GROUP)",
+    "stance": "refutes",
+    "stance_target": "using serviceConfig.User inside a user unit to scope an agent's privileges (it is a system-unit-only field)",
+    "evidence_type": "anecdotal (worked forum example with verbatim error)",
+    "scope_conditions": "systemd user units",
+    "quoted_support": "setting serviceConfig.User inside a user unit fails — user services necessarily run as the owning user ('Failed to determine supplementary groups: Operation not permitted', status=216/GROUP)",
+    "numbers": ["status=216/GROUP"],
+    "entities": ["serviceConfig.User", "systemd user services"],
+    "time_period": "December 2024",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "how-to-create-user-systemd-service-help-nixos-discourse"
+  },
+  {
+    "claim": "systemd.user.* installs the unit for ALL users under /run/current-system/sw/lib/systemd/user/; per-user installation requires home-manager (masking per user is manual)",
+    "stance": "supports",
+    "stance_target": "per-user installs of a NixOS user-service agent are not natively supported; home-manager is the per-user mechanism",
+    "evidence_type": "expert-opinion (NixOS Discourse helpers)",
+    "scope_conditions": "NixOS",
+    "quoted_support": "systemd.user.* installs the unit for ALL users under /run/current-system/sw/lib/systemd/user/; per-user installation requires home-manager (masking per user is manual)",
+    "numbers": [],
+    "entities": ["systemd.user.services", "home-manager", "/run/current-system/sw/lib/systemd/user/"],
+    "time_period": "December 2024",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "how-to-create-user-systemd-service-help-nixos-discourse"
+  },
+  {
+    "claim": "home-manager errors on collision when a manually-created unit file exists in ~/.config/systemd/user; the fix is 'home-manager switch -b backup'",
+    "stance": "neutral",
+    "stance_target": "migration from hand-written units to home-manager-managed units",
+    "evidence_type": "anecdotal (forum)",
+    "scope_conditions": "home-manager on NixOS",
+    "quoted_support": "home-manager collision errors when a manually-created unit file exists in ~/.config/systemd/user — fixed with 'home-manager switch -b backup'",
+    "numbers": [],
+    "entities": ["home-manager", "home-manager switch -b backup", "~/.config/systemd/user"],
+    "time_period": "December 2024",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "how-to-create-user-systemd-service-help-nixos-discourse"
+  },
+  {
+    "claim": "In user units use store paths (e.g. ${pkgs.coreutils}/bin/sleep) not /run/current-system paths, and %h instead of absolute home paths, for portability",
+    "stance": "supports",
+    "stance_target": "NixOS user-unit authoring conventions an agent's unit file must follow",
+    "evidence_type": "expert-opinion (NixOS Discourse)",
+    "scope_conditions": "NixOS user units",
+    "quoted_support": "use store paths (${pkgs.coreutils}/bin/sleep) not /run/current-system paths, and %h instead of automatic home paths for portability",
+    "numbers": [],
+    "entities": ["store paths", "%h", "pkgs.coreutils"],
+    "time_period": "December 2024",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "how-to-create-user-systemd-service-help-nixos-discourse"
+  }
+]

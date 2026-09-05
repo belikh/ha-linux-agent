@@ -123,11 +123,23 @@ impl Agent {
             true,
         ));
 
-        // Capacity 0: no buffered stale telemetry during outages — each
-        // publish rendezvouses with the eventloop under PUBLISH_TIMEOUT and
-        // the retained state topic self-heals by construction (a fresh
-        // publish overwrites whatever went stale).
-        let (client, mut eventloop) = AsyncClient::new(opts, 0);
+        // Capacity 10, NOT 0. A zero-capacity rendezvous channel deadlocks
+        // with rumqttc 0.24's drain discipline: the eventloop only drains
+        // pending requests via try_recv at poll() ENTRY, and while poll()
+        // is parked awaiting the next INCOMING packet, a sender parked on
+        // the rendezvous never completes — and with no subscriptions yet
+        // established (the ConnAck subscribe itself is the parked sender)
+        // no incoming packet ever arrives, so the first subscribe hangs
+        // forever and every publish queued behind it with it. Observed as
+        // connected-but-silent (broker sees the client, keepalives flow,
+        // no subscribe/publish ever lands) — reproduced deterministically
+        // in the runNixOSTest module VM and on a live host, racing on
+        // spawn-vs-park timing. A small bounded capacity keeps every send
+        // immediate while still bounding stale telemetry to a handful of
+        // messages; the retained state topic self-heals by construction (a
+        // fresh publish overwrites whatever went stale), and the
+        // per-publish PUBLISH_TIMEOUT bounds a wedged eventloop regardless.
+        let (client, mut eventloop) = AsyncClient::new(opts, 10);
 
         // -- Static surface, computed once so decommission and discovery
         //    can never drift apart. --

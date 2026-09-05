@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "In current NixOS (Oct 2025), nixos-rebuild switch only restarts nixos-activation.service at the user systemd manager level, and only for users that are currently logged in",
+    "stance": "supports",
+    "stance_target": "declarative restart-on-switch for systemd.user.services does not exist for non-logged-in users; system services get restartIfChanged but user services do not",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "NixOS, nixos-rebuild switch, systemd user services, October 2025",
+    "quoted_support": "Note that nixos-rebuild switch only restarts nixos-activation.service in the user level systemd manager for users that are currently logged in.",
+    "numbers": [],
+    "entities": ["nixos-rebuild", "nixos-activation.service", "systemd.user.services", "system.userActivationScripts", "ElvishJerricco"],
+    "time_period": "October 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "restart-oneshot-systemd-service-on-every-rebuild-help-nixos-discourse"
+  },
+  {
+    "claim": "NixOS has no equivalent of the system sysinit-reactivation.target for user services; restartTriggers + requiredBy workarounds target the system-level activation target",
+    "stance": "supports",
+    "stance_target": "the user-service model lacks the restart machinery the system-service model has on switch",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "NixOS, user services, rebuild switch semantics",
+    "quoted_support": "I don\u2019t think we have an equivalent reactivation thing for user services, other than the user service nixos-activation.service, which just runs system.userActivationScripts",
+    "numbers": [],
+    "entities": ["sysinit-reactivation.target", "restartTriggers", "nixos-activation.service", "home-manager"],
+    "time_period": "October 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "restart-oneshot-systemd-service-on-every-rebuild-help-nixos-discourse"
+  },
+  {
+    "claim": "When the home-manager NixOS module is used, home-manager activation runs as a SYSTEM service during nixos-rebuild, not a user service, though it may set up user-level services",
+    "stance": "supports",
+    "stance_target": "home-manager as NixOS module gets system-service restart semantics for its activation, but user services it installs still rely on the user manager",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "NixOS with home-manager NixOS module",
+    "quoted_support": "if you\u2019re using the home-manager NixOS module, that gets run on nixos-rebuild by a system service, not a user service, though of course that home-manager activation might setup user-level services and stuff.",
+    "numbers": [],
+    "entities": ["home-manager", "nixos-rebuild", "systemd.user.services"],
+    "time_period": "October 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "restart-oneshot-systemd-service-on-every-rebuild-help-nixos-discourse"
+  }
+]

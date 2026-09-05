@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "IoPC is a small MQTT-only PC-integration service (Kotlin/Gradle with a native component, GPL-3.0, 40 stars, 16 commits) that HASS.Agent's own README recommends as its Linux alternative",
+    "stance": "supports",
+    "stance_target": "the Linux HA-agent ecosystem's second reference point is a minimal MQTT service bus, validating MQTT-first design as the viable Linux-native pattern (versus go-hass-agent's dual transport)",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "IoPC master branch; recommended but explicitly untested by the HASS.Agent team",
+    "quoted_support": "Now it supports MQTT protocol, so you can integrate IoPC with HomeAssistant. ... You can try the official companion app for macOS, or IoPC which runs on Linux.",
+    "numbers": ["40 stars", "16 commits", "0 forks", "GPL-3.0"],
+    "entities": ["IoPC", "maksimkurb", "HASS.Agent"],
+    "time_period": "2021-2025 (low activity)",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "github-maksimkurbiopc-iopc-aka-internet-of-pc-helps-you-to-integrate-pc-into-you"
+  },
+  {
+    "claim": "IoPC's MQTT design is a two-prefix service bus: inbound commands on {PREFIX}/{CLIENT_ID}/command/# with JSON {service, payload} envelopes, outbound sensor values on {PREFIX}/{CLIENT_ID}/#, configured via web UI (127.0.0.1:60555) or IOPC_MQTT_* env vars",
+    "stance": "neutral",
+    "stance_target": "a clean minimal topic grammar + JSON service envelope is a legitimate alternative to HA MQTT-discovery semantics; ha-linux-agent should compare its topic layout against both this and HA discovery",
+    "evidence_type": "empirical",
+    "scope_conditions": "IoPC defaults: PREFIX=iopc, CLIENT_ID per host",
+    "quoted_support": "By default, inbound MQTT prefix for IoPC instance is {MQTT_PREFIX}/{MQTT_CLIENT_ID}/command/#. ... For example, we want to set PC volume from HomeAssistant. We should send following message to topic iopc/myComputer/command/homeassistant {\"service\": \"volume.set\", \"payload\": {\"volume\": 54}}",
+    "numbers": ["port 60555", "default prefix iopc"],
+    "entities": ["IoPC", "MQTT"],
+    "time_period": "current",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "github-maksimkurbiopc-iopc-aka-internet-of-pc-helps-you-to-integrate-pc-into-you"
+  },
+  {
+    "claim": "IoPC sensors are NOT updated automatically — a service call (e.g. volume.get) must be invoked to refresh sensor values; the sensor set is availability state, volume, RAM free/total, CPU usage %, per-drive info, lastUserInput, and an activity state machine (active/idle at 30s/away at 5min)",
+    "stance": "refutes",
+    "stance_target": "poll-on-demand-only sensor publishing is inadequate for a fleet agent; ha-linux-agent must have scheduled/event-driven publishing (the user's 'never reliable' complaint would be worsened by this design)",
+    "evidence_type": "empirical",
+    "scope_conditions": "IoPC current master",
+    "quoted_support": "For now, sensors are not updated automatically, so you should run a special service to update sensor value. ... activity/state: User state. Can be active, idle (if not active for 30sec), away (if not active for 5min), unknown",
+    "numbers": ["idle threshold 30s", "away threshold 5min"],
+    "entities": ["IoPC"],
+    "time_period": "current",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "github-maksimkurbiopc-iopc-aka-internet-of-pc-helps-you-to-integrate-pc-into-you"
+  }
+]

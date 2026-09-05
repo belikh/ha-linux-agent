@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "go-hass-agent maintainer joshuar stated verbatim in discussion #387 (Jan 18, 2025) that the systemctl service is intended primarily for headless server usage, and that running both a service instance and a desktop instance produces duplicate data.",
+    "stance": "supports",
+    "stance_target": "go-hass-agent is designed to be deployed as a headless systemd user service on servers, supporting adopt candidacy for fleet/server Linux hosts",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "go-hass-agent deployment model; desktop vs headless Linux",
+    "quoted_support": "The systemctl service is primarily for \"headless\" usage (i.e., servers) not running any desktop environment. If you run the agent both as a a systemctl service and in your desktop, you'll have two instances sending duplicate data, which might not be desired",
+    "numbers": ["discussion #387", "asked Jan 12 2025", "answered Jan 18 2025"],
+    "entities": ["go-hass-agent", "joshuar", "hapklaar", "systemctl", "KDE", "Gnome"],
+    "time_period": "Jan 2025",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "running-the-agent-as-a-service-and-tray-icon-joshuargo-hass-agent-discussion-387"
+  },
+  {
+    "claim": "On desktop installs the maintainer recommends the desktop environment's autostart mechanism over a systemd service, because the service path and the desktop path serve different deployment models.",
+    "stance": "neutral",
+    "stance_target": "Deployment guidance for go-hass-agent differs between desktop and server contexts",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Desktop Linux environments (KDE, Gnome)",
+    "quoted_support": "If you are running Go Hass Agent in a desktop, then you don't need to worry about configuring and starting it as a systemctl service. You can just use the autostart functionality of your desktop environment, for example in KDE or Gnome",
+    "numbers": [],
+    "entities": ["go-hass-agent", "joshuar", "KDE", "Gnome"],
+    "time_period": "Jan 2025",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "running-the-agent-as-a-service-and-tray-icon-joshuargo-hass-agent-discussion-387"
+  }
+]

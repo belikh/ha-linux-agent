@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "For user systemd services to start at boot without login on a headless system, lingering must be enabled first: loginctl enable-linger <user>",
+    "stance": "supports",
+    "stance_target": "lingering is the prerequisite for headless user-service deployment of an agent",
+    "evidence_type": "expert-opinion (tutorial, reviewed)",
+    "scope_conditions": "headless Linux with systemd; user-scoped services",
+    "quoted_support": "First and foremost, for systemd services associated with a specific user to start at boot time (without requiring the user to log in), we need to enable systemd user lingering. This feature allows user-specific services to persist beyond user sessions, which is exactly what we need in a headless setup.",
+    "numbers": [],
+    "entities": ["loginctl enable-linger", "systemd"],
+    "time_period": "article last updated February 2, 2024",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "set-up-systemd-services-with-session-dbus-on-headless-linux-baeldung-on-linux"
+  },
+  {
+    "claim": "On Debian-based systems the dbus-user-session package automatically configures the user/session bus wiring needed for systemd user services; on other distros the dbus.socket (ListenStream=%t/bus, ExecStartPost sets DBUS_SESSION_BUS_ADDRESS=unix:path=%t/bus) and dbus.service (dbus-daemon --session --address=systemd: --systemd-activation, Requires=dbus.socket) user units must be created manually under /usr/lib/systemd/user",
+    "stance": "supports",
+    "stance_target": "on systemd-era hosts the user bus is socket-activated at /run/user/<uid>/bus rather than per-login dbus-launch",
+    "evidence_type": "expert-opinion (tutorial, reviewed)",
+    "scope_conditions": "Debian for the package path; non-Debian for the manual unit files; systemd user services",
+    "quoted_support": "As Debian system users, this package automatically configures most of what's needed for DBus user sessions. ... ListenStream=%t/bus – specifies the path of the socket, with %t replaced with the XDG_RUNTIME_DIR ... ExecStartPost – sets the DBUS_SESSION_BUS_ADDRESS environment variable, ensuring subsequent services can locate the session bus",
+    "numbers": ["uid 1000", "path /run/user/1000/bus"],
+    "entities": ["dbus-user-session", "dbus.socket", "dbus.service", "XDG_RUNTIME_DIR", "DBUS_SESSION_BUS_ADDRESS"],
+    "time_period": "February 2024",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "set-up-systemd-services-with-session-dbus-on-headless-linux-baeldung-on-linux"
+  },
+  {
+    "claim": "User services that consume the session bus should declare Requires=dbus.socket, and services exposing a D-Bus name can use Type=dbus with BusName=<name> so systemd activates them on the session bus",
+    "stance": "supports",
+    "stance_target": "an agent that talks D-Bus as a user service should order itself against dbus.socket",
+    "evidence_type": "expert-opinion (tutorial, reviewed)",
+    "scope_conditions": "systemd user services using the session bus",
+    "quoted_support": "Requires=dbus.socket – ensures that the dbus.socket starts before this DBus service ... [Service] Type=dbus BusName=com.example.mydbusserver ExecStart=/path/to/server/executable",
+    "numbers": [],
+    "entities": ["Requires=dbus.socket", "Type=dbus", "BusName"],
+    "time_period": "February 2024",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "set-up-systemd-services-with-session-dbus-on-headless-linux-baeldung-on-linux"
+  },
+  {
+    "claim": "The bashrc/profile pattern 'eval $(dbus-launch --sh-syntax --exit-with-session)' that Baeldung recommends for non-systemd environments conflicts with the systemd-managed shared user bus and is the anti-pattern to avoid on NixOS, where the user bus already exists at /run/user/<uid>/bus",
+    "stance": "refutes",
+    "stance_target": "reliance on dbus-launch shell-profile automation as a headless-agent bus solution on modern systemd hosts",
+    "evidence_type": "expert-opinion (tutorial, reviewed) — cross-checked against Chimera docs and Arch forum thread which explicitly warn against dbus-launch/dbus-run-session on user-bus systems",
+    "scope_conditions": "systemd hosts with user services (e.g. NixOS); only valid on non-systemd distros",
+    "quoted_support": "if test -z \"$DBUS_SESSION_BUS_ADDRESS\"; then # Only start D-Bus if it's not already running eval `dbus-launch --sh-syntax --exit-with-session` fi",
+    "numbers": [],
+    "entities": ["dbus-launch", "DBUS_SESSION_BUS_ADDRESS", "NixOS"],
+    "time_period": "February 2024",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "set-up-systemd-services-with-session-dbus-on-headless-linux-baeldung-on-linux"
+  },
+  {
+    "claim": "systemd resource controls (e.g. MemoryLimit=100M) and journald logging via journalctl -u are the recommended practices for headless services that cannot be observed directly",
+    "stance": "supports",
+    "stance_target": "headless fleet agents should carry systemd resource limits and journald logging by default",
+    "evidence_type": "expert-opinion (tutorial, reviewed)",
+    "scope_conditions": "systemd services, headless servers",
+    "quoted_support": "we can use systemd's resource control features to limit the amount of CPU, memory, and other resources that these services can use. For instance, to limit memory usage ... add a memory limit to our service file ... MemoryLimit=100M",
+    "numbers": ["100M memory limit example"],
+    "entities": ["MemoryLimit", "journalctl", "systemd-cgtop"],
+    "time_period": "February 2024",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "set-up-systemd-services-with-session-dbus-on-headless-linux-baeldung-on-linux"
+  }
+]

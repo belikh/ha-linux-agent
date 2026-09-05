@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The official Home Assistant Companion documentation's core sensors page covers ONLY iOS, macOS, and Android — the word 'Linux' does not appear anywhere in the 8,199-word page, confirming no official Linux companion agent exists",
+    "stance": "supports",
+    "stance_target": "the Linux companion gap ha-linux-agent fills is real and unfilled by Home Assistant itself; jupiterOS agents are not duplicating an official effort",
+    "evidence_type": "empirical",
+    "scope_conditions": "companion.home-assistant.io/docs/core/sensors as fetched 2026-09-02; audited absence via full-text search for 'Linux'",
+    "quoted_support": "The sensors provided by the companion app depend on which app you're using, see the lists below. ... iOS & macOS sensors ... Android sensors (page contains no Linux section)",
+    "numbers": ["8,199 words", "0 occurrences of 'Linux'"],
+    "entities": ["Home Assistant Companion", "iOS", "macOS", "Android"],
+    "time_period": "2026-09",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "sensors-home-assistant-companion-docs"
+  },
+  {
+    "claim": "The macOS companion's user-presence sensor model is sensor.active with orthogonal attributes (idle, screensaver, locked, screen_off, fast_user_switched, sleeping, terminating), and its desktop sensor set includes active_camera/active_audio_input/active_audio_output, camera_in_use, audio_input_in_use, audio_output_in_use, frontmost_app, displays, primary_display_id/name",
+    "stance": "supports",
+    "stance_target": "the de-facto desktop companion sensor vocabulary a Linux fleet agent should replicate for parity — camera/mic-in-use, frontmost app, displays, and a decomposed user-activity state are expected, not exotic",
+    "evidence_type": "empirical",
+    "scope_conditions": "macOS companion app 2021.2+ for frontmost_app/displays; iOS 2021.10+ for focus",
+    "quoted_support": "sensor.active provides whether the device is currently being used, based on a few different inputs which are provided as attributes to be informative. Attribute ... Idle ... Screensaver ... Locked ... Screen Off ... Fast User Switched ... Sleeping ... Terminating",
+    "numbers": ["7 activity attributes", "requires app version 2021.2 or later (frontmost_app, displays)"],
+    "entities": ["Home Assistant Companion", "macOS"],
+    "time_period": "2021-2026",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "sensors-home-assistant-companion-docs"
+  },
+  {
+    "claim": "The Android companion's sensor update model is a periodic 15-minute SensorWorker that must run as a foreground service (temporary low-priority notification prevents Android halting the worker), with user-selectable frequency of Normal (15 min), Fast While Charging (1 min while charging), or Fast Always (1 min), plus event-driven updates (location change, pull-to-refresh, Update Sensors shortcuts/push)",
+    "stance": "supports",
+    "stance_target": "mobile OS constraints (not Linux constraints) dictate companion apps' update cadences; a Linux fleet agent is free to do better (event-driven D-Bus + sub-minute polls), and cadence should be user/host-tunable",
+    "evidence_type": "empirical",
+    "scope_conditions": "Android companion app",
+    "quoted_support": "All sensors update during a periodic 15-minute interval and they will also update if other certain conditions are met. ... During the 15-minute update interval a low priority foreground notification is temporarily created to prevent the Android system from halting the worker. ... When set to Fast Always updates will come in every minute.",
+    "numbers": ["15-min default interval", "1-min fast interval"],
+    "entities": ["Home Assistant Companion", "Android", "SensorWorker"],
+    "time_period": "2024-2026",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "sensors-home-assistant-companion-docs"
+  },
+  {
+    "claim": "Since companion app 2025.5, most sensors are NOT enabled by default on iOS/macOS and must be manually enabled per device, while Android enables battery_level, battery_state, charger_type plus any permission-granted sensors; sensor enable/disable can be controlled per-server from the app",
+    "stance": "supports",
+    "stance_target": "opt-in sensor defaults are now the mature-app convention; a fleet agent on dozens of jupiterOS hosts should default to a small core sensor set with opt-in expansion to control entity explosion",
+    "evidence_type": "empirical",
+    "scope_conditions": "iOS/macOS companion 2025.5+; Android current",
+    "quoted_support": "From 2025.5 Not all sensors are enabled by default. If you don't see your sensor in Home Assistant, go to Companion App Settings > Sensors, and enable it manually. ... By default, most are disabled with the exception of the battery_level, battery_state, charger_type and any that were given permission during onboarding.",
+    "numbers": ["2025.5", "3 Android default sensors"],
+    "entities": ["Home Assistant Companion"],
+    "time_period": "2025.5 onward",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "sensors-home-assistant-companion-docs"
+  }
+]

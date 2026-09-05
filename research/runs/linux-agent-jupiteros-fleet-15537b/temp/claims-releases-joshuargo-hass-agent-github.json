@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "go-hass-agent's current release is v14.15.1 (2026-08-09) with an active ~monthly cadence through 2026, resolving the nixpkgs v14.15.1 vs pkg.go.dev v1.4.3 discrepancy in favour of nixpkgs being current",
+    "stance": "neutral",
+    "stance_target": "recency requirement of the run directives: go-hass-agent is an actively maintained benchmark, not abandonware; any ha-linux-agent gap analysis must be against v14.x behaviour",
+    "evidence_type": "empirical",
+    "scope_conditions": "GitHub releases as of 2026-09-02",
+    "quoted_support": "v14.15.1 ... Latest ... released this 09 Aug 01:21 ... 14.15.1 (2026-08-09) Bug Fixes cpu: guard the usage worker's reading maps",
+    "numbers": ["v14.15.1", "2026-08-09", "v14.15.0 2026-07-25", "v14.14.1 2026-06-23", "26 assets per release"],
+    "entities": ["go-hass-agent"],
+    "time_period": "2026-06 to 2026-08",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "releases-joshuargo-hass-agent-github"
+  },
+  {
+    "claim": "go-hass-agent v14.15.1 fixed a concurrent map-read data race in the CPU usage worker — a defect class that produces intermittent, unreproducible agent misbehaviour",
+    "stance": "supports",
+    "stance_target": "the user's 'never reliable' complaint about ha-linux-agent maps to a known defect class in mature agents too; concurrency discipline (or a language/runtime that eliminates data races) is a reliability requirement for the improvement plan",
+    "evidence_type": "empirical",
+    "scope_conditions": "go-hass-agent v14.15.1 changelog",
+    "quoted_support": "14.15.1 (2026-08-09) Bug Fixes cpu: guard the usage worker's reading maps (4ad1c07)",
+    "numbers": ["v14.15.1"],
+    "entities": ["go-hass-agent"],
+    "time_period": "2026-08-09",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "releases-joshuargo-hass-agent-github"
+  },
+  {
+    "claim": "go-hass-agent v14.15.0 added NVIDIA and AMD GPU memory-usage sensors and a series of fixes making disabled-sensor preferences respected before privileged capability checks, plus PipeWire pw-dump robustness fixes for non-string node.nick values",
+    "stance": "supports",
+    "stance_target": "even the mature agent still shipped with disabled-sensors-doing-capability-probes behaviour in mid-2026 — per-sensor enable/disable must short-circuit before any privileged work in ha-linux-agent's fleet design",
+    "evidence_type": "empirical",
+    "scope_conditions": "go-hass-agent v14.15.0 changelog",
+    "quoted_support": "Features: gpu memory usage (a0fbdd7), linux: (AMD) GPU memory usage (521ec76) ... Bug Fixes: linux/disk: respect disabled preference before SMART capability check (0d27760) ... linux: improve capability error clarity and respect disabled pref for activity worker (7efe012) ... pipewire: tolerate non-string node.nick values from pw-dump (0e285f2)",
+    "numbers": ["v14.15.0", "2026-07-25"],
+    "entities": ["go-hass-agent", "NVIDIA", "AMD", "PipeWire"],
+    "time_period": "2026-07-25",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "releases-joshuargo-hass-agent-github"
+  }
+]

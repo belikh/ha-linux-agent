@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Netdata's 'MQTT Blackbox' synthetic-testing page actually documents a prometheus collector job that scrapes an MQTT Blackbox Exporter over HTTP (not MQTT itself), configured via go.d/prometheus.conf YAML with url, timeout (default 10s), update_every (default 10s), selector allow/deny filters, fallback_type patterns, metric_relabel_configs, and profiles.",
+    "stance": "neutral",
+    "stance_target": "correcting the source's framing: this is exporter-scraping monitoring of MQTT transport health, an alternative/complementary approach to ha-linux-agent's direct MQTT telemetry",
+    "evidence_type": "empirical",
+    "scope_conditions": "Netdata Learn docs, go.d prometheus collector; file-based config is the automatable path (UI config requires paid Netdata Cloud plan)",
+    "quoted_support": "Metrics are gathered by periodically sending HTTP requests to MQTT Blackbox Exporter. ... UI configuration requires paid Netdata Cloud plan.",
+    "numbers": ["10s timeout default", "10s update_every default", "max_time_series 2000", "max_time_series_per_metric 200"],
+    "entities": ["Netdata", "go.d.plugin", "MQTT Blackbox Exporter", "prometheus collector"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "mqtt-blackbox-synthetic-testing-learn-netdata"
+  },
+  {
+    "claim": "Netdata's prometheus collector treats disappearing metrics specially: when a chart or dimension expires after metrics vanish from a successful scrape, its alerts become REMOVED rather than CLEAR and send no recovery notification — so reliable alert clearing requires exporting an explicit normal value (e.g. 0).",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent should always publish explicit zero/normal values on shutdown or disconnect paths so downstream HA automations reliably clear their states",
+    "evidence_type": "empirical",
+    "scope_conditions": "Netdata Learn docs, Troubleshooting section 'Disappearing or sparse metrics not clearing alerts'",
+    "quoted_support": "An expired chart or dimension makes its alerts REMOVED; this is not a normal CLEAR transition and does not send a recovery notification. Export an explicit normal value (for example 0) whenever an alert needs a reliable recovery transition.",
+    "numbers": ["0"],
+    "entities": ["Netdata", "alerts", "REMOVED"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "mqtt-blackbox-synthetic-testing-learn-netdata"
+  },
+  {
+    "claim": "Netdata classifies untyped scraped metrics deterministically: suffix _total → Counter, quantile label → Summary, le label → Histogram, and the rest are ignored unless fallback_type patterns classify them.",
+    "stance": "neutral",
+    "stance_target": "metric typing conventions an agent exporter must follow for its metrics to be consumed by monitoring stacks",
+    "evidence_type": "empirical",
+    "scope_conditions": "Netdata Learn docs, Metrics section",
+    "quoted_support": "As Counter if it has suffix '_total'. As Summary if it has 'quantile' label. As Histogram if it has 'le' label. The rest are ignored.",
+    "numbers": [],
+    "entities": ["Netdata", "prometheus", "Counter", "Summary", "Histogram"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "mqtt-blackbox-synthetic-testing-learn-netdata"
+  }
+]

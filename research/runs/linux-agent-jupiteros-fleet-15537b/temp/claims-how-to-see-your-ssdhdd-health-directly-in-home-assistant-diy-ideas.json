@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "A practitioner running HA in Docker on a Raspberry Pi successfully deployed go-hass-agent v14.2.0 headless: installed the arm64 .deb, registered with a non-admin long-lived access token, and ran it without root as a systemd user service; the device appears in HA under the Mobile App integration.",
+    "stance": "supports",
+    "stance_target": "go-hass-agent is deployable headless on ARM64 Linux (e.g. Raspberry Pi) via systemd user service and registers as a mobile_app device",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Raspberry Pi (ARM64) with Raspberry Pi OS; HA in Docker; go-hass-agent v14.2.0",
+    "quoted_support": "go-hass-agent register --token 'YOUR_TOKEN' --server http://HA_url:port/ ... systemctl --user enable go-hass-agent ... systemctl --user start go-hass-agent ... go-hass-agent must be run without root privileges, so don't use sudo to start it.",
+    "numbers": ["go-hass-agent v14.2.0", "memory 27M peak 48.5M in systemd status output", "Dec 2025 guide"],
+    "entities": ["go-hass-agent", "Raspberry Pi", "Home Assistant", "systemctl --user", "long-lived access token", "Mobile App integration"],
+    "time_period": "Dec 2025",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "how-to-see-your-ssdhdd-health-directly-in-home-assistant-diy-ideas"
+  },
+  {
+    "claim": "go-hass-agent SMART status entities appear on x86 machines (Mac mini Debian, AMD Kubuntu PC) but NOT on Raspberry Pi OS, forcing the author to build a smartctl+jq bash script, cron job and HA command_line sensor workaround to surface SMART data for the Pi.",
+    "stance": "refutes",
+    "stance_target": "go-hass-agent provides uniform hardware sensor coverage across Linux platforms including ARM64 SBCs",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "go-hass-agent v14.2.0 on Raspberry Pi OS vs Debian/Kubuntu x86; SMART disk health monitoring",
+    "quoted_support": "Mac mini running Debian: SMART status is available ... Raspberry Pi running Raspberry Pi OS with Home Assistant: SMART status is not added by go-hass-agent ... While go-hass-agent exposes a wealth of system details on Raspberry Pi, it does not currently provide SMART information.",
+    "numbers": ["cron every 15 minutes", "12-second smartctl timeout per attempt"],
+    "entities": ["go-hass-agent", "Raspberry Pi OS", "smartctl", "jq", "command_line sensor"],
+    "time_period": "Dec 2025",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "how-to-see-your-ssdhdd-health-directly-in-home-assistant-diy-ideas"
+  },
+  {
+    "claim": "go-hass-agent exposes rich SMART data as attributes on existing disk entities (e.g. Temperature_Celsius, Current_Pending_ECC_Cnt, Current_Pending_Sector) that HA template-sensor helpers must individually surface, since they are not separate entities by default.",
+    "stance": "neutral",
+    "stance_target": "Consuming go-hass-agent's deep sensor data requires HA-side template helpers per attribute",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Home Assistant template helpers reading go-hass-agent attributes",
+    "quoted_support": "go-hass-agent exposes rich SSD/HDD SMART data as attributes of the existing disk entities, including detailed health metrics that aren't shown by default.",
+    "numbers": [],
+    "entities": ["go-hass-agent", "Home Assistant", "template sensor", "Temperature_Celsius"],
+    "time_period": "Dec 2025",
+    "region": "Global",
+    "confidence": "medium",
+    "source_note_id": "how-to-see-your-ssdhdd-health-directly-in-home-assistant-diy-ideas"
+  }
+]

@@ -1,0 +1,21 @@
+[
+ {
+  "claim": "The niri-ipc client library resolves the socket via the NIRI_SOCKET environment variable (SOCKET_PATH_ENV = \"NIRI_SOCKET\") in Socket::connect(), but Socket::connect_to(path) accepts any explicit filesystem path \u2014 so an out-of-session process that knows the absolute socket path can connect directly without inheriting the session environment.",
+  "stance": "supports",
+  "stance_target": "gap-06: cross-session reachability of the niri IPC socket",
+  "evidence_type": "theoretical",
+  "scope_conditions": "niri-ipc crate as used by niri msg; the connecting process needs the socket path (wayland socket name + PID discoverable via /run/user/<uid>/ listing) and same-UID filesystem permission",
+  "quoted_support": "pub fn connect() -> io::Result<Self> { let socket_path = env::var_os(SOCKET_PATH_ENV).ok_or_else(|| { io::Error::new(io::ErrorKind::NotFound, format!(\"{SOCKET_PATH_ENV} is not set, are you running this within niri?\")) })?; Self::connect_to(socket_path) } ... pub fn connect_to(path: impl AsRef<Path>) -> io::Result<Self> { let stream = UnixStream::connect(path.as_ref())?;",
+  "numbers": [],
+  "entities": [
+   "niri-ipc",
+   "NIRI_SOCKET",
+   "SOCKET_PATH_ENV",
+   "Socket::connect_to"
+  ],
+  "time_period": "2026 (main)",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "niriniri-ipcsrcsocketrs-at-main-niri-wmniri-github"
+ }
+]

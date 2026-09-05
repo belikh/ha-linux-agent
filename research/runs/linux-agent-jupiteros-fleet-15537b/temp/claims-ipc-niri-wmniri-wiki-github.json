@@ -1,0 +1,24 @@
+[
+ {
+  "claim": "niri's IPC protocol is a newline-delimited single-line JSON request/reply over the $NIRI_SOCKET UNIX socket, with an event-stream mode that sends the complete current state up-front followed by deltas \u2014 'your state can never desync' \u2014 requiring two sockets if a client needs to read events and send requests concurrently.",
+  "stance": "neutral",
+  "stance_target": "gap-06: protocol shape an out-of-session agent must implement",
+  "evidence_type": "expert-opinion",
+  "scope_conditions": "niri >= 0.1.9 for event stream; JSON output stable (additive changes only), human-readable output unstable",
+  "quoted_support": "The event stream IPC is designed to give you the complete current state up-front, then follow up with updates to that state. This way, your state can never \"desync\" from niri, and you don't need to make any other IPC information requests. ... you need to use two IPC sockets.",
+  "numbers": [
+   "since 0.1.9 (event stream)"
+  ],
+  "entities": [
+   "niri",
+   "NIRI_SOCKET",
+   "niri msg",
+   "Request::EventStream",
+   "niri-ipc"
+  ],
+  "time_period": "wiki edited 2026-02-10",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "ipc-niri-wmniri-wiki-github"
+ }
+]

@@ -1,0 +1,26 @@
+[
+ {
+  "claim": "niri's documented security model assumes unsandboxed host programs are trusted: 'Anything with access to niri's IPC socket can, among other things: Spawn a Wayland client' \u2014 which in turn can record the screen, emulate input, read the clipboard, spoof password dialogs via layer-shell, and kill/replace lock screens; there is no per-connection authentication on the IPC socket.",
+  "stance": "supports",
+  "stance_target": "gap-06: security implications of a fleet agent holding niri IPC access \u2014 it is equivalent to full session control",
+  "evidence_type": "expert-opinion",
+  "scope_conditions": "unsandboxed clients on the host; sandboxed clients must have the IPC socket removed, D-Bus blocked, and a filtered Wayland socket (security-context protocol / Flatpak)",
+  "quoted_support": "Anything with access to niri's IPC socket can, among other things: Spawn a Wayland client which can do everything in the list above. ... Niri assumes that programs running unsandboxed on the host are trusted.",
+  "numbers": [],
+  "entities": [
+   "niri",
+   "IPC socket",
+   "wlr-screencopy",
+   "wlr-virtual-pointer",
+   "wlr-data-control",
+   "wlr-layer-shell",
+   "ext-session-lock",
+   "Flatpak",
+   "security-context protocol"
+  ],
+  "time_period": "wiki edited 2026-04-26",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "security-model-niri-wmniri-wiki-github"
+ }
+]

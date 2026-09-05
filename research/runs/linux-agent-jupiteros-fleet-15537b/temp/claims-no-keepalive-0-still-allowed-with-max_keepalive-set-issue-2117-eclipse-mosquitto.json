@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Mosquitto issue #2117 ('No keepalive (0) still allowed with max_keepalive set', opened 2021-03-07, closed, milestone 2.0.9): even with max_keepalive set in mosquitto's config, clients could CONNECT with keepalive=0 and receive no Server Keep Alive in the connack — the root cause behind Telegraf's documented 'identifier rejected' failures with keep_alive=0",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's MQTT client must always negotiate an explicit non-zero keep-alive interval; keepalive=0 defaults (rumqttc) are unsafe against mosquitto >= 2.0",
+    "evidence_type": "empirical",
+    "scope_conditions": "eclipse-mosquitto/mosquitto 2.0.x; MQTT v5 spec conformance; fixed in milestone 2.0.9",
+    "quoted_support": "Even if max_keepalive is set in the config file, clients are still allowed to connect using 0 (i.e. no keepalive) without a Server Keep Alive being sent in the connect ack. I'm not sure whether this is a bug, but it was certainly unexpected behaviour to me after reading the v5 spec and mosquitto documentation.",
+    "numbers": ["milestone 2.0.9", "opened Mar 7 2021"],
+    "entities": ["mosquitto", "eclipse-mosquitto", "dnadlinger", "MQTT v5"],
+    "time_period": "March 2021",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "no-keepalive-0-still-allowed-with-max_keepalive-set-issue-2117-eclipse-mosquitto"
+  },
+  {
+    "claim": "The mosquitto issue URL cited by both official Telegraf MQTT-output sources (github.com/eclipse/mosquitto/issues/2117) returns 404 because the GitHub org was renamed to eclipse-mosquitto — the issue is reachable only at github.com/eclipse-mosquitto/mosquitto/issues/2117",
+    "stance": "neutral",
+    "stance_target": "audited absence: the incumbent's own official documentation carries a stale citation link; provenance chains in official docs erode and must be re-verified",
+    "evidence_type": "empirical",
+    "scope_conditions": "GitHub org rename eclipse → eclipse-mosquitto; verified via fetch 2026-09-02 (two attempts, both 404 on the old org path, success on the new)",
+    "quoted_support": "Client error '404 Not Found' for url 'https://github.com/eclipse/mosquitto/issues/2117' (fetch result) — the issue lives at eclipse-mosquitto/mosquitto#2117: 'No keepalive (0) still allowed with max_keepalive set'",
+    "numbers": ["2117"],
+    "entities": ["mosquitto", "eclipse", "eclipse-mosquitto", "Telegraf"],
+    "time_period": "verified 2026-09-02",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "no-keepalive-0-still-allowed-with-max_keepalive-set-issue-2117-eclipse-mosquitto"
+  }
+]

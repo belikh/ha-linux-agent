@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "HA's Glances integration is a Local Polling integration that scrapes a Glances REST webserver (Web Server Mode, default port 61208) running on each monitored host, requiring Glances >= 2.3 with API v3 (v2 deprecated)",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's MQTT push + discovery model eliminates the per-host webserver + HA-side polling loop the incumbent Glances pattern requires",
+    "evidence_type": "empirical",
+    "scope_conditions": "Home Assistant Glances integration; Glances Web Server Mode",
+    "quoted_support": "These sensors needs a running instance of glances in Web Server Mode on the host. The minimal supported version of glances is 2.3. ... Its IoT class is Local Polling.",
+    "numbers": ["Glances >= 2.3", "port 61208", "1.3% of active HA installations", "introduced in HA 0.7.3"],
+    "entities": ["Home Assistant", "Glances"],
+    "time_period": "current official HA documentation, 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "glances-home-assistant"
+  },
+  {
+    "claim": "The HA Glances integration's sensor catalogue spans disk (per-mount use percent/absolute/size), per-physical-disk diskio read/write MB/s, memory and swap (percent + absolute), processor load, process counts (running/total/thread/sleeping), CPU percent, temperature (lm-sensors), Docker container counts and CPU/memory, RAID device counts, per-NIC rx/tx Mbps, per-GPU VRAM/processor/temperature/fan (py3nvml), and uptime — the de-facto scope of host monitoring in the HA ecosystem",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's sensor scope should match or exceed this catalogue to be a credible Glances replacement",
+    "evidence_type": "empirical",
+    "scope_conditions": "Home Assistant Glances integration sensor catalogue",
+    "quoted_support": "For each detected disk (or mount point) the following sensors will be created: disk_use_percent ... diskio_read: Average rate of data read from the device in megabytes per second. ... For each detected GPU (video card) the following sensors will be created: memory_use ... Not all platforms can provide all metrics.",
+    "numbers": ["MB/s diskio", "Mbps network rx/tx", "percent for cpu/memory/swap"],
+    "entities": ["Home Assistant", "Glances", "lm-sensors", "py3nvml", "Docker"],
+    "time_period": "current official HA documentation, 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "glances-home-assistant"
+  },
+  {
+    "claim": "Glances GPU sensors require the py3nvml Python package and CPU temperature requires installed/configured lm-sensors — the sensor surface is conditional on per-host Python package and kernel sensor configuration",
+    "stance": "supports",
+    "stance_target": "per-host dependency management is a real operational burden in the incumbent pattern; a static Rust agent with sysinfo/NVML bindings avoids it",
+    "evidence_type": "empirical",
+    "scope_conditions": "Home Assistant Glances integration; Linux hosts",
+    "quoted_support": "For instance the GPU sensors require installing the py3nvml Python package, and the cpu temp sensor requires installing and configuring lmsensors in Ubuntu, and may not be available at all in other platforms.",
+    "numbers": [],
+    "entities": ["Home Assistant", "Glances", "py3nvml", "lm-sensors"],
+    "time_period": "current official HA documentation, 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "glances-home-assistant"
+  },
+  {
+    "claim": "Support for the Glances API v2 is deprecated in favour of v3, and after upgrading the Glances server the HA integration must be reloaded to reconnect",
+    "stance": "neutral",
+    "stance_target": "API-version coupling between host-side server and HA-side integration is an ongoing maintenance liability of the polling pattern",
+    "evidence_type": "empirical",
+    "scope_conditions": "Home Assistant Glances integration",
+    "quoted_support": "Support for Glances api version 2 is deprecated. It is recommended to upgrade your Glances server to version 3. Once upgraded, reload the integration to connect again.",
+    "numbers": [],
+    "entities": ["Home Assistant", "Glances"],
+    "time_period": "current official HA documentation, 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "glances-home-assistant"
+  },
+  {
+    "claim": "The Glances integration is maintained by a single integration owner (@engrbm87) and used by only 1.3% of active HA installations",
+    "stance": "neutral",
+    "stance_target": "the incumbent's maintenance bus factor is thin; a purpose-built agent cannot count on upstream HA integration fixes",
+    "evidence_type": "statistical",
+    "scope_conditions": "Home Assistant analytics, active installations",
+    "quoted_support": "The Glances service was introduced in Home Assistant 0.7.3, and it's used by 1.3% of the active installations.",
+    "numbers": ["1.3%", "0.7.3"],
+    "entities": ["Home Assistant", "Glances", "engrbm87"],
+    "time_period": "current official HA documentation, 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "glances-home-assistant"
+  }
+]

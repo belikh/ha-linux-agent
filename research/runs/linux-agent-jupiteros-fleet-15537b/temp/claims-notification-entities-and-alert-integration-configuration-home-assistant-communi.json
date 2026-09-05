@@ -1,0 +1,22 @@
+[
+ {
+  "claim": "HA community (June 2024): notify entities (including MQTT notify) could not be used as the legacy alert integration's notifier; the workaround was a command-line notifier hitting a webhook automation \u2014 so legacy notify-SERVICE consumers cannot target entity-platform notifiers directly.",
+  "stance": "neutral",
+  "stance_target": "adopt-vs-build nuance: MQTT notify entities integrate via notify.send_message + entity_id targeting; legacy integrations expecting old notify services don't see them",
+  "evidence_type": "anecdotal",
+  "scope_conditions": "HA 2024.6-era; alert integration; notify entity model",
+  "quoted_support": "I want to use the MQTT Notify platform as a notifier of an alert. I understand that we are migrating towards entities and that not everything is there, yet, but I'd just want to confirm that you cannot use notify entities with alerts, yet.",
+  "numbers": [
+   "June 19, 2024"
+  ],
+  "entities": [
+   "Home Assistant",
+   "MQTT Notify",
+   "alert integration"
+  ],
+  "time_period": "June 2024",
+  "region": "",
+  "confidence": "medium",
+  "source_note_id": "notification-entities-and-alert-integration-configuration-home-assistant-communi"
+ }
+]

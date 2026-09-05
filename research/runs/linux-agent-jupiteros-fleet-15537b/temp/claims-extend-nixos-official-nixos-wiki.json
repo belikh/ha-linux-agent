@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "The official NixOS Wiki's Extend NixOS tutorial prescribes the evolution path for shipping a custom service: inline systemd.services entry → lib.mkIf host-conditional → separate imported module file → full distributable module declaring options (services.<name>.enable, user) with config = mkIf cfg.enable.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent should be refactored from a loose deployment into a distributable NixOS module with a services.ha-linux-agent.enable option for every jupiterOS host",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Official NixOS Wiki (wiki.nixos.org), Extend NixOS tutorial; NixOS module system with options/config split",
+    "quoted_support": "NixOS supports this idea, but it is called \"options\". We can add options to our module for both the condition and the username.",
+    "numbers": [],
+    "entities": ["NixOS", "lib.mkIf", "mkOption", "systemd.services"],
+    "time_period": "current (oldid 21379)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "extend-nixos-official-nixos-wiki"
+  },
+  {
+    "claim": "The Extend NixOS tutorial explicitly recommends validating configuration changes in a VM (nixos-rebuild build-vm + run-<hostname>-vm) rather than mutating the working system on each change.",
+    "stance": "supports",
+    "stance_target": "reliability remediation for ha-linux-agent should include VM-tested NixOS configurations before kiosk deployment",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Official NixOS Wiki, Extend NixOS, 'Testing Configuration Changes in a VM'",
+    "quoted_support": "Creating or modifying a NixOS configuration can be trial-and-error. Rather than change our working system on each configuration change, we can build it completely inside a VM, which is much safer.",
+    "numbers": [],
+    "entities": ["nixos-rebuild build-vm", "NixOS"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "extend-nixos-official-nixos-wiki"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "MQTT last-will messages fire only on ungraceful client disconnects; a graceful HA (or agent) shutdown does NOT trigger the LWT, so the status topic stays stale 'online'.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent needs a SIGTERM handler publishing offline (shutdown message) because systemd stops are graceful and LWT will not fire",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "HA MQTT client, mosquitto-class brokers, 2018-2020 era but MQTT-spec-inherent",
+    "quoted_support": "Update 2: Looks like will_message is only sent on ungraceful mqtt client disconnect. Since restarting hass is likely a graceful shutdown, no message is sent.",
+    "numbers": [],
+    "entities": ["Home Assistant", "will_message", "birth_message", "zigbee2mqtt"],
+    "time_period": "2018-2020",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "setting-mqtt-birth-and-last-will-with-the-new-mqtt-integration-configuration-hom"
+  },
+  {
+    "claim": "The birth message published on every HA start is the standard trigger for devices (e.g. zigbee2mqtt) to republish their cached state, i.e. birth-message-driven state resync is the ecosystem convention.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent should subscribe to HA's birth topic and republish current state + discovery on HA restart",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "HA + MQTT ecosystem, 2018-2020",
+    "quoted_support": "I do see birth_message publishing every time when hassio is started which then triggers zigbee2mqtt to repulish its cached state. So the end result is its working for what I needed.",
+    "numbers": [],
+    "entities": ["birth_message", "zigbee2mqtt", "hass/status"],
+    "time_period": "2020",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "setting-mqtt-birth-and-last-will-with-the-new-mqtt-integration-configuration-hom"
+  },
+  {
+    "claim": "With the UI-configured MQTT integration, HA's own client birth/will can only be configured by editing .storage/core.config_entries while HA is stopped — a fragile, officially unsupported workaround.",
+    "stance": "neutral",
+    "stance_target": "fleet design should not depend on HA-side birth/will config; per-device (agent-side) availability is the robust path",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "HA UI-configured MQTT integration, 2020",
+    "quoted_support": "if you stop HA, you can edit the .storage/core.config_entries ... Home assistant must be stopped otherwise it will overwrite your changes. If you mess anything up, HA will refuse to start",
+    "numbers": [],
+    "entities": [".storage/core.config_entries", "MQTT integration"],
+    "time_period": "2020",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "setting-mqtt-birth-and-last-will-with-the-new-mqtt-integration-configuration-hom"
+  },
+  {
+    "claim": "HA shutdown-trigger automations publishing an offline MQTT message are 'hit or miss' because the shutdown event may not complete before process exit.",
+    "stance": "supports",
+    "stance_target": "agent-side graceful-shutdown publishing (in-process, before disconnect) is more reliable than HA-side shutdown automations",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "HA homeassistant shutdown trigger, 2020",
+    "quoted_support": "The only recommendation is to use an automation with an home assistant trigger for shutdown, but that tends to be hit or miss.",
+    "numbers": [],
+    "entities": ["shutdown trigger", "mqtt.publish"],
+    "time_period": "2020",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "setting-mqtt-birth-and-last-will-with-the-new-mqtt-integration-configuration-hom"
+  },
+  {
+    "claim": "Birth and last will are functions of the MQTT client, not the broker — each connecting client registers its own LWT at CONNECT time.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent (the client) owns its own availability contract; the broker merely stores and fires it",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "MQTT protocol semantics",
+    "quoted_support": "Birth and last will are a function of the mqtt client not the broker.",
+    "numbers": [],
+    "entities": ["MQTT client", "LWT"],
+    "time_period": "2019",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "setting-mqtt-birth-and-last-will-with-the-new-mqtt-integration-configuration-hom"
+  }
+]

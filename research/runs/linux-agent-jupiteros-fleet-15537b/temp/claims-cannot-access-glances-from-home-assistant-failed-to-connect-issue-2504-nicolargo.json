@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Glances upstream issue #2504 (Jul 2023, closed): a Glances v3 webserver on Ubuntu 22.04 serves fine in browsers and via direct API calls (http://IP:61208/api/3/mem/free returns data), yet the HA Glances integration fails with 'Failed to Connect' both with and without username/password fields — an auth/handshake mismatch between HA's integration and the Glances webserver",
+    "stance": "supports",
+    "stance_target": "the Glances REST bridge is fragile at fleet scale — per-host authenticated webservers plus matching HA config entries drift and fail opaquely",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Glances API v3 on Ubuntu 22.04 python3; Home Assistant Glances integration; 2023; issue closed with no resolution recorded in body, no labels, no assignee",
+    "quoted_support": "But then I try to install the HA integration and try to connect with the userid on the Ubuntu server, it fails with \"Failed to Connect\". What is missing? Do I need to start the web-server with a userid/password? I also tried to setup the HA integration without the user and password field, but it still fails the same.",
+    "numbers": ["port 61208", "api/3", "opened Jul 20 2023"],
+    "entities": ["Glances", "Home Assistant", "bert269", "Ubuntu 22.04"],
+    "time_period": "July 2023",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "cannot-access-glances-from-home-assistant-failed-to-connect-issue-2504-nicolargo"
+  },
+  {
+    "claim": "The Glances 'Failed to Connect' issue #2504 has no assignee, no labels, and no recorded resolution in the issue body — the failure mode was never root-caused publicly",
+    "stance": "supports",
+    "stance_target": "incumbent failure modes go undiagnosed; an agent with local structured errors plus MQTT status topics gives operators actionable signals",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "nicolargo/glances issue tracker, 2023",
+    "quoted_support": "Assignees: No one assigned. Labels: No labels. ... Closed",
+    "numbers": ["issue #2504"],
+    "entities": ["Glances"],
+    "time_period": "2023",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "cannot-access-glances-from-home-assistant-failed-to-connect-issue-2504-nicolargo"
+  }
+]

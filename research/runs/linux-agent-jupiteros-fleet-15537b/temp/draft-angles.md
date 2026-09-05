@@ -1,0 +1,9 @@
+# Draft angles — linux-agent-jupiteros-fleet-15537b
+
+Full tier, argumentative format (5000-10000 words target), synthesize modality, wikilink citations.
+
+**Draft A — Strongest-thesis (reliability-first advocate):** Argue the dominant evidence direction: ha-linux-agent's "never reliable" is a small set of precisely-diagnosed MQTT-lifecycle defects with an implementable supervisor spec, and the correct plan is fix-reliability-first, then deploy fleet-wide via a system-service NixOS module, then add features. Draws on the verified audit + consensus claims + the MQTT-lifecycle and service-model interim positions.
+
+**Draft B — Steelman-contrarian (adoption-and-architecture sceptic):** Defend the minority view seriously: ha-linux-agent should not be improved at all — adopt go-hass-agent/lnxlink, or at minimum stop investing in MQTT custom-transport and ride established tooling; the fleet's real needs (monitoring) are served by boring mature tools, and the custom agent is a maintenance trap with 8 tests and failing gates. Engage the koying counter-position, the incumbents' maturity, the split-brain concession, and the honest concession table. The steelman must be genuinely persuasive — the final synthesis will rebut where evidence demands but concede what it must.
+
+**Draft C — Synthesis-reconciler (boundary-conditions architect):** Argue both poles capture part of the truth and the real answer is boundary-conditional: fix-first for the kiosk fleet where launcher/session control is load-bearing (improvement wins), adopt-or-freeze for pure-server hosts where mature monitoring suffices (or: the agent's server backends are exactly what the incumbents lack — the boundary is the feature, not the host). Focus on the host-class split, the zero-capability privilege matrix, the notification fork's resolution, and the testing ladder as the definition-of-done that makes either path safe.

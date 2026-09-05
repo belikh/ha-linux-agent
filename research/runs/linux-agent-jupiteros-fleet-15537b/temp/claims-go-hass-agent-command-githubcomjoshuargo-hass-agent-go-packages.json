@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "pkg.go.dev's record for go-hass-agent is stale at v1.4.3 (published Jul 2023, flagged as not latest) versus the v14.x current releases, with 0 external importers",
+    "stance": "neutral",
+    "stance_target": "go-hass-agent is an application, not a library — ha-linux-agent cannot import its machinery; any reuse must be at the protocol/pattern level",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg.go.dev index for github.com/joshuar/go-hass-agent",
+    "quoted_support": "Version: v1.4.3 ... This package is not in the latest version of its module. ... Published: Jul 8, 2023 ... Imported by: 0",
+    "numbers": ["v1.4.3", "2023-07-08", "0 importers"],
+    "entities": ["go-hass-agent", "pkg.go.dev"],
+    "time_period": "snapshot 2026-09 (stale since 2023)",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "go-hass-agent-command-githubcomjoshuargo-hass-agent-go-packages"
+  },
+  {
+    "claim": "go-hass-agent v1-era ran as a Fyne GUI tray app with a --terminal/-t headless flag and a systemd service file installed-but-not-enabled at /usr/lib/systemd/system; internal packages were agent/config/device/hass/linux/request/tracker",
+    "stance": "supports",
+    "stance_target": "the project's evolution tray-GUI-first to headless-service-first (current web-UI registration) maps the trajectory ha-linux-agent should compress: headless service from day one",
+    "evidence_type": "historical",
+    "scope_conditions": "v1.x (Jul 2023) design; superseded by the v14 web-config architecture",
+    "quoted_support": "go-hass-agent runs as a tray icon by default. ... go-hass-agent can run in a \"headless\" mode, without any GUI elements, by specifying the -t or --terminal command-line option. On Linux systems, There is also a systemd service file that can be used for automatic start-up, installed (but not activated by default) in /usr/lib/systemd/system.",
+    "numbers": ["v1.4.3", "Fyne UI toolkit", "-t/--terminal flag"],
+    "entities": ["go-hass-agent", "Fyne", "systemd"],
+    "time_period": "2023",
+    "region": "Linux",
+    "confidence": "high",
+    "source_note_id": "go-hass-agent-command-githubcomjoshuargo-hass-agent-go-packages"
+  }
+]

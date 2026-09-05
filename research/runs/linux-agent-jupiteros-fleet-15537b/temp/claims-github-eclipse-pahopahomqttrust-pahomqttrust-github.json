@@ -1,0 +1,88 @@
+{
+  "claims": [
+    {
+      "claim": "Eclipse Paho MQTT Rust Client supports MQTT v5, 3.1.1, and 3.1, with automatic reconnect and offline buffering built in — 'Supports MQTT v5, 3.1.1, and 3.1 ... Automatic Reconnect ... Offline Buffering'.",
+      "stance": "supports",
+      "stance_target": "Paho Rust is a viable alternative to rumqttc offering MQTT v5 and automatic reconnect out of the box",
+      "evidence_type": "empirical",
+      "scope_conditions": "eclipse-paho/paho.mqtt.rust README (repo migrated from eclipse org to eclipse-paho), master branch",
+      "quoted_support": "Supports MQTT v5, 3.1.1, and 3.1 ... Automatic Reconnect ... Offline Buffering ... High Availability",
+      "numbers": ["588 stars", "107 forks", "469 commits"],
+      "entities": ["paho.mqtt.rust", "Eclipse Paho", "MQTT v5"],
+      "time_period": "README as of fetch 2026-09-02",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "github-eclipse-pahopahomqttrust-pahomqttrust-github"
+    },
+    {
+      "claim": "Paho Rust's async support is runtime-agnostic: 'Agnostic to async runtimes. Tested with tokio and smol.' and 'The library does not use a runtime for internal operations' — it wraps Paho C, using internal threads plus condition variables, with Token implementing std::future::Future.",
+      "stance": "supports",
+      "stance_target": "Paho Rust is compatible with a tokio-based agent (the ha-linux-agent runtime) despite being a C wrapper",
+      "evidence_type": "expert-opinion",
+      "scope_conditions": "paho.mqtt.rust README 'A Note on Async Runtimes' and 'Features' sections",
+      "quoted_support": "Agnostic to async runtimes. Tested with tokio and smol. ... The library does not use a runtime for internal operations. ... To make the library compatible with the async/await paradigm, the Token simply implemented the std::future::Future trait.",
+      "numbers": [],
+      "entities": ["paho.mqtt.rust", "tokio", "smol", "Paho C", "Token"],
+      "time_period": "v0.14 era README",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "github-eclipse-pahopahomqttrust-pahomqttrust-github"
+    },
+    {
+      "claim": "Paho Rust is a safe wrapper around the Paho C library (v1.3.16), requiring a C compiler and CMake for the default 'bundled' build; pre-generated bindings ship for x86_64/aarch64-linux-gnu, armv7, Windows MSVC, and Apple Darwin.",
+      "stance": "supports",
+      "stance_target": "Adopting paho.mqtt.rust adds a C-toolchain build dependency (CMake + C compiler + OpenSSL) that rumqttc (pure Rust) does not have",
+      "evidence_type": "empirical",
+      "scope_conditions": "paho.mqtt.rust README build features section",
+      "quoted_support": "The Rust crate is a safe wrapper around the Paho C Library. ... Requires Paho C v1.3.16, or possibly later. ... The default behaviour can be altered by enabling or disabling the features: \"default\" - [bundled, ssl]",
+      "numbers": ["Paho C v1.3.16", "MSRV 1.73.0", "Edition 2021"],
+      "entities": ["paho-mqtt-sys", "bindgen", "CMake", "OpenSSL", "musl"],
+      "time_period": "v0.14",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "github-eclipse-pahopahomqttrust-pahomqttrust-github"
+    },
+    {
+      "claim": "paho.mqtt.rust v0.14.0 (released 26 Mar by fpagliughi) added synchronous and async event streams where 'All events from the client flow through the stream: Connect, Connection Lost, Disconnected, Incoming Message' — giving applications explicit connection-lost signalling that rumqttc 0.24.0 lacks.",
+      "stance": "supports",
+      "stance_target": "Paho's event stream surfaces Connection Lost / Disconnected events to the application, enabling re-subscription logic without polling hacks",
+      "evidence_type": "empirical",
+      "scope_conditions": "eclipse-paho/paho.mqtt.rust v0.14.0 release notes",
+      "quoted_support": "Added synchronous (blocking) and async event streams. All events from the client flow through the stream: Connect, Connection Lost, Disconnected, Incoming Message",
+      "numbers": ["v0.14.0", "26 Mar"],
+      "entities": ["paho.mqtt.rust", "event streams", "tokio feature"],
+      "time_period": "v0.14.0 released 26 Mar; most recent -sys release 14 May (sys-v0.10.3)",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "releases-eclipse-pahopahomqttrust-github"
+    },
+    {
+      "claim": "Paho Rust's release cadence shows active maintenance through 2025-2026: v0.13.0 (21 Jan), v0.13.1 (19 Feb), v0.13.2 (27 Mar), v0.13.3 (28 Apr), v0.14.0 (26 Mar), sys-v0.10.3 (14 May); v0.12.3 specifically fixed 'numerous issues with reconnecting to the broker' including 'crashes on reconnect callbacks'.",
+      "stance": "supports",
+      "stance_target": "paho.mqtt.rust is actively maintained and its reconnect machinery has been specifically hardened",
+      "evidence_type": "empirical",
+      "scope_conditions": "eclipse-paho/paho.mqtt.rust releases page (first 10 releases)",
+      "quoted_support": "Upgrade to Paho C v1.3.13 to fix a number of bugs, including numerous issues with reconnecting to the broker. The -sys crate now wraps Paho C v1.3.13, fixing several issues, including crashes on reconnect callbacks.",
+      "numbers": ["v0.12.3", "v0.13.0 21 Jan", "v0.13.1 19 Feb", "v0.13.2 27 Mar", "v0.13.3 28 Apr", "v0.14.0 26 Mar", "sys-v0.10.3 14 May"],
+      "entities": ["paho.mqtt.rust", "Paho C v1.3.13", "fpagliughi"],
+      "time_period": "v0.12.3 (26 Oct, prior year) through sys-v0.10.3 (14 May)",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "releases-eclipse-pahopahomqttrust-github"
+    },
+    {
+      "claim": "Paho Rust v0.14.0 carries breaking changes in MQTT v5 error handling (Reason Code Error variant now contains Properties from ACK packet; ACKs with a single reason code error generate an Error result) and bumped MSRV to Rust v1.75.",
+      "stance": "neutral",
+      "stance_target": "Migration cost assessment for switching from rumqttc to paho.mqtt.rust",
+      "evidence_type": "empirical",
+      "scope_conditions": "paho.mqtt.rust v0.14.0 release notes",
+      "quoted_support": "[Breaking] Reason Code Error variant now contains Properties from ACK packet ... [Breaking] ACKs with a single reason code error generate an Error result, instead of an Ok() with a possible error code in it. ... Bumped MSRV to Rust v1.75",
+      "numbers": ["v0.14.0", "MSRV 1.75", "#244", "#264", "#257"],
+      "entities": ["paho.mqtt.rust", "MQTT v5", "Reason Codes"],
+      "time_period": "v0.14.0, 26 Mar",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "releases-eclipse-pahopahomqttrust-github"
+    }
+  ]
+}

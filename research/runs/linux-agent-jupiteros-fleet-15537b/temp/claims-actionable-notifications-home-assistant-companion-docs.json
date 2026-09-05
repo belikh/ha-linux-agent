@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The companion-app actionable-notification contract: a notify action includes data.actions (each with required action key 'passed back in events' and title), and when a button is tapped the mobile_app_notification_action event fires in HA with the action identifier plus optional reply_text, action_data and tag — this is the platform-native round-trip that MQTT notify lacks.",
+    "stance": "supports",
+    "stance_target": "Native HA actionable notifications round-trip through the mobile_app_notification_action event, not through any MQTT notify mechanism",
+    "evidence_type": "empirical",
+    "scope_conditions": "HA companion apps (iOS/Android/macOS); notify.mobile_app_* services",
+    "quoted_support": "Actionable notifications are a unique type of notification as they allow the user to add buttons to the notification which can then send an event to Home Assistant once clicked. ... action Required. The identifier passed back in events ... When the notification action is performed, the mobile_app_notification_action event fires",
+    "numbers": ["Android allows 3 notification actions", "iOS allows around 10", "iOS icons require app 2021.10+"],
+    "entities": ["mobile_app_notification_action", "data.actions", "notify.mobile_app", "companion apps", "wait_for_trigger"],
+    "time_period": "2021-2026 docs; current as of Sep 2026",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "actionable-notifications-home-assistant-companion-docs"
+  },
+  {
+    "claim": "The mobile_app_notification_action event payload schema is documented verbatim: event_type mobile_app_notification_action with data.action (the identifier, e.g. OPEN_<context_id>), reply_text present when the action was REPLY or behavior textInput, iOS-only action_data, and Android returning all data fields such as tag, plus origin, time_fired and context.",
+    "stance": "supports",
+    "stance_target": "A build-your-own Linux agent would need to fire mobile_app_notification_action (or an equivalent event) to match companion-app actionable notifications",
+    "evidence_type": "empirical",
+    "scope_conditions": "Event payload for notification action triggers in HA",
+    "quoted_support": "\"event_type\": \"mobile_app_notification_action\", \"data\": { \"action\": \"OPEN_<context_id_here>\", \"reply_text\": \"Reply from user\", \"action_data\": { \"entity_id\": \"light.test\", \"my_custom_data\": \"foo_bar\" }, \"tag\": \"TEST\" }, \"origin\": \"REMOTE\", \"time_fired\": \"2020-02-02T04:45:05.550251+00:00\", \"context\": { \"id\": \"abc123\" }",
+    "numbers": [],
+    "entities": ["mobile_app_notification_action", "reply_text", "action_data", "tag", "context.id"],
+    "time_period": "current as of Sep 2026",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "actionable-notifications-home-assistant-companion-docs"
+  },
+  {
+    "claim": "The companion docs recommend generating unique action identifiers per script run by combining context.id into the action key (e.g. 'OPEN_' ~ context.id) and having the script wait_for_trigger on the specific mobile_app_notification_action event, because 'The actions for your notification are shared across all notifications'.",
+    "stance": "neutral",
+    "stance_target": "Correct consumption of actionable notifications requires per-run unique action identifiers and event-based wait logic",
+    "evidence_type": "empirical",
+    "scope_conditions": "HA scripts/automations consuming notification actions",
+    "quoted_support": "Your script or automation could be run multiple times. The actions for your notification are shared across all notifications. To avoid issues, you can create unique actions for each time your script is run.",
+    "numbers": [],
+    "entities": ["context.id", "wait_for_trigger", "mobile_app_notification_action"],
+    "time_period": "current as of Sep 2026",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "actionable-notifications-home-assistant-companion-docs"
+  }
+]

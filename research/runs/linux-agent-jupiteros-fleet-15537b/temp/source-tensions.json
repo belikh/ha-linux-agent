@@ -1,0 +1,100 @@
+{
+  "tensions": [
+    {
+      "name": "MQTT hop vs direct database injection for host metrics",
+      "side_a": {
+        "position": "Routing host metrics through MQTT before storage adds an unnecessary point of failure — go Telegraf→InfluxDB direct, use HA's InfluxDB integration for display.",
+        "evidence": "koying (long-time HA contributor) on the architecture thread: 'Could you clarify your reasoning behind going through MQTT for influxdb injection? Seems an unnecessary point of failure to me. I go directly from telegraf to influxdb, then use the influxdb integration inside HA'",
+        "proponents": ["system-design-architecting-ha-data-flows-with-telegraf-mqtt-influxdb-and-grafana"]
+      },
+      "side_b": {
+        "position": "MQTT is the established bidirectional channel for companion agents — HA's own docs mandate its discovery protocol, halinuxcompanion is migrating TO MQTT for offline detection, and the fleet's needs (automations, dashboards, kiosk control) are exactly the bidirectional use case.",
+        "evidence": "HA MQTT docs (birth-message discovery contract); halinuxcompanion README (migrating sensors to MQTT because the native API cannot reflect a host going offline — LWT can); the WTH thread (community mod: HASS.Agent needs MQTT for most features)",
+        "proponents": ["mqtt-home-assistant", "github-muniterhalinuxcompanion-homeassistant-linux-companion-github", "wth-there-is-no-windows-and-linux-ha-app-similar-to-macos", "github-hass-agenthassagent-unofficial-development-project-for-the-hassagent-plat"]
+      },
+      "resolution": "For THIS fleet, side B wins on scope: koying's position optimises time-series fidelity for a DB-centric pipeline — jupiterOS runs no InfluxDB and wants HA automations/dashboards/kiosk control, which need bidirectionality MQTT natively provides. The tension is real but scoped: a fleet that later wants long-horizon metric history should add Telegraf→DB alongside the agent, not instead of it.",
+      "origin": "contradiction-graph",
+      "decision_relevance": "high"
+    },
+    {
+      "name": "go-hass-agent's MQTT v5 hard requirement vs jupiterOS's mosquitto v3.1.1/v5 surface",
+      "side_a": {
+        "position": "The incumbent Linux agent requires MQTT v5 broker support and its control states are not kept in sync (its own docs admit it).",
+        "evidence": "go-hass-agent README verbatim: 'Go Hass Agent requires MQTT v5 support on your MQTT broker' and 'States are not kept in sync. This is most important for all controls besides buttons'",
+        "proponents": ["github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device"]
+      },
+      "side_b": {
+        "position": "ha-linux-agent's rumqttc 0.24.0 path speaks v3.1.1 (with a v5 module available), keeps every control's state on the shared state topic, and the fleet's mosquitto (callisto) is version-current — v5 is available but the agent doesn't need to require it.",
+        "evidence": "Measured: Cargo.lock pins rumqttc 0.24.0; the v5 module ships inside it (fitness investigator verified); the launcher backend's switch state round-trips via the shared state topic (discovery.rs value_template)",
+        "proponents": ["interim-report-rumqttc-dependency-fitness", "repo-map-ha-linux-agent"]
+      },
+      "resolution": "Side B for this fleet: the state-sync admission is load-bearing — jupiterOS's kiosk session-switching REQUIRES switches that reflect real unit state (the launcher backend's whole design). go-hass-agent's v5 requirement is adoptable if the broker is upgraded, but its unsynced-control admission is architectural. This tension feeds the adopt-vs-build verdict rather than standing alone.",
+      "origin": "orphan-scan",
+      "decision_relevance": "high"
+    },
+    {
+      "name": "Netdata's marketed footprint vs its community-documented blowups",
+      "side_a": {
+        "position": "A Netdata Agent with default settings uses ~100MB RAM / 1-5% of a single core — fine for servers.",
+        "evidence": "Official docs (resource-utilization page): '1%-5% of a single core with default settings... 100-200 MB on an empty system'",
+        "proponents": ["resource-utilization-netdata-agent-learn-netdata"]
+      },
+      "side_b": {
+        "position": "Real deployments report 200-1000+MB and the maintainer-endorsed production recipe disables most of the product to get under 50MB.",
+        "evidence": "Community thread verbatim: 'From 200-400 MB for regular servers to 700-1000+MB for kvm hypervisors. USED memory. And that's just in a single month'; maintainer recipe: '[db] mode = alloc, retention = 1800... [ml] enabled = no... [health] enabled = no'",
+        "proponents": ["insane-netdata-memory-usage-help-netdata-community-forums", "agent-performance-optimization-guide-configuration"]
+      },
+      "resolution": "Both are right in scope: side A describes the empty-system default; side B the metric-heavy reality with the vendor's own optimisation guide conceding the defaults are too heavy for edge hosts. For TCxWave-class kiosks and a 7-host fleet, the effective Netdata configuration is the stripped one — at which point a purpose-built agent is the lighter choice. Adopting Netdata fleet-wide is refuted for this fleet's hardware class.",
+      "origin": "orphan-scan",
+      "decision_relevance": "medium"
+    },
+    {
+      "name": "In-process SMART polling vs smartd's privileged event hooks",
+      "side_a": {
+        "position": "Run a privileged exporter (root or CAP_SYS_ADMIN) that polls smartctl itself — the smartctl_exporter pattern, docker 'privileged: true, user: root'.",
+        "evidence": "smartctl_exporter docs verbatim: 'services: smartctl-exporter: image: prometheuscommunity/smartctl-exporter privileged: true user: root'; Scrutiny issue #26: NVMe SMART requires CAP_SYS_ADMIN (kernel-source verified — NVME_IOCTL_ADMIN_CMD)",
+        "proponents": ["github-prometheus-communitysmartctl_exporter-export-smartctl-statistics-to-prome", "clarification-of-volume-permissions-issu"]
+      },
+      "side_b": {
+        "position": "Keep the agent unprivileged and bridge smartd (already running privileged on europa) via -M exec hooks whose SMARTD_* env-var contract is documented — the agent consumes events, never touches the ioctl.",
+        "evidence": "ArchWiki SMART: smartd -M exec passes SMARTD_MESSAGE/SMARTD_FAILTYPE etc. to the script; live ground truth: smartd already runs on europa; the privilege-ladder investigator's zero-capability matrix",
+        "proponents": ["smart-archwiki", "smartdconf5-smartmontools-debian-testing-debian-manpages", "interim-report-headless-privilege-ladder"]
+      },
+      "resolution": "Side B for this fleet: the hook path needs zero new privilege and survives smartd's own scheduling/self-test logic for free; the exporter path buys in-process freshness at the cost of a CAP_SYS_ADMIN surface on every server host. The ioctl path remains a per-host opt-in if sub-minute SMART freshness ever matters. This is the AmbientCapabilities-vs-zero-capability cross-locus tension (comparisons.md Tension 1) restated at the source level.",
+      "origin": "comparisons",
+      "decision_relevance": "high"
+    },
+    {
+      "name": "Testcontainers consensus vs the fleet's containerless ground truth",
+      "side_a": {
+        "position": "Mosquitto-in-testcontainers is the right primitive for reliable, parallel-safe MQTT integration tests (4-source consensus).",
+        "evidence": "testcontainers-mosquitto-module + docs.rs module + HiveMQ blog: per-container port mappings, auto-cleanup, lifecycle gating before tests",
+        "proponents": ["testcontainers-mosquitto-module", "mosquitto-in-testcontainers_modulesmosquitos-rust", "hivemq-is-now-available-in-testcontainers"]
+      },
+      "side_b": {
+        "position": "No container runtime exists on any jupiterOS host or Nix remote builder — a testcontainers CI gate is dead on arrival; a mosquitto-subprocess harness (port-0 bind, Drop-guard kill) delivers the same anti-flake properties inside nix flake check.",
+        "evidence": "Audited ground truth: /etc/nix/machines and host configs contain no docker/podman; the flake already ships mosquitto in the devShell",
+        "proponents": ["interim-report-testing-gate-for-hardware-daemon"]
+      },
+      "resolution": "Side B, on scope grounds: the consensus is correct for Docker-equipped CI and wrong for this fleet. The draft should name this as the general principle — web consensus optimises the generic case; fleet ground truth overrides it. (The subprocess harness still borrows testcontainers' hard-won lessons: URL from the harness, never hardcoded; ready-probe before assertions.)",
+      "origin": "comparisons",
+      "decision_relevance": "medium"
+    },
+    {
+      "name": "Retained-everything discipline vs selective retention with expiry",
+      "side_a": {
+        "position": "Retain config + state + availability (everything except command topics) so HA restarts get instant entity recovery — the Z2M/ESPHome default posture.",
+        "evidence": "Z2M availability doc (retained availability); ESPHome discovery_retain defaults true; the hand-built-devices thread's retained-discipline matrix",
+        "proponents": ["mqtt-client-component-esphome-smart-home-made-simple", "my-hand-built-mqtt-devices-are-unavailable-after-hassio-restart-but-zigbee2mqtt", "device-availability-zigbee2mqtt"]
+      },
+      "side_b": {
+        "position": "Retained discovery alone is insufficient — HA's own docs mandate birth-triggered republish, broker queue limits silently drop retained replay at scale (HA #135266: 56 of 112 topics arrived empty), and stale retained state needs message-expiry or deliberate zero-payload cleanup.",
+        "evidence": "HA MQTT docs verbatim: 'A device or service that exposes the MQTT discovery should subscribe to the Birth message and use this as a trigger to send the discovery payload'; HA #135266 maintainer thread (max_queued_messages overflow); telegraf2hassio's undeletable-entities complaint",
+        "proponents": ["mqtt-home-assistant", "comments", "some-mqtt-devices-unavailable-after-ha-restart-issue-135266-home-assistantcore-g", "the-homie-convention", "releasing-telegraf2hassio-for-remote-servers-monitoring"]
+      },
+      "resolution": "Side B subsumes side A — this is the rare fully-resolved tension: retain everything (side A's discipline) AND republish on birth/ConnAck with jitter (side B's mandate), AND size/persist the broker (max_queued_messages ≥ 4× fleet retained inventory, persistence true). The corpus's own convergence (consensus-claims.json) plus the MQTT-lifecycle investigator's supervisor spec is the synthesis. Presented in the draft as the reliability contract, not an open question.",
+      "origin": "contradiction-graph",
+      "decision_relevance": "high"
+    }
+  ]
+}

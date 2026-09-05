@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Telegraf2Hassio (joaofl, released March 2022) is an HA add-on that subscribes to Telegraf's native MQTT output and re-publishes it as HA self-discoverable MQTT sensors, explicitly to avoid needing InfluxDB or Grafana — the closest prior art to ha-linux-agent's MQTT-discovery architecture",
+    "stance": "supports",
+    "stance_target": "the Telegraf→MQTT→HA-discovery bridge pattern is validated prior art; ha-linux-agent implements the same discovery outcome natively per host without the hub-side add-on",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Home Assistant add-on ecosystem; Telegraf with MQTT output; 2022",
+    "quoted_support": "Differently from most Telegraf integrations approaches out there, this addon does not need InfluxDB neither Grafana dashboards to display Telegraf's data. Instead, it translates Telegraf's native MQTT messages into Home Assistant self-discoverable ones, such that it can detect and present your data with ease.",
+    "numbers": ["released March 28 2022"],
+    "entities": ["Telegraf2Hassio", "Telegraf", "Home Assistant", "joaofl"],
+    "time_period": "March 2022",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "releasing-telegraf2hassio-for-remote-servers-monitoring-share-your-projects-home"
+  },
+  {
+    "claim": "The Telegraf2Hassio author admits only his own single Telegraf config was tested and other inputs/sensors are unverified — the bridge's entity mapping is not robust across the Telegraf sensor universe",
+    "stance": "supports",
+    "stance_target": "hub-side metric-name translation is brittle; a purpose-built agent that owns its own sensor naming avoids the untested mapping problem entirely",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Telegraf2Hassio add-on, 2022",
+    "quoted_support": "It is likely that other addons and sensors may work out of the box with this addon, but I cannot guarantee, since this is the only config I tested so far. If something goes wrong, feel free to make a PR and contribute to this addon",
+    "numbers": [],
+    "entities": ["Telegraf2Hassio", "joaofl"],
+    "time_period": "March 2022",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "releasing-telegraf2hassio-for-remote-servers-monitoring-share-your-projects-home"
+  },
+  {
+    "claim": "A February 2026 user of Telegraf2Hassio asks how to delete all entities the add-on created and start afresh — discovery-created entity lifecycle/cleanup remains an unsolved pain point four years after release",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent needs a deliberate entity cleanup strategy (retained-topic clearing / birth-message semantics), or it inherits the same undeletable-entity problem",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Home Assistant MQTT discovery entities created by Telegraf2Hassio; community thread active Feb 2026",
+    "quoted_support": "This is great. I now have a need, however, to delete all the entities it created and start afresh. What's the way to do that please?",
+    "numbers": ["Feb 7 2026"],
+    "entities": ["Telegraf2Hassio", "Home Assistant", "spry-salt"],
+    "time_period": "February 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "releasing-telegraf2hassio-for-remote-servers-monitoring-share-your-projects-home"
+  }
+]

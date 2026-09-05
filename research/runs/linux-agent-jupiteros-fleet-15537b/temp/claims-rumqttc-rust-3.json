@@ -1,0 +1,102 @@
+{
+  "claims": [
+    {
+      "claim": "The rumqttc 0.24.0 crate root docs list mqttbytes v4 as the default (re-exporting mqttbytes::v4::* plus mqttbytes::*), with v5 available as a separate mqttbytes::v5 module — the top-level MqttOptions/AsyncClient/Event API is the v3.1.1 (v4) surface.",
+      "stance": "supports",
+      "stance_target": "rumqttc 0.24.0's primary/default API is MQTT v3.1.1 (v4); MQTT 5 lives in a separate v5 module",
+      "evidence_type": "empirical",
+      "scope_conditions": "docs.rs rumqttc 0.24.0 crate root page",
+      "quoted_support": "pub use mqttbytes::v4::*; pub use mqttbytes::*; Modules§ mqttbytes mqttbytesv5",
+      "numbers": ["0.24.0", "18 July 2025"],
+      "entities": ["rumqttc 0.24.0", "mqttbytes::v4", "mqttbytes::v5", "MqttOptions", "AsyncClient", "Event"],
+      "time_period": "docs.rs build 18 July 2025",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "rumqttc-rust-3"
+    },
+    {
+      "claim": "rumqttc 0.24.0's documented reconnection model is 'Automatic reconnections by just continuing the eventloop.poll()/connection.iter() loop' — automatic reconnection, not automatic re-subscription.",
+      "stance": "supports",
+      "stance_target": "rumqttc 0.24.0 automatically reconnects the transport but does NOT automatically re-subscribe; subscriptions must be re-established by the application after reconnect",
+      "evidence_type": "empirical",
+      "scope_conditions": "docs.rs rumqttc 0.24.0 'Quick overview of features'",
+      "quoted_support": "Automatic reconnections by just continuing the eventloop.poll()/connection.iter() loop ... Since the eventloop is externally polled (with iter()/poll() in a loop) out side the library and Eventloop is accessible, users can ... Access internal state for use cases like graceful shutdown or to modify options before reconnection",
+      "numbers": [],
+      "entities": ["eventloop.poll()", "connection.iter()", "EventLoop"],
+      "time_period": "docs.rs build 18 July 2025",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "rumqttc-rust-3"
+    },
+    {
+      "claim": "rumqttc 0.24.0 documentation explicitly warns that looping on connection.iter()/eventloop.poll() is required to run the event loop, and blocking inside the loop blocks connection progress — the poll() loop is the sole driver of the connection.",
+      "stance": "supports",
+      "stance_target": "Any ha-linux-agent MQTT task design must keep polling the eventloop; a stalled poll loop stalls the whole connection",
+      "evidence_type": "empirical",
+      "scope_conditions": "docs.rs rumqttc 0.24.0 'Important notes'",
+      "quoted_support": "Looping on connection.iter()/eventloop.poll() is necessary to run the event loop and make progress. ... Blocking inside the connection.iter()/eventloop.poll() loop will block connection progress.",
+      "numbers": [],
+      "entities": ["eventloop.poll()", "connection.iter()"],
+      "time_period": "docs.rs build 18 July 2025",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "rumqttc-rust-3"
+    },
+    {
+      "claim": "rumqttc 0.24.0's Event enum (yielded by eventloop.poll()) has exactly two variants — Incoming(Incoming) and Outgoing(Outgoing) — with no Reconnect variant, and the type alias Incoming covers packets including ConnAck.",
+      "stance": "supports",
+      "stance_target": "In 0.24.0 a reconnect can only be inferred by seeing a second Event::Incoming(Packet::ConnAck); no Event::Reconnect exists until PR #1052 merges",
+      "evidence_type": "empirical",
+      "scope_conditions": "docs.rs rumqttc 0.24.0 enum.Event page",
+      "quoted_support": "pub enum Event { Incoming(Incoming), Outgoing(Outgoing), } — Events which can be yielded by the event loop",
+      "numbers": ["0.24.0"],
+      "entities": ["Event", "Incoming", "Outgoing", "Packet::ConnAck"],
+      "time_period": "docs.rs build 18 July 2025",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "event-in-rumqttc-rust"
+    },
+    {
+      "claim": "AsyncClient::disconnect() exists in rumqttc 0.24.0 as 'pub async fn disconnect(&self) -> Result<(), ClientError> — Sends a MQTT disconnect to the EventLoop', alongside try_disconnect(); the full method surface also includes subscribe, subscribe_many, unsubscribe, publish, publish_bytes, ack, and from_senders.",
+      "stance": "supports",
+      "stance_target": "The repo's pinned rumqttc 0.24.0 exposes AsyncClient::disconnect() for graceful shutdown; no API gap blocks it",
+      "evidence_type": "empirical",
+      "scope_conditions": "docs.rs rumqttc 0.24.0 struct.AsyncClient page",
+      "quoted_support": "pub async fn disconnect(&self) -> Result<(), ClientError> — Sends a MQTT disconnect to the EventLoop",
+      "numbers": ["0.24.0"],
+      "entities": ["AsyncClient::disconnect", "try_disconnect", "rumqttc 0.24.0", "ClientError"],
+      "time_period": "docs.rs build 18 July 2025",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "asyncclient-in-rumqttc-rust"
+    },
+    {
+      "claim": "The 0.25.1 AsyncClient surface is method-for-method identical to 0.24.0's (new, from_senders, publish, try_publish, ack, try_ack, publish_bytes, subscribe, try_subscribe, subscribe_many, try_subscribe_many, unsubscribe, try_unsubscribe, disconnect, try_disconnect) — 0.25.1 adds no auto-resubscribe, v5-session, or reconnect-signal method to AsyncClient.",
+      "stance": "supports",
+      "stance_target": "Upgrading from rumqttc 0.24.0 to 0.25.1 does not change the AsyncClient API surface relevant to connection lifecycle; auto re-subscription is absent in both",
+      "evidence_type": "empirical",
+      "scope_conditions": "docs.rs rumqttc 0.25.1 struct.AsyncClient page vs 0.24.0",
+      "quoted_support": "impl AsyncClient — pub fn new ... from_senders ... publish ... try_publish ... ack ... try_ack ... publish_bytes ... subscribe ... try_subscribe ... subscribe_many ... try_subscribe_many ... unsubscribe ... try_unsubscribe ... pub async fn disconnect(&self) -> Result<(), ClientError> — Sends a MQTT disconnect to the EventLoop ... try_disconnect",
+      "numbers": ["0.25.1", "01 September 2026"],
+      "entities": ["AsyncClient", "rumqttc 0.25.1", "rumqttc 0.24.0"],
+      "time_period": "docs.rs build 01 September 2026",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "asyncclient-in-rumqttc-rust-2"
+    },
+    {
+      "claim": "rumqttc 0.25.1's docs.rs build (01 September 2026) is only 35.34% documented, and 0.24.0's is 33.87% — both versions are poorly documented, so library behaviour must be verified against source rather than rustdoc.",
+      "stance": "neutral",
+      "stance_target": "Documentation quality for rumqttc across versions",
+      "evidence_type": "empirical",
+      "scope_conditions": "docs.rs coverage percentages for rumqttc 0.24.0 and 0.25.1",
+      "quoted_support": "33.87% of the crate is documented (0.24.0) ... 35.34% of the crate is documented (0.25.1)",
+      "numbers": ["33.87%", "35.34%"],
+      "entities": ["rumqttc", "docs.rs"],
+      "time_period": "July 2025 - September 2026",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "asyncclient-in-rumqttc-rust-2"
+    }
+  ]
+}

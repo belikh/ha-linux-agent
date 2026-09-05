@@ -1,0 +1,116 @@
+[
+  {
+    "claim": "The kernel CPUFreq subsystem exposes its user-space interface at /sys/devices/system/cpu/cpufreq/policyX/, where generic attributes include affected_cpus, cpuinfo_cur_freq, cpuinfo_min_freq, cpuinfo_max_freq, cpuinfo_transition_latency, related_cpus, scaling_available_frequencies, scaling_available_governors, scaling_cur_freq, scaling_driver, scaling_governor (read-write), scaling_max_freq (read-write), scaling_min_freq (read-write), and scaling_setspeed (userspace governor only).",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent can implement CPU frequency telemetry and control via documented, stable sysfs attributes rather than shelling out to cpupower or parsing /proc",
+    "evidence_type": "empirical",
+    "scope_conditions": "Linux kernel CPUFreq subsystem; documented current for 7.3.0-rc1; applies wherever a cpufreq scaling driver is registered",
+    "quoted_support": "The generic attributes under /sys/devices/system/cpu/cpufreq/policyX/ are the following: affected_cpus ... scaling_cur_freq ... scaling_driver ... scaling_governor This attribute is read-write and writing to it will cause a new scaling governor to be attached to this policy ... scaling_max_freq ... This attribute is read-write and writing a string representing an integer to it will cause a new limit to be set (it must not be lower than the value of the scaling_min_freq attribute).",
+    "numbers": [],
+    "entities": [
+      "CPUFreq",
+      "sysfs",
+      "scaling_governor",
+      "scaling_min_freq",
+      "scaling_max_freq"
+    ],
+    "time_period": "kernel 7.3.0-rc1 documentation (page copyright 2017, maintained current)",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "cpu-performance-scaling-the-linux-kernel-documentation"
+  },
+  {
+    "claim": "scaling_cur_freq reports the last P-state requested from the hardware, not necessarily the frequency the CPU is actually running at; cpuinfo_cur_freq (when present) is the hardware-reported actual frequency.",
+    "stance": "supports",
+    "stance_target": "agent CPU telemetry must distinguish requested vs actual frequency \u2014 reading scaling_cur_freq alone can misreport",
+    "evidence_type": "empirical",
+    "scope_conditions": "Linux CPUFreq sysfs; attribute presence depends on scaling driver and architecture (CPUFREQ_ARCH_CUR_FREQ option)",
+    "quoted_support": "In the majority of cases, this is the frequency of the last P-state requested by the scaling driver from the hardware using the scaling interface provided by it, which may or may not reflect the frequency the CPU is actually running at (due to hardware design and other limitations).",
+    "numbers": [],
+    "entities": [
+      "scaling_cur_freq",
+      "cpuinfo_cur_freq",
+      "CPUFreq"
+    ],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "cpu-performance-scaling-the-linux-kernel-documentation"
+  },
+  {
+    "claim": "The intel_pstate scaling driver bypasses the CPUFreq governor layer and implements its own P-state selection algorithms, so governors are not attached to policy objects when intel_pstate is in use.",
+    "stance": "supports",
+    "stance_target": "agent CPU control logic must handle driver-dependent semantics \u2014 governor switching does not apply on intel_pstate systems",
+    "evidence_type": "empirical",
+    "scope_conditions": "x86 systems using the intel_pstate driver",
+    "quoted_support": "CPUFreq allows scaling drivers to bypass the governor layer and implement their own performance scaling algorithms. That is done by the intel_pstate scaling driver.",
+    "numbers": [],
+    "entities": [
+      "intel_pstate",
+      "CPUFreq"
+    ],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "cpu-performance-scaling-the-linux-kernel-documentation"
+  },
+  {
+    "claim": "A CPUFreq policy object represents a set of CPUs sharing one hardware P-state control interface, so multiple logical CPUs can share a single policyX sysfs directory; different policies can run different governors simultaneously.",
+    "stance": "supports",
+    "stance_target": "agent must enumerate policy objects (not per-CPU directories) to avoid duplicated telemetry and conflicting writes",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Linux CPUFreq; hardware with shared frequency domains (common on Intel hybrid and some AMD systems)",
+    "quoted_support": "Sets of CPUs sharing hardware P-state control interfaces are represented by CPUFreq as struct cpufreq_policy objects. ... different policy objects can be handled by different scaling governors at the same time (although that may lead to suboptimal results in some cases).",
+    "numbers": [],
+    "entities": [
+      "cpufreq_policy",
+      "CPUFreq"
+    ],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "cpu-performance-scaling-the-linux-kernel-documentation"
+  },
+  {
+    "claim": "The global CPU boost knob lives at /sys/devices/system/cpu/cpufreq/boost (values 0/1) and is the recommended interface; the legacy AMD cpb knob appears per-policy but actually acts system-wide and may be removed.",
+    "stance": "supports",
+    "stance_target": "agent should expose boost control via the single global sysfs knob, not per-policy cpb",
+    "evidence_type": "empirical",
+    "scope_conditions": "kernels and scaling drivers supporting frequency boost (absent when driver lacks boost support, e.g. intel_pstate has its own interface)",
+    "quoted_support": "This file is located under /sys/devices/system/cpu/cpufreq/ and controls the \u201cboost\u201d setting for the whole system. ... The only values that can be written to this file are 0 and 1. ... it is always possible use the boost knob instead of the cpb one which is highly recommended",
+    "numbers": [
+      "0",
+      "1"
+    ],
+    "entities": [
+      "boost knob",
+      "cpb",
+      "AMD powernow-k8"
+    ],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "cpu-performance-scaling-the-linux-kernel-documentation"
+  },
+  {
+    "claim": "schedutil computes target CPU frequency as f = 1.25 * f_0 * util / max (PELT-based) and is regarded as the replacement for the legacy ondemand and conservative governors.",
+    "stance": "neutral",
+    "stance_target": "expected default governor on modern kernels for agent-monitored hosts",
+    "evidence_type": "theoretical",
+    "scope_conditions": "kernels with schedutil governor; CFS scheduling class",
+    "quoted_support": "the new CPU frequency to apply is computed in accordance with the formula f = 1.25 * f_0 * util / max ... This governor generally is regarded as a replacement for the older ondemand and conservative governors",
+    "numbers": [
+      "1.25"
+    ],
+    "entities": [
+      "schedutil",
+      "PELT",
+      "ondemand",
+      "conservative"
+    ],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "cpu-performance-scaling-the-linux-kernel-documentation"
+  }
+]

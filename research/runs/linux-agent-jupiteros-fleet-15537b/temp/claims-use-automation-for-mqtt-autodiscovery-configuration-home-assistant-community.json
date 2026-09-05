@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "HA's mqtt.publish automation action renders Jinja templates in the payload at publish time, so a discovery payload whose value_template field contains '{{ value_json.val }}' fails with an undefined-variable error and is never published — templates intended for the MQTT integration's later use cannot pass through HA automation templating unescaped.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent must publish discovery JSON directly over MQTT (as a client), not via HA mqtt.publish automations; nested value_template strings are data, not templates, at the agent layer",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "HA automation mqtt.publish action, Aug 2022",
+    "quoted_support": "I define an action that says: Here is an instruction. DO NOT READ THIS. Just forward it to the MQTT broker... I run the script and get an error: I Read the instruction. Don't know what it means. I am not going to forward it. Break.",
+    "numbers": [],
+    "entities": ["mqtt.publish", "value_template", "value_json", "INSTAR"],
+    "time_period": "2022-08",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "use-automation-for-mqtt-autodiscovery-configuration-home-assistant-community"
+  },
+  {
+    "claim": "The working pattern for LWT-triggered discovery publishing was an external Python Paho MQTT client run from a shell script — the agent publishes config topics itself, and the device appears in HA immediately.",
+    "stance": "supports",
+    "stance_target": "an external MQTT client (exactly ha-linux-agent's architecture) is the community-validated way to do reliable MQTT discovery",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "github.com/mpolinowski/ha-mqtt-python, Paho client, 2022",
+    "quoted_support": "Result: My MQTT camera connects to the Home Assistant MQTT broker and is immediately added as a device with a bunch of functions",
+    "numbers": [],
+    "entities": ["Paho", "mpolinowski/ha-mqtt-python", "INSTAR"],
+    "time_period": "2022-09",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "use-automation-for-mqtt-autodiscovery-configuration-home-assistant-community"
+  },
+  {
+    "claim": "MQTT entities disabled from a script (never enabled in HA) cannot be deleted by the MQTT integration afterwards — disabled-by-discovery entities need explicit handling in agent cleanup flows.",
+    "stance": "neutral",
+    "stance_target": "ha-linux-agent should publish enabled-by-default entities or handle disabled-entity cleanup via empty-payload removal messages",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "HA MQTT integration + bashio add-on scripts, 2022",
+    "quoted_support": "The mqtt integration does not seem to like disabled sensors much though. If they are disabled from the script they can't be deleted by the mqtt integration if they have never been enabled",
+    "numbers": [],
+    "entities": ["MQTT integration", "enabled_by_default", "bashio"],
+    "time_period": "2022",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "use-automation-for-mqtt-autodiscovery-configuration-home-assistant-community"
+  },
+  {
+    "claim": "The bashio/mosquitto_pub pattern for emitting discovery configs uses escaped value templates with a default filter ('{{ value_json.$value | default() }}') to survive shell + templating layers.",
+    "stance": "neutral",
+    "stance_target": "when generating discovery payloads programmatically, value_template strings must be escaped per publishing context; a default() filter guards against undefined values at runtime",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "bashio add-on scripting with mosquitto_pub, 2022",
+    "quoted_support": "You also may need to set you default() in your value templates \\\"{{ value_json.$value | default() }}\\\"",
+    "numbers": [],
+    "entities": ["mosquitto_pub", "bashio", "value_template", "default()"],
+    "time_period": "2022",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "use-automation-for-mqtt-autodiscovery-configuration-home-assistant-community"
+  }
+]

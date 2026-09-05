@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "halinuxcompanion's author documents that the HA native (REST) API cannot reliably reflect a host going offline — if the app dies before sending the state, sensor values stick — and plans to move sensors to MQTT specifically because MQTT will-topics let the broker mark sensors unavailable when the client loses connectivity",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's MQTT architecture (with last-will/availability topics) is the correct design for the 'never reliable' offline-detection complaint; this is independent confirmation from an agent author who hit the native API's limits and chose MQTT",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "halinuxcompanion project To-do; applies to native-app REST/websocket sensor reporting",
+    "quoted_support": "Move sensors to MQTT — The reasoning for the change is the limitations of the API, naturally is expected that desktop and laptops would go offline and I would like for the sensors to reflect this new state. But if for some reason the application is unable to send this new state to Home Assistant the values of the sensors would be stuck. But if the app uses MQTT it can set will topics for the sensors to be updated when the client can't communicate with the server.",
+    "numbers": [],
+    "entities": ["halinuxcompanion", "Home Assistant REST API", "MQTT last will"],
+    "time_period": "2021-2025",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "github-muniterhalinuxcompanion-homeassistant-linux-companion-github"
+  },
+  {
+    "claim": "halinuxcompanion receives actionable HA notifications by running a LOCAL aiohttp HTTP server that Home Assistant POSTs notification service calls to, with D-Bus used to display notifications and listen for action/clear events, plus D-Bus sleep/shutdown signals to update a Status sensor immediately before power events",
+    "stance": "neutral",
+    "stance_target": "a third architecture pattern beyond push-vs-MQTT: HA calls INTO the agent over HTTP; requires the HA instance to reach every host on the fleet network — a constraint MQTT avoids (agent only needs outbound broker connectivity)",
+    "evidence_type": "empirical",
+    "scope_conditions": "halinuxcompanion on a LAN-reachable Linux desktop, port 8400 by default",
+    "quoted_support": "HTTP Server (aiohttp): Listen to POST notification service call from Home Assistant ... Dbus interface (dbus_next): Sending notifications and listening to notification actions from the desktop, also listens to sleep, shutdown to update the status sensor",
+    "numbers": ["default port 8400", "refresh_interval 15 (seconds)"],
+    "entities": ["halinuxcompanion", "aiohttp", "dbus_next"],
+    "time_period": "2021-2025",
+    "region": "Linux",
+    "confidence": "high",
+    "source_note_id": "github-muniterhalinuxcompanion-homeassistant-linux-companion-github"
+  },
+  {
+    "claim": "halinuxcompanion registers as a mobile_app device in Home Assistant and exposes declarative notification-attached commands (suspend/poweroff/reboot/hibernate via systemctl, xdg-open, flatpak run) configured in config.json, run as a systemd --user service without sudo",
+    "stance": "supports",
+    "stance_target": "the mobile_app registration pattern plus declarative JSON command config is proven on Linux; but its narrow sensor set (cpu, memory, uptime, status, battery, camera_state) shows the native-API path yields fewer sensors than the MQTT agents",
+    "evidence_type": "empirical",
+    "scope_conditions": "halinuxcompanion current master",
+    "quoted_support": "Now in your Home Assistant you will see a new device in the \"mobile_app\" integration, and there will be a new service to notify your Linux desktop. Notification actions work and the expected events will be fired in Home Assistant. ... \"command_suspend\": {\"name\": \"Suspend\", \"command\": [\"systemctl\", \"suspend\"]}",
+    "numbers": ["90 stars", "106 commits", "Python 3.10+"],
+    "entities": ["halinuxcompanion", "mobile_app integration", "systemctl"],
+    "time_period": "2021-2025",
+    "region": "Linux",
+    "confidence": "high",
+    "source_note_id": "github-muniterhalinuxcompanion-homeassistant-linux-companion-github"
+  }
+]

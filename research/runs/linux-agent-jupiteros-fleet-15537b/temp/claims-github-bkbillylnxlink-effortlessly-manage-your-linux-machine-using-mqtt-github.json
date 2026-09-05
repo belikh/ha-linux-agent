@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "lnxlink is a Linux-only HA companion app built on MQTT Autodiscovery (Python, 480 stars, 790 commits), requiring no sudo except in server environments, installable via pipx/Docker/Flathub/AUR, with an auto-importing modular architecture for custom modules",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's MQTT-autodiscovery architecture has a proven, community-endorsed precedent at similar maturity — the differentiation must come from jupiterOS-native integration, not the MQTT approach itself",
+    "evidence_type": "empirical",
+    "scope_conditions": "lnxlink master, 2026",
+    "quoted_support": "LNXlink is a Linux companion app that seamlessly integrates your system with external applications like Home Assistant. It uses MQTT ... Utilizes MQTT Autodiscovery to create entities in Home Assistant dashboard. ... Easy Installation: No sudo privileges required for installation and operation, except for server environments. ... Expandable Architecture: Automatically imports new modules and allows for the addition of custom modules.",
+    "numbers": ["480 stars", "57 forks", "790 commits", "Python 3.7+"],
+    "entities": ["lnxlink", "bkbilly", "Home Assistant", "MQTT Autodiscovery"],
+    "time_period": "2021-2026 (active)",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "github-bkbillylnxlink-effortlessly-manage-your-linux-machine-using-mqtt-github"
+  },
+  {
+    "claim": "The r/homeassistant community recommends lnxlink as 'the Hass agent for Linux', with one user reporting it works great on their Linux laptop, in a thread explicitly seeking a HASS.Agent alternative for Linux",
+    "stance": "supports",
+    "stance_target": "community mindshare for Linux HA agents centres on lnxlink and go-hass-agent; ha-linux-agent competes with both",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "single Reddit thread excerpt recovered via web search (original blocked); LOW-reliability provenance, see temp/reddit-1fgr8tm-recovery.json",
+    "quoted_support": "There is a Hass agent for Linux. Its called lnxlink. This one works pretty great on my Linux laptop https://github.com/joshuar/go-hass-agent",
+    "numbers": [],
+    "entities": ["lnxlink", "go-hass-agent", "r/homeassistant"],
+    "time_period": "2024-09 (thread 1fgr8tm)",
+    "region": "global community",
+    "confidence": "low",
+    "source_note_id": "github-bkbillylnxlink-effortlessly-manage-your-linux-machine-using-mqtt-github"
+  }
+]

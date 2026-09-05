@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "HA core abbreviations.py defines the complete legal set of abbreviated MQTT discovery keys, expanded by discovery.py before validation — keys such as avty_t (availability_topic), cmd_t (command_topic), stat_t (state_topic), uniq_id (unique_id), val_tpl (value_template), dev_cla (device_class), ent_cat (entity_category), en (enabled_by_default), pl_on/pl_off (payload_on/off), ret (retain) and '~' topic-base.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent can emit abbreviated-key discovery payloads to minimise per-entity bytes across a fleet, validated against this exact table",
+    "evidence_type": "empirical",
+    "scope_conditions": "HA core dev branch abbreviations.py, 297 lines, 2026-09",
+    "quoted_support": "\"\"\"Abbreviations supported by MQTT discovery.\"\"\" ABBREVIATIONS = { \"act_t\": \"action_topic\", ... \"avty\": \"availability\", \"avty_mode\": \"availability_mode\", \"avty_t\": \"availability_topic\", \"avty_tpl\": \"availability_template\", ... \"cmd_t\": \"command_topic\", ...}",
+    "numbers": ["297 lines", "10.8 KB"],
+    "entities": ["ABBREVIATIONS", "DEVICE_ABBREVIATIONS", "ORIGIN_ABBREVIATIONS", "home-assistant/core"],
+    "time_period": "2026 (dev branch)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "corehomeassistantcomponentsmqttabbreviationspy-at-dev-home-assistantcore-github"
+  },
+  {
+    "claim": "Device-block abbreviation keys include sn (serial_number), hw (hw_version), sw (sw_version), mf (manufacturer), mdl (model), cu (configuration_url) and ids/identifiers, and the origin block has its own abbreviation set (o/name, o/sw_version, o/support_url).",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent discovery payloads can carry full device identity (hostname, NixOS version, hardware, config URL) compactly in the dev block",
+    "evidence_type": "empirical",
+    "scope_conditions": "HA core dev branch, DEVICE_ABBREVIATIONS and ORIGIN_ABBREVIATIONS tables",
+    "quoted_support": "\"dev\": \"device\", \"dev_cla\": \"device_class\", ... and origin abbreviations including name/sw_version/support_url",
+    "numbers": [],
+    "entities": ["DEVICE_ABBREVIATIONS", "ORIGIN_ABBREVIATIONS", "configuration_url"],
+    "time_period": "2026 (dev branch)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "corehomeassistantcomponentsmqttabbreviationspy-at-dev-home-assistantcore-github"
+  },
+  {
+    "claim": "The availability_mode option (abbreviated avty_mode) exists in the discovery schema, letting a device declare all/latest/any semantics when multiple availability topics are configured.",
+    "stance": "neutral",
+    "stance_target": "ha-linux-agent can expose one shared status topic per host with latest/all semantics for multi-entity availability",
+    "evidence_type": "empirical",
+    "scope_conditions": "HA core dev branch abbreviations",
+    "quoted_support": "\"avty\": \"availability\", \"avty_mode\": \"availability_mode\", \"avty_t\": \"availability_topic\", \"avty_tpl\": \"availability_template\"",
+    "numbers": [],
+    "entities": ["avty_mode", "availability_mode"],
+    "time_period": "2026 (dev branch)",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "corehomeassistantcomponentsmqttabbreviationspy-at-dev-home-assistantcore-github"
+  }
+]

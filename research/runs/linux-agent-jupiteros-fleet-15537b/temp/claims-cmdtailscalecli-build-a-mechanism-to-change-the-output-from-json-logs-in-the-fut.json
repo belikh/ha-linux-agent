@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Tailscale upstream recognises that boolean --json flags freeze CLI JSON output permanently, because any change would break downstream clients — the maintainer's stated reason for wanting a versioned --json=N mechanism.",
+    "stance": "supports",
+    "stance_target": "any ha-linux-agent parser of 'tailscale status --json' is locked to a frozen schema that Tailscale cannot evolve in place; the agent must version-tolerate the schema",
+    "evidence_type": "official-maintainer-statement",
+    "scope_conditions": "Tailscale CLI design, GitHub issue #17619 (closed)",
+    "quoted_support": "Because --json is a boolean flag, this means we're stuck with whatever JSON output we originally decided, and we can't change it or we'll break downstream clients. This is annoying!",
+    "numbers": [],
+    "entities": ["tailscale", "--json", "GitHub issue 17619", "alexwlchan"],
+    "time_period": "2025-10-23",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "cmdtailscalecli-build-a-mechanism-to-change-the-output-from-json-logs-in-the-fut"
+  },
+  {
+    "claim": "The proposed versioning semantics for Tailscale CLI JSON: --json=N yields version N (unknown N is an error), bare --json always yields version 1, additive changes never bump versions, and field removal/semantic changes require a bump — a contract an agent-side schema check can rely on going forward.",
+    "stance": "supports",
+    "stance_target": "if/when versioned JSON lands, the agent should pin --json=<N> explicitly; meanwhile treat every field as optional",
+    "evidence_type": "official-maintainer-statement",
+    "scope_conditions": "proposal stage in issue #17619; open questions include embedding 'json_format' in output and warning on old versions",
+    "quoted_support": "--json=N = you get version N of the output. Passing a non-existent N is an error.\n\n--json = you get version 1 of the output, whatever it looked like when we started numbering the outputs.",
+    "numbers": [],
+    "entities": ["tailscale", "--json=N", "schema versioning"],
+    "time_period": "2025-10-23",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "cmdtailscalecli-build-a-mechanism-to-change-the-output-from-json-logs-in-the-fut"
+  },
+  {
+    "claim": "The issue was opened specifically to unblock stabilising JSON output for tailnet lock logs (#17613) — i.e. upstream pressure for stable machine-readable CLI output is active and current.",
+    "stance": "neutral",
+    "stance_target": "trajectory of Tailscale CLI machine-readability",
+    "evidence_type": "official-maintainer-statement",
+    "scope_conditions": "Tailscale development, Oct 2025",
+    "quoted_support": "I want to stabilise some JSON output for #17613, but I don't want to make this problem worse.",
+    "numbers": ["#17613"],
+    "entities": ["tailscale", "tailnet lock", "#17613"],
+    "time_period": "2025-10-23",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "cmdtailscalecli-build-a-mechanism-to-change-the-output-from-json-logs-in-the-fut"
+  }
+]

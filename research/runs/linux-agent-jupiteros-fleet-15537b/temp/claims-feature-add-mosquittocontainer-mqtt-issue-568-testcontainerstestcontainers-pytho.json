@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "testcontainers-python had no Mosquitto/MQTT module until issue #568 (May 2024) requested one for an MQTT-publishing Home Assistant alarm project, and the issue was closed with the class added after community contribution.",
+    "stance": "supports",
+    "stance_target": "first-class MQTT-broker-in-tests support is a recent, thinly-maintained facility across language ecosystems — ha-linux-agent cannot assume a rich harness exists",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "testcontainers-python, May 2024 onwards",
+    "quoted_support": "I'm writing integration tests for a Python project (https://github.com/f18m/ha-alarm-raspy2mqtt) that publishes messages to an MQTT broker. I would like to use testcontainers to create the integration tests and noticed that there is no specialization available for MQTT and for its most-used broker which is Mosquitto.",
+    "numbers": ["568"],
+    "entities": ["testcontainers-python", "Mosquitto", "f18m", "ha-alarm-raspy2mqtt"],
+    "time_period": "opened May 10, 2024; closed",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "feature-add-mosquittocontainer-mqtt-issue-568-testcontainerstestcontainers-pytho"
+  },
+  {
+    "claim": "The Mosquitto test-container request was labelled 'enhancement' + 'contributions are welcome', with the requester offering to provide his own implementation — evidence of community-driven, not vendor-driven, maintenance.",
+    "stance": "neutral",
+    "stance_target": "risk assessment of relying on community MQTT test tooling for a fleet-wide agent",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "GitHub issue triage labels",
+    "quoted_support": "I can provide a PR to add my own MosquittoContainer implementation if there is interest by the project maintainers...",
+    "numbers": [],
+    "entities": ["testcontainers-python"],
+    "time_period": "May 2024",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "feature-add-mosquittocontainer-mqtt-issue-568-testcontainerstestcontainers-pytho"
+  }
+]

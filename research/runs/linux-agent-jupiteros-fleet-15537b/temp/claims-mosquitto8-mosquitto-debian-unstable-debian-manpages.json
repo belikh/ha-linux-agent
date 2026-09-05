@@ -1,0 +1,60 @@
+[
+ {
+  "claim": "mosquitto(8) documents a dedicated $SYS counter for the silent-drop mechanism: $SYS/broker/publish/messages/dropped is 'The total number of MQTT PUBLISH messages that have been dropped due to inflight/queuing limits. See the max_inflight_messages and max_queued_messages options in mosquitto.conf(5)'.",
+  "stance": "supports",
+  "stance_target": "gap-07: independent confirmation of the max_queued_messages silent-drop mechanism beyond HA #135266, and the concrete $SYS check the D9 fix should ship",
+  "evidence_type": "legal",
+  "scope_conditions": "mosquitto 2.1.2 (Debian unstable manpage, mirrors official); $SYS published per sys_interval",
+  "quoted_support": "$SYS/broker/publish/messages/dropped \u2014 The total number of MQTT PUBLISH messages that have been dropped due to inflight/queuing limits. See the max_inflight_messages and max_queued_messages options in mosquitto.conf(5) for more information.",
+  "numbers": [],
+  "entities": [
+   "Eclipse Mosquitto",
+   "$SYS",
+   "max_queued_messages",
+   "max_inflight_messages"
+  ],
+  "time_period": "mosquitto 2.x (current 2026)",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "mosquitto8-mosquitto-debian-unstable-debian-manpages"
+ },
+ {
+  "claim": "$SYS/broker/load/publish/dropped/{1min,5min,15min} are moving averages of dropped publish messages that 'show the rate at which durable clients that are disconnected are losing messages' \u2014 the man page's own framing of the drop mechanism as offline-durable-client message loss.",
+  "stance": "supports",
+  "stance_target": "gap-07: the drop mechanism's semantics (offline durable clients lose messages) matches the HA #135266 restart-replay failure mode",
+  "evidence_type": "legal",
+  "scope_conditions": "mosquitto 2.1.2 manpage; $SYS load tree",
+  "quoted_support": "This shows the rate at which durable clients that are disconnected are losing messages.",
+  "numbers": [
+   "1min",
+   "5min",
+   "15min"
+  ],
+  "entities": [
+   "Eclipse Mosquitto",
+   "$SYS/broker/load/publish/dropped"
+  ],
+  "time_period": "mosquitto 2.x (current 2026)",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "mosquitto8-mosquitto-debian-unstable-debian-manpages"
+ },
+ {
+  "claim": "$SYS/broker/store/messages/count (message store: retained + queued-for-durable-clients) diverging upward from $SYS/broker/retained messages/count is the documented pre-drop warning signal: queue depth for offline clients accumulates before drops begin.",
+  "stance": "supports",
+  "stance_target": "gap-07 sizing calibration: the $SYS pair gives a live measurement of whether the per-client queue ever approaches max_queued_messages at jupiterOS scale",
+  "evidence_type": "legal",
+  "scope_conditions": "mosquitto 2.1.2 manpage; durable clients; sys_interval > 0",
+  "quoted_support": "The number of messages currently held in the message store. This includes retained messages and messages queued for durable clients.",
+  "numbers": [],
+  "entities": [
+   "Eclipse Mosquitto",
+   "$SYS/broker/store/messages/count",
+   "$SYS/broker/retained messages/count"
+  ],
+  "time_period": "mosquitto 2.x (current 2026)",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "mosquitto8-mosquitto-debian-unstable-debian-manpages"
+ }
+]

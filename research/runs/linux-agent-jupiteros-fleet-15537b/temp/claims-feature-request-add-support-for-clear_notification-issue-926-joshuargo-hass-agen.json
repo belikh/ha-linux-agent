@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "go-hass-agent issue #926 (opened Aug 2, 2026, status OPEN, label enhancement) reports that the mobile_app clear_notification command does not clear a previously-sent notification on go-hass-agent; it instead sends a second notification, unlike companion apps where it works.",
+    "stance": "supports",
+    "stance_target": "go-hass-agent does not implement the full mobile_app notification command set (clear_notification missing), an adopt-vs-build parity gap",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "go-hass-agent notification handling vs HA companion apps; automation sending notification then clearing after an hour",
+    "quoted_support": "I have an automation that sends a notification to my laptop and wants to clear it after an hour. On my phone this works nice using clear_notification, but using go-hass-agent, clear_notification simply sends a second notification instead.",
+    "numbers": ["issue #926", "opened Aug 2, 2026"],
+    "entities": ["go-hass-agent", "LinqLover", "Home Assistant companion apps", "clear_notification"],
+    "time_period": "Aug 2026; still open as of Sep 2026",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "feature-request-add-support-for-clear_notification-issue-926-joshuargo-hass-agen"
+  },
+  {
+    "claim": "Issue #926 has no maintainer response, assignee, milestone, or linked PR, and references the companion documentation (notifications-basic#clearing) as the expected behaviour spec.",
+    "stance": "supports",
+    "stance_target": "clear_notification parity is an unaddressed feature request in go-hass-agent",
+    "evidence_type": "empirical",
+    "scope_conditions": "GitHub issue state as of fetch date Sep 2026",
+    "quoted_support": "It would be nice if clear_notification would work just like on other companion apps. See: https://companion.home-assistant.io/docs/notifications/notifications-basic#clearing",
+    "numbers": [],
+    "entities": ["go-hass-agent", "companion.home-assistant.io"],
+    "time_period": "as of Sep 2026",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "feature-request-add-support-for-clear_notification-issue-926-joshuargo-hass-agen"
+  }
+]

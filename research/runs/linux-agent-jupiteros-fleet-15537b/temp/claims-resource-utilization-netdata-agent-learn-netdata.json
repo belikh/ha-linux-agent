@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "A standalone Netdata Agent has a measured footprint of 1-5% of a single CPU core with default settings (up to 5-20% in production) and 100-200 MB RAM on an empty system (250-350 MB in typical production), with ~4 GiB disk by default (3 GiB metrics plus metadata).",
+    "stance": "neutral",
+    "stance_target": "Benchmark for the resource budget a jupiterOS fleet agent must beat or match",
+    "evidence_type": "statistical",
+    "scope_conditions": "Official vendor documentation, Netdata Agent current version, default settings, Linux; dbengine mode, 3 tiers",
+    "quoted_support": "CPU 1%-5% of a single core with default settings; up to 5%-20% in production. RAM 100-200 MB on an empty system; 250-350 MB in typical production. Disk ~4 GiB by default (3 GiB metrics plus metadata), configurable per tier.",
+    "numbers": ["1%-5% single core", "5%-20% production CPU", "100-200 MB RAM empty", "250-350 MB RAM production", "~4 GiB disk", "3 GiB metrics", "3 tiers default"],
+    "entities": ["Netdata Agent", "Netdata"],
+    "time_period": "Current docs (fetched Sep 2026)",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "resource-utilization-netdata-agent-learn-netdata"
+  },
+  {
+    "claim": "Netdata's recommended fleet architecture is Parent-Child streaming: lightweight Child agents on production/edge hosts (optionally db mode = ram to eliminate child disk I/O) stream metrics to Parent nodes that centralise dbengine tiers, retention, ML, and health alerting.",
+    "stance": "supports",
+    "stance_target": "Centralised-store vs edge-light agent architecture for jupiterOS fleet monitoring",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Vendor best practice; multi-node Netdata deployments",
+    "quoted_support": "In a Parent-Child setup, switch the Child's database mode to ram. This eliminates disk I/O for the Child. ... centralizing the collection and processing of metrics on Parent nodes while running lightweight Children Agents on edge devices.",
+    "numbers": [],
+    "entities": ["Netdata", "Netdata Parent", "Netdata Child"],
+    "time_period": "Current docs",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "resource-utilization-netdata-agent-learn-netdata"
+  },
+  {
+    "claim": "Netdata collects most metrics at 1-second granularity by default, and lowering the sampling frequency from 1s to 2s intervals can approximately halve CPU usage.",
+    "stance": "neutral",
+    "stance_target": "Sampling-interval tradeoff for a lightweight Rust fleet agent",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Netdata default configuration",
+    "quoted_support": "Netdata collects most metrics with 1-second granularity. This high frequency impacts CPU usage. ... Lowering the sampling frequency (e.g., 1-second to 2-second intervals) can halve CPU usage.",
+    "numbers": ["1 second default", "2 second interval halves CPU"],
+    "entities": ["Netdata"],
+    "time_period": "Current docs",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "resource-utilization-netdata-agent-learn-netdata"
+  },
+  {
+    "claim": "Netdata's storage engine stores time-series in a custom 32-bit floating-point format with an anomaly bit, using a fixed-step database design and pointer-referenced label storage to minimise memory and disk usage.",
+    "stance": "neutral",
+    "stance_target": "Design techniques a lean agent can borrow for metric storage efficiency",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "dbengine storage engine internals, vendor description",
+    "quoted_support": "Netdata uses a custom 32-bit floating-point format tailored for efficient storage of time-series data, along with an anomaly bit. This, combined with a fixed-step database design, enables efficient storage and retrieval of data.",
+    "numbers": ["32-bit float", "3 tiers default"],
+    "entities": ["Netdata"],
+    "time_period": "Current docs",
+    "region": "global",
+    "confidence": "medium",
+    "source_note_id": "resource-utilization-netdata-agent-learn-netdata"
+  }
+]

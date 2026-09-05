@@ -1,0 +1,16 @@
+[
+  {
+    "claim": "The official HA Companion feature-overview matrix documents the full companion-app feature taxonomy (actionable/persistent/channelled notifications, TTS, location-update modes, per-platform integration surfaces, ~60 sensor types) with iOS/macOS/Android columns only — no Linux column exists",
+    "stance": "supports",
+    "stance_target": "the feature checklist a jupiterOS Linux fleet agent should target is documented; Linux must build its own column",
+    "evidence_type": "empirical",
+    "scope_conditions": "companion.home-assistant.io/docs/core as fetched 2026-09-02",
+    "quoted_support": "Feature Comparison: Integrations ... Notifications ... Sensors ... (columns are Full Android, Minimal Android, and iOS/macOS only)",
+    "numbers": [],
+    "entities": ["Home Assistant Companion"],
+    "time_period": "2026-09",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "feature-overview-home-assistant-companion-docs"
+  }
+]

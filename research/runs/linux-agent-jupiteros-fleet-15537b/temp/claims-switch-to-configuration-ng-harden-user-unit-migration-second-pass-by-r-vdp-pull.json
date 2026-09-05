@@ -1,0 +1,63 @@
+[
+ {
+  "claim": "switch-to-configuration-ng contains a post-activation second pass that restarts or starts user units migrating from a per-user manager (home-manager) to NixOS /etc ownership, and before PR #517768 it did so unconditionally, ignoring X-ReloadIfChanged/reloadIfChanged opt-outs.",
+  "stance": "refutes",
+  "stance_target": "gap-03: that switch never restarts user units",
+  "evidence_type": "theoretical",
+  "scope_conditions": "units whose FragmentPath is outside /etc and which the new generation defines in /etc/systemd/user (home-manager shadowing or package-shipped units)",
+  "quoted_support": "The post-activation pass added in 5cc82c4 to handle units migrating from a per-user manager (home-manager) to NixOS unconditionally restarts or starts any candidate. dbus-broker.service explicitly opts out of restarts via reloadIfChanged because restarting the session bus kills running clients; the second pass ignored that and restarted it anyway.",
+  "numbers": [],
+  "entities": [
+   "switch-to-configuration-ng",
+   "home-manager",
+   "dbus-broker.service",
+   "PR #517768",
+   "commit 5cc82c4"
+  ],
+  "time_period": "2026-05-07 to 2026-05-26 (merged)",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "switch-to-configuration-ng-harden-user-unit-migration-second-pass-by-r-vdp-pull"
+ },
+ {
+  "claim": "PR #517768 (merged 2026-05-26 as 907350b, backported to release-26.05/staging-26.05/staging-nixos-26.05) made the migration pass honour X-ReloadIfChanged, X-RestartIfChanged, RefuseManualStop, RefuseManualStart and X-OnlyManualStart, and reworked candidate selection to: active unit + new generation defines it in /etc/systemd/user + (FragmentPath under $XDG_CONFIG_HOME/systemd/user OR anywhere outside /etc not previously in /etc).",
+  "stance": "refutes",
+  "stance_target": "gap-03: currency of the 2023-era claim on 2026 NixOS \u2014 the restart pass is now directive-aware, not absent",
+  "evidence_type": "theoretical",
+  "scope_conditions": "NixOS 26.05 stable (backported) and unstable after 2026-05-26",
+  "quoted_support": "A unit is a migration candidate iff it is active, the new generation defines it in /etc/systemd/user, and either its FragmentPath is under $XDG_CONFIG_HOME/systemd/user (the home-manager case) ... or its FragmentPath is anywhere else outside /etc and the previous generation did not have it in /etc",
+  "numbers": [
+   "907350b (merge commit)",
+   "backports #524575, #524583, #525745"
+  ],
+  "entities": [
+   "PR #517768",
+   "nixpkgs",
+   "home-manager",
+   "commit 6ced06a1b",
+   "commit 76c8d4509"
+  ],
+  "time_period": "May 2026",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "switch-to-configuration-ng-harden-user-unit-migration-second-pass-by-r-vdp-pull"
+ },
+ {
+  "claim": "nixos-activation.service (user scope) is explicitly restarted by stc-ng on every switch; commit 663a59e set RemainAfterExit=yes and restartIfChanged=false so it runs exactly once per switch, with a test asserting it is never killed or re-run.",
+  "stance": "refutes",
+  "stance_target": "gap-03 sub-claim (Oct 2025 ElvishJerricco) that 'switch only restarts nixos-activation.service for users that are currently logged in' \u2014 the mechanism now covers all live user managers and restarts more than just activation",
+  "evidence_type": "theoretical",
+  "scope_conditions": "NixOS with stc-ng (post-Rust-rewrite generations)",
+  "quoted_support": "Set RemainAfterExit=yes so target starts are a no-op for an already-run activation, and restartIfChanged=false so the unit-diff pass leaves it alone when the script changes. The explicit restart in stc-ng remains the single trigger per switch.",
+  "numbers": [],
+  "entities": [
+   "nixos-activation.service",
+   "switch-to-configuration-ng",
+   "commit 663a59e"
+  ],
+  "time_period": "2026-05",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "switch-to-configuration-ng-harden-user-unit-migration-second-pass-by-r-vdp-pull"
+ }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "MQTT blackbox monitoring means probing an MQTT broker's message transport from outside via simulated client interactions, using the inovex/mqtt_blackbox_exporter Prometheus exporter, tracking message round-trip performance and drop rates.",
+    "stance": "supports",
+    "stance_target": "broker-side synthetic checks complement agent liveness: an external MQTT blackbox probe catches silent agent death and broker regressions the agents themselves cannot report",
+    "evidence_type": "practitioner-expertise",
+    "scope_conditions": "MQTT brokers; Prometheus exporter ecosystem",
+    "quoted_support": "MQTT Blackbox is a specialized monitoring technique designed to test and track the performance of MQTT message transport using blackbox testing methods. It leverages the MQTT Blackbox Exporter to simulate client interactions and analyze the reliability and efficiency of message brokers in real time.",
+    "numbers": [],
+    "entities": ["MQTT", "mqtt_blackbox_exporter", "inovex", "blackbox monitoring", "Netdata"],
+    "time_period": "2026",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "mqtt-blackbox-monitoring-netdata"
+  },
+  {
+    "claim": "Netdata can ingest any Prometheus/openmetrics exporter without a Prometheus server, providing automated dashboards and alerts — a pattern for getting MQTT broker synthetic checks into dashboards without standing up a full observability stack.",
+    "stance": "neutral",
+    "stance_target": "monitoring-stack options for jupiterOS: agent-side MQTT metrics plus exporter ingestion vs full Prometheus",
+    "evidence_type": "vendor-statement",
+    "scope_conditions": "Netdata agent; openmetrics endpoints",
+    "quoted_support": "Netdata excels at comprehensive MQTT Blackbox monitoring by utilizing an openmetrics (prometheus) exporter. With Netdata, you can effortlessly ingest data from any Prometheus exporter, eliminating the need for a Prometheus server or Grafana.",
+    "numbers": [],
+    "entities": ["Netdata", "openmetrics", "Prometheus"],
+    "time_period": "2026",
+    "region": "",
+    "confidence": "low",
+    "source_note_id": "mqtt-blackbox-monitoring-netdata"
+  },
+  {
+    "claim": "The page is predominantly Netdata product marketing; its technical content reduces to the blackbox-probe pattern plus the exporter link, and it references a June 2026 'Fleet Observability: Linux Edge Device' article directly relevant to fleet agents.",
+    "stance": "neutral",
+    "stance_target": "source-quality assessment: treat as a lead to mqtt_blackbox_exporter, not as a citable methodology authority",
+    "evidence_type": "vendor-statement",
+    "scope_conditions": "netdata.cloud marketing content",
+    "quoted_support": "Fleet Observability: Linux Edge Device … It feels less like managing devices and more …",
+    "numbers": ["June 2026"],
+    "entities": ["Netdata", "mqtt_blackbox_exporter", "fleet observability"],
+    "time_period": "2026",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "mqtt-blackbox-monitoring-netdata"
+  }
+]

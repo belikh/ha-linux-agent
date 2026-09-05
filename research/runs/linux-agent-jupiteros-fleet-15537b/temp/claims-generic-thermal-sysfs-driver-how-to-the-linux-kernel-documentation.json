@@ -1,0 +1,80 @@
+[
+  {
+    "claim": "The generic thermal sysfs interface exposes thermal zones under /sys/class/thermal/thermal_zone[0-*] with attributes type, temp (millidegrees Celsius), mode, policy, available_policies, trip_point_[0-*]_temp/_type/_hyst, emul_temp, and PID tuning attributes (sustainable_power, k_po, k_pu, k_i, k_d, integral_cutoff, slope, offset).",
+    "stance": "supports",
+    "stance_target": "agent thermal telemetry has a documented, stable sysfs contract including trip points for threshold alerting",
+    "evidence_type": "empirical",
+    "scope_conditions": "Linux kernel generic thermal sysfs driver; zone/cdev presence depends on registered drivers",
+    "quoted_support": "/sys/class/thermal/thermal_zone[0-*]: |---type: Type of the thermal zone |---temp: Current temperature |---mode: Working mode of the thermal zone |---policy: Thermal governor used for this zone |---available_policies: Available thermal governors for this zone |---trip_point_[0-*]_temp: Trip point temperature",
+    "numbers": [],
+    "entities": [
+      "thermal sysfs",
+      "trip_point",
+      "power allocator governor"
+    ],
+    "time_period": "kernel docs current for 7.3.0-rc1 (document written 2008, maintained)",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "generic-thermal-sysfs-driver-how-to-the-linux-kernel-documentation"
+  },
+  {
+    "claim": "Thermal cooling devices expose cur_state/max_state and statistics under /sys/class/thermal/cooling_device[0-*]/stats/ (time_in_state_ms, total_trans, trans_table), and zone-to-cooler binding is visible via cdev[0-*], cdev[0-*]_trip_point and cdev[0-*]_weight attributes.",
+    "stance": "supports",
+    "stance_target": "agent can report fan/throttle state and even cooling statistics without proprietary tooling",
+    "evidence_type": "empirical",
+    "scope_conditions": "Linux generic thermal sysfs; cooling devices registered (fan, processor)",
+    "quoted_support": "/sys/class/thermal/cooling_device[0-*]: |---type: Type of the cooling device(processor/fan/...) |---max_state: Maximum cooling state of the cooling device |---cur_state: Current cooling state of the cooling device |---stats: Directory containing cooling device's statistics |---stats/time_in_state_ms: Time (msec) spent in various cooling states",
+    "numbers": [],
+    "entities": [
+      "cooling_device",
+      "cdev"
+    ],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "generic-thermal-sysfs-driver-how-to-the-linux-kernel-documentation"
+  },
+  {
+    "claim": "On a critical thermal trip point crossing, the kernel thermal framework itself triggers an orderly hardware-protection power-off or reboot, escalating to forced power-off and then emergency_restart() \u2014 so the kernel will shut the machine down before any userspace agent can react at critical temperature.",
+    "stance": "supports",
+    "stance_target": "agent thermal alerting must be positioned as early-warning well below critical thresholds, since the kernel owns the critical shutdown path",
+    "evidence_type": "empirical",
+    "scope_conditions": "Linux thermal framework; critical trip point configured by platform firmware/DT",
+    "quoted_support": "On an event of critical trip temperature crossing, the thermal framework will trigger a hardware protection power-off (shutdown) or reboot, depending on configuration. At first, the kernel will attempt an orderly power-off or reboot, but accepts a delay after which it proceeds to do a forced power-off or reboot, respectively. If this fails, emergency_restart() is invoked as last resort.",
+    "numbers": [],
+    "entities": [
+      "thermal framework",
+      "critical trip point",
+      "emergency_restart"
+    ],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "generic-thermal-sysfs-driver-how-to-the-linux-kernel-documentation"
+  },
+  {
+    "claim": "A worked example in the thermal sysfs doc shows acpitz zone values of temp 37000 (37\u00b0C), trip points at 100000 critical / 80000 passive / 70000 active0 / 60000 active1, and an hwmon mirror (temp1_input 37000, temp1_crit 100000).",
+    "stance": "neutral",
+    "stance_target": "illustrates the millidegree-Celsius scale and hwmon mirroring that an agent parser must handle",
+    "evidence_type": "empirical",
+    "scope_conditions": "ACPI thermal zone example",
+    "quoted_support": "|---type: acpitz |---temp: 37000 ... |---trip_point_0_temp: 100000 |---trip_point_0_type: critical ... /sys/class/hwmon: |hwmon0: |---name: acpitz |---temp1_input: 37000 |---temp1_crit: 100000",
+    "numbers": [
+      "37000",
+      "100000",
+      "80000",
+      "70000",
+      "60000",
+      "37",
+      "100"
+    ],
+    "entities": [
+      "acpitz",
+      "hwmon"
+    ],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "generic-thermal-sysfs-driver-how-to-the-linux-kernel-documentation"
+  }
+]

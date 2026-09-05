@@ -1,0 +1,95 @@
+{
+  "gaps": [
+    {
+      "id": "gap-01-notification-daemon-dead-code",
+      "type": "overturning",
+      "target_position": "Service-model position (Tension 5): the DBUS_SESSION_BUS_ADDRESS Environment block on lingered hosts is justified by notification delivery, and the roadmap's notify.mqtt item assumes org.freedesktop.Notifications works once the session bus is reachable from the User=io system service.",
+      "search_queries": [
+        "mako dunst notification daemon cage compositor kiosk session wayland",
+        "org.freedesktop.Notifications D-Bus activation without desktop environment lingered systemd user session",
+        "cage wayland kiosk single client notification daemon second process WAYLAND_DISPLAY"
+      ],
+      "source_type": "industry",
+      "priority": "critical",
+      "rationale": "Directly audited (per run directives): grep for mako|dunst|swaync|fnott|announcr across /home/io/projects/jupiter-os returns ZERO matches — no notification daemon ships anywhere in the fleet, so org.freedesktop.Notifications delivery is dead code on every host TODAY, not merely 'untested from a system service' as comparisons.md frames it. The service-model investigator's own open question #1 anticipated exactly this. What no corpus source answers: (a) whether ANY notification daemon can render under cage — a single-client kiosk compositor where the daemon must share the session's Wayland socket as a second user-session process; (b) whether org.freedesktop.Notifications can be D-Bus-activated from a lingered user manager with no graphical session manager parenting it. If no daemon is viable under cage, the session-bus Environment block loses its last justification entirely (notifications must route to the customer-display VFD's MQTT overlay instead, which IS verified live per customer-display.nix's header), which would simplify the system-service design and change the roadmap's notify item's last-mile from 'session bus' to 'MQTT-to-VFD'. The draft must not present the Environment block as load-bearing without this source."
+    },
+    {
+      "id": "gap-02-notify-mqtt-discovery-end-to-end",
+      "type": "independent-verification",
+      "target_position": "Adopt-vs-build position: 'notify.mqtt (HA 2024.5+) for one-way parity' — resolved as the notification-transport fork's answer, resting on the notify.mqtt doc page's sentence 'Alternatively, you can set it up via MQTT discovery'.",
+      "search_queries": [
+        "home assistant mqtt notify discovery payload example command_topic device",
+        "home-assistant core mqtt discovery.py supported platforms notify component",
+        "community.home-assistant.io notify.mqtt discovery setup device example"
+      ],
+      "source_type": "industry",
+      "priority": "critical",
+      "rationale": "The adopt-vs-build investigator flagged this untested themselves (interim report open question #1). I verified the evidence hole is worse than flagged: the corpus's own HA core source notes show NO notify support in discovery — the fetched core/homeassistant/components/mqtt/discovery.py note contains zero occurrences of 'notify', and the abbreviations.py note (full abbreviation table) likewise never mentions notify. The only support is one doc-page sentence with NO discovery payload example anywhere in the corpus (vault search 'notify.mqtt discovery payload example device' returns 0 results). If notify is not actually wired into MQTT discovery's platform loader (or requires an undocumented payload shape), the adopt-vs-build notification resolution collapses back to the 'payload-hack button' it was supposed to replace — and the roadmap's headline notification fix is unimplementable as specced. Needed: HA core source/commit showing notify in the discovery-supported platform list, or a single real-world working MQTT notify discovery payload (community forum / GitHub gist). This is the most load-bearing UNVERIFIED feature claim in the committed positions."
+    },
+    {
+      "id": "gap-03-user-unit-restart-on-switch-current-status",
+      "type": "overturning",
+      "target_position": "Service-model position: 'the user-unit restart gap confirmed current as of Oct 2025' — nixos-rebuild switch still reactivates user services only for logged-in users, which is THE load-bearing fact that retires the user-unit shape fleet-wide.",
+      "search_queries": [
+        "nixos-rebuild switch restarts systemd user services lingered users 2026",
+        "nixpkgs pull request user unit reactivation activation script switch",
+        "NixOS discourse systemd user services not restarted on switch linger current status"
+      ],
+      "source_type": "industry",
+      "priority": "critical",
+      "rationale": "This is the investigator's own flip condition #2, and nothing in the corpus searches for its expiry. The evidence chain is Feb 2023 (tejing's Discourse) + one Oct 2025 Discourse note; NixOS moves fast (the fleet pins nixos-unstable — verified in jupiter-os/flake.nix), and there is active upstream work on user-manager reactivation (user-unit reload-on-switch has recurring nixpkgs PRs). If ANY change post-Oct-2025 made nixos-rebuild switch reactivate lingered users' units, Position A's simplicity becomes competitive again and the draft's central 'retire the user-unit shape entirely' commitment weakens to a preference — a structural rewrite of the fleet-service-model chapter. If the gap is confirmed still-open as of 2026, the draft can commit harder and cite the current thread rather than a stale one. Either way the draft currently cites a 4-month-old snapshot for its single most load-bearing lifecycle fact; the fetch is cheap and decisive."
+    },
+    {
+      "id": "gap-04-nix-sandbox-loopback-for-mosquitto-harness",
+      "type": "overturning",
+      "target_position": "Testing-gate position (Tension 4): step 5 of the 7-step ladder — a mosquitto-subprocess harness (bind 127.0.0.1:0, spawn mosquitto, TCP-probe readiness) inside craneLib.cargoTest, because 'nix flake check on remote NixOS builders IS the CI'.",
+      "search_queries": [
+        "nix build sandbox loopback network 127.0.0.1 tests bind connect",
+        "nix flake check cargo test integration test socket network namespace sandbox",
+        "nix sandbox ip link set lo up build isolation localhost"
+      ],
+      "source_type": "industry",
+      "priority": "high",
+      "rationale": "The testing-gate report eliminated testcontainers on ground truth (no container runtime — I re-verified: no docker/podman in jupiter-os hosts or modules, /etc/nix/machines lists 5 remote NixOS builders) but NEVER addressed whether the Nix BUILD sandbox itself permits the substitute harness: binding a loopback TCP socket, spawning a daemon subprocess, and connecting to it. The report's own zbus section acknowledges 'a Nix build sandbox has no session bus and no /run' — the same sandbox properties may bite the mosquitto harness (loopback interface state in the build network namespace is a known Nix gotcha; I could not probe locally — unshare is not permitted on this host). If sandbox networking blocks the harness, step 5 must move entirely into the runNixOSTest VM (restructuring the ladder's cost and the 'crane gives the binary to tests for free' claim) or escape the sandbox with __noChroot (undermining the hermetic-CI story). One authoritative source — Nix manual sandbox semantics or a nixpkgs issue/test showing loopback TCP client-server tests in-sandbox — either confirms the design as-written or forces the restructure before the draft bakes it in."
+    },
+    {
+      "id": "gap-05-incumbent-drift-gha-lnxlink",
+      "type": "overturning",
+      "target_position": "Adopt-vs-build position (Tension 3 context): 'the deciding features (launcher mutual-exclusion select, ... single-device MQTT identity) are architecturally inexpressible in the incumbents' — go-hass-agent's control vocabulary is button/switch/number with unsynced state, and neither incumbent has a maintained NixOS module.",
+      "search_queries": [
+        "go-hass-agent releases 2026 changelog select entity state sync",
+        "lnxlink NixOS module flake maintained declarative",
+        "go-hass-agent NixOS service module services.joshuar"
+      ],
+      "source_type": "industry",
+      "priority": "high",
+      "rationale": "This is the adopt-vs-build investigator's flip conditions (a) and (c), both time-sensitive and neither re-checked: go-hass-agent ships ~monthly cosign-signed releases (the corpus snapshot is v14.15.1) and lnxlink is community-endorsed with active module growth. I verified the local ground truth holds (zero go-hass-agent/lnxlink references in jupiter-os and ha-linux-agent, excluding research/), but if the current go-hass-agent release added select-with-state-sync controls (its issue tracker shows demand per the interim), or a maintained lnxlink/go-hass-agent NixOS module appeared, the 'architecturally inexpressible' and 'declarative-configuration differentiator' pillars of the improve-don't-adopt verdict erode. The draft will make a strong 'improve, don't adopt' argument against incumbents whose release cadence can outdate the claim mid-draft — one fetch of both repos' current state either overturns or lets the draft commit harder with current version numbers."
+    },
+    {
+      "id": "gap-06-himalia-niri-session-socket-forward-compat",
+      "type": "overturning",
+      "target_position": "Service-model position: 'retire the user-unit shape entirely' + 'niri and Plasma appear in zero host configs' — the per-session environment (NIRI_SOCKET, WAYLAND_DISPLAY) is dismissed as a current non-requirement.",
+      "search_queries": [
+        "niri NIRI_SOCKET path XDG_RUNTIME_DIR location session",
+        "systemd system service access wayland session socket per-session environment",
+        "niri msg ipc socket file location compositor instance"
+      ],
+      "source_type": "industry",
+      "priority": "high",
+      "rationale": "The investigator's flip condition #3 has a scheduled trigger, not just a hypothetical one: europa's own configuration comment says 'the future dev workstation (himalia) opts in' (to the dev-tool modules it disables), and the agent already ships a backend-niri gated on NIRI_SOCKET in io's session environment (verified: backend-niri/src/lib.rs:24). The corpus documents that niri's IPC is a UNIX socket at $NIRI_SOCKET (ipc-niri-msg-niri note) but never establishes WHERE that socket lives or how a process OUTSIDE the session could reach it — the exact question a User=io system service on a future himalia-class desktop host must answer. If niri's socket is only reachable via session-scoped env/paths (it is created under the session's runtime), the system-service-everywhere design needs a per-session bridge (or a host-class carve-out) the current spec lacks. The draft's 'retire the user-unit shape entirely' should be conditioned on this source — otherwise the roadmap's module design (role-driven mkIf) omits the one host class jupiterOS has already announced."
+    },
+    {
+      "id": "gap-07-mosquitto-queue-sizing-at-real-fleet-scale",
+      "type": "independent-verification",
+      "target_position": "MQTT-lifecycle position (Tension 2/agent.rs audit D9): callisto mosquitto needs max_queued_messages ≥ 4× fleet retained inventory (recommended 8192) because the default 1000 is 'empirically the silent retained-drop mechanism from HA #135266', plus persistence true.",
+      "search_queries": [
+        "mosquitto $SYS broker statistics messages dropped queue metrics",
+        "mosquitto max_queued_messages default 1000 home assistant restart retained replay threshold",
+        "home assistant mqtt integration subscribes all retained messages restart queue overflow per client"
+      ],
+      "source_type": "industry",
+      "priority": "high",
+      "rationale": "This is the MQTT investigator's own flip condition #4, and I can now half-test it with a live measurement the draft should inherit correctly calibrated: the connected HA instance on callisto carries only ~22-25 agent-created entities (measured via HA template: 15 agent sensor entities + 7 control entities across the 4 agent hosts, on a 1267-state instance), so the spec's own sizing rule gives 4×R ≈ ~140 — an order of magnitude BELOW the default 1000 and two below the recommended 8192. The sizing claim extrapolates from a single 5374-entity incident; at jupiterOS's actual scale the mechanism may never bind — UNLESS the binding quantity is the broker-WIDE retained replay HA receives on its broad subscription at restart (the number that actually overflowed in #135266), which is unknown for this broker. Needed: (a) independent confirmation of the silent-drop mechanism (mosquitto $SYS drop counters / docs beyond the single HA issue — currently one-source per redundancy analysis); (b) evidence pinning WHICH count overflows the per-client queue (agent entity inventory vs broker-wide retained). The draft's D9 fix should land as either 'urgent sizing, empirically triggered at this scale' or 'cheap hygiene + a $SYS confirmation check' — the difference is exactly the calibration that separates a credible reliability roadmap from an over-prescriptive one. (The persistence-true claim is independently solid per mosquitto.conf(5) and stands regardless.)"
+    }
+  ]
+}

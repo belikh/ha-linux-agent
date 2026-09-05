@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "NixOS provides a services.mosquitto module whose default listener ACL is empty and therefore disallows all client access until ACLs are explicitly configured (e.g. acl = [ \"pattern readwrite #\" ] for a fully open broker).",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent should be packaged as a NixOS module integrated with the canonical Mosquitto broker configuration on every jupiterOS host",
+    "evidence_type": "empirical",
+    "scope_conditions": "NixOS 26.05 stable manual, Mosquitto chapter",
+    "quoted_support": "The default ACL for a listener is empty, disallowing all accesses from all clients. To configure a completely open ACL, set acl = [ \"pattern readwrite #\" ] in the listener.",
+    "numbers": ["port 1883", "port 8883"],
+    "entities": ["Mosquitto", "NixOS", "services.mosquitto"],
+    "time_period": "NixOS 26.05",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "nixos-manual"
+  },
+  {
+    "claim": "NixOS's Mosquitto module configures per-listener users with passwords and ACLs declaratively, and can disable password-file generation via omitPasswordAuth = true (requiring either allow_anonymous or TLS client certs with use_identity_as_username).",
+    "stance": "supports",
+    "stance_target": "fleet-wide MQTT credential provisioning for ha-linux-agent can be done declaratively in NixOS config rather than imperative mosquitto_passwd commands",
+    "evidence_type": "empirical",
+    "scope_conditions": "NixOS 26.05 stable manual, Mosquitto chapter, password authentication + ACL format sections",
+    "quoted_support": "Password file generation can be disabled by setting omitPasswordAuth = true for a listener; in this case it is necessary to either set settings.allow_anonymous = true to allow all logins, or to configure other authentication methods like TLS client certificates with settings.use_identity_as_username = true.",
+    "numbers": [],
+    "entities": ["Mosquitto", "NixOS", "TLS"],
+    "time_period": "NixOS 26.05",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "nixos-manual"
+  },
+  {
+    "claim": "The NixOS manual instructs that any added NixOS feature should have a NixOS test, and that out-of-tree projects can run full QEMU/container-based NixOS tests via pkgs.testers.runNixOSTest.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's unreliability should be addressed with NixOS VM test infrastructure that exercises the agent end-to-end (module + service + broker) before fleet deployment",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "NixOS 26.05 stable manual, NixOS Tests chapter; tests run QEMU VMs and/or systemd-nspawn containers defined in nodes/containers attribute sets with a Python testScript",
+    "quoted_support": "When you add some feature to NixOS, you should write a test for it. NixOS tests are kept in the directory nixos/tests, and are executed (using Nix) by a testing framework that automatically starts one or more virtual machines containing the NixOS system(s) required for the test.",
+    "numbers": [],
+    "entities": ["NixOS", "QEMU", "systemd-nspawn", "runNixOSTest"],
+    "time_period": "NixOS 26.05",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "nixos-manual"
+  },
+  {
+    "claim": "NixOS supports testing an entire configuration in a VM before deploying it, via nixos-rebuild build-vm (plus nixos-rebuild test/boot/switch lifecycle commands and nixos-rebuild repl for inspecting config).",
+    "stance": "supports",
+    "stance_target": "jupiterOS fleet rollouts of ha-linux-agent can be pre-validated per-host in a VM instead of risking live kiosk breakage",
+    "evidence_type": "empirical",
+    "scope_conditions": "NixOS 26.05 stable manual, Changing the Configuration chapter",
+    "quoted_support": "A repl, or read-eval-print loop, is also available. You can inspect your configuration and use the Nix language with# nixos-rebuild repl Finally, you can do$ nixos-rebuild build ... QEMU virtual machine that contains the desired configuration. Just do$ nixos-rebuild build-vm",
+    "numbers": [],
+    "entities": ["nixos-rebuild", "QEMU", "NixOS"],
+    "time_period": "NixOS 26.05",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "nixos-manual"
+  },
+  {
+    "claim": "When writing systemd services in NixOS modules, Exec* directives require escaping (%-specifier substitution, $FOO/${FOO} expansion, whitespace splitting, ';' command splitting) using utils.escapeSystemdExecArg / utils.escapeSystemdExecArgs.",
+    "stance": "supports",
+    "stance_target": "a services.ha-linux-agent NixOS module must handle argument escaping correctly to avoid the sloppy/unreliable invocation bugs the repo currently exhibits",
+    "evidence_type": "empirical",
+    "scope_conditions": "NixOS 26.05 stable manual, Writing NixOS Modules chapter",
+    "quoted_support": "By default systemd performs substitution on %<char> specifiers in these directives, expands environment variables from $FOO and ${FOO}, splits arguments on whitespace, and splits commands on ;. All of these must be escaped to avoid unexpected substitution or splitting when interpolating into an Exec* directive.",
+    "numbers": [],
+    "entities": ["systemd", "NixOS", "utils.escapeSystemdExecArg"],
+    "time_period": "NixOS 26.05",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "nixos-manual"
+  }
+]

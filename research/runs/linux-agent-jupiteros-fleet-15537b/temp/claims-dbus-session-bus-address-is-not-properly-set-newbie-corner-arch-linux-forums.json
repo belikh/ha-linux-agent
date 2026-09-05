@@ -1,0 +1,83 @@
+[
+  {
+    "claim": "A user-manager dbus.service can be active (running) as part of user@1000.service while DBUS_SESSION_BUS_ADDRESS is still EMPTY in the user's shell \u2014 service activation and environment-variable propagation are separate mechanisms, requiring systemd to import the address into the user-manager environment (systemctl --user set-environment / dbus.socket ExecStartPost)",
+    "stance": "supports",
+    "stance_target": "an agent cannot assume the session bus is reachable just because dbus.service is running; it must check the env var and socket path",
+    "evidence_type": "anecdotal (forum thread with verbatim systemctl output)",
+    "scope_conditions": "systemd hosts with user services",
+    "quoted_support": "a user-manager dbus.service can be ACTIVE (running) as user@1000.service/dbus.service with dbus-daemon --session --address=systemd: while the environment variable DBUS_SESSION_BUS_ADDRESS is still EMPTY in the shell \u2014 service activation and env-var propagation are separate mechanisms",
+    "numbers": [
+      "uid 1000"
+    ],
+    "entities": [
+      "dbus.service",
+      "user@1000.service",
+      "DBUS_SESSION_BUS_ADDRESS",
+      "systemctl --user set-environment"
+    ],
+    "time_period": "December 2016 - February 2017",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "dbus-session-bus-address-is-not-properly-set-newbie-corner-arch-linux-forums"
+  },
+  {
+    "claim": "An ABSTRACT socket address like unix:abstract=/tmp/dbus-... indicates a stray per-session bus created by dbus-launch that is NOT the systemd user bus; the fix is to remove the dbus-launch invocation from shell/xinitrc startup files",
+    "stance": "supports",
+    "stance_target": "diagnosing wrong-bus connections: abstract sockets = dbus-launch bus, not the user bus",
+    "evidence_type": "anecdotal (forum, confirmed fix)",
+    "scope_conditions": "systemd hosts",
+    "quoted_support": "an ABSTRACT socket address like unix:abstract=/tmp/dbus-... comes from dbus-launch and indicates a stray per-session bus that is NOT the systemd user bus; fix is to remove the dbus-launch invocation from shell/xinitrc startup files",
+    "numbers": [],
+    "entities": [
+      "dbus-launch",
+      "unix:abstract=",
+      "xinitrc"
+    ],
+    "time_period": "2016-2017",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "dbus-session-bus-address-is-not-properly-set-newbie-corner-arch-linux-forums"
+  },
+  {
+    "claim": "Stale user unit overrides under /etc/systemd/user/dbus.service or ~/.config/systemd/user shadow the correct /usr/lib/systemd/user/dbus.service and keep DBUS_SESSION_BUS_ADDRESS unset even after removing them requires checking both locations",
+    "stance": "supports",
+    "stance_target": "unit-override shadowing as a root cause of session-bus env-var absence",
+    "evidence_type": "anecdotal (forum, multiple users confirming)",
+    "scope_conditions": "systemd hosts with hand-modified unit files",
+    "quoted_support": "Stale user unit overrides found under /etc/systemd/user/dbus.service or ~/.config/systemd/user shadow the correct /usr/lib/systemd/user/dbus.service and keep the address unset.",
+    "numbers": [],
+    "entities": [
+      "/etc/systemd/user",
+      "~/.config/systemd/user",
+      "/usr/lib/systemd/user",
+      "dbus.service"
+    ],
+    "time_period": "2016-2017",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "dbus-session-bus-address-is-not-properly-set-newbie-corner-arch-linux-forums"
+  },
+  {
+    "claim": "The correct session-bus address value on systemd hosts is DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus, and the recommended diagnostic sequence is: systemctl status --user dbus.service, check XDG_RUNTIME_DIR=/run/user/1000, and log in via a plain TTY instead of lightdm/DM to isolate the fault",
+    "stance": "supports",
+    "stance_target": "a concrete validation recipe for the session-bus dependency of a fleet agent",
+    "evidence_type": "anecdotal (forum fellows' guidance, corroborated by Chimera docs)",
+    "scope_conditions": "systemd hosts",
+    "quoted_support": "Correct value on systemd hosts: DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus. Diagnostic sequence recommended: check systemctl status --user dbus.service, check XDG_RUNTIME_DIR=/run/user/1000, log in via plain TTY instead of lightdm to isolate.",
+    "numbers": [
+      "uid 1000",
+      "/run/user/1000/bus"
+    ],
+    "entities": [
+      "DBUS_SESSION_BUS_ADDRESS",
+      "XDG_RUNTIME_DIR",
+      "systemctl --user",
+      "TTY",
+      "lightdm"
+    ],
+    "time_period": "2016-2017",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "dbus-session-bus-address-is-not-properly-set-newbie-corner-arch-linux-forums"
+  }
+]

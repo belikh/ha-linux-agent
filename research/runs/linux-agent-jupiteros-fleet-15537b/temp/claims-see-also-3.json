@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "OnFailure= (since systemd v201) is a space-separated list of one or more units activated when this unit enters the failed state; OnSuccess= activates units when the unit enters the inactive state.",
+    "stance": "supports",
+    "stance_target": "event-driven failed-unit capture: agent or agent-installed drop-ins can hook unit failures without any polling",
+    "evidence_type": "empirical",
+    "scope_conditions": "systemd >= v201; [Unit] section of any unit type",
+    "quoted_support": "A space-separated list of one or more units that are activated when this unit enters the failed state.",
+    "numbers": ["v201"],
+    "entities": ["OnFailure", "OnSuccess", "OnFailureJobMode"],
+    "time_period": "current systemd main",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "see-also-3"
+  },
+  {
+    "claim": "systemd.unit(5) documents a canonical fleet-wide failure-handler pattern: a global per-type drop-in /etc/systemd/system/service.d/10-all.conf containing '[Unit] OnFailure=failure-handler@%N.service' plus a Type=oneshot template failure-handler@.service (ExecStart=/usr/sbin/myfailurehandler %i) gives every service unit a failure dependency after daemon-reload; systemd auto-detects and removes the recursive self-dependency the template would create.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent can install one drop-in + one template unit on every jupiterOS host (NixOS: via systemd.unitsettings or environment.etc) to capture ALL unit failures with the failing unit's name passed as %N/%i — the systemd-native replacement for fragile systemctl --failed polling",
+    "evidence_type": "empirical",
+    "scope_conditions": "systemd; requires daemon-reload after installing drop-in; template recursion handled by systemd's dependency-chain detection",
+    "quoted_support": "by creating the /etc/systemd/system/service.d/ directory with a drop-in file, the contents of the drop-in file can be applied to all service units. ... [Unit] OnFailure=failure-handler@%N.service ... after running systemctl daemon-reload all services will have acquired an OnFailure= dependency on failure-handler@%N.service. The template instance units will also have gained the dependency which results in the creation of a recursive dependency chain. systemd will try to detect these recursive dependency chains ... and will remove such dependencies automatically",
+    "numbers": [],
+    "entities": ["drop-in", "failure-handler@.service", "%N", "%i", "service.d/10-all.conf", "daemon-reload"],
+    "time_period": "current systemd main",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "see-also-3"
+  },
+  {
+    "claim": "systemd.unit(5) documents per-type top-level drop-ins (/etc/systemd/system/service.d/ etc.) as a mechanism to change aspects of ALL units of a type at once, with drop-in merge semantics applied on daemon-reload.",
+    "stance": "supports",
+    "stance_target": "NixOS-native management of global unit behaviour via systemd.units.<unit>.drop-ins or environment.etc, aligning with the fleet-wide deployment goal",
+    "evidence_type": "empirical",
+    "scope_conditions": "systemd; /etc/systemd/system/<type>.d/ directories",
+    "quoted_support": "Top level per-type drop-ins can be used to change some aspect of all units of a particular type. For example, by creating the /etc/systemd/system/service.d/ directory with a drop-in file, the contents of the drop-in file can be applied to all service units.",
+    "numbers": [],
+    "entities": ["per-type drop-ins", "service.d"],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "see-also-3"
+  }
+]

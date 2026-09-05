@@ -1,0 +1,74 @@
+{
+  "claims": [
+    {
+      "claim": "rumqttc v0.25.1 (latest release, tagged 21 Nov) is a patch release focused on fixing the WebSocket build breakage and dependency updates, with no re-subscription or session-handling changes.",
+      "stance": "supports",
+      "stance_target": "Upgrading rumqttc 0.24.0 to 0.25.x would not by itself deliver automatic re-subscription after reconnect",
+      "evidence_type": "empirical",
+      "scope_conditions": "rumqttc releases 0.24.0 through 0.25.1; bytebeamio/rumqtt GitHub releases page",
+      "quoted_support": "This patch release focuses on fixing the broken WebSocket feature and includes dependency updates. ... Fixed: Build failure when compiling with the websocket feature enabled (#999) ... Added: New use-rustls-no-provider feature for more flexible TLS configuration (#988)",
+      "numbers": ["0.25.1", "#999", "#988", "#1006"],
+      "entities": ["rumqttc", "bytebeamio/rumqtt", "giridher-art"],
+      "time_period": "0.25.1 released 21 Nov (latest)",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "releases-bytebeamiorumqtt-github"
+    },
+    {
+      "claim": "rumqttc v0.25.0 added MQTT v5 session_expiry_interval support, v5 Auth packet support, public DisconnectProperties, TCP no_delay, set_client_id in MqttOptions, and fixed subscribe_many EmptySubscription errors and poll() event ordering — but no auto re-subscribe feature.",
+      "stance": "supports",
+      "stance_target": "0.25.x improves v5 session handling but still does not implement automatic re-subscription of topics after reconnect",
+      "evidence_type": "empirical",
+      "scope_conditions": "rumqttc 0.25.0 release notes, bytebeamio/rumqtt GitHub",
+      "quoted_support": "Enhanced MQTT v5 Support — Session Management: Added support for session_expiry_interval in MQTT v5 connections, giving you better control over session persistence ... Subscribe Many Fix: Resolved critical issue where subscribe_many always caused EmptySubscription errors ... Improved event ordering in poll() method for more predictable behavior",
+      "numbers": ["0.25.0", "OpenSSL 0.10.64 -> 0.10.71", "Rustls 0.22.2 -> 0.22.4"],
+      "entities": ["rumqttc", "MqttOptions", "session_expiry_interval", "DisconnectProperties"],
+      "time_period": "0.25.0 released 09 Sep",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "releases-bytebeamiorumqtt-github"
+    },
+    {
+      "claim": "rumqttc v0.24.0 was released 21 May by de-sh and its headline features were EventLoop::clean for graceful shutdown, TLS key-format expansion (removal of the Key enum), and a websocket request modifier — plus a change where set_clean_session now panics on empty client_id.",
+      "stance": "supports",
+      "stance_target": "The pinned 0.24.0 release is a v3.1.1-default client whose session semantics rely on clean_session and it contains no re-subscription machinery",
+      "evidence_type": "empirical",
+      "scope_conditions": "rumqttc 0.24.0 release notes, bytebeamio/rumqtt GitHub",
+      "quoted_support": "MqttOptions::new now accepts empty client_id and MqttOptions::set_clean_session panics if client_id is empty and clean_session flag is set to false. ... Expose EventLoop::clean to allow triggering shutdown and subsequent storage of pending requests by @de-sh in #741",
+      "numbers": ["0.24.0", "21 May", "#741", "#752", "#791", "MSRV 1.64.0"],
+      "entities": ["rumqttc 0.24.0", "MqttOptions", "set_clean_session", "EventLoop::clean"],
+      "time_period": "0.24.0 released 21 May 05:41",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "releases-bytebeamiorumqtt-github"
+    },
+    {
+      "claim": "The rumqtt release cadence from 0.23.0 through 0.25.1 spans roughly 12 months with active maintenance: 0.23.0 (10 Oct), 0.24.0 (21 May), 0.25.0 (09 Sep), 0.25.1 (21 Nov), interleaved with rumqttd releases 0.18.0-0.20.0.",
+      "stance": "supports",
+      "stance_target": "rumqttc is an actively maintained dependency, not abandoned",
+      "evidence_type": "empirical",
+      "scope_conditions": "bytebeamio/rumqtt GitHub releases page listing",
+      "quoted_support": "rumqttc 0.22.0 ... rumqttc 0.23.0 ... rumqttc-0.24.0 ... rumqttc-0.25.0 ... rumqttc-0.25.1 Latest",
+      "numbers": ["0.22.0 (16 Jun)", "0.23.0 (10 Oct)", "0.24.0 (21 May)", "0.25.0 (09 Sep)", "0.25.1 (21 Nov)"],
+      "entities": ["rumqttc", "rumqttd", "bytebeamio"],
+      "time_period": "June (0.22.0) through November (0.25.1)",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "releases-bytebeamiorumqtt-github"
+    },
+    {
+      "claim": "No rumqttc release note between 0.22.0 and 0.25.1 mentions automatic re-subscription, Event::Reconnect, or merging PR #1052; the releases page's latest entry (0.25.1) predates/postdates the PR without including it.",
+      "stance": "supports",
+      "stance_target": "PR #1052 (Event::Reconnect for re-subscription signal) is NOT in any released rumqttc version — consumers must implement re-subscribe logic themselves",
+      "evidence_type": "empirical",
+      "scope_conditions": "bytebeamio/rumqtt releases listing 0.22.0-0.25.1",
+      "quoted_support": "rumqttc-0.25.1 Latest ... rumqttc-0.25.0 ... rumqttc-0.24.0 ... rumqttc 0.23.0 ... rumqttc 0.22.0 — no release note text mentions resubscribe, re-subscription, Event::Reconnect, or #1052",
+      "numbers": [],
+      "entities": ["rumqttc", "PR #1052", "Event::Reconnect"],
+      "time_period": "as of fetch 2026-09-02",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "releases-bytebeamiorumqtt-github"
+    }
+  ]
+}

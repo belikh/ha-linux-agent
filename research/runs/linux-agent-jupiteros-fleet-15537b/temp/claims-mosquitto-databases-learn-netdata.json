@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Netdata's Mosquitto collector is implemented via the generic go.d prometheus module scraping a separate mosquitto_exporter over HTTP (default 10s interval) rather than speaking MQTT natively, with auto-detection of local exporter ports and support for remote instances.",
+    "stance": "neutral",
+    "stance_target": "Reference design for MQTT broker telemetry collection - ha-linux-agent already speaks MQTT natively via rumqttc",
+    "evidence_type": "empirical",
+    "scope_conditions": "Netdata go.d.plugin prometheus module, mosquitto exporter, official docs",
+    "quoted_support": "Metrics are gathered by periodically sending HTTP requests to mosquitto exporter. ... By default, it detects instances running on the local host by trying to connect to known ports that are allocated to exporters.",
+    "numbers": ["10s default update_every", "max_time_series 2000 global", "200 per-metric cap"],
+    "entities": ["Netdata", "mosquitto", "mosquitto_exporter", "go.d.plugin"],
+    "time_period": "Current docs (2026)",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "mosquitto-databases-learn-netdata"
+  },
+  {
+    "claim": "UI-based configuration of Netdata collectors requires a paid Netdata Cloud plan; file-based configuration via go.d/prometheus.conf is the free path suited to automated deployments (e.g. Ansible).",
+    "stance": "refutes",
+    "stance_target": "Netdata as a zero-cost fleet monitoring choice for jupiterOS (config UX is paywalled)",
+    "evidence_type": "empirical",
+    "scope_conditions": "Netdata Cloud free tier vs paid plans",
+    "quoted_support": "UI configuration requires paid Netdata Cloud plan. ... If you prefer configuring via file, or need to automate deployments (e.g. with Ansible) Edit go.d/prometheus.conf and add a job.",
+    "numbers": [],
+    "entities": ["Netdata Cloud"],
+    "time_period": "Current docs",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "mosquitto-databases-learn-netdata"
+  },
+  {
+    "claim": "Netdata's prometheus collector applies defensive metric shaping: selector allow/deny patterns, Prometheus-compatible metric_relabel_configs (with rejection of rules that would corrupt histograms), curated exporter profiles, per-job fallback type classification, and hard time-series limits (2000 global, 200 per metric).",
+    "stance": "neutral",
+    "stance_target": "Metric-cardinality control techniques applicable to ha-linux-agent's MQTT metric publishing",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Netdata prometheus collector configuration semantics",
+    "quoted_support": "Relabeling that would corrupt a histogram or summary — splitting it, dropping a component, mutating the le/quantile label, or merging two families — is rejected. ... max_time_series: Global time series limit applied after job and profile relabeling. If the final output exceeds it, the data is not processed. Default 2000.",
+    "numbers": ["2000 max_time_series", "200 max_time_series_per_metric"],
+    "entities": ["Netdata"],
+    "time_period": "Current docs",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "mosquitto-databases-learn-netdata"
+  }
+]

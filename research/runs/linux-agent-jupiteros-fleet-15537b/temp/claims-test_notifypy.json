@@ -1,0 +1,58 @@
+[
+ {
+  "claim": "HA's upstream MQTT notify test suite exercises discovery end-to-end: test_discovery_removal_notify publishes the literal discovery payload '{ \"name\": \"test\", \"command_topic\": \"test_topic\" }' for the notify component, and the suite imports help_test_discovery_broken/update/removal/update_unchanged plus device-info and unique-id helpers.",
+  "stance": "supports",
+  "stance_target": "gap-02: real-world working MQTT notify discovery payload \u2014 the exact payload shape an agent must publish",
+  "evidence_type": "empirical",
+  "scope_conditions": "HA core dev tests; pytest with mqtt_mock_entry; discovery prefix homeassistant/",
+  "quoted_support": "async def test_discovery_removal_notify(...) data = '{ \"name\": \"test\", \"command_topic\": \"test_topic\" }'; await help_test_discovery_removal(hass, mqtt_mock_entry, notify.DOMAIN, data)",
+  "numbers": [
+   "23 discovery references in one test file",
+   "1 minimal payload: name + command_topic"
+  ],
+  "entities": [
+   "home-assistant/core",
+   "MQTT notify",
+   "MQTT discovery"
+  ],
+  "time_period": "HA 2024.5 \u2192 dev (2026)",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "test_notifypy"
+ },
+ {
+  "claim": "The minimal working MQTT notify discovery config requires only name and command_topic at the component level; command_template, qos, retain, encoding and message_expiry_interval are optional platform options per the notify platform schema.",
+  "stance": "supports",
+  "stance_target": "gap-02 + adopt-vs-build: implementability of the roadmap's notify.mqtt item with a tiny payload",
+  "evidence_type": "empirical",
+  "scope_conditions": "HA core dev; mqtt notify platform",
+  "quoted_support": "DEFAULT_CONFIG = {DOMAIN: {notify.DOMAIN: {\"name\": \"test\", \"command_topic\": \"test-topic\"}}}",
+  "numbers": [],
+  "entities": [
+   "home-assistant/core",
+   "MQTT notify"
+  ],
+  "time_period": "HA 2024.5 \u2192 dev (2026)",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "test_notifypy"
+ },
+ {
+  "claim": "notify.send_message on an MQTT notify entity publishes the message to command_topic (with configured qos/retain) and sets the entity state to the send timestamp \u2014 there is no title/action-button schema in the transport payload.",
+  "stance": "neutral",
+  "stance_target": "adopt-vs-build scope: MQTT notify is one-way message display only; actionable notifications need HA-side automations or the mobile-app event schema, not this platform",
+  "evidence_type": "empirical",
+  "scope_conditions": "HA core dev; mqtt notify entity behaviour",
+  "quoted_support": "mqtt_mock.async_publish.assert_called_once_with(\"command-topic\", \"Beer message\", 2, False, message_expiry_interval=None) ... state.state == \"2021-11-08T13:31:44+00:00\"",
+  "numbers": [],
+  "entities": [
+   "home-assistant/core",
+   "MQTT notify",
+   "notify.send_message"
+  ],
+  "time_period": "HA 2024.5 \u2192 dev (2026)",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "test_notifypy"
+ }
+]

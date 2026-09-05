@@ -1,0 +1,74 @@
+{
+  "claims": [
+    {
+      "claim": "PR #1052 'rumqttc: emit Event::Reconnect on successful re-CONNACK (closes #250)' is still OPEN (not merged) as of the fetch date — the PR page shows 'Open' status and 'pbujanda1978 wants to merge 1 commit into bytebeamio:main'.",
+      "stance": "supports",
+      "stance_target": "The fix for rumqttc's reconnect re-subscription footgun (#250) is not yet available in any release; consumers cannot rely on Event::Reconnect existing",
+      "evidence_type": "empirical",
+      "scope_conditions": "bytebeamio/rumqtt PR #1052, opened/commented May 25, 2026 by pbujanda1978",
+      "quoted_support": "Open ... pbujanda1978 wants to merge 1 commit into bytebeamio:main ... from pbujanda1978:fix-event-reconnect-resubscribe",
+      "numbers": ["#1052", "#250", "May 25, 2026", "1 commit", "96c16b6"],
+      "entities": ["PR #1052", "pbujanda1978", "bytebeamio/rumqtt", "issue #250"],
+      "time_period": "PR opened May 25, 2026; status as of 2026-09-02: open",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "rumqttc-emit-eventreconnect-on-successful-re-connack-closes-250-by-pbujanda1978"
+    },
+    {
+      "claim": "PR #1052 does NOT implement automatic re-subscription inside the library; it only emits a synthetic Event::Reconnect after subsequent successful CONNACKs, and the application must re-subscribe in the poll() loop when it sees that event.",
+      "stance": "supports",
+      "stance_target": "Even if merged, rumqttc would still require application-side re-subscription logic — the library does not remember or replay subscriptions itself",
+      "evidence_type": "empirical",
+      "scope_conditions": "PR #1052 description; rumqttc v5 module scope, with v4 left as follow-up",
+      "quoted_support": "rumqttc itself doesn't remember them either, so the application is silent on the new session until it re-subscribes — but it has no signal that a reconnect happened. ... the caller pattern is: Ok(Event::Reconnect) => { for (topic, qos) in &my_subs { client.subscribe(topic, *qos).await?; } }",
+      "numbers": [],
+      "entities": ["Event::Reconnect", "EventLoop", "poll()", "clean_session", "CONNACK"],
+      "time_period": "PR comment dated May 25, 2026",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "rumqttc-emit-eventreconnect-on-successful-re-connack-closes-250-by-pbujanda1978"
+    },
+    {
+      "claim": "PR #1052's problem statement confirms the core footgun for the ha-linux-agent use case: after a transport drop and reconnect with clean_session = true, every subscription is gone on the broker and the client process keeps running with no error and no incoming publishes — 'a long-standing rumqttc footgun'.",
+      "stance": "supports",
+      "stance_target": "A fleet agent built on rumqttc 0.24.0 with clean_session=true will silently lose all MQTT subscriptions after any reconnect unless it explicitly re-subscribes",
+      "evidence_type": "empirical",
+      "scope_conditions": "rumqttc behaviour with clean_session=true or v5 session expiry; issue #250",
+      "quoted_support": "After a transport drop and successful reconnect, the broker has a fresh session. With clean_session = true (or session expiry), every subscription the client had is gone. rumqttc itself doesn't remember them either, so the application is silent on the new session until it re-subscribes — but it has no signal that a reconnect happened. This is #250: a long-standing rumqttc footgun where a transient network blip leaves a process running but unable to receive any publishes, with no error in the event loop (the connection is \"fine\" again, just empty of subscriptions).",
+      "numbers": [],
+      "entities": ["rumqttc", "clean_session", "issue #250", "CONNACK"],
+      "time_period": "May 25, 2026",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "rumqttc-emit-eventreconnect-on-successful-re-connack-closes-250-by-pbujanda1978"
+    },
+    {
+      "claim": "PR #1052 is scoped to the v5 module only ('only v5 here — the same fix applies to v4; happy to add it in this PR or a follow-up, whichever you prefer'), and a commenter (thehouseisonfire) noted they implemented similar behaviour in their fork without adding an Event enum variant.",
+      "stance": "supports",
+      "stance_target": "The reconnect-signal fix targets rumqttc's v5 path, not the v4 path used by default 0.24.0 clients",
+      "evidence_type": "empirical",
+      "scope_conditions": "PR #1052 notes and comment thread; v4 equivalent explicitly deferred",
+      "quoted_support": "Scope: only v5 here — the same fix applies to v4; happy to add it in this PR or a follow-up, whichever you prefer. ... I've added an example showing how to achieve similar behavior in my fork, although I chose not to introduce an additional Event enum variant.",
+      "numbers": [],
+      "entities": ["rumqttc v5", "rumqttc v4", "thehouseisonfire", "Event enum"],
+      "time_period": "May 25, 2026",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "rumqttc-emit-eventreconnect-on-successful-re-connack-closes-250-by-pbujanda1978"
+    },
+    {
+      "claim": "The PR page links it to the issue titled 'Automatic reconnect and subscribed topics?' (issue #250) under 'Development: Successfully merging this pull request may close these issues', confirming #250 is exactly the auto-reconnect-plus-subscription-retention question.",
+      "stance": "supports",
+      "stance_target": "Issue #250 is the canonical upstream issue for resubscription-after-reconnect in rumqttc",
+      "evidence_type": "empirical",
+      "scope_conditions": "PR #1052 Development section",
+      "quoted_support": "Development — Successfully merging this pull request may close these issues: Automatic reconnect and subscribed topics?",
+      "numbers": ["#250"],
+      "entities": ["issue #250", "rumqttc"],
+      "time_period": "as of 2026-09-02",
+      "region": "global",
+ "confidence": "high",
+      "source_note_id": "rumqttc-emit-eventreconnect-on-successful-re-connack-closes-250-by-pbujanda1978"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{"at": "2026-09-02T03:49:49.392731+00:00", "type": "levers", "register": "advocate", "inference_depth": "deep"}
+{"at": "2026-09-02T03:49:53.975068+00:00", "type": "step", "step": "1", "status": "done", "chapter": null}
+{"at": "2026-09-02T08:06:24.716856+00:00", "type": "step", "step": "2", "status": "done", "chapter": null}
+{"at": "2026-09-02T08:13:31.177657+00:00", "type": "step", "step": "3", "status": "done", "chapter": null}
+{"at": "2026-09-02T09:30:06.429780+00:00", "type": "step", "step": "4", "status": "done", "chapter": null}
+{"at": "2026-09-02T14:19:56.748124+00:00", "type": "step", "step": "5", "status": "done", "chapter": null}
+{"at": "2026-09-02T14:25:28.369650+00:00", "type": "step", "step": "6", "status": "done", "chapter": null}
+{"at": "2026-09-02T14:29:28.850552+00:00", "type": "step", "step": "7", "status": "done", "chapter": null}
+{"at": "2026-09-02T17:44:22.210613+00:00", "type": "step", "step": "8", "status": "done", "chapter": null}
+{"at": "2026-09-02T17:45:10.906860+00:00", "type": "step", "step": "9", "status": "done", "chapter": null}
+{"at": "2026-09-02T20:49:29.268140+00:00", "type": "step", "step": "10", "status": "done", "chapter": null}
+{"at": "2026-09-03T03:39:11.889599+00:00", "type": "step", "step": "11", "status": "done", "chapter": null}
+{"at": "2026-09-03T10:58:21.927614+00:00", "type": "step", "step": "12", "status": "done", "chapter": null}
+{"at": "2026-09-03T11:10:24.575246+00:00", "type": "step", "step": "13", "status": "done", "chapter": null}
+{"at": "2026-09-04T10:12:10.068589+00:00", "type": "step", "step": "14", "status": "done", "chapter": null}
+{"at": "2026-09-04T14:38:01.006808+00:00", "type": "step", "step": "14.5", "status": "done", "chapter": null}
+{"at": "2026-09-04T14:58:46.782515+00:00", "type": "step", "step": "15", "status": "done", "chapter": null}
+{"at": "2026-09-04T14:59:13.112154+00:00", "type": "step", "step": "15", "status": "done", "chapter": null}
+{"at": "2026-09-04T15:12:02.472188+00:00", "type": "step", "step": "16", "status": "done", "chapter": null}
+{"at": "2026-09-04T15:12:15.173359+00:00", "type": "finish", "passed": false, "failed_checks": ["quote-integrity"]}
+{"at": "2026-09-04T15:12:28.411769+00:00", "type": "finish", "passed": false, "failed_checks": ["quote-integrity"]}
+{"at": "2026-09-04T15:12:42.341997+00:00", "type": "finish", "passed": false, "failed_checks": ["quote-integrity"]}
+{"at": "2026-09-04T15:12:55.226093+00:00", "type": "finish", "passed": false, "failed_checks": ["quote-integrity"]}
+{"at": "2026-09-04T15:13:22.650639+00:00", "type": "finish", "passed": false, "failed_checks": ["quote-integrity"]}
+{"at": "2026-09-04T15:22:51.130672+00:00", "type": "finish", "passed": true, "failed_checks": []}

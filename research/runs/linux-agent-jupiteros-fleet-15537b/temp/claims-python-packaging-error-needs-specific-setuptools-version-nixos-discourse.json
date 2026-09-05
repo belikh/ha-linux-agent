@@ -1,0 +1,50 @@
+[
+ {
+  "claim": "As of October 2025, lnxlink is not packaged in nixpkgs and community packaging attempts hit setuptools-version friction under buildPythonPackage, evidencing that lnxlink has no maintained NixOS module, flake, or official package.",
+  "stance": "supports",
+  "stance_target": "gap-05(b): lnxlink lacks maintained NixOS packaging",
+  "evidence_type": "anecdotal",
+  "scope_conditions": "lnxlink 2025.10.0, buildPythonPackage, pyproject format",
+  "quoted_support": "Hello, I'm trying to package a program called lnxlink, but my build is talking about an error where it requires a specific setuptools version set by pyproject.toml.",
+  "numbers": [
+   "lnxlink 2025.10.0"
+  ],
+  "entities": [
+   "lnxlink",
+   "buildPythonPackage",
+   "pyproject.toml",
+   "paho-mqtt",
+   "pygobject3",
+   "jeepney",
+   "ewmh",
+   "pulsectl"
+  ],
+  "time_period": "2025-10-28",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "python-packaging-error-needs-specific-setuptools-version-nixos-discourse"
+ },
+ {
+  "claim": "lnxlink's Python dependency surface is heavy and GUI/audio/X11-coupled (pygobject3, ewmh, xlib, pulsectl, pyalsaaudio, opencv-python, flask, waitress, docker, speechrecognition alongside paho-mqtt/psutil/jeepney), which complicates headless NixOS server packaging and explains why no one has upstreamed a module.",
+  "stance": "neutral",
+  "stance_target": "gap-05(b): why lnxlink NixOS declarative install remains unsolved",
+  "evidence_type": "empirical",
+  "scope_conditions": "lnxlink 2025.10.0 dependency list from the user's derivation",
+  "quoted_support": "propagatedBuildInputs = [ distro pyyaml paho-mqtt requests psutil inotify jeepney aiohttp setuptools wheel pygobject3 speechrecognition docker ewmh flask mss numpy opencv-python pulsectl pyalsaaudio xlib vdf waitress ]",
+  "numbers": [
+   "21+ propagated build inputs"
+  ],
+  "entities": [
+   "lnxlink",
+   "pygobject3",
+   "opencv-python",
+   "ewmh",
+   "wrapGAppsHook4",
+   "GLib namespace issue #334089"
+  ],
+  "time_period": "2024-2025",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "python-packaging-error-needs-specific-setuptools-version-nixos-discourse"
+ }
+]

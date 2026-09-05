@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "HA Glances integration issue #110551 (core-2024.2.1, HAOS, opened Feb 2024, closed NOT PLANNED/stale): the integration silently stops receiving data on multiple machines with flatline charts, zero related log entries, and the only recovery is manually reloading the integration in the HA UI, after which it works for several days then dies again",
+    "stance": "supports",
+    "stance_target": "pull-based Glances polling is unreliable for fleet monitoring — silent failure with no self-recovery and no diagnostics; a push agent with LWT availability surfaces offline immediately",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Home Assistant 2024.2.1 on HAOS; multiple machines over months; issue closed 'not planned' with stale label",
+    "quoted_support": "There are one or two of them exhibiting this problem where the integration just (seemingly randomly) stops receiving the data. ... The solution: I go into the integration and just hit the 'reload' on this machine and it starts working again for several days until it happens again. I checked the logs for detail around this period and there are no entries for Glances.",
+    "numbers": ["core-2024.2.1", "opened Feb 14 2024", "several days between failures", "months observed"],
+    "entities": ["Home Assistant", "Glances", "spikeygg"],
+    "time_period": "Feb 2024 (observed for months prior)",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "glances-integration-loses-connection-and-doesnt-automatically-recover-issue-1105"
+  },
+  {
+    "claim": "The Glances connection-loss issue was closed as 'not planned' with a 'stale' label and no assignee — HA maintainers did not fix the silent-failure mode",
+    "stance": "supports",
+    "stance_target": "upstream will not fix the incumbent's reliability gap; the fleet needs a different architecture rather than waiting on the integration",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "home-assistant/core issue triage, 2024",
+    "quoted_support": "Closed as not planned ... Labels: integration: glances, stale ... Assignees: No one assigned",
+    "numbers": ["issue #110551"],
+    "entities": ["Home Assistant", "Glances"],
+    "time_period": "2024",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "glances-integration-loses-connection-and-doesnt-automatically-recover-issue-1105"
+  }
+]

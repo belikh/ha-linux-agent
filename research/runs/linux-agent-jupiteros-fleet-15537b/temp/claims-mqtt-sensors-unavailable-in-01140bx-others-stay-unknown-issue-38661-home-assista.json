@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "After an HA restart, MQTT sensors discovered by a non-retained discovery message became unavailable and stayed broken until the user deleted the entity and resent the discovery message — HA did not itself re-request or persist discovery.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent must republish discovery (retained or on reconnect/HA-birth) or entities die on every HA restart",
+    "evidence_type": "empirical",
+    "scope_conditions": "HA 0.114.0b0/b2 (Aug 2020), broker on separate machine, Tasmota devices",
+    "quoted_support": "A lot of my MQTT sensors are unavailable after a restart. The solution to get them back is to delete the entity, and resend the discovery message.",
+    "numbers": ["0.114.0b0", "0.114.0b2", "0.113.3 last working"],
+    "entities": ["home-assistant/core", "Tasmota", "MQTT discovery"],
+    "time_period": "2020-08",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "mqtt-sensors-unavailable-in-01140bx-others-stay-unknown-issue-38661-home-assista"
+  },
+  {
+    "claim": "HA issue #38661 was closed with milestone 0.114.0 and assigned to emontnemery, cross-referenced to #38876 — i.e. the restart-recovery problem was treated as a real HA defect and fixed in the 0.114.0 line, establishing that restart recovery of MQTT entities is a maintained HA behaviour.",
+    "stance": "neutral",
+    "stance_target": "modern HA handles rediscovery races better, but the device-side republish contract remains the reliable baseline",
+    "evidence_type": "empirical",
+    "scope_conditions": "HA core issue tracker, milestone 0.114.0",
+    "quoted_support": "Closed #38876 ... Assignees emontnemery ... Milestone 0.114.0",
+    "numbers": ["#38876", "0.114.0"],
+    "entities": ["emontnemery", "home-assistant/core"],
+    "time_period": "2020-08",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "mqtt-sensors-unavailable-in-01140bx-others-stay-unknown-issue-38661-home-assista"
+  }
+]

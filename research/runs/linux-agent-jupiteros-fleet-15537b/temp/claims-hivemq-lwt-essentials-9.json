@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "The MQTT broker publishes a client's stored LWT on ungraceful disconnect only — I/O error, keepalive expiry, close without DISCONNECT, or protocol-error closure — and DISCARDS the stored will if the client disconnects gracefully with a DISCONNECT packet.",
+    "stance": "supports",
+    "stance_target": "A systemd-graceful agent stop never fires the LWT, so the agent must publish its own offline status before DISCONNECT (shutdown-message pattern); the LWT covers crashes and network loss only.",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "MQTT 3.1.1 specification; HiveMQ vendor-authoritative protocol explainer",
+    "quoted_support": "The broker stores this message until it detects an ungraceful disconnect from the client. Upon detecting the disconnection, the broker broadcasts the last will message to all subscribed clients of the corresponding topic. The broker discards the stored LWT message if the client disconnects gracefully using the DISCONNECT message.",
+    "numbers": [],
+    "entities": ["HiveMQ", "LWT", "MQTT 3.1.1", "DISCONNECT"],
+    "time_period": "updated Feb 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "what-is-mqtt-last-will-and-testament-lwt-mqtt-essentials-part-9"
+  },
+  {
+    "claim": "LWT combined with retained messages is the canonical online-status pattern: retained 'Online' on client1/status at startup, retained LWT 'Offline' on the same topic, so new subscribers always learn current state and an ungraceful death updates the retained value broker-side.",
+    "stance": "supports",
+    "stance_target": "The per-host availability topic (retained online birth + retained offline LWT) is the exact pattern the agent supervisor should implement; Z2M's availability.ts is a publisher-side software version of the same contract.",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "MQTT 3.1.1",
+    "quoted_support": "By setting a lastWillMessage with Offline payload, enabling the lastWillRetain flag, and specifying the lastWillTopic as client1/status, followed by publishing an Online retained message to the same topic, client1 can keep newly-subscribed clients informed about its online status.",
+    "numbers": [],
+    "entities": ["HiveMQ", "LWT", "retained messages"],
+    "time_period": "updated Feb 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "what-is-mqtt-last-will-and-testament-lwt-mqtt-essentials-part-9"
+  }
+]

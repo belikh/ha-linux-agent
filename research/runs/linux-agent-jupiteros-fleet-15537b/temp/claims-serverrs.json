@@ -1,0 +1,63 @@
+[
+ {
+  "claim": "niri's IPC socket is created at $XDG_RUNTIME_DIR/niri.{wayland_socket_name}.{pid}.sock \u2014 the directory is BaseDirs::new().runtime_dir() (XDG_RUNTIME_DIR, falling back to /tmp) and the filename embeds the compositor's wayland socket name and PID, e.g. /run/user/1000/niri.wayland-1.2474.sock.",
+  "stance": "supports",
+  "stance_target": "gap-06: resolving NIRI_SOCKET's filesystem location from primary source",
+  "evidence_type": "theoretical",
+  "scope_conditions": "niri-wm/niri main branch, 2026; requires a wayland socket name (nested/TTY instances without one create no IPC socket \u2014 socket_path is None)",
+  "quoted_support": "let socket_name = format!(\"niri.{wayland_socket_name}.{}.sock\", process::id()); let mut socket_path = socket_dir(); socket_path.push(socket_name); let listener = UnixListener::bind(&socket_path)",
+  "numbers": [
+   "socket name pattern: niri.<wayland-socket>.<pid>.sock"
+  ],
+  "entities": [
+   "niri",
+   "XDG_RUNTIME_DIR",
+   "/run/user/1000",
+   "UnixListener::bind",
+   "IpcServer::start"
+  ],
+  "time_period": "2026 (main branch)",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "serverrs"
+ },
+ {
+  "claim": "niri's IPC server performs no peer-credential authentication: the source contains no SO_PEERCRED/PeerCredentials check, no chmod, no umask manipulation \u2014 access to the socket is gated purely by the filesystem permissions of the socket inode inside the (0700, user-owned) XDG_RUNTIME_DIR, so a same-UID process (e.g. a User=io system service) can connect; other UIDs cannot.",
+  "stance": "supports",
+  "stance_target": "gap-06: whether a process outside the session can reach NIRI_SOCKET \u2014 yes, if it runs as the same user",
+  "evidence_type": "theoretical",
+  "scope_conditions": "out-of-session process must run as the session user; path discoverability requires knowing the PID (embedded in filename)",
+  "quoted_support": "socket_dir() = BaseDirs::new().as_ref().and_then(|x| x.runtime_dir()).map(|x| x.to_owned()).unwrap_or_else(env::temp_dir) \u2014 with no permission or credential handling anywhere in IpcServer::start or on_new_ipc_client",
+  "numbers": [],
+  "entities": [
+   "niri",
+   "XDG_RUNTIME_DIR",
+   "0700",
+   "SO_PEERCRED"
+  ],
+  "time_period": "2026",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "serverrs"
+ },
+ {
+  "claim": "niri's event-stream IPC has a bounded 64-event buffer per client \u2014 a client that cannot drain events fast enough gets dropped, a hard capacity constraint for any fleet agent consuming niri's event stream from a busy session.",
+  "stance": "neutral",
+  "stance_target": "fleet-agent design constraint when consuming niri IPC event streams",
+  "evidence_type": "theoretical",
+  "scope_conditions": "event stream clients",
+  "quoted_support": "If an event stream client fails to read events fast enough that we accumulate more than this number in our buffer, we drop that event stream client. const EVENT_STREAM_BUFFER_SIZE: usize = 64;",
+  "numbers": [
+   "EVENT_STREAM_BUFFER_SIZE = 64"
+  ],
+  "entities": [
+   "niri",
+   "event stream",
+   "IpcServer"
+  ],
+  "time_period": "2026",
+  "region": "global",
+  "confidence": "high",
+  "source_note_id": "serverrs"
+ }
+]

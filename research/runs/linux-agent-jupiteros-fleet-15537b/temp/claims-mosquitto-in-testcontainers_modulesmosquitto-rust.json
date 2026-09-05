@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "testcontainers-modules 0.15.0 provides a feature-gated Mosquitto struct that starts an MQTT broker without authentication for use inside tests.",
+    "stance": "supports",
+    "stance_target": "a Rust integration-test harness for ha-linux-agent can spin a real MQTT broker hermetically",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "testcontainers-modules 0.15.0, crate feature 'mosquitto', testcontainers ^0.27.0 dependency, x86_64-unknown-linux-gnu",
+    "quoted_support": "Module to work with Mosquitto inside of tests. Starts a MQTT broker without authentication.",
+    "numbers": ["0.15.0", "0.27.0"],
+    "entities": ["testcontainers-modules", "Mosquitto", "DDtKey"],
+    "time_period": "published 23 June 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "mosquitto-in-testcontainers_modulesmosquitto-rust"
+  },
+  {
+    "claim": "The Image trait contract requires implementations to pin an immutable image tag rather than 'latest' to prevent test code randomly breaking when the underlying docker image changes.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent CI must pin an explicit eclipse-mosquitto image tag for reproducible tests",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Testcontainers Rust Image trait",
+    "quoted_support": "Implementations are encouraged to include a tag that will not change (i.e. NOT latest) in order to prevent test code from randomly breaking because the underlying docker suddenly changed.",
+    "numbers": [],
+    "entities": ["Testcontainers", "Image trait"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "mosquitto-in-testcontainers_modulesmosquitto-rust"
+  },
+  {
+    "claim": "The Testcontainers Rust ImageExt builder exposes per-test configuration including startup timeout (default 60 seconds), ready-condition overrides, networks, mapped ports, mounts and health checks.",
+    "stance": "supports",
+    "stance_target": "the test harness can control broker readiness and networking precisely enough for reliable MQTT discovery tests",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "testcontainers ^0.27.0 Rust API",
+    "quoted_support": "with_startup_timeout(self, timeout: Duration) — Sets the startup timeout for the container. The default is 60 seconds. ... with_ready_conditions(self, ready_conditions: Vec<WaitFor>) — Overrides ready conditions.",
+    "numbers": ["60"],
+    "entities": ["Testcontainers", "ImageExt"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "mosquitto-in-testcontainers_modulesmosquitto-rust"
+  },
+  {
+    "claim": "The Mosquitto module supports both synchronous (SyncRunner) and async (AsyncRunner) container start, so it can be used from a tokio-based agent test suite.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's async (tokio/rumqttc) code paths can be tested against a real broker",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "testcontainers Rust runners",
+    "quoted_support": "use testcontainers_modules::{mosquitto, testcontainers::runners::SyncRunner}; let mosquitto_instance = mosquitto::Mosquitto::default().start().unwrap();",
+    "numbers": [],
+    "entities": ["SyncRunner", "AsyncRunner", "tokio"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "mosquitto-in-testcontainers_modulesmosquitto-rust"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "rumqttc's MqttOptions defaults to clean_session=true, keep_alive=60s, inflight=100 — meaning a default-configured client discards its pending queue and loses all subscriptions on every reconnect.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's current unreliability is consistent with default rumqttc settings; reliability requires explicit set_clean_session(false) + stable client_id + re-subscribe",
+    "evidence_type": "empirical",
+    "scope_conditions": "rumqttc main branch lib.rs source",
+    "quoted_support": "pub fn new(id: S, host: T, port: u16) -> MqttOptions { MqttOptions { ... keep_alive: Duration::from_secs(60), clean_session: true, ... inflight: 100, last_will: None, ...",
+    "numbers": ["clean_session=true default", "keep_alive 60s", "inflight 100", "request_channel_capacity 10"],
+    "entities": ["rumqttc", "MqttOptions"],
+    "time_period": "main branch, fetched Sept 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "librs"
+  },
+  {
+    "claim": "set_clean_session(false) makes the broker hold client state and replay pending operations on reconnection with the same client_id, and panics if client_id is empty — persistent sessions require a stable non-empty client_id.",
+    "stance": "supports",
+    "stance_target": "agent must use a stable per-host client_id (e.g. hostname-derived) with clean_session=false",
+    "evidence_type": "empirical",
+    "scope_conditions": "rumqttc main branch",
+    "quoted_support": "When set `false`, broker will hold the client state and performs pending operations on the client when reconnection with same `client_id` happens. Local queue state is also held to retransmit packets after reconnection. ... Panics if `clean_session` is false when `client_id` is empty.",
+    "numbers": [],
+    "entities": ["rumqttc", "MqttOptions"],
+    "time_period": "main branch, fetched Sept 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "librs"
+  },
+  {
+    "claim": "rumqttc at main has NO MQTT v5 support — no session_expiry_interval or MqttVersion enum in lib.rs, and eventloop.rs imports mqttbytes::v4 only; it is an MQTT 3.1.1 client where HA's message_expiry_interval (MQTT 5) cannot be negotiated client-side.",
+    "stance": "refutes",
+    "stance_target": "any design assuming rumqttc can negotiate MQTT 5 features like message expiry or session expiry intervals",
+    "evidence_type": "empirical",
+    "scope_conditions": "rumqttc main branch source audit",
+    "quoted_support": "No MQTT v5 support in this file — no session_expiry_interval, no MqttVersion enum; eventloop.rs imports mqttbytes::v4 only, so rumqttc at main is MQTT v3.1.1.",
+    "numbers": [],
+    "entities": ["rumqttc", "MQTT 3.1.1", "MQTT 5"],
+    "time_period": "main branch, fetched Sept 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "librs"
+  },
+  {
+    "claim": "rumqttc supports Last Will via the last_will field on MqttOptions (default None) — the mechanism for broker-side availability marking when the agent dies uncleanly.",
+    "stance": "supports",
+    "stance_target": "agent should set an LWT on its availability topic so HA marks the host unavailable on agent crash",
+    "evidence_type": "empirical",
+    "scope_conditions": "rumqttc main branch",
+    "quoted_support": "/// Last will that will be issued on unexpected disconnect\nlast_will: Option<LastWill>,",
+    "numbers": [],
+    "entities": ["rumqttc"],
+    "time_period": "main branch, fetched Sept 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "librs"
+  }
+]

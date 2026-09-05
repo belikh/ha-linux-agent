@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "HA only marks an MQTT entity unavailable when the device's LWT fires if the discovery payload wires an availability topic; without avty_t, HA keeps the last state indefinitely even when the device is offline for 30+ minutes.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent must include avty_t (availability topic) in EVERY discovery payload or its entities will show stale states when a host dies",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "HA MQTT integration; devices without discovery-script-provided availability config; Shelly1 without availability",
+    "quoted_support": "I turn off one mqtt device for more than half of hour and home assistant did not change state to unavailable ... the discovery script does create an availability as part of the discovery message.",
+    "numbers": ["30+ minutes offline"],
+    "entities": ["Shelly1", "Shellies Discovery Script", "avty_t", "availability topic"],
+    "time_period": "2021-2023",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "working-with-devices-birth-lwt-configuration-home-assistant-community"
+  },
+  {
+    "claim": "The workaround for devices without LWT-driven availability is a shadow MQTT sensor on the device's state topic with expire_after (e.g. 60s), but expire_after exists for MQTT sensors and not for MQTT switches.",
+    "stance": "neutral",
+    "stance_target": "agent can rely on HA-side expire_after as a staleness fallback for sparse state topics, but it is per-entity and not available on all entity types",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "HA MQTT sensor config, expire_after option",
+    "quoted_support": "I fount that there is a expire_after MQTT Sensor - Home Assistant option for MQTT Sensors. But i did not found one for MQTT Switch. Is there similar option for MQTT Switch ?",
+    "numbers": ["expire_after: 60"],
+    "entities": ["expire_after", "MQTT sensor", "MQTT switch"],
+    "time_period": "2023",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "working-with-devices-birth-lwt-configuration-home-assistant-community"
+  },
+  {
+    "claim": "For devices that cannot send LWT, a periodic (roughly 30s) state publication plus expire_after makes HA reflect power loss — trading topic traffic for availability coverage.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent heartbeat design: periodic state publishes + expire_after gives availability even without LWT; LWT is still needed for instant detection",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "HA MQTT sensors with expire_after ~60s, state published ~30s",
+    "quoted_support": "It give you constant return of information in about every 30s, and when house power goes down ( for example ) HA will change state.",
+    "numbers": ["30 s publish", "60 s expire"],
+    "entities": ["heartbeat", "expire_after"],
+    "time_period": "2023",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "working-with-devices-birth-lwt-configuration-home-assistant-community"
+  }
+]

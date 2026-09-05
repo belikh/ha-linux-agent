@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Feature request #9378 (Sep 2023) documented that 'tailscale exit-node list' had no JSON output, only column-based human output, forcing integrators to regex-parse — evidence that tailscale subcommands have historically had inconsistent structured-output coverage.",
+    "stance": "supports",
+    "stance_target": "the agent must not assume every tailscale subcommand emits JSON; per-subcommand capability probing or version-pinning is required",
+    "evidence_type": "official-issue-tracker",
+    "scope_conditions": "tailscale v1.48.1; issue later closed",
+    "quoted_support": "'exit-node list' does not provide an option for JSON output like some other tailscale subcommands do.",
+    "numbers": ["v1.48.1"],
+    "entities": ["tailscale", "exit-node list", "GitHub issue 9378"],
+    "time_period": "2023-09-13",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "fr-provide-json-output-option-for-exit-node-list-issue-9378-tailscaletailscale-g"
+  },
+  {
+    "claim": "The issue was triaged as P1 Nuisance / L2 FewLikelihood / T0 New feature with the mullvad label, and closed — suggesting low-priority resolution consistent with exit-node list later gaining at least filtering flags if not full JSON.",
+    "stance": "neutral",
+    "stance_target": "how much to rely on exit-node list structured output in an agent",
+    "evidence_type": "official-issue-tracker",
+    "scope_conditions": "tailscale GitHub repository labels",
+    "quoted_support": "Labels\n\nL2 FewLikelihoodLikelihoodP1 NuisancePriority levelPriority levelT0 New featureIssue typeIssue typefrFeature requestFeature requestmullvad",
+    "numbers": [],
+    "entities": ["tailscale", "mullvad", "issue triage"],
+    "time_period": "2023-09-13",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "fr-provide-json-output-option-for-exit-node-list-issue-9378-tailscaletailscale-g"
+  }
+]

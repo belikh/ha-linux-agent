@@ -1,0 +1,36 @@
+{
+  "findings": [
+    {
+      "severity": "high",
+      "sentence": "A NixOS host runs services in two shapes: system services, managed by the system manager and ordered against the network and each other, and user services, managed per-user and unable to order against system units \"by design\" [[what-is-the-difference-between-systemdservices-and-systemduserservices-help-nixo]].",
+      "citation": "what-is-the-difference-between-systemdservices-and-systemduserservices-help-nixo",
+      "verdict": "partially-supported",
+      "reason": "The cited Discourse 25222 note supports the two-shapes frame (tejing: user services are started by the user's own systemd instance; they don't restart on nixos-rebuild switch), but the quotation-marked phrase \"by design\" and the ordering claim (user units unable to order against system units) are NOT in this note — waffle8946's verbatim \"So you cannot have user services depend on system ones or vice versa, by design\" lives in [[restart-oneshot-systemd-service-on-every-rebuild-help-nixos-discourse]] (Discourse 70853), and the cannot-depend fact also appears in [[systemduser-archwiki]].",
+      "suggested_fix": "Keep the sentence but add [[restart-oneshot-systemd-service-on-every-rebuild-help-nixos-discourse]] as a co-citation for the \"by design\" ordering clause (or drop the quote marks and cite systemduser-archwiki for the dependency restriction)."
+    },
+    {
+      "severity": "critical",
+      "sentence": "The schema is authoritative but explicitly unstable-by-policy across versions, so the parser is version-tolerant; the operational surface around it — `tailscale wait` / tailscale-online.target as the readiness gate where mesh reachability orders the agent, `BackendState` as the reliable running-indicator, and the frozen-by-policy `--json` contract that makes version-tolerance a schema check rather than a re-parse — completes the feature the same way SMART and ZFS get their mechanisms named [[how-to-check-if-tailscale-is-running-alexwlchan]].",
+      "citation": "how-to-check-if-tailscale-is-running-alexwlchan",
+      "verdict": "wrong-source",
+      "reason": "The alexwlchan note supports only one of the sentence's four claims — BackendState as the running indicator (via tailscale status --json on a Mac). It contains nothing about `tailscale wait`, tailscale-online.target, schema instability-by-policy, or the frozen-by-compatibility-promise --json contract. Those live in [[tailscale-cli-tailscale-docs]] (wait semantics, \"Linux systemd users can wait for the tailscale-online.target target\", and status --json marked \"WARNING: format subject to change\") and [[cmdtailscalecli-build-a-mechanism-to-change-the-output-from-json-logs-in-the-fut]] (issue #17619: --json output frozen because \"we can't change it or we'll break downstream clients\").",
+      "suggested_fix": "Re-cite: swap/augment to [[tailscale-cli-tailscale-docs]] for the wait/tailscale-online.target readiness gate and the unstable-format warning, plus [[cmdtailscalecli-build-a-mechanism-to-change-the-output-from-json-logs-in-the-fut]] for the frozen-by-policy --json contract; alexwlchan may remain cited for the BackendState running-indicator clause only."
+    },
+    {
+      "severity": "high",
+      "sentence": "**Remote reboot/poweroff.** Present through the launcher and systemd backends [[repo-map-ha-linux-agent]]; what is missing is the idempotency contract — an audit of the fleet's command handlers for non-idempotent semantics (reboot/power among them) is the named next step, because whether any launcher-style command is non-idempotent calibrates how much the clean-session rejection depends on it: if none are, a replayed stale message damages nothing, and the persistence question becomes lower-stakes than the lifecycle design argues.",
+      "citation": "repo-map-ha-linux-agent",
+      "verdict": "unsupported",
+      "reason": "The repo-map note documents no reboot or poweroff command anywhere (zero occurrences of reboot/poweroff/shutdown in the note; the audited command surface is launcher systemctl start/stop/is-active, hardware brightness/governor/EPP, and generic lock/suspend/notify). The live codebase confirms it: backend-generic exposes only lock, suspend, and notify buttons; no crate contains a reboot/poweroff handler. The mqtt-lifecycle interim note treats reboot/power as an open audit question (\"whether any launcher-style command is non-idempotent (reboot/power commands)\"), not an established capability.",
+      "suggested_fix": "Soften the opening to what the sources support: remote power control today is limited to suspend (and screen lock) via the generic backend's login1 commands plus launcher unit start/stop; reboot/poweroff are not in the audited command surface, and the idempotency audit named in the sentence is precisely what would price adding them. Alternatively cite [[interim-report-mqtt-lifecycle-supervisor-spec]] for the audit framing."
+    },
+    {
+      "severity": "medium",
+      "sentence": "So the mosquitto-subprocess harness inside the test hook — bind a `TcpListener` to `127.0.0.1:0`, read the port, hand it to `mosquitto -p <port>` (the no-config default is anonymous and loopback-only), TCP-probe with a fail-fast, kill on Drop — needs no sandbox escape and no VM [[mosquitto8-mosquitto-debian-unstable-debian-manpages]].",
+      "citation": "mosquitto8-mosquitto-debian-unstable-debian-manpages",
+      "verdict": "partially-supported",
+      "reason": "The mosquitto(8) note fully supports the loopback-only half (\"From version 2.0 onwards, the listeners defined with -p are bound to the loopback interface only\"; no-config default listens on 1883 bound to loopback), but it says nothing about anonymous access — the anonymous-when-no-listeners default is documented in [[mosquittoconf-man-page-eclipse-mosquitto]] (\"Defaults to false, unless no listeners are defined in the configuration file, in which case it set to true, but connections are only allowed from the local machine\"), which the sentence does not cite.",
+      "suggested_fix": "Add [[mosquittoconf-man-page-eclipse-mosquitto]] as a co-citation for the anonymous half of the parenthetical (or cite [[interim-report-testing-gate-for-hardware-daemon]], which quotes mosquitto.conf(5) for exactly this default)."
+    }
+  ]
+}

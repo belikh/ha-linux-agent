@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The MQTT LWT is specified in the CONNECT packet at connection time and consists of topic, payload, QoS and retain flag; the broker stores it and publishes it only upon detecting an ungraceful disconnect.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent must register its LWT in the rumqttc MqttOptions/CONNECT set-up so the broker owns offline detection",
+    "evidence_type": "empirical",
+    "scope_conditions": "MQTT 3.1.1/5 protocol semantics, HiveMQ Essentials Part 9 (Feb 2026)",
+    "quoted_support": "When a client connects to a broker, it can specify a last-will message. This message follows the structure of a regular MQTT message structure, including a topic, retained message flag, Quality of Service (QoS), and payload. The broker stores this message until it detects an ungraceful disconnect from the client.",
+    "numbers": [],
+    "entities": ["LWT", "CONNECT packet", "DISCONNECT packet", "broker"],
+    "time_period": "2026-02 (updated)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "what-is-mqtt-last-will-and-testament-lwt-mqtt-essentials-part-9"
+  },
+  {
+    "claim": "The broker DISCARDS the stored LWT when the client disconnects gracefully using a DISCONNECT packet — graceful shutdowns never publish the will message.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent must publish its own offline/shutdown message before intentional DISCONNECT (e.g. on SIGTERM) — LWT alone will never cover systemd stops",
+    "evidence_type": "empirical",
+    "scope_conditions": "MQTT protocol semantics",
+    "quoted_support": "The broker discards the stored LWT message if the client disconnects gracefully using the DISCONNECT message.",
+    "numbers": [],
+    "entities": ["DISCONNECT packet", "LWT", "broker"],
+    "time_period": "2026-02",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "what-is-mqtt-last-will-and-testament-lwt-mqtt-essentials-part-9"
+  },
+  {
+    "claim": "LWT is the canonical mechanism for notifying other clients of unavailability in unreliable-network IoT scenarios — the exact use case of a Linux fleet agent reporting host liveness.",
+    "stance": "supports",
+    "stance_target": "agent-registered LWT on a status topic is the industry-standard availability pattern for MQTT clients",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "MQTT IoT deployments",
+    "quoted_support": "The LWT allows clients to notify others about their unexpected disconnections. ... By utilizing LWT, you can implement various strategies to handle client disconnections and inform other clients about the offline status.",
+    "numbers": [],
+    "entities": ["LWT", "IoT"],
+    "time_period": "2026-02",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "what-is-mqtt-last-will-and-testament-lwt-mqtt-essentials-part-9"
+  },
+  {
+    "claim": "The disconnection type distinction (graceful with DISCONNECT vs ungraceful without) is the crucial determinant of whether the will fires, per the MQTT spec semantics HiveMQ documents.",
+    "stance": "supports",
+    "stance_target": "agent supervision design must distinguish SIGTERM (graceful — publish offline manually) from crash/kill (ungraceful — LWT fires)",
+    "evidence_type": "empirical",
+    "scope_conditions": "MQTT protocol",
+    "quoted_support": "Understanding the type of disconnection (graceful - with a disconnect message, or ungraceful - without a disconnect message) is crucial for taking appropriate actions.",
+    "numbers": [],
+    "entities": ["graceful disconnect", "ungraceful disconnect"],
+    "time_period": "2026-02",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "what-is-mqtt-last-will-and-testament-lwt-mqtt-essentials-part-9"
+  }
+]

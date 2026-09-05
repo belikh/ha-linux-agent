@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "The stable kernel ABI defines /sys/class/backlight/<backlight>/brightness (since kernel 2.6.12, April 2005) accepting values 0..max_brightness, but the value shown is the level stored in the driver, which may not be the actual brightness — actual_brightness (since 2.6.17, March 2006) is the hardware-queried value.",
+    "stance": "supports",
+    "stance_target": "kiosk brightness control in ha-linux-agent must read actual_brightness for truth and treat brightness writes as requests that hardware may clamp; the ABI has been stable since 2.6.12 so building against it is safe",
+    "evidence_type": "empirical",
+    "scope_conditions": "Linux backlight class ABI (stable); requires backlight driver registered",
+    "quoted_support": "Control the brightness for this <backlight>. Values are between 0 and max_brightness. This file will also show the brightness level stored in the driver, which may not be the actual brightness (see actual_brightness). ... Show the actual brightness by querying the hardware.",
+    "numbers": ["2.6.12", "2.6.17", "0"],
+    "entities": ["brightness", "actual_brightness", "max_brightness", "Richard Purdie", "HAL"],
+    "time_period": "attributes dated April 2005 / March 2006; stable since",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "sysfs-class-backlight"
+  },
+  {
+    "claim": "/sys/class/backlight/<backlight>/bl_power takes values compatible with FB_BLANK_* from fb.h: 0 (FB_BLANK_UNBLANK, power on) and 4 (FB_BLANK_POWERDOWN, power off), stable since kernel 2.6.12.",
+    "stance": "supports",
+    "stance_target": "agent display blank/restore control uses bl_power with the documented 0/4 values",
+    "evidence_type": "empirical",
+    "scope_conditions": "Linux backlight class ABI (stable)",
+    "quoted_support": "Control BACKLIGHT power, values are compatible with FB_BLANK_* from fb.h - 0 (FB_BLANK_UNBLANK) : power on. - 4 (FB_BLANK_POWERDOWN) : power off",
+    "numbers": ["0", "4", "2.6.12"],
+    "entities": ["bl_power", "FB_BLANK_UNBLANK", "FB_BLANK_POWERDOWN"],
+    "time_period": "since April 2005",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "sysfs-class-backlight"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "A dbus-daemon configured as type=session sets DBUS_SESSION_BUS_ADDRESS (and DBUS_STARTER_BUS_TYPE=session) in the environment of clients it activates; the system bus address is normally well-known anyway",
+    "stance": "supports",
+    "stance_target": "system services cannot assume DBUS_SESSION_BUS_ADDRESS: it is only set inside the session bus's activation environment",
+    "evidence_type": "theoretical",
+    "scope_conditions": "dbus-daemon configuration, any Linux system",
+    "quoted_support": "If the well-known type of the message bus is \"session\", then the DBUS_STARTER_BUS_TYPE environment variable will be set to \"session\" and the DBUS_SESSION_BUS_ADDRESS environment variable will be set to the address of the session bus.",
+    "numbers": [],
+    "entities": ["dbus-daemon", "DBUS_SESSION_BUS_ADDRESS", "DBUS_SYSTEM_BUS_ADDRESS", "DBUS_STARTER_BUS_TYPE"],
+    "time_period": "current upstream documentation",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "dbus-daemon"
+  },
+  {
+    "claim": "The recommended session-bus topology is one bus per (user, machine) pair, shared between that user's login sessions",
+    "stance": "supports",
+    "stance_target": "per-user D-Bus reachability model: one session bus per user per host, shared across that user's sessions",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "D-Bus session bus design",
+    "quoted_support": "recommend using a separate session bus per (user, machine) pair",
+    "numbers": [],
+    "entities": ["session bus", "dbus-daemon"],
+    "time_period": "current upstream documentation",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "dbus-daemon"
+  },
+  {
+    "claim": "The per-user D-Bus service directory is resolved from $XDG_RUNTIME_DIR/dbus-1/services when XDG_RUNTIME_DIR is set",
+    "stance": "supports",
+    "stance_target": "user-session D-Bus service discovery depends on the user's XDG_RUNTIME_DIR, which a system service does not have",
+    "evidence_type": "theoretical",
+    "scope_conditions": "dbus-daemon service activation, systems with XDG_RUNTIME_DIR set",
+    "quoted_support": "$XDG_RUNTIME_DIR/dbus-1/services, if XDG_RUNTIME_DIR is set (see the XDG Base Directory Specification for details of XDG_RUNTIME_DIR)",
+    "numbers": [],
+    "entities": ["XDG_RUNTIME_DIR", "dbus-1/services", "dbus-daemon"],
+    "time_period": "current upstream documentation",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "dbus-daemon"
+  },
+  {
+    "claim": "The well-known session bus defaults to a fully permissive policy: any connection may send/receive any message and request any well-known name, so it must not be exposed beyond the user's runtime directory",
+    "stance": "supports",
+    "stance_target": "session bus is not a security boundary; exposing it to other UIDs is unsafe — system-bus policy files are the correct cross-UID channel",
+    "evidence_type": "theoretical",
+    "scope_conditions": "default dbus-daemon session bus policy",
+    "quoted_support": "The well-known session bus normally allows sending any message. ... The well-known session bus normally allows any connection to request a well-known name and ... The well-known session bus normally allows receiving any message, including ... messages sent by other connections.",
+    "numbers": [],
+    "entities": ["session bus", "dbus-daemon", "system bus", "/etc/dbus-1/system.d"],
+    "time_period": "current upstream documentation",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "dbus-daemon"
+  }
+]

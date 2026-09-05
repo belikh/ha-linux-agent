@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "nixpkgs PR #260248 (merged Oct 10 2023) added the boolean option users.users.<name>.linger to NixOS, fixing the 9-year-old issue #3702; it is available since NixOS 23.11",
+    "stance": "supports",
+    "stance_target": "jupiterOS fleet configs can and should enable linger declaratively via users.users.<name>.linger = true rather than tmpfiles hacks or imperative loginctl",
+    "evidence_type": "official-documentation (merged upstream PR)",
+    "scope_conditions": "NixOS >= 23.11",
+    "quoted_support": "Adds a new boolean user option, linger, which can be used to enable systemd lingering for individual users. ... Fixes #3702",
+    "numbers": ["PR #260248", "merged Oct 10 2023", "release 23.11"],
+    "entities": ["users.users.<name>.linger", "ToxicFrog", "amaxine", "ambroisie", "NixOS 23.11"],
+    "time_period": "October 2023",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "nixosusers-groups-add-user-option-to-enable-lingering-by-toxicfrog-pull-request"
+  },
+  {
+    "claim": "users.users.<name>.linger is NOT the same as DontKillUserProcesses=true: it is per-user rather than per-system, and lingering users have their slice and services started on boot (or on nixos-rebuild) rather than on first login",
+    "stance": "supports",
+    "stance_target": "the declarative linger option is precisely the mechanism that makes user-scoped fleet agents start at boot on headless hosts",
+    "evidence_type": "official-documentation (PR description by the author)",
+    "scope_conditions": "NixOS >= 23.11",
+    "quoted_support": "This is not the same as DontKillUserProcesses=true; (a) it allows configuration per-user rather than per-system and (b) lingering users will have their slice and services start on boot (or on nixos-rebuild) rather than on first login.",
+    "numbers": [],
+    "entities": ["users.users.<name>.linger", "DontKillUserProcesses", "nixos-rebuild"],
+    "time_period": "October 2023",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "nixosusers-groups-add-user-option-to-enable-lingering-by-toxicfrog-pull-request"
+  },
+  {
+    "claim": "Declarative linger coexists with mutable management: root can still use loginctl to manage lingering, but the configured setting takes precedence whenever nixos-rebuild runs; the implementation diffs /var/lib/systemd/linger against the configured user list and runs loginctl disable-linger on anyone not configured",
+    "stance": "supports",
+    "stance_target": "nixos-rebuild will actively disable-linger users not declared in config — fleet configs must declare the agent user or risk losing lingering",
+    "evidence_type": "official-documentation (PR description + reviewed code snippet)",
+    "scope_conditions": "NixOS >= 23.11",
+    "quoted_support": "Lingering users can still be managed mutably by root with loginctl, but the settings here will take precedence when nixos-rebuild is run. ... ls ${lingerDir} | sort | comm -3 -1 ${lingeringUsersFile} - | xargs -r ${pkgs.systemd}/bin/loginctl disable-linger",
+    "numbers": [],
+    "entities": ["loginctl", "/var/lib/systemd/linger", "nixos-rebuild", "stringAfter"],
+    "time_period": "October 2023",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "nixosusers-groups-add-user-option-to-enable-lingering-by-toxicfrog-pull-request"
+  },
+  {
+    "claim": "The proposal to enable linger by default for isNormalUser users was rejected by the community with 6 thumbs-down reactions (aanderse, tilpner, michalrus, armeenm, ambroisie, SuperSandro2000)",
+    "stance": "supports",
+    "stance_target": "NixOS deliberately keeps linger opt-in per-user — fleet configs must enable it explicitly for the agent user; there is no default safety net",
+    "evidence_type": "historical (PR discussion, verifiable reactions)",
+    "scope_conditions": "NixOS upstream design decision",
+    "quoted_support": "Design discussion: proposal to enable linger by default when isNormalUser is set was rejected with 6 thumbs-down (Ralith's suggestion; aanderse, tilpner, michalrus, armeenm, ambroisie, and SuperSandro2000 against).",
+    "numbers": ["6 thumbs-down"],
+    "entities": ["Ralith", "isNormalUser", "NixOS community"],
+    "time_period": "October 2023",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "nixosusers-groups-add-user-option-to-enable-lingering-by-toxicfrog-pull-request"
+  }
+]

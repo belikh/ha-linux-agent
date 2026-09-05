@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "systemd-logind is the system service managing user logins: it tracks users, sessions, their processes and idle state — implemented by allocating a systemd slice unit per user below user.slice, a scope unit per concurrent session, and a user@.service instance per logged-in user.",
+    "stance": "supports",
+    "stance_target": "agent presence/session telemetry can be derived from systemd's own cgroup hierarchy (user.slice / session scopes) rather than inventing its own tracking",
+    "evidence_type": "empirical",
+    "scope_conditions": "systemd with ENABLE_LOGIND; Linux systems running systemd",
+    "quoted_support": "systemd-logind is a system service that manages user logins. It is responsible for: Keeping track of users and sessions, their processes and their idle state. This is implemented by allocating a systemd slice unit for each user below user.slice, and a scope unit below it for each concurrent session of a user.",
+    "numbers": [],
+    "entities": ["systemd-logind", "user.slice", "user@.service", "scope unit"],
+    "time_period": "systemd main branch man page (current)",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "see-also"
+  },
+  {
+    "claim": "User sessions register with logind via the pam_systemd PAM module, and logind's configuration lives in logind.conf(5).",
+    "stance": "supports",
+    "stance_target": "agent user/session tracking aligns with the PAM-registered session lifecycle, not raw utmp/wtmp parsing",
+    "evidence_type": "empirical",
+    "scope_conditions": "systemd systems with PAM",
+    "quoted_support": "User sessions are registered with logind via the pam_systemd PAM module.",
+    "numbers": [],
+    "entities": ["pam_systemd", "logind.conf"],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "see-also"
+  },
+  {
+    "claim": "systemd-logind exposes D-Bus APIs org.freedesktop.login1 and org.freedesktop.LogControl1, plus a Varlink interface io.systemd.Shutdown at /run/systemd/io.systemd.Login supporting PowerOff, Reboot, Halt, KExec and SoftReboot methods, each with an optional skipInhibitors boolean (matching SD_LOGIND_SKIP_INHIBITORS).",
+    "stance": "supports",
+    "stance_target": "agent power control should use logind's documented D-Bus/Varlink shutdown interfaces — which respect inhibitor locks — instead of raw reboot(2) or shelling out to systemctl",
+    "evidence_type": "empirical",
+    "scope_conditions": "systemd-logind on the host; introspectable with varlinkctl",
+    "quoted_support": "In addition to the D-Bus interface, systemd-logind also provides a Varlink interface io.systemd.Shutdown for shutting down or rebooting the system. It supports PowerOff, Reboot, Halt, KExec, and SoftReboot methods. Each method accepts an optional skipInhibitors boolean parameter to bypass active block inhibitors",
+    "numbers": [],
+    "entities": ["org.freedesktop.login1", "io.systemd.Shutdown", "Varlink", "skipInhibitors"],
+    "time_period": "current systemd main",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "see-also"
+  },
+  {
+    "claim": "logind is responsible for polkit-based access control for shutdown/sleep operations, shutdown/sleep inhibition locks, handling power/sleep hardware keys, multi-seat management, session switching, device access management for users, automatic getty spawning on virtual console activation, user runtime directory management, scheduled shutdown, and wall messages.",
+    "stance": "supports",
+    "stance_target": "nearly every 'Linux desktop host' concern a fleet agent would want to touch (power, sessions, seats, devices) is already centrally managed by logind — integration point, not reinvention",
+    "evidence_type": "empirical",
+    "scope_conditions": "systemd-logind",
+    "quoted_support": "It is responsible for: ... Providing polkit-based access for users for operations such as system shutdown or sleep. Implementing a shutdown/sleep inhibition logic for applications. Handling of power/sleep hardware keys. Multi-seat management. Session switch management. Device access management for users.",
+    "numbers": [],
+    "entities": ["polkit", "inhibition locks", "multi-seat", "getty"],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "see-also"
+  },
+  {
+    "claim": "SIGHUP to systemd-logind reloads its service configuration file.",
+    "stance": "neutral",
+    "stance_target": "operational detail for agent actions that adjust logind configuration",
+    "evidence_type": "empirical",
+    "scope_conditions": "systemd-logind",
+    "quoted_support": "SIGHUP Reloads the service configuration file.",
+    "numbers": [],
+    "entities": ["SIGHUP", "systemd-logind"],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "see-also"
+  }
+]

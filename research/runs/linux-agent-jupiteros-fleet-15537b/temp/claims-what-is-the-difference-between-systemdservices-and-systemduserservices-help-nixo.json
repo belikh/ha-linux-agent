@@ -1,0 +1,57 @@
+[
+  {
+    "claim": "NixOS's systemd.user.services creates REAL systemd user units started by the user's own systemd --user instance, but installs the unit for every user via /etc/systemd/user, unlike home-manager which installs per-user",
+    "stance": "supports",
+    "stance_target": "NixOS user services are a genuine per-user mechanism but with system-wide unit installation semantics that must be accounted for in fleet deployment",
+    "evidence_type": "expert-opinion (NixOS Discourse, maintainers)",
+    "scope_conditions": "NixOS",
+    "quoted_support": "NixOS's systemd.user.services in NixOS creates REAL systemd user units (started by the user's own systemd --user instance) but installs the unit file for EVERY user via /etc/systemd/user (vs home-manager which installs per-user).",
+    "numbers": [],
+    "entities": [
+      "systemd.user.services",
+      "home-manager",
+      "NixOS",
+      "/etc/systemd/user"
+    ],
+    "time_period": "February 2023",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "what-is-the-difference-between-systemdservices-and-systemduserservices-help-nixo"
+  },
+  {
+    "claim": "NixOS-installed systemd user services do NOT start/restart on 'nixos-rebuild switch' the way system services do; the user must relog so the user instance restarts, or the operator must handle it manually",
+    "stance": "refutes",
+    "stance_target": "user services as a fleet-deployment mechanism on NixOS (they have a rebuild/restart gap that system services lack)",
+    "evidence_type": "expert-opinion (NixOS Discourse, maintainer tejing)",
+    "scope_conditions": "NixOS; systemd user services deployed via systemd.user.services",
+    "quoted_support": "NixOS-installed systemd user services do NOT start/restart on 'nixos-rebuild switch' like system services do \u2014 you must relog so the user instance restarts from scratch, or handle it manually.",
+    "numbers": [],
+    "entities": [
+      "nixos-rebuild switch",
+      "systemd.user.services",
+      "tejing"
+    ],
+    "time_period": "February 2023",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "what-is-the-difference-between-systemdservices-and-systemduserservices-help-nixo"
+  },
+  {
+    "claim": "For a single user's service, home-manager is the recommended mechanism in NixOS; the alternative pattern is a system service with serviceConfig.User",
+    "stance": "supports",
+    "stance_target": "a fleet agent targeting every host should run as a system service (optionally with User= scoping) rather than per-user installs",
+    "evidence_type": "expert-opinion (NixOS Discourse maintainers)",
+    "scope_conditions": "NixOS",
+    "quoted_support": "for a single user's service, home-manager is the recommended mechanism; (3) alternative pattern is a system service with serviceConfig.User.",
+    "numbers": [],
+    "entities": [
+      "home-manager",
+      "serviceConfig.User",
+      "NixOS"
+    ],
+    "time_period": "February 2023",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "what-is-the-difference-between-systemdservices-and-systemduserservices-help-nixo"
+  }
+]

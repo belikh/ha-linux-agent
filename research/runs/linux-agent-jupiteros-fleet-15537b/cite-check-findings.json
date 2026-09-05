@@ -1,0 +1,132 @@
+{
+ "findings": [
+  {
+   "severity": "high",
+   "sentence": "The workspace is twelve crates, eleven commits, 43 files, audited at commit 8369f44 in September 2026, with a 198-line `Agent::run()` at its centre and backend-hardware, core/config, and backend-gamescope at the top of the reference graph [[repo-map-ha-linux-agent]].",
+   "citation": "repo-map-ha-linux-agent",
+   "verdict": "partially-supported",
+   "reason": "repo-map carries 43 files, the centrality ranking (backend-hardware 1.00, core/config.rs 0.96, backend-gamescope 0.93) and the 12-crate file inventory, but not \"eleven commits\" (carried by interim-report-adopt-vs-build-honest-verdict), not the 198-line Agent::run() (carried by interim-report-testing-gate-for-hardware-daemon and interim-report-mqtt-lifecycle-supervisor-spec), and neither the 8369f44 hash nor the September-2026 audit date appears in any vault note (the facts are true \u2014 verified directly against the repo: git HEAD is 8369f44, 11 commits, agent.rs is 198 lines \u2014 but the cited note does not carry them).",
+   "suggested_fix": "extend the citation: add [[interim-report-adopt-vs-build-honest-verdict]] (11 commits, 12 crates) and [[interim-report-testing-gate-for-hardware-daemon]] (198-line Agent::run) alongside repo-map, and either drop \"audited at commit 8369f44 in September 2026\" (uncited anywhere in the vault) or present it explicitly as the run's own repo-audit ground truth"
+  },
+  {
+   "severity": "low",
+   "sentence": "**The backends the fleet never runs.** The audit closes on the three crates no host exercises: backend-kde hard-fails without a session bus (`Connection::session().await?` at `backend-kde/src/lib.rs:41`) and has zero fleet consumers because no jupiterOS host runs Plasma \u2014 greps for plasma/kde across hosts and modules return nothing, and the hard-fail is the stated boundary condition for ever hosting a desktop class (it must adopt the generic backend's warn-and-continue degradation first); backend-gamescope's only fleet consumer is callisto's arcade session, with kiosks reaching gamescope via the shared dashboard-gaming modeSpecs; backend-lutris ships behind the `jupiter.gaming.console` appCatalog but no host configuration exercises its launch-only buttons, its JSON field names hedged unverified \u2014 gamescope and lutris both among the backends the repo itself flags \"Unverified in a live environment\" [[interim-report-fleet-service-model-by-host-class]] [[repo-map-ha-linux-agent]] [[interim-report-adopt-vs-build-honest-verdict]].",
+   "citation": "repo-map-ha-linux-agent",
+   "verdict": "partially-supported",
+   "reason": "repo-map carries only the structural inventory of the three crates (file paths, symbols, symbol line numbers); it states none of the sentence's claims \u2014 no hard-fail detail, no fleet-consumer facts, no Plasma greps, no appCatalog, no unverified flags. The load-bearing legs are carried by the two co-cited interim notes.",
+   "suggested_fix": "optional: drop [[repo-map-ha-linux-agent]] from this sentence, or keep it solely as structural corroboration of the crates' existence \u2014 no text change required"
+  },
+  {
+   "severity": "high",
+   "sentence": "**The backends the fleet never runs.** The audit closes on the three crates no host exercises: backend-kde hard-fails without a session bus (`Connection::session().await?` at `backend-kde/src/lib.rs:41`) and has zero fleet consumers because no jupiterOS host runs Plasma \u2014 greps for plasma/kde across hosts and modules return nothing, and the hard-fail is the stated boundary condition for ever hosting a desktop class (it must adopt the generic backend's warn-and-continue degradation first); backend-gamescope's only fleet consumer is callisto's arcade session, with kiosks reaching gamescope via the shared dashboard-gaming modeSpecs; backend-lutris ships behind the `jupiter.gaming.console` appCatalog but no host configuration exercises its launch-only buttons, its JSON field names hedged unverified \u2014 gamescope and lutris both among the backends the repo itself flags \"Unverified in a live environment\" [[interim-report-fleet-service-model-by-host-class]] [[repo-map-ha-linux-agent]] [[interim-report-adopt-vs-build-honest-verdict]].",
+   "citation": "interim-report-adopt-vs-build-honest-verdict",
+   "verdict": "partially-supported",
+   "reason": "the note carries the consumer legs (backend-kde zero fleet consumers, callisto's arcade session the only gamescope consumer, Lutris behind jupiter.gaming.console with unexercised buttons) and lists the repo's unverified-backends trio as \"zfs, syncthing REST fields, lutris JSON field names \u2014 README's own words\" \u2014 gamescope is NOT among them; the README and ROADMAP flag only zfs, syncthing, and lutris (\"Partially unverified\"), so the sentence's \"gamescope and lutris both among the backends the repo itself flags 'Unverified in a live environment'\" misattributes the flag to gamescope.",
+   "suggested_fix": "drop gamescope from the flagged-backends clause \u2014 e.g. \"lutris among the backends the repo itself flags 'Unverified in a live environment' (alongside zfs and syncthing)\" \u2014 keeping gamescope only in the callisto-arcade-consumer clause"
+  },
+  {
+   "severity": "high",
+   "sentence": "A dead `tls` knob sits at `config.rs:88`, the README has drifted (backend-hardware undocumented; zfs, syncthing, and lutris flagged by the repo itself as \"Unverified in a live environment\"), and the hardware backend exposes placeholder select options rather than sysfs-enumerated values [[interim-report-adopt-vs-build-honest-verdict]].",
+   "citation": "interim-report-adopt-vs-build-honest-verdict",
+   "verdict": "partially-supported",
+   "reason": "the note carries only the zfs/syncthing/lutris-unverified leg (\"three backends explicitly flagged 'Unverified in a live environment' (zfs, syncthing REST fields, lutris JSON field names \u2014 README's own words)\"). The dead-tls-knob fact lives in interim-report-fleet-service-model-by-host-class (\"config.rs:88 parses mqtt.tls, agent.rs never calls set_transport \u2014 grep returns 0 hits\") and appears nowhere in the cited note; the README-drift / backend-hardware-undocumented leg appears in no vault note (it is true against the repo directly \u2014 README.md has no backend-hardware section \u2014 but is uncited); the \"placeholder select options rather than sysfs-enumerated values\" leg appears in no note and is contradicted by the source: crates/backend-hardware/src/lib.rs:74-93 reads scaling_available_governors and energy_performance_available_preferences from sysfs, with hardcoded lists only as fallback on read failure.",
+   "suggested_fix": "re-cite the tls clause to [[interim-report-fleet-service-model-by-host-class]]; delete the placeholder-select clause (false per source \u2014 the options ARE sysfs-enumerated with fallback defaults); keep the adopt-vs-build citation only for the unverified-flags clause; ground the README-drift clause in a citable note or drop it"
+  },
+  {
+   "severity": "low",
+   "sentence": "rumqttc defaults to `clean_session=true`, keepalive 60 s, inflight 100 [[librs]], and callisto's mosquitto sets no `persistence`, so the default applies \u2014 \"stored in memory only\" \u2014 meaning every broker restart wipes all sessions fleet-wide [[mosquittoconf-man-page-eclipse-mosquitto]].",
+   "citation": "mosquittoconf-man-page-eclipse-mosquitto",
+   "verdict": "partially-supported",
+   "reason": "the note carries the persistence default (\"If false, the data will be stored in memory only. Defaults to false\") verbatim; the \"callisto's mosquitto sets no persistence\" connector is fleet ground truth documented in interim-report-mqtt-lifecycle-supervisor-spec (mqtt.nix sets only port/anonymous/users \u2014 no persistence), which this sentence does not cite.",
+   "suggested_fix": "add [[interim-report-mqtt-lifecycle-supervisor-spec]] to the sentence for the callisto mqtt.nix audit leg"
+  },
+  {
+   "severity": "high",
+   "sentence": "One calibration keeps the sizing honest: at the fleet's measured ~25 entities per host the default 1000 never binds \u2014 the binding quantity in #135266 was HA's own `#`-wildcard client against broker-wide retained replay \u2014 so the broker work is cheap hygiene plus a `$SYS` confirmation check on `$SYS/broker/publish/messages/dropped` (not the never-published `$SYS/broker/mqtt/*` variants mosquitto 2.1.2 excludes) rather than urgent resizing [[documentation-on-sysbrokermqtt-topics-is-wrong-issue-3726-eclipse-mosquittomosqu]] [[no-data-in-sysbrokermessagesinflight-issue-3021-eclipse-mosquittomosquitto-githu]].",
+   "citation": "documentation-on-sysbrokermqtt-topics-is-wrong-issue-3726-eclipse-mosquittomosqu",
+   "verdict": "partially-supported",
+   "reason": "the note carries the $SYS legs verbatim (/broker/publish/messages/dropped named as load-bearing; $SYS/broker/mqtt/* \"never published, as of version 2.1.2\"), but the \"fleet's measured ~25 entities per host the default 1000 never binds\" measurement and the \"HA's own #-wildcard client\" attribution are in neither cited note \u2014 the ~25-entity measurement exists only in the run's step-8 binding update (comparisons.md, not a vault note; the depth critic explicitly flagged it as having \"no vault-note citation target\"), and the #-wildcard/binding-quantity fact is carried by the databasec and comments notes, which this sentence does not cite.",
+   "suggested_fix": "keep the 3726 citation on the $SYS-topic clause only; anchor the ~25-entity sizing to a citable record or soften to \"at the fleet's current per-host entity counts (tens, not thousands)\"; optionally re-cite the #-wildcard leg to [[databasec]] or [[comments]]"
+  },
+  {
+   "severity": "high",
+   "sentence": "One calibration keeps the sizing honest: at the fleet's measured ~25 entities per host the default 1000 never binds \u2014 the binding quantity in #135266 was HA's own `#`-wildcard client against broker-wide retained replay \u2014 so the broker work is cheap hygiene plus a `$SYS` confirmation check on `$SYS/broker/publish/messages/dropped` (not the never-published `$SYS/broker/mqtt/*` variants mosquitto 2.1.2 excludes) rather than urgent resizing [[documentation-on-sysbrokermqtt-topics-is-wrong-issue-3726-eclipse-mosquittomosqu]] [[no-data-in-sysbrokermessagesinflight-issue-3021-eclipse-mosquittomosquitto-githu]].",
+   "citation": "no-data-in-sysbrokermessagesinflight-issue-3021-eclipse-mosquittomosquitto-githu",
+   "verdict": "partially-supported",
+   "reason": "the 3021 note documents only that $SYS/broker/messages/inflight returns no data (reported against v2.0.15); it carries none of the sentence's specifics \u2014 the mqtt/* never-published fact and the 2.1.2 detail are in the co-cited 3726 note, and the ~25-entity measurement, the 1000-never-binds arithmetic, and the #-wildcard attribution are in no cited note.",
+   "suggested_fix": "drop the 3021 citation (the $SYS legs are fully carried by the 3726 note) or keep it solely as corroboration that some $SYS topics read nothing; apply the same sizing-softening fix as the 3726 pair"
+  },
+  {
+   "severity": "medium",
+   "sentence": "**The sensor bar.** go-hass-agent (v14.15.1, 2026-08-09, packaged in nixpkgs \u2014 the NixOS package collection \u2014 for all 24 Linux platforms, ~monthly cosign-signed releases) sources its Linux surface from D-Bus (logind sessions, power state, screen lock, NetworkManager, XDG portal, UPower, MPRIS, fwupd), ProcFS (memory, disk, load, per-core CPU usage and frequency, uptime, kernel, CPU vulnerabilities), SysFS (disk I/O rates, hwmon), and Netlink (link states, rates) [[github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device]] [[go-hass-agent-mynixos]].",
+   "citation": "go-hass-agent-mynixos",
+   "verdict": "partially-supported",
+   "reason": "mynixos carries v14.15.1-in-nixpkgs, the 24-platform build list, and the not-broken/insecure/unfree status, but not the \"2026-08-09\" release date or the \"~monthly cosign-signed releases\" cadence \u2014 both live in releases-joshuargo-hass-agent-github, which this sentence does not cite (its citations are the README note and mynixos).",
+   "suggested_fix": "add [[releases-joshuargo-hass-agent-github]] to the citation set for the date and cadence legs (or drop the date)"
+  },
+  {
+   "severity": "medium",
+   "sentence": "Its users hit the wall in January 2026: a PipeWire output-device selector \"can't be expressed\" because the commands vocabulary has no dropdown [[go-hass-agent-a-native-app-integration-for-desktoplaptop-devices-share-your-proj]]. jupiterOS's session-switching requires a select whose options reflect real systemd unit state \u2014 grouped launcher profiles become one mutually exclusive select, the shared state topic reshaping through discovery \u2014 a vocabulary the incumbent architecturally lacks. lnxlink ships dropdowns (a Steam game-launcher select among them) and systemd unit control, but no mutual-exclusion semantics and no state round-trip tied to fleet power services [[lnxlink]].",
+   "citation": "go-hass-agent-a-native-app-integration-for-desktoplaptop-devices-share-your-proj",
+   "verdict": "partially-supported",
+   "reason": "the note carries January 2026, the PipeWire/pulseaudio output-selector request, and the no-dropdown facts, but the quoted phrase \"can't be expressed\" does not appear in the thread (0 hits for any form of \"express\" in the user's words); the source's verbatim words are \"I can't see a means to do a drop-down selector box with multiple text items\" \u2014 quotation marks are placed around a paraphrase.",
+   "suggested_fix": "replace the quoted \"can't be expressed\" with the source's verbatim words, or remove the quotation marks so it reads as paraphrase rather than quotation"
+  },
+  {
+   "severity": "medium",
+   "sentence": "go-hass-agent v14.15.1 is one `environment.systemPackages` line away on every host \u2014 verified in nixpkgs proper, not broken, not unfree, building for all 24 Linux platforms, maintained on a ~monthly cosign-signed cadence with 3,909 commits of sensor and hardware polish [[go-hass-agent-mynixos]] [[releases-joshuargo-hass-agent-github]].",
+   "citation": "go-hass-agent-mynixos",
+   "verdict": "partially-supported",
+   "reason": "mynixos carries nixpkgs-proper, not-broken/insecure/unfree, all 24 platforms, and the one-package-line framing, but not \"3,909 commits\" \u2014 that figure is in github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device (summary: \"575 stars, 3,909 commits\") and interim-report-adopt-vs-build-honest-verdict, neither cited in this sentence; the co-cited releases note also lacks it (0 hits).",
+   "suggested_fix": "add [[github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device]] to the citation for the 3,909-commits leg, or drop the number"
+  },
+  {
+   "severity": "high",
+   "sentence": "go-hass-agent v14.15.1 is one `environment.systemPackages` line away on every host \u2014 verified in nixpkgs proper, not broken, not unfree, building for all 24 Linux platforms, maintained on a ~monthly cosign-signed cadence with 3,909 commits of sensor and hardware polish [[go-hass-agent-mynixos]] [[releases-joshuargo-hass-agent-github]].",
+   "citation": "releases-joshuargo-hass-agent-github",
+   "verdict": "partially-supported",
+   "reason": "the releases note carries \"Active ~monthly cadence through 2026\" and \"cosign/GPG-signed via GitHub verified signatures\" verbatim, but contains no \"3,909\" figure (0 hits) \u2014 the commit count lives in github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device (\"History 3,909 Commits\") and interim-report-adopt-vs-build-honest-verdict, neither cited in this sentence; the note also does not carry the nixpkgs-proper/broken/unfree/platforms legs (those are the mynixos co-cite's).",
+   "suggested_fix": "add [[github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device]] for the 3,909-commits leg, or drop the number from the sentence"
+  },
+  {
+   "severity": "medium",
+   "sentence": "Its maintainer designs the systemd path for servers (\"The systemctl service is primarily for 'headless' usage (i.e., servers)\"), its changelog shows it paying the MQTT lifecycle dues in public \u2014 \"reconnect to MQTT on disconnect and fix issue with MQTT commands not working\", graceful channel shutdown, constant device ids \u2014 and it carries SMART with capability handling, per-core frequencies, link rates, OOM events, fwupd firmware security [[changelogmd]] [[github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device]]. lnxlink covers the desktop long tail, including a Steam game-launcher dropdown, a Lutris launcher dropdown shipped as a custom module, and a bash-command module creating sensors, buttons, and switches from shell scripts [[lnxlink]].",
+   "citation": "github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device",
+   "verdict": "wrong-source",
+   "reason": "the README note carries the sensor legs (SMART with capability handling via cap_sys_rawio/sys_admin/mknod/dac_override, per-core CPU frequency, link states/rates via Netlink, OOM events via systemd-oomd, fwupd firmware security) and changelogmd carries the changelog legs, but the quoted \"The systemctl service is primarily for 'headless' usage (i.e., servers)\" appears in neither cited note \u2014 it lives verbatim in running-the-agent-as-a-service-and-tray-icon-joshuargo-hass-agent-discussion-387 (the maintainer's discussion #387 reply, quoted by the adopt-vs-build interim).",
+   "suggested_fix": "add [[running-the-agent-as-a-service-and-tray-icon-joshuargo-hass-agent-discussion-387]] to the maintainer-quote clause (or cite interim-report-adopt-vs-build-honest-verdict, which quotes it)"
+  },
+  {
+   "severity": "high",
+   "sentence": "A NixOS host runs services in two shapes: system services, managed by the system manager and ordered against the network and each other, and user services, managed per-user and unable to order against system units \"by design\" [[what-is-the-difference-between-systemdservices-and-systemduserservices-help-nixo]].",
+   "citation": "what-is-the-difference-between-systemdservices-and-systemduserservices-help-nixo",
+   "verdict": "partially-supported",
+   "reason": "The cited Discourse 25222 note supports the two-shapes frame (tejing: user services are started by the user's own systemd instance; they don't restart on nixos-rebuild switch), but the quotation-marked phrase \"by design\" and the ordering claim (user units unable to order against system units) are NOT in this note \u2014 waffle8946's verbatim \"So you cannot have user services depend on system ones or vice versa, by design\" lives in [[restart-oneshot-systemd-service-on-every-rebuild-help-nixos-discourse]] (Discourse 70853), and the cannot-depend fact also appears in [[systemduser-archwiki]].",
+   "suggested_fix": "Keep the sentence but add [[restart-oneshot-systemd-service-on-every-rebuild-help-nixos-discourse]] as a co-citation for the \"by design\" ordering clause (or drop the quote marks and cite systemduser-archwiki for the dependency restriction)."
+  },
+  {
+   "severity": "critical",
+   "sentence": "The schema is authoritative but explicitly unstable-by-policy across versions, so the parser is version-tolerant; the operational surface around it \u2014 `tailscale wait` / tailscale-online.target as the readiness gate where mesh reachability orders the agent, `BackendState` as the reliable running-indicator, and the frozen-by-policy `--json` contract that makes version-tolerance a schema check rather than a re-parse \u2014 completes the feature the same way SMART and ZFS get their mechanisms named [[how-to-check-if-tailscale-is-running-alexwlchan]].",
+   "citation": "how-to-check-if-tailscale-is-running-alexwlchan",
+   "verdict": "wrong-source",
+   "reason": "The alexwlchan note supports only one of the sentence's four claims \u2014 BackendState as the running indicator (via tailscale status --json on a Mac). It contains nothing about `tailscale wait`, tailscale-online.target, schema instability-by-policy, or the frozen-by-compatibility-promise --json contract. Those live in [[tailscale-cli-tailscale-docs]] (wait semantics, \"Linux systemd users can wait for the tailscale-online.target target\", and status --json marked \"WARNING: format subject to change\") and [[cmdtailscalecli-build-a-mechanism-to-change-the-output-from-json-logs-in-the-fut]] (issue #17619: --json output frozen because \"we can't change it or we'll break downstream clients\").",
+   "suggested_fix": "Re-cite: swap/augment to [[tailscale-cli-tailscale-docs]] for the wait/tailscale-online.target readiness gate and the unstable-format warning, plus [[cmdtailscalecli-build-a-mechanism-to-change-the-output-from-json-logs-in-the-fut]] for the frozen-by-policy --json contract; alexwlchan may remain cited for the BackendState running-indicator clause only."
+  },
+  {
+   "severity": "high",
+   "sentence": "**Remote reboot/poweroff.** Present through the launcher and systemd backends [[repo-map-ha-linux-agent]]; what is missing is the idempotency contract \u2014 an audit of the fleet's command handlers for non-idempotent semantics (reboot/power among them) is the named next step, because whether any launcher-style command is non-idempotent calibrates how much the clean-session rejection depends on it: if none are, a replayed stale message damages nothing, and the persistence question becomes lower-stakes than the lifecycle design argues.",
+   "citation": "repo-map-ha-linux-agent",
+   "verdict": "unsupported",
+   "reason": "The repo-map note documents no reboot or poweroff command anywhere (zero occurrences of reboot/poweroff/shutdown in the note; the audited command surface is launcher systemctl start/stop/is-active, hardware brightness/governor/EPP, and generic lock/suspend/notify). The live codebase confirms it: backend-generic exposes only lock, suspend, and notify buttons; no crate contains a reboot/poweroff handler. The mqtt-lifecycle interim note treats reboot/power as an open audit question (\"whether any launcher-style command is non-idempotent (reboot/power commands)\"), not an established capability.",
+   "suggested_fix": "Soften the opening to what the sources support: remote power control today is limited to suspend (and screen lock) via the generic backend's login1 commands plus launcher unit start/stop; reboot/poweroff are not in the audited command surface, and the idempotency audit named in the sentence is precisely what would price adding them. Alternatively cite [[interim-report-mqtt-lifecycle-supervisor-spec]] for the audit framing."
+  },
+  {
+   "severity": "medium",
+   "sentence": "So the mosquitto-subprocess harness inside the test hook \u2014 bind a `TcpListener` to `127.0.0.1:0`, read the port, hand it to `mosquitto -p <port>` (the no-config default is anonymous and loopback-only), TCP-probe with a fail-fast, kill on Drop \u2014 needs no sandbox escape and no VM [[mosquitto8-mosquitto-debian-unstable-debian-manpages]].",
+   "citation": "mosquitto8-mosquitto-debian-unstable-debian-manpages",
+   "verdict": "partially-supported",
+   "reason": "The mosquitto(8) note fully supports the loopback-only half (\"From version 2.0 onwards, the listeners defined with -p are bound to the loopback interface only\"; no-config default listens on 1883 bound to loopback), but it says nothing about anonymous access \u2014 the anonymous-when-no-listeners default is documented in [[mosquittoconf-man-page-eclipse-mosquitto]] (\"Defaults to false, unless no listeners are defined in the configuration file, in which case it set to true, but connections are only allowed from the local machine\"), which the sentence does not cite.",
+   "suggested_fix": "Add [[mosquittoconf-man-page-eclipse-mosquitto]] as a co-citation for the anonymous half of the parenthetical (or cite [[interim-report-testing-gate-for-hardware-daemon]], which quotes mosquitto.conf(5) for exactly this default)."
+  }
+ ]
+}

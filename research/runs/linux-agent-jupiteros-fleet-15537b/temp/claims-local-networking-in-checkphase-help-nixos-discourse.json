@@ -1,0 +1,20 @@
+[
+ {
+  "claim": "The boundary rule for loopback in Nix builds: a server started OUTSIDE the build is unreachable from inside checkPhase (different netns loopbacks), but a server started INSIDE the build (as a test fixture) works on Linux \u2014 the same author demonstrated both directions (Discourse 40208 + nixpkgs PR #283878).",
+  "stance": "supports",
+  "stance_target": "gap-04: the harness must spawn mosquitto as a subprocess of the test inside the sandbox, not connect to any host service \u2014 the design as written is correct",
+  "evidence_type": "anecdotal",
+  "scope_conditions": "Nix sandbox = true on Linux, 2024; curl/python http.server",
+  "quoted_support": "the loopback interface inside the build sandbox is not the same one my example python server is listening to external to that context",
+  "numbers": [],
+  "entities": [
+   "Nix",
+   "n8henrie",
+   "checkPhase"
+  ],
+  "time_period": "February 2024 (self-answered August 2026)",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "local-networking-in-checkphase-help-nixos-discourse"
+ }
+]

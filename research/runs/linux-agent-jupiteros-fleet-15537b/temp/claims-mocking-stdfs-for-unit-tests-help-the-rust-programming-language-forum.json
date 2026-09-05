@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "std::fs is a module, not a trait or interface, so there is no way to substitute a mock filesystem for it in Rust unit tests.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent cannot rely on filesystem mocking for unit tests and must use another strategy (temp dirs or trait abstraction)",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Rust std library, unit testing",
+    "quoted_support": "All the fs access in Rust is built on top of std::fs which is a module, not a trait or any other kind of interface, so there is no real way to substitute std::fs by std::mock_fs or something like that for the tests.",
+    "numbers": [],
+    "entities": ["std::fs", "Rust"],
+    "time_period": "November 18, 2018 (thread); pattern still current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "mocking-stdfs-for-unit-tests-help-the-rust-programming-language-forum"
+  },
+  {
+    "claim": "The community-endorsed approach for fs-touching Rust tests is the tempfile crate's tempdir, which auto-deletes on scope exit and defaults to the OS temp directory (usually tmpfs/ramdisk on Linux).",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's file-walking/reading code can be tested hermetically with tempfile instead of mocking or relying on host state",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Linux temp dirs typically tmpfs",
+    "quoted_support": "You might want to try the tempfile crate ... With that you can create individual files or directories, and they will be deleted when the object goes out of scope. I think the crate also defaults to using the OS's designated temporary directories, e.g. /tmp/ on linux, which is usually a tmpfs/ramdisk.",
+    "numbers": [],
+    "entities": ["tempfile", "tempdir"],
+    "time_period": "November 18, 2018",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "mocking-stdfs-for-unit-tests-help-the-rust-programming-language-forum"
+  },
+  {
+    "claim": "An alternative testability strategy is abstracting over the std Read/Write/Seek traits that std::fs::File implements, allowing fake I/O in unit tests.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent can architect file-reading code against std I/O traits so unit tests need no real filesystem at all",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Rust std I/O traits",
+    "quoted_support": "Alternatively, the types from std::fs implement several traits over which you might be able to abstract, e.g. Read, Write, Seek.",
+    "numbers": [],
+    "entities": ["Read", "Write", "Seek", "std::fs::File"],
+    "time_period": "November 18, 2018",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "mocking-stdfs-for-unit-tests-help-the-rust-programming-language-forum"
+  }
+]

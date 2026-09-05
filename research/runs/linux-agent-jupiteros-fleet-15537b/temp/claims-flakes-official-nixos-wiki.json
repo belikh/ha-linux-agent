@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Flakes are still officially classified as an experimental Nix feature (introduced in Nix 2.4), providing uniform project structure, input pinning via flake.lock, and a registry-backed URL syntax (github:NixOS/nixpkgs).",
+    "stance": "neutral",
+    "stance_target": "ha-linux-agent's flake packaging must account for experimental-features gating on fleet hosts (nix.settings.experimental-features = [ \"nix-command\" \"flakes\" ])",
+    "evidence_type": "empirical",
+    "scope_conditions": "Official NixOS wiki Flakes page (oldid 33616); experimental since Nix 2.4 (2021); page flagged as needing cleanup",
+    "quoted_support": "Nix flakes are an experimental feature first introduced in the 2.4 Nix release, aiming to address a number of areas of improvement for the Nix ecosystem: they provide a uniform structure for Nix projects, allow for pinning specific versions of each dependencies, and sharing these dependencies via lock files, and overall make it more convenient to write reproducible Nix expressions.",
+    "numbers": ["2.4"],
+    "entities": ["Nix", "flakes", "flake.lock", "nix-command"],
+    "time_period": "since 2021, current as of 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "flakes-official-nixos-wiki"
+  },
+  {
+    "claim": "The flake outputs schema includes nixosModules.<name> and nixosConfigurations.<hostname> (used by nixos-rebuild switch --flake .#<hostname>), alongside checks (nix flake check), packages, devShells, overlays, and hydraJobs.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent should expose itself as a nixosModules output so any jupiterOS host can consume the agent module directly from the flake",
+    "evidence_type": "empirical",
+    "scope_conditions": "Official NixOS wiki Flakes page, output schema section",
+    "quoted_support": "# Nixos module, consumed by other flakes nixosModules.\"<name>\" = { config, ... }: { options = {}; config = {}; }; ... # Used with `nixos-rebuild switch --flake .#<hostname>` nixosConfigurations.\"<hostname>\".config.system.build.toplevel must be a derivation",
+    "numbers": [],
+    "entities": ["nixosModules", "nixosConfigurations", "nix flake check", "nixos-rebuild"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "flakes-official-nixos-wiki"
+  },
+  {
+    "claim": "Flake contents are copied world-readable to the Nix store, so unencrypted secrets must never be placed in flake files; additionally in git repos only git-added files are copied to the store.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent must provision MQTT credentials via a secret-management scheme (not inline in the flake/nix config) for fleet deployment",
+    "evidence_type": "empirical",
+    "scope_conditions": "Official NixOS wiki Flakes page, Usage warning box",
+    "quoted_support": "Since contents of flake files are copied to the world-readable Nix store folder, do not put any unencrypted secrets in flake files. You should instead use a secret managing scheme.",
+    "numbers": [],
+    "entities": ["Nix store", "flakes", "secrets"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "flakes-official-nixos-wiki"
+  }
+]

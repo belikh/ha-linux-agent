@@ -1,0 +1,16 @@
+[
+  {
+    "claim": "dbus-launch is the classic per-login-session tool that starts a session bus and exports its address via DBUS_SESSION_BUS_ADDRESS; its output modes are --sh-syntax/--csh-syntax/--binary-syntax and it binds bus lifetime to the X session via --exit-with-session",
+    "stance": "supports",
+    "stance_target": "DBUS_SESSION_BUS_ADDRESS is set only inside a user login session environment, never for system services",
+    "evidence_type": "theoretical",
+    "scope_conditions": "classic X11 session bus startup; superseded on systemd systems by the dbus user service at $XDG_RUNTIME_DIR/bus",
+    "quoted_support": "dbus-launch is designed for one-per-login-session use in X clients' startup scripts ... --exit-with-session ... sets DBUS_SESSION_BUS_ADDRESS in the environment.",
+    "numbers": [],
+    "entities": ["dbus-launch", "DBUS_SESSION_BUS_ADDRESS", "XDG_RUNTIME_DIR/bus", "systemd user service"],
+    "time_period": "current upstream documentation",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "dbus-launch"
+  }
+]

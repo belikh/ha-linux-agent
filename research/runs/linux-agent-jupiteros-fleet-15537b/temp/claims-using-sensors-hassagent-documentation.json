@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "HASS.Agent's sensor configuration model gives each sensor a TYPE, an entity-name (must be entity_id-safe, no spaces), an update interval with a recommended default, an optional friendly name, and an availability-check toggle that decides whether HA treats the host as online before showing last state",
+    "stance": "supports",
+    "stance_target": "per-sensor cadence plus an explicit availability/last-state-retention policy is the incumbent UX contract — ha-linux-agent needs both an update-interval story and an explicit decision about how HA renders offline jupiterOS hosts",
+    "evidence_type": "empirical",
+    "scope_conditions": "HASS.Agent 2.2 docs (Windows); /latest URL redirects to the 2.2 versioned docs",
+    "quoted_support": "TYPE: Select the type of sensor from the left ... Name: Enter the name for the entity in HA, this is the entity id so it must not contain spaces. Update Interval: Sets the interval for how often the sensor updates, the recommended value is usually fine. ... Availability check: Enable/Disable availability check, this tells HA whether to check if the computer is online before grabbing the last state.",
+    "numbers": ["docs version 2.2"],
+    "entities": ["HASS.Agent"],
+    "time_period": "2024-2026",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "using-sensors-hassagent-documentation"
+  },
+  {
+    "claim": "HASS.Agent sensors attach to the MQTT integration in HA under the computer's name, and the configured sensor Name becomes the entity_id",
+    "stance": "supports",
+    "stance_target": "host-name-keyed MQTT device identity (computer name as the device grouping) is the incumbent pattern for multi-PC fleets",
+    "evidence_type": "empirical",
+    "scope_conditions": "HASS.Agent 2.2 with MQTT",
+    "quoted_support": "Each sensor/command will be attached to the mqtt integration under the name of your computer. ... Note that the entity id is the \"Name\" you set in the sensor config.",
+    "numbers": [],
+    "entities": ["HASS.Agent", "Home Assistant MQTT integration"],
+    "time_period": "2024-2026",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "using-sensors-hassagent-documentation"
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "claim": "The mobile_app integration page is a hub only: it states the integration lets HA mobile apps integrate with HA and is enabled by default, but it contains no notification schema or action-event details, deferring to companion and developer documentation.",
+    "stance": "neutral",
+    "stance_target": "Actionable-notification round-trip behaviour for mobile_app must be cited from companion docs, not this page",
+    "evidence_type": "empirical",
+    "scope_conditions": "Home Assistant mobile_app integration",
+    "quoted_support": "The Mobile App integration lets Home Assistant mobile apps integrate with Home Assistant. If you are planning to use a mobile application that integrates with Home Assistant, we recommend that you keep this integration enabled. If you are a mobile app developer, see the developer documentation for instructions on how to build your app on top of the mobile app integration.",
+    "numbers": ["86.1% of active installations", "introduced in HA 0.89"],
+    "entities": ["Home Assistant", "mobile_app", "HA iOS app", "HA Android app"],
+    "time_period": "HA 0.89 through 2026",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "mobile-app-home-assistant"
+  }
+]

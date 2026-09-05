@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Home Assistant's built-in Prometheus integration exposes only HA entity-level metrics at /api/prometheus for an external Prometheus server to scrape (pull model with long-lived access token); it does not export host/OS metrics.",
+    "stance": "supports",
+    "stance_target": "Gap in HA-native tooling that a Rust host-metrics agent (ha-linux-agent) fills for jupiterOS hosts",
+    "evidence_type": "empirical",
+    "scope_conditions": "Home Assistant core integration (since 0.49), configuration.yaml-defined, ~3565 active installs, legacy integration",
+    "quoted_support": "The Prometheus integration exposes metrics in a format which Prometheus can read. ... Metrics are exported only for the following domains: alarm_control_panel, automation, binary_sensor, climate, cover, counter, device_tracker, fan, geo_location, humidifier, input_boolean, input_number, light, lock, number, person, sensor, switch, update, water_heater.",
+    "numbers": ["20 exported domains", "60s typical scrape_interval", "since 0.49", "3565 active installations"],
+    "entities": ["Home Assistant", "Prometheus", "knyar"],
+    "time_period": "Current docs (2026)",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "prometheus-home-assistant"
+  },
+  {
+    "claim": "HA's Prometheus integration unexports entities in unavailable or unknown state and re-exports them automatically once available/known again, with an entity_available metric available for filtering stale values in queries.",
+    "stance": "neutral",
+    "stance_target": "Handling of unavailable states in metric export - relevant to agent design for offline/flapping hosts",
+    "evidence_type": "empirical",
+    "scope_conditions": "HA Prometheus integration behaviour",
+    "quoted_support": "When the Prometheus exporter starts (typically when Home Assistant starts), all non-excluded entities in an unavailable or unknown state are not exported until they are available and known. If an available entity goes into state unavailable or unknown, then it will automatically be unexported and return again automatically when available and known.",
+    "numbers": [],
+    "entities": ["Home Assistant", "Prometheus"],
+    "time_period": "Current docs",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "prometheus-home-assistant"
+  },
+  {
+    "claim": "The integration supports area_info/entity_info/floor_info info-metrics enabling PromQL label joins (e.g. averaging temperature per area), and its filter precedence is entity include > entity exclude > glob > domain, with exclude prevailing over include within the same level.",
+    "stance": "neutral",
+    "stance_target": "Metric namespace/hierarchy design (area/floor labels) applicable to a jupiterOS fleet agent's entity tagging",
+    "evidence_type": "empirical",
+    "scope_conditions": "HA Prometheus integration configuration semantics",
+    "quoted_support": "The Prometheus exporter additionally exports several info metrics: area_info, entity_info and floor_info ... You can do a join across metrics to then get the labels from these onto the individual sensors ... Values set by the exclude_* option will prevail.",
+    "numbers": [],
+    "entities": ["Home Assistant", "Prometheus"],
+    "time_period": "Current docs",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "prometheus-home-assistant"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "NixOS expresses systemd user services via systemd.user.services.<name>, managed by the user's own systemd instance so a user can start/stop/restart services without sudo",
+    "stance": "supports",
+    "stance_target": "user-scoped systemd services are a viable mechanism for running an agent without granting sudo",
+    "evidence_type": "official-documentation",
+    "scope_conditions": "NixOS with systemd; user services only",
+    "quoted_support": "In NixOS, a user service can be expressed with systemd.user.services.<name> ... This may be useful if you want a user to be able to start, stop, and restart their own instance of a service without needing to make the user a sudoer.",
+    "numbers": [],
+    "entities": ["NixOS", "systemd.user.services", "systemctl --user"],
+    "time_period": "wiki page oldid 27204 (current as of Sep 2026)",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "systemduser-services-official-nixos-wiki"
+  },
+  {
+    "claim": "By default user services stop at logout and restart only on next login (wantedBy = default.target); keeping a user service running after logout requires users.users.<username>.linger = true, plus wantedBy = [ \"multi-user.target\" ] for boot-time start",
+    "stance": "supports",
+    "stance_target": "fleet-wide headless deployment of a user-scoped agent on NixOS requires explicit lingering configuration, not the default user-service wiring",
+    "evidence_type": "official-documentation",
+    "scope_conditions": "NixOS user services; headless or no-login hosts",
+    "quoted_support": "If you need a user service to stay running after a user logs out, you need to enable \"lingering\" by setting users.users.<username>.linger = true; You'll also likely want to change to wantedBy = [ \"multi-user.target\" ]; so the service starts at boot time.",
+    "numbers": [],
+    "entities": ["users.users.<name>.linger", "multi-user.target", "default.target", "NixOS"],
+    "time_period": "wiki page oldid 27204",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "systemduser-services-official-nixos-wiki"
+  },
+  {
+    "claim": "Enabling a systemd.user.services unit in NixOS installs it for EVERY user for which systemd spawns a user manager; restricting it to specific users requires unitConfig.ConditionUser (e.g. \"UserA|UserB\" or \"!root\")",
+    "stance": "supports",
+    "stance_target": "a NixOS user-service-based agent install must gate execution per-user via ConditionUser, since unit installation is system-wide by default",
+    "evidence_type": "official-documentation",
+    "scope_conditions": "NixOS user services",
+    "quoted_support": "By default, enabling a user service enables it for every user for which systemd spawns a service manager. If you wish for the service to be run only for specific users (say, UserA and UserB), use ConditionUser (man 5 systemd.unit).",
+    "numbers": [],
+    "entities": ["ConditionUser", "systemd.user.services", "NixOS"],
+    "time_period": "wiki page oldid 27204",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "systemduser-services-official-nixos-wiki"
+  },
+  {
+    "claim": "Interaction with user services uses systemctl --user (status) and journalctl --user-unit <name> for logs, and the NixOS wiki itself defers to the Arch wiki systemd/User page for fuller background",
+    "stance": "neutral",
+    "stance_target": "operational debugging of a fleet agent running as a user service",
+    "evidence_type": "official-documentation",
+    "scope_conditions": "NixOS/systemd",
+    "quoted_support": "To interact with user-specific systemd services, use the --user flag with the systemctl command. ... To view logs for a specific user service, use journalctl with the --user-unit option. ... See here for more information: https://wiki.archlinux.org/title/Systemd/User",
+    "numbers": [],
+    "entities": ["systemctl --user", "journalctl --user-unit", "Arch wiki"],
+    "time_period": "wiki page oldid 27204",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "systemduser-services-official-nixos-wiki"
+  }
+]

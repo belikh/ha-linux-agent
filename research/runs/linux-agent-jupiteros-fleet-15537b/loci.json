@@ -1,0 +1,104 @@
+{
+  "loci": [
+    {
+      "name": "fleet-service-model-by-host-class",
+      "flavor": "dialectical",
+      "one_line": "How does ONE agent codebase and ONE NixOS module actually serve all 7 jupiterOS hosts — user-service-with-linger on kiosks/desktops vs system-service-with-capabilities on headless boxes — covering unit lifecycle (the nixos-rebuild user-unit restart gap), D-Bus access (/run/user/<uid>/bus reachability from a system service), privileges, and double-registration avoidance?",
+      "importance": 10,
+      "uncertainty": 7,
+      "disagreement": 8,
+      "decision_impact": 10,
+      "composite_score": 35,
+      "source_budget": 10,
+      "rationale": "Merged from analyst-A 'service-model-for-every-host' and analyst-B 'fleet-service-model-by-host-class' (same core question, both top-scored). This IS the 'every host in jupiterOS' question; the contradiction graph admits it 'reconciles by host-class, not by winner' but no source designs the split. Open depth questions: (a) the shape of a services.ha-agent module shipping a system unit on europa/pallene/callisto and a lingered user unit on kiosks via mkIf; (b) whether a system service with User=io can reach the session bus at /run/user/<uid>/bus (which exists under linger without a graphical session); (c) verifying the nixos-rebuild-switch user-unit restart gap is still true on current NixOS (thread is Feb 2023); (d) how credentials/TLS reach the agent per host (tls knob verified dead in config.rs:88); (e) SMART AmbientCapabilities vs the existing sysfs-chmod workaround's interaction.",
+      "corpus_evidence": ["systemduser-archwiki", "what-is-the-difference-between-systemdservices-and-systemduserservices-help-nixo", "enabling-persistent-user-instance-systemd-issue-3702-nixosnixpkgs-github", "nixosusers-groups-add-user-option-to-ena", "how-to-create-user-systemd-service-help-", "set-up-systemd-services-with-session-dbu", "openclaw-gateway-status-fails-on-ec2head", "clarification-of-volume-permissions-issu", "github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device", "systemduser-services-official-nixos-wiki", "see-also-3", "nixos-manual", "flakes-official-nixos-wiki", "extend-nixos-official-nixos-wiki", "github-z-galaxyzbus-rust-d-bus-crate-git", "repo-map-ha-linux-agent"],
+      "opposing_positions": [
+        {"position": "User service + linger everywhere: no root, session bus free for niri/notifications, go-hass-agent refuses root, jupiter-os ships ConditionUser=io+linger today", "sources": ["github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device", "systemduser-services-official-nixos-wiki", "nixosusers-groups-add-user-option-to-ena"]},
+        {"position": "System service (User=/AmbientCapabilities=) at least on servers: user units don't restart on nixos-rebuild switch, can't order after system units, 9-year declarative-linger gap, SMART capabilities only grantable on system units, 'No medium found' bus maze headless", "sources": ["what-is-the-difference-between-systemdservices-and-systemduserservices-help-nixo", "systemduser-archwiki", "enabling-persistent-user-instance-systemd", "clarification-of-volume-permissions-issu"]}
+      ],
+      "suggested_searches": ["system service connect to session dbus /run/user bus User=", "NixOS systemd.user.services restart nixos-rebuild switch current", "NixOS AmbientCapabilities example service", "sops-nix credentials systemd user service"]
+    },
+    {
+      "name": "mqtt-lifecycle-supervisor-spec",
+      "flavor": "technical",
+      "one_line": "What is the concrete, implementable MQTT lifecycle supervisor design on rumqttc — re-subscribe on every ConnAck, clean_session=false + stable client_id, birth-message-triggered discovery republish with jitter, LWT + explicit SIGTERM offline publish, stale-message bounding, ghost cleanup via empty-payload publishes, per-backend task isolation (fixes the verified hung-syncthing stall), and the paired broker max_queued_messages sizing on callisto — mapped defect-by-defect to the file:line audit?",
+      "importance": 10,
+      "uncertainty": 6,
+      "disagreement": 5,
+      "decision_impact": 10,
+      "composite_score": 31,
+      "source_budget": 8,
+      "rationale": "Merged from analyst-A 'mqtt-lifecycle-state-machine' and analyst-B 'mqtt-lifecycle-supervisor-spec'. The user's 'never reliable' complaint is the research centre of gravity; the WHAT is near-consensus (consensus-claims.json) but the HOW is unassembled: rumqttc has no disconnect callback and no pending TTL (#211, open since 2020); HA docs recommend a random delay on birth-triggered rediscovery; Z2M's production jitter/backoff pattern (30s jitter, x1.5-x12 backoff) is the reference; broker max_queued_messages (mosquitto default 1000) silently dropped 56/112 retained topics at HA #135266's 5374-entity scale — the spec must pair agent behaviour with callisto's actual mosquitto config; rumqttc at main is v3.1.1-only so HA's message_expiry_interval is unavailable and ghost cleanup must use Homie's empty-payload order; the retained-discipline matrix (config+state+availability retained, commands never) is corpus-established.",
+      "corpus_evidence": ["automatic-reconnect-and-subscribed-topics-issue-250-bytebeamiorumqtt-github", "eventloop-in-rumqttc-rust", "rumqttc-rust", "librs", "rumqttrumqttcsrceventlooprs-at-main-bytebeamiorumqtt-github", "rumqttc-reconnection-to-mqtt-broker-and-pending-messages-ttl-issue-211-bytebeami", "mqtt-home-assistant", "comments", "mqtt-discovery-availability-home-assistant-os-home-assistant-community", "mqtt-sensors-unavailable-in-01140bx-othe", "releases-hass-agenthassagent-github", "what-is-mqtt-last-will-and-testament-lwt-mqtt-essentials-part-9", "mqtt-client-component-esphome-smart-home-made-simple", "device-availability-zigbee2mqtt", "my-hand-built-mqtt-devices-are-unavailable-after-hassio-restart-but-zigbee2mqtt", "the-homie-convention", "some-mqtt-devices-unavailable-after-ha-restart-issue-135266-home-assistantcore-g", "repo-map-ha-linux-agent"],
+      "suggested_searches": ["mosquitto max_queued_messages sizing retained replay", "zigbee2mqtt availability backoff source code", "MQTT client supervisor pattern stale message TTL", "HA mqtt discovery cleanup empty payload remove device"]
+    },
+    {
+      "name": "adopt-vs-build-honest-verdict",
+      "flavor": "dialectical",
+      "one_line": "Given go-hass-agent v14.15.1 is already in nixpkgs and lnxlink is community-endorsed with ~50 modules, is improving ha-linux-agent the right call at all — and if yes, exactly which jupiterOS-native capabilities (launcher mutual-exclusion groups, kiosk session switching, ZFS/headscale backends, declarative NixOS module, single-device MQTT-only identity) justify the maintenance burden of a 12-crate workspace with 3 tests — including the notification-transport fork (MQTT-only vs native-API for actionable notifications) that decides the feature table?",
+      "importance": 10,
+      "uncertainty": 7,
+      "disagreement": 8,
+      "decision_impact": 10,
+      "composite_score": 35,
+      "source_budget": 8,
+      "rationale": "Merged from analyst-A 'adopt-vs-build-honest-verdict' + analyst-B 'adopt-vs-build-verdict' + analyst-A's 'transport-mqtt-only-vs-dual' folded in (the actionable-notifications fork is a feature of the comparison table, and analyst-B skip-justified the broader transport fight as resolved-for-this-fleet). The user said 'improve it' but an advocate-register report must argue improve-vs-adopt or its roadmap is question-begging. Unresolved: the feature-by-feature delta table against go-hass-agent's full catalogue and lnxlink's ~50 modules; whether the incumbents work headless on servers (verify against their issue trackers); whether their lack of a NixOS service module (package only) is sufficient differentiation; and what is/isn't possible over MQTT discovery alone for notifications (halinuxcompanion needs a local HTTP server, go-hass-agent the native websocket, lnxlink carries them over MQTT — ha-linux-agent's notify backend has no documented HA→host delivery path at all today).",
+      "corpus_evidence": ["go-hass-agent-mynixos", "releases-joshuargo-hass-agent-github", "github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device", "github-bkbillylnxlink-effortlessly-manage-your-linux-machine-using-mqtt-github", "lnxlink", "github-hass-agenthassagent-unofficial-development-project-for-the-hassagent-plat", "home-hassagent-documentation", "using-sensors-hassagent-documentation", "using-commands-hassagent-documentation", "sensors-home-assistant-companion-docs", "github-muniterhalinuxcompanion-homeassistant-linux-companion-github", "github-gamerclassn7ha_desktop_companion-", "wth-there-is-no-windows-and-linux-ha-app-similar-to-macos", "go-hass-agent-a-native-app-integration-for-desktop-laptop-devices-share-your-proj", "repo-map-ha-linux-agent"],
+      "opposing_positions": [
+        {"position": "Adopt: mature agent already in nixpkgs, monthly releases, sensor-complete, security-mature; lnxlink community-endorsed; ha-linux-agent's differentiation is small against a 12-crate workspace with 3 tests and a failing clippy gate", "sources": ["go-hass-agent-mynixos", "releases-joshuargo-hass-agent-github", "github-bkbillylnxlink-effortlessly-manage-your-linux-machine-using-mqtt-github"]},
+        {"position": "Build/fix: launcher mutual-exclusion groups for kiosk/gaming session switching, ZFS/headscale backends, first-class declarative NixOS module, MQTT-only single-device identity avoiding go-hass-agent's documented split-brain (device under TWO HA integrations)", "sources": ["repo-map-ha-linux-agent", "github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device", "go-hass-agent-a-native-app-integration-for-desktop-laptop-devices-share-your-proj"]}
+      ],
+      "suggested_searches": ["go-hass-agent headless server no desktop session", "go-hass-agent NixOS module declarative configuration", "lnxlink modules list sensors commands", "home assistant mqtt notify actionable notifications device", "go-hass-agent commands.toml limitations state sync"]
+    },
+    {
+      "name": "headless-privilege-ladder",
+      "flavor": "technical",
+      "one_line": "For the server hosts (europa, pallene, callisto), which monitoring channel + privilege design per subsystem — SMART via smartd -M exec hooks vs CAP_SYS_ADMIN/CAP_SYS_RAWIO ioctls, ZFS via zed events vs zpool polling, systemd unit health via D-Bus signals vs OnFailure= drop-in, backlight via udev uevents vs sysfs polling — and what capability set does the resulting unit need?",
+      "importance": 8,
+      "uncertainty": 7,
+      "disagreement": 5,
+      "decision_impact": 8,
+      "composite_score": 28,
+      "source_budget": 6,
+      "rationale": "Merged from analyst-A 'jupiteros-sensor-privilege-matrix' + analyst-B 'headless-privilege-ladder' + analyst-A's 'poll-vs-event-hybrid' fragments absorbed (B's absorption rationale). Per-subsystem channel+privilege design is genuinely open and feeds back into the service-model locus. Kernel-source evidence: NVMe SMART REQUIRES CAP_SYS_ADMIN (NVME_IOCTL_ADMIN_CMD), SATA needs CAP_SYS_RAWIO; zpool unprivileged-readability is an audited absence worth a hard search; zbus system-bus unit-state subscription vs the global OnFailure=failure-handler@%N drop-in pattern; niri's event stream for kiosk state; udev uevents for backlight hotkey sync.",
+      "corpus_evidence": ["clarification-of-volume-permissions-issu", "smart-archwiki", "smartdconf5-smartmontools-debian-testing", "answers", "best-nvme-ssd-health-monitoring-tools-9-", "github-prometheus-communitysmartctl_exporter-export-smartctl-statistics-to-prome", "how-to-monitor-zfs-pool-health-and-status-on-ubu", "github-joontysystemd_mon-monitor-for-sys", "systemd-units-operating-systems-learn-ne", "see-also-3", "how-to-get-notifications-if-a-systemd-unit-fails-help-", "sysfs-class-backlight", "backlight-support-the-linux-kernel-docum", "ipc-niri-msg-niri", "indexhtml", "network-ups-tools-nut-home-assistant", "github-joshuargo-hass-agent-a-home-assistant-native-app-for-desktoplaptop-device"],
+      "suggested_searches": ["smartctl non-root CAP_SYS_RAWIO capabilities nvme", "zpool status unprivileged user zfs group permissions", "smartd -M exec script hook environment variables", "zed ZFS event daemon custom notify script", "zbus systemd job removed signal monitor units rust"]
+    },
+    {
+      "name": "rumqttc-dependency-fitness",
+      "flavor": "technical",
+      "one_line": "Is rumqttc (pinned 0.24 here) the right dependency to build the reliability phase on: is re-subscription (#250, labelled in-pipeline as #1052) actually fixed in any release, what is the crate's real maintenance state, and does its MQTT v3.1.1-only surface force the lifecycle spec's workarounds — or should the agent switch clients?",
+      "importance": 8,
+      "uncertainty": 8,
+      "disagreement": 4,
+      "decision_impact": 8,
+      "composite_score": 28,
+      "source_budget": 5,
+      "rationale": "Analyst-B unique. Every phase-1 fix builds on rumqttc yet the corpus never verifies it's the right bet: #250 open since Feb 2021 labelled 'in-pipeline as of #1052' — no evidence PR #1052 or any release shipped re-subscription handling; 0.25.1 docs built Sept 2026 (alive) but only 35.34% documented; #211 (no disconnect callback, no TTL) open/stale since 2020; main-branch is v3.1.1-only (mqttbytes::v4), locking out HA's message_expiry_interval; what changed 0.24→0.25.1; what alternatives (paho.mqtt.rust etc.) look like against the supervisor requirements; mosquitto v2.0.12+ requires non-zero keep-alive (#2117). Keep-vs-replace changes phase-1 implementation cost and the roadmap's credibility.",
+      "corpus_evidence": ["rumqttc-rust", "librs", "rumqttrumqttcsrceventlooprs-at-main-bytebeamiorumqtt-github", "automatic-reconnect-and-subscribed-topics-issue-250-bytebeamiorumqtt-github", "rumqttc-reconnection-to-mqtt-broker-and-pending-messages-ttl-issue-211-bytebeami", "eventloop-in-rumqttc-rust", "no-keepalive-0-still-allowed-with-max_keepalive-set-issue-2117-eclipse-mosquitto"],
+      "suggested_searches": ["rumqtt PR 1052 resubscribe reconnect merged", "rumqttc 0.25 release notes changelog", "rumqttc MQTT 5 support roadmap", "rust MQTT client production paho vs rumqttc", "rumqttc maintenance status 2026"]
+    },
+    {
+      "name": "testing-gate-for-hardware-daemon",
+      "flavor": "technical",
+      "one_line": "What concrete CI test design gates the reliability fixes — ephemeral-broker restart simulation mid-test (the exact bug class), birth-message rediscovery tests without a full HA, a runNixOSTest for the NixOS module, the zbus session-bus CI workaround, and sysfs tempdir mocking — for a workspace currently at 3 tests in 12 crates?",
+      "importance": 7,
+      "uncertainty": 6,
+      "disagreement": 3,
+      "decision_impact": 7,
+      "composite_score": 23,
+      "source_budget": 3,
+      "rationale": "Analyst-B unique; analyst-A skip-noted it as implementation detail but conceded it's phase-gating. Without it the roadmap's 'reliability first' phase has no definition of done. Open: simulating broker restart/connection loss mid-test with testcontainers (the hard part — nobody in the corpus does it); synthetic birth-message subscriber/publisher without HA; whether nixpkgs ships a mosquitto NixOS test to crib from; the DBUS_SESSION_BUS_ADDRESS CI constraint workaround; clippy gate already failing (backend-hardware map_or) per ground truth.",
+      "corpus_evidence": ["mosquitto-in-testcontainers_modulesmosquitos-rust", "github-testcontainerstestcontainers-rs-modules-community-", "testcontainers-mosquitto-module", "hivemq-is-now-available-in-testcontainers", "nixos-manual", "github-inovexmqtt_blackbox_exporter-prometheus-exporter-", "github-z-galaxyzbus-rust-d-bus-crate-git", "mocking-stdfs-for-unit-tests-help-", "tempfile-rust", "github-dbraun1991mqtt-test-testing-the-m", "repo-map-ha-linux-agent"],
+      "suggested_searches": ["testcontainers rust restart container simulate connection failure", "nixpkgs nixos/tests mosquitto test", "runNixOSTest out-of-tree module example", "zbus tests DBUS_SESSION_BUS_ADDRESS CI dbus-daemon"]
+    }
+  ],
+  "skip_loci": [
+    {"slug": "generic-build-vs-buy-monitors", "reason": "Closed by consensus claims: Telegraf's MQTT output cannot produce HA discovery / no dynamic LWT / very limited lifecycle; Glances has a 6-year silent-failure record across 4 HA core issues; Netdata's 100-350MB default footprint disqualified for kiosks; HA's Prometheus integration is export-only so node_exporter is not a path. The live fight is agent-vs-agent (adopt-vs-build locus)."},
+    {"slug": "mqtt-vs-native-transport-broad", "reason": "Resolved FOR THIS FLEET: halinuxcompanion migrating TO MQTT for last-will semantics; koying's metrics-fidelity position is moot (fleet wants HA automations/dashboards/kiosk control, not InfluxDB); narrow genuinely-open fragment (actionable notifications transport) folded into the adopt-vs-build locus."},
+    {"slug": "polling-vs-event-driven-standalone", "reason": "Contradiction graph's own delta states the reconciliation (hybrid: poll cheap scalars, subscribe where kernel/D-Bus events exist); open per-subsystem specifics absorbed into headless-privilege-ladder; the sequential-poll stall defect is verified ground truth needing no further evidence."},
+    {"slug": "tls-knob-fix", "reason": "Fully resolved by the verified defect audit (config.rs:88 parsed, never passed to rumqttc). A code change, not a research question."},
+    {"slug": "mqtt-secrets-and-acl-fleet-design", "reason": "sops-nix password_file pattern already in place in jupiter-os; no contested evidence fork; folds out of the service-model locus's module design (sub-question d)."},
+    {"slug": "test-harness-as-primary", "reason": "Analyst-A skip: 4-source consensus on mosquitto-testcontainers already exists; retained only as the narrower testing-gate locus (analyst-B) for its phase-gating role."}
+  ]
+}

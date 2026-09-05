@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "rumqttc 0.25.1's EventLoop::poll() automatically reconnects to the broker if polling continues after a disconnection, making the poll loop itself the reconnect supervisor.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent should rely on rumqttc's built-in eventloop reconnection rather than building an external reconnect manager",
+    "evidence_type": "empirical",
+    "scope_conditions": "rumqttc 0.25.1, async tokio runtime, MQTT client (not broker)",
+    "quoted_support": "Yields Next notification or outgoing request and periodically pings the broker. Continuing to poll will reconnect to the broker if there is a disconnection. NOTE Don't block this while iterating",
+    "numbers": ["rumqttc 0.25.1", "Apache-2.0"],
+    "entities": ["rumqttc", "EventLoop", "bytebeamio", "tekjar"],
+    "time_period": "2026-09 (docs build)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "eventloop-in-rumqttc-rust"
+  },
+  {
+    "claim": "EventLoop::clean() moves unacknowledged packets from the last session into the eventloop for republish and drops the network connection, implementing MQTT's required QoS redelivery across reconnects.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent can achieve at-least-once delivery of state/discovery across broker outages by using clean() plus session persistence",
+    "evidence_type": "empirical",
+    "scope_conditions": "rumqttc 0.25.1; use only when eventloop is blocked on network",
+    "quoted_support": "Last session might contain packets which aren't acked. MQTT says these packets should be republished in the next session. Move pending messages from state to eventloop, drops the underlying network connection and clears the keepalive timeout if any.",
+    "numbers": [],
+    "entities": ["EventLoop", "clean", "MqttState", "VecDeque<Request>"],
+    "time_period": "2026-09",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "eventloop-in-rumqttc-rust"
+  },
+  {
+    "claim": "rumqttc's own documentation recommends setting the AsyncClient channel capacity to 0 so the pending-message list length stays manageable during reconnect-driven republish.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent should configure bounded/zero channel capacity to avoid unbounded memory growth during broker outages",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "rumqttc 0.25.1, reconnect scenarios with QoS>0 pending queues",
+    "quoted_support": "while this helps prevent data loss, the pending list length should be managed properly. For this reason we recommend setting AsycClient's channel capacity to 0.",
+    "numbers": ["channel capacity 0"],
+    "entities": ["AsyncClient", "EventLoop", "rumqttc"],
+    "time_period": "2026-09",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "eventloop-in-rumqttc-rust"
+  },
+  {
+    "claim": "rumqttc's EventLoop is Send but not Sync, constraining the agent's concurrency architecture to single-task ownership of the connection (no shared &EventLoop across tasks).",
+    "stance": "neutral",
+    "stance_target": "ha-linux-agent architecture: one task owns the eventloop; publishes go through the AsyncClient handle",
+    "evidence_type": "empirical",
+    "scope_conditions": "rumqttc 0.25.1, Rust auto-trait surface",
+    "quoted_support": "impl !Freeze for EventLoop § impl !RefUnwindSafe for EventLoop § impl !Sync for EventLoop § impl !UnwindSafe for EventLoop § impl Send for EventLoop",
+    "numbers": [],
+    "entities": ["EventLoop", "rumqttc", "tokio"],
+    "time_period": "2026-09",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "eventloop-in-rumqttc-rust"
+  },
+  {
+    "claim": "When a connection hits critical errors like auth failure, rumqttc exposes mqtt_options, state and pending requests on the EventLoop for the user to inspect and update before retrying.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent can implement credential-rotation / auth-failure recovery without process restart",
+    "evidence_type": "empirical",
+    "scope_conditions": "rumqttc 0.25.1, critical connection errors",
+    "quoted_support": "When connection encounters critical errors (like auth failure), user has a choice to access and update options, state and requests.",
+    "numbers": [],
+    "entities": ["EventLoop", "MqttOptions", "MqttState"],
+    "time_period": "2026-09",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "eventloop-in-rumqttc-rust"
+  }
+]

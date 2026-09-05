@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "The racksync Prometheus Node Exporter HA add-on (v2025.11.1, fork of loganmarchione/hassos-addons) exposes host hardware/OS metrics on port 9100 with per-collector toggles (cpu, meminfo, diskstats, netdev, netstat, filesystem, loadavg, time, wifi, hwmon), mount/device ignore lists, and optional basic auth + TLS.",
+    "stance": "neutral",
+    "stance_target": "Feature checklist for ha-linux-agent's metrics collectors (what the incumbent exposes)",
+    "evidence_type": "empirical",
+    "scope_conditions": "HAOS add-on README, version 2025.11.1, multi-arch amd64/aarch64/armv7",
+    "quoted_support": "This add-on exposes hardware and OS metrics for Prometheus monitoring. It collects comprehensive system statistics like CPU, memory, disk, and network usage from your Home Assistant host and makes them available through the Prometheus metrics format.",
+    "numbers": ["9100 metrics port", "version 2025.11.1", "10 collector toggles", "amd64/aarch64/armv7", "3 stars, 1 fork"],
+    "entities": ["racksync", "Home Assistant", "prometheus node_exporter", "hass-addons-suite"],
+    "time_period": "Current (2025.11.1)",
+    "region": "Bangkok, Thailand (maintainer)",
+    "confidence": "medium",
+    "source_note_id": "github-racksynchass-addons-prometheus-node-exporter-expose-hardware-metrics-with"
+  },
+  {
+    "claim": "The add-on's security posture relies on AppArmor, minimal permissions and optional basic auth/TLS, but requires host network access for system metrics - a containerised-privilege tradeoff a native host agent does not need.",
+    "stance": "supports",
+    "stance_target": "Native agent (ha-linux-agent) as architecturally simpler than containerised exporters for host telemetry",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "HAOS add-on security model",
+    "quoted_support": "Security Options ... AppArmor: Enabled for container isolation. Minimal Permissions: Only requests necessary system access. ... Network Access: Host network access required for system metrics.",
+    "numbers": [],
+    "entities": ["racksync", "AppArmor", "Home Assistant"],
+    "time_period": "Current",
+    "region": "global",
+    "confidence": "medium",
+    "source_note_id": "github-racksynchass-addons-prometheus-node-exporter-expose-hardware-metrics-with"
+  }
+]

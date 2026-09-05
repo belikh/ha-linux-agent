@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "systemd offers native failure-notification hooks: the [Unit] OnFailure= directive activates another unit when a unit fails, and the [Service] ExecStopPost= directive runs an arbitrary command after the service stops (including on failure) — e.g. ExecStopPost=/usr/bin/notify-send 'Service X failed!'.",
+    "stance": "supports",
+    "stance_target": "event-driven failed-unit notification needs no polling; a fleet agent can install OnFailure= drop-ins or ExecStopPost= hooks that push to MQTT instead of running systemctl --failed on a timer",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "systemd units; ExecStopPost runs on any stop including failure; OnFailure= accepts unit names",
+    "quoted_support": "There’s OnFailure (which lets you specify another service) and ExecStopPost (which lets you specify an arbitrary command). Something like this: [Unit] Description=My X service [Service] ExecStart=/usr/bin/false ExecStopPost=/usr/bin/notify-send \"Service X failed!\"",
+    "numbers": [],
+    "entities": ["OnFailure", "ExecStopPost", "systemd", "notify-send"],
+    "time_period": "September 2023",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "how-to-get-notifications-if-a-systemd-unit-fails-help-kde-discuss"
+  },
+  {
+    "claim": "'systemctl status --failed' output embeds per-run timestamps and transient status text, so diffing consecutive outputs always reports a change even when the failed-unit set is identical; the stable form for change detection is 'systemctl --failed' (list only).",
+    "stance": "supports",
+    "stance_target": "if the agent polls failed units at all, it must use the stable list form (systemctl --failed) or parse JSON (--output=json) rather than diffing status output",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "systemctl status vs --failed output formats",
+    "quoted_support": "a new problem was that it triggers every time, because when it runs systemctl status --failed it records the timestamp when it ran. So it was always different from the old. So I changed it to use the less chatty systemctl --failed instead.",
+    "numbers": [],
+    "entities": ["systemctl --failed", "systemctl status"],
+    "time_period": "September 2023",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "how-to-get-notifications-if-a-systemd-unit-fails-help-kde-discuss"
+  },
+  {
+    "claim": "A community polling monitor for failed systemd units required multiple iterations to become reliable: guarding with 'grep failed' so fixed units don't re-alert from output drift, and icon-name portability issues (system-error vs computer-fail-symbolic vary by system).",
+    "stance": "neutral",
+    "stance_target": "evidence that ad-hoc shell-based unit monitoring is fragile — motivating a properly engineered agent subsystem",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "KDE Plasma desktop; Scriptinator plasmoid; sh scripts",
+    "quoted_support": "if ! cmp --quiet systemd-status systemd-status.old then if grep failed systemd-status then ... else cp systemd-status systemd-status.old fi",
+    "numbers": ["5", "30"],
+    "entities": ["Scriptinator", "notify-send", "grep failed"],
+    "time_period": "September 2023",
+    "region": "",
+    "confidence": "medium",
+    "source_note_id": "how-to-get-notifications-if-a-systemd-unit-fails-help-kde-discuss"
+  }
+]

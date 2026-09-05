@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "lnxlink (2023.6.0 README on PyPI) is a Linux MQTT companion app for HA that uses MQTT autodiscovery and explicitly supports headless server installation, installed as root with a system service when there is no graphical interface.",
+    "stance": "supports",
+    "stance_target": "lnxlink is an adopt candidate for headless Linux fleet machines, with first-class headless install documentation",
+    "evidence_type": "empirical",
+    "scope_conditions": "lnxlink 2023.6.0 on Debian/Red Hat-based headless Linux; Home Assistant via MQTT",
+    "quoted_support": "The headless installation is used for linux environments that don't use a Graphical Interface like servers. ... sudo pip3 install -U lnxlink ... When asked, it's recommended to answer false on install as a user service. ... sudo systemctl restart lnxlink.service",
+    "numbers": ["lnxlink 2023.6.0 released May 31 2023", "newest release 2026.8.0", "Python >=3.7.0"],
+    "entities": ["lnxlink", "bkbily", "Home Assistant", "MQTT", "systemctl"],
+    "time_period": "May 2023 (README), releases continuing through Aug 2026",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "lnxlink-pypi"
+  },
+  {
+    "claim": "lnxlink notifications are one-way: HA publishes JSON to {prefix}/{clientId}/commands/notify with title, message and iconUrl fields; the README documents no action-button response channel or event round-trip to HA.",
+    "stance": "supports",
+    "stance_target": "lnxlink cannot deliver actionable notifications without custom extensions",
+    "evidence_type": "empirical",
+    "scope_conditions": "lnxlink notify module; mqtt.publish from HA",
+    "quoted_support": "service: mqtt.publish ... topic: {prefix}/{clientId}/commands/notify ... payload: >- { \"title\": \"Notification Title\", \"message\": \"Testing notification\", \"iconUrl\": \"http://hass.local:8123/local/myimage.jpg\" }",
+    "numbers": [],
+    "entities": ["lnxlink", "mqtt.publish", "commands/notify"],
+    "time_period": "2023-2026",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "lnxlink-pypi"
+  },
+  {
+    "claim": "lnxlink's control surface includes shutdown, restart, suspend, send keys, bash commands, brightness and boot select, plus monitoring for CPU/RAM/network/idle/battery/disk/updates — but some modules depend on a graphical interface and must be manually removed from the config on headless installs.",
+    "stance": "supports",
+    "stance_target": "Headless lnxlink installs require per-host module pruning, adding configuration overhead for fleet adoption",
+    "evidence_type": "empirical",
+    "scope_conditions": "Headless lnxlink installation",
+    "quoted_support": "Some modules depend on graphical interface, so if you choose to use this option for installation, you will have to find which ones stop lnxlink from starting and remove them from the config file.",
+    "numbers": [],
+    "entities": ["lnxlink"],
+    "time_period": "2023-2026",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "lnxlink-pypi"
+  }
+]

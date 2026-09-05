@@ -1,0 +1,71 @@
+{
+  "sub_questions": [
+    "What specific reliability defects does the current ha-linux-agent codebase have, verified against the code and build toolchain rather than vibes?",
+    "How should the MQTT connection lifecycle be engineered (reconnect, discovery re-publish, birth/LWT availability) so HA entities stay correct across broker restarts and flaky links?",
+    "What sensor and command set constitutes a 'proper Linux Agent' for Home Assistant in 2026, and how does the current backend set compare?",
+    "What does a NixOS-fleet-native agent require that this repo lacks (system vs user service, headless hosts without a D-Bus session, secrets, per-host backend enabling)?",
+    "Is a custom Rust agent the right architectural shape at all, versus adopting Telegraf, Glances, Netdata, or node_exporter with HA glue? (build-vs-buy dialectic)",
+    "Which jupiterOS-specific features are missing (systemd unit health, SMART/NVMe, verified ZFS status, mesh/exit-node, nix generation/boot health, remote reboot/poweroff)?",
+    "How should a hardware-touching daemon be tested (mock sysfs, D-Bus harness, mosquitto integration tests, CI gates) given the current 3-tests-in-12-crates state?",
+    "In what order should these improvements land (reliability first, fleet-wide second, features third) and what does the ordered roadmap look like?"
+  ],
+  "entities": [
+    {"name": "ha-linux-agent (this repo)", "type": "system-under-audit", "required_fields": ["verified defects", "architecture", "test coverage"]},
+    {"name": "jupiterOS / jupiter-os fleet", "type": "deployment-context", "required_fields": ["host inventory (4 TCxWave kiosks + callisto + europa + pallene)", "current agent coverage", "headless vs desktop hosts"]},
+    {"name": "Home Assistant MQTT discovery", "type": "protocol", "required_fields": ["discovery semantics", "availability (birth/LWT)", "reconnect behaviour requirements"]},
+    {"name": "HASS.Agent (Windows companion)", "type": "comparison-agent", "required_fields": ["sensor set", "architecture"]},
+    {"name": "Telegraf", "type": "comparison-agent", "required_fields": ["MQTT output modes", "sensor breadth", "HA integration fit"]},
+    {"name": "Glances", "type": "comparison-agent", "required_fields": ["HA integration path", "sensor set", "limitations"]},
+    {"name": "Netdata", "type": "comparison-agent", "required_fields": ["MQTT export", "scope"]},
+    {"name": "node_exporter", "type": "comparison-agent", "required_fields": ["Prometheus orientation", "fit for HA"]},
+    {"name": "HA Android/iOS companion apps", "type": "comparison-agent", "required_fields": ["sensor set baseline for 'companion agent'"]},
+    {"name": "NixOS module system", "type": "platform", "required_fields": ["nixosModules pattern", "systemd user vs system services", "sops-nix secrets"]},
+    {"name": "rumqttc", "type": "dependency", "required_fields": ["eventloop reconnect semantics", "version 0.24 patterns"]},
+    {"name": "TCx Wave kiosks (adrastea, amalthea, metis, thebe)", "type": "host-class", "required_fields": ["current wiring", "touch-wake/backlight specifics"]},
+    {"name": "Headless hosts (europa, pallene, ganymede-successor)", "type": "host-class", "required_fields": ["no user D-Bus session", "server sensor needs"]},
+    {"name": "Backends (generic, hardware, niri, kde, zfs, syncthing, headscale, gamescope, lutris, launcher)", "type": "category", "required_fields": ["current behaviour", "defects", "test coverage"]}
+  ],
+  "required_formats": [
+    "verified-defect audit with file:line evidence and observed build/test/clippy exit codes",
+    "ordered improvement roadmap (phased)",
+    "comparison table against established Linux monitoring agents",
+    "fleet deployment architecture recommendation for all jupiterOS hosts"
+  ],
+  "required_sections": [
+    "## Opinionated Synthesis"
+  ],
+  "required_section_headings": [
+    "## 1. Current State: A Verified Reliability Audit",
+    "## 2. The MQTT Lifecycle Problem: Why It Is Never Reliable",
+    "## 3. What a Proper Linux Agent Looks Like: The Comparison Set",
+    "## 4. The Build-vs-Buy Dialectic: Custom Rust Agent vs Telegraf, Glances, and Netdata",
+    "## 5. NixOS Fleet Architecture: From Kiosk-Only to Every Host in jupiterOS",
+    "## 6. JupiterOS-Specific Feature Gaps",
+    "## 7. Testing a Hardware-Touching Daemon",
+    "## 8. Ordered Improvement Roadmap"
+  ],
+  "time_horizons": [
+    "current state as of 2026-09 (repo at commit 8369f44)",
+    "forward 6-12 months (roadmap horizon)"
+  ],
+  "time_periods": [],
+  "scope_conditions": [
+    "Linux agent for Home Assistant — not a general monitoring stack",
+    "jupiterOS (NixOS) fleet as the deployment target — 7 hosts, mixed kiosk/desktop/server",
+    "every host in jupiterOS, not just the 4 kiosks — includes headless boxes with no graphical session",
+    "ground truth from the actual codebase and jupiter-os configs, not marketing docs"
+  ],
+  "pipeline_tier": "full",
+  "response_format": "argumentative",
+  "citation_style": "wikilink",
+  "levers": {
+    "register": "advocate",
+    "register_confidence": "high",
+    "domain_notes": "Primary sources are the codebases themselves: ha-linux-agent (ground truth via observed build/test/clippy exit codes and file:line audit) and jupiter-os host configs for fleet reality. Official documentation (HA MQTT discovery, Telegraf MQTT output plugin, Glances HA integration, rumqttc/zbus/sysinfo crate docs, GitHub issues and release notes) outranks blog commentary. Recency matters: MQTT discovery semantics and rumqttc 0.24 behaviour must reflect current versions. Measured exit codes and verbatim source always outrank claims about them.",
+    "inference_depth": "deep",
+    "rationale": {
+      "register": "the query asks for a course of action — improve the agent and deploy it on every host — so the report must argue for a specific plan, not survey neutrally",
+      "inference_depth": "much of the answer lives in source code, fleet Nix configs, GitHub issues and release notes (gray literature), beyond clear-web top results"
+    }
+  }
+}

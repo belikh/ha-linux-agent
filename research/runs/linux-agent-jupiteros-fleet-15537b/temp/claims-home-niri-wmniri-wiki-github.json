@@ -1,0 +1,16 @@
+[
+  {
+    "claim": "The niri wiki (hosted on GitHub, generated from docs/wiki/ in the repo) is a documentation hub whose TOC lists the pages relevant to kiosk-agent integration: 'IPC, niri msg', 'Example systemd Setup', 'Integrating niri', and 'Security Model'; the wiki content has moved to a website at niri-wm.github.io/niri/.",
+    "stance": "neutral",
+    "stance_target": "locating the authoritative primary sources for how a jupiterOS agent integrates with the niri compositor",
+    "evidence_type": "empirical",
+    "scope_conditions": "niri wiki landing page, last edited Feb 10, 2026, 6 revisions",
+    "quoted_support": "If you're not already here, check out our new wiki website! https://niri-wm.github.io/niri/",
+    "numbers": ["6 revisions"],
+    "entities": ["niri", "niri-wm.github.io", "IPC", "systemd"],
+    "time_period": "Feb 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "home-niri-wmniri-wiki-github"
+  }
+]

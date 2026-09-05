@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "zbus 5.19.0 is a stable, 93.65%-documented pure-Rust D-Bus crate (MIT, published 09 August 2026) that handles connection establishment and message send/receive for method calls, signals and more.",
+    "stance": "supports",
+    "stance_target": "zbus is mature enough to be the D-Bus layer for a fleet-wide jupiterOS agent",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "zbus 5.19.0 on docs.rs",
+    "quoted_support": "This is the main subcrate of the zbus project, that provides the API to interact with D-Bus. It takes care of the establishment of a connection, the creation, sending and receiving of different kind of D-Bus messages (method calls, signals etc) for you. Status: Stable.",
+    "numbers": ["5.19.0", "93.65%"],
+    "entities": ["zbus", "docs.rs"],
+    "time_period": "09 August 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "zbus-rust"
+  },
+  {
+    "claim": "zbus runs on a broad platform matrix (Linux, FreeBSD, NetBSD, macOS, Windows, Android aarch64-linux-android) and supports vsock and multiple async runtimes (async-io default, tokio optional).",
+    "stance": "supports",
+    "stance_target": "zbus can serve D-Bus-style IPC on every host class in the jupiterOS fleet, including non-Linux edge cases, and integrates with a tokio-based agent",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "zbus 5.19.0 platform support",
+    "quoted_support": "aarch64-linux-android, x86_64-apple-darwin, x86_64-pc-windows-gnu, x86_64-unknown-freebsd, x86_64-unknown-linux-gnu, x86_64-unknown-netbsd ... tokio ^1.37.0 optional ... tokio-vsock ^0.7 optional",
+    "numbers": ["5.19.0", "5.14.0", "4.3.4"],
+    "entities": ["zbus", "tokio", "tokio-vsock"],
+    "time_period": "09 August 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "zbus-rust"
+  },
+  {
+    "claim": "The zbus client pattern uses the #[proxy(interface, default_service, default_path)] macro to generate a typed proxy (e.g. MyGreeterProxy) from Connection::session().",
+    "stance": "neutral",
+    "stance_target": "how ha-linux-agent would consume existing D-Bus services (logind, hostname1, NetworkManager) from Rust",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "zbus 5.x proxy macro",
+    "quoted_support": "#[proxy( interface = \"org.zbus.MyGreeter1\", default_service = \"org.zbus.MyGreeter\", default_path = \"/org/zbus/MyGreeter\" )] trait MyGreeter { async fn say_hello(&self, name: &str) -> Result<String>; } ... MyGreeterProxy::new(&connection)",
+    "numbers": [],
+    "entities": ["zbus", "proxy macro"],
+    "time_period": "09 August 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "zbus-rust"
+  }
+]

@@ -1,0 +1,46 @@
+{
+  "claims": [
+    {
+      "claim": "paho-mqtt 0.14.0 AsyncClient exposes an explicit callback-based reconnect API: reconnect(), reconnect_with_callbacks(), set_connected_callback, set_connection_lost_callback, set_disconnected_callback, and set_message_callback — connection lifecycle events are delivered to application callbacks rather than a poll loop.",
+      "stance": "supports",
+      "stance_target": "Paho Rust's auto-reconnect callback pattern gives applications a well-defined hook point (connected callback) for re-subscription after reconnect, unlike rumqttc 0.24.0's poll-loop-only model",
+      "evidence_type": "empirical",
+      "scope_conditions": "docs.rs paho-mqtt 0.14.0 async_client::AsyncClient",
+      "quoted_support": "pub fn reconnect(&self) -> ConnectToken — Attempts to reconnect to the broker. This can only be called after a connection was initially made or attempted. It will retry with the same connect options. ... pub fn set_connected_callback<F>(&self, cb: F) ... pub fn set_connection_lost_callback<F>(&self, cb: F) — Sets the callback for when the connection is lost with the broker.",
+      "numbers": ["paho-mqtt 0.14.0"],
+      "entities": ["paho-mqtt AsyncClient", "reconnect", "set_connected_callback", "set_connection_lost_callback"],
+      "time_period": "docs built 05 July 2026",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "asyncclient-in-paho_mqttasync_client-rust"
+    },
+    {
+      "claim": "paho-mqtt 0.14.0 AsyncClient has NO automatic re-subscription method — the API surface (subscribe, subscribe_many, subscribe_many_same_qos, subscribe_with_options, subscribe_many_with_options) contains only subscribe calls, and re-subscription after reconnect must be performed by the application inside the connected callback; get_stream()/get_event_stream() insert None on disconnect to signal the app.",
+      "stance": "supports",
+      "stance_target": "Neither rumqttc nor paho-mqtt auto-resubscribes; paho merely provides a cleaner callback hook (connected callback + automatic reconnect option) where the app re-subscribes",
+      "evidence_type": "empirical",
+      "scope_conditions": "docs.rs paho-mqtt 0.14.0 AsyncClient method list",
+      "quoted_support": "If the client gets disconnected, it will insert None into the channel to signal the app about the disconnect. ... This should normally be called before the client is connected, especially if the application is requesting a persistent session. With a clean session, this should be called before subscribing to ensure that messages are not lost.",
+      "numbers": [],
+      "entities": ["paho-mqtt AsyncClient", "get_stream", "get_event_stream", "subscribe_many"],
+      "time_period": "paho-mqtt 0.14.0",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "asyncclient-in-paho_mqttasync_client-rust"
+    },
+    {
+      "claim": "paho-mqtt 0.14.0 lists tokio ^1.49 as an OPTIONAL normal dependency (runtime-agnostic core; async-channel, futures, futures-timer, crossbeam-channel are the core async deps), consistent with the README's claim of being tested with tokio and smol.",
+      "stance": "supports",
+      "stance_target": "paho-mqtt is tokio-compatible for a tokio-based agent like ha-linux-agent without forcing a runtime switch",
+      "evidence_type": "empirical",
+      "scope_conditions": "docs.rs paho-mqtt 0.14.0 dependency list",
+      "quoted_support": "Dependencies: async-channel ^2.5 ... crossbeam-channel ^0.5 ... futures ^0.3 ... futures-timer ^3.0 ... tokio ^1.49 normal optional",
+      "numbers": ["tokio ^1.49", "paho-mqtt-sys ^0.11", "thiserror ^2.0"],
+      "entities": ["paho-mqtt", "tokio", "smol", "async-channel"],
+      "time_period": "docs built 05 July 2026",
+      "region": "global",
+      "confidence": "high",
+      "source_note_id": "asyncclient-in-paho_mqttasync_client-rust"
+    }
+  ]
+}

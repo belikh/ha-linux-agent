@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "tempfile::tempdir() creates a directory inside std::env::temp_dir() and returns a TempDir that is automatically deleted when its destructor runs, with explicit Resource Leaking caveats documented.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's fs-touching tests can be hermetic via tempfile without mocking std::fs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "tempfile crate (page pinned to 3.0.4; 3.x current line is newer)",
+    "quoted_support": "The tempdir function creates a directory in the file system and returns a TempDir. The directory will be automatically deleted when the TempDir's destructor is run.",
+    "numbers": ["3.0.4"],
+    "entities": ["tempfile", "TempDir", "std::env::temp_dir"],
+    "time_period": "14 September 2018 (3.0.4 docs)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "tempfiletempdir-rust"
+  },
+  {
+    "claim": "The canonical tempfile usage is: create the dir, create files under dir.path(), then drop(file) and dir.close()? to deterministically release the temporary tree.",
+    "stance": "neutral",
+    "stance_target": "exact API pattern for test fixtures in ha-linux-agent",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "tempfile 3.x",
+    "quoted_support": "let dir = tempdir()?; let file_path = dir.path().join(\"my-temporary-note.txt\"); let mut file = File::create(file_path)?; ... drop(file); dir.close()?;",
+    "numbers": [],
+    "entities": ["tempfile", "tempdir", "File::create"],
+    "time_period": "14 September 2018",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "tempfiletempdir-rust"
+  }
+]

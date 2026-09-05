@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "tempfile 3.27.0 offers four distinct primitives: tempfile() for an unnamed real std::fs::File, NamedTempFile::new() for a path-referable file, tempdir() for a recursively-deleted-on-drop directory, and spooled_tempfile() for an in-memory buffer that spills to disk when large.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent has a current, canonical API for hermetic fs-touching tests",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "tempfile 3.27.0 (28 June 2026), Linux",
+    "quoted_support": "Use tempfile() when you need a real std::fs::File but don't need to refer to it by-path. Use NamedTempFile::new() when you need a named temporary file that can be referred to its path. Use tempdir() when you need a temporary directory that will be recursively deleted on drop. Use spooled_tempfile() when you need an in-memory buffer that will ultimately be backed by a temporary file if it gets too large.",
+    "numbers": ["3.27.0", "92.11%"],
+    "entities": ["tempfile", "NamedTempFile", "TempDir", "spooled_tempfile"],
+    "time_period": "28 June 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "tempfile-rust"
+  },
+  {
+    "claim": "TempDir and NamedTempFile cleanup relies on Rust destructors and can therefore leak if the process dies via unhandled signal (SIGINT) or the instance is static; unnamed tempfile() relies on the OS instead.",
+    "stance": "supports",
+    "stance_target": "the agent must be aware of temp-dir leak failure modes when running under systemd with signal-based restarts",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Unix-like systems with shared /tmp",
+    "quoted_support": "tempfile will (almost) never fail to cleanup temporary resources. However TempDir and NamedTempFile will fail if their destructors don't run ... Destructors may fail to run if the process exits through an unhandled signal interrupt (like SIGINT), or if the instance is declared statically (like with lazy_static), among other possible reasons.",
+    "numbers": [],
+    "entities": ["TempDir", "NamedTempFile", "SIGINT"],
+    "time_period": "28 June 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "tempfile-rust"
+  },
+  {
+    "claim": "On Unix systems, OS-level periodic tmp cleaners can unlink named temporary files from under a running process (a security issue not affecting unnamed temp files), and env::override_temp_dir mitigates by relocating the temp root.",
+    "stance": "supports",
+    "stance_target": "the agent should avoid path-anchored assumptions about files living in /tmp for long periods on fleet hosts",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Unix-like systems using shared temporary directories",
+    "quoted_support": "Most operating systems periodically clean up temporary files that haven't been accessed recently (often on the order of multiple days). This issue does not affect unnamed temporary files but can invalidate the paths associated with named temporary files on Unix-like systems because the temporary file can be unlinked from the filesystem while still open and in-use.",
+    "numbers": [],
+    "entities": ["NamedTempFile", "env::override_temp_dir", "systemd-tmpfiles"],
+    "time_period": "28 June 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "tempfile-rust"
+  }
+]

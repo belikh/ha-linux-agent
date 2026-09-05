@@ -1,0 +1,718 @@
+---
+title: 'GitHub - eclipse-paho/paho.mqtt.rust: paho.mqtt.rust · GitHub'
+id: github-eclipse-pahopahomqttrust-pahomqttrust-github
+tags:
+- linux-agent-jupiteros-fleet-15537b
+- locus-rumqttc-dependency-fitness
+- alternatives
+- paho-mqtt
+created: '2026-09-02T13:18:10.510590Z'
+updated: '2026-09-02T17:37:22.567858Z'
+source: https://github.com/eclipse/paho.mqtt.rust
+source_domain: github.com
+fetched_at: '2026-09-02T13:18:10.508716Z'
+fetch_provider: builtin
+status: review
+type: note
+tier: ground_truth
+content_type: code
+deprecated: false
+summary: 'Eclipse Paho MQTT Rust Client README (repo now under eclipse-paho org; 588
+  stars, 107 forks, 469 commits, master branch). Key claims: supports MQTT v5, 3.1.1,
+  AND 3.1; Automatic Reconnect + Offline Buffering + High Availability built in; async
+  API is runtime-AGNOSTIC (''Tested with tokio and smol'', ''The library does not
+  use a runtime for internal operations'' — internal threads + condition variables,
+  Token implements std::future::Future). BUT it is a safe wrapper around Paho C v1.3.16:
+  default build needs CMake + C compiler + system OpenSSL (bundled+ssl features);
+  musl static builds possible with extra linking flags; MSRV 1.73.0, Edition 2021.
+  NOTE: README lists automatic reconnect but does NOT claim automatic re-SUBSCRIPTION
+  — the standard Paho pattern is set_reconnect_callbacks + re-subscribe in the connection-lost/callback
+  path; README features list has no resubscribe line.'
+---
+
+GitHub - eclipse-paho/paho.mqtt.rust: paho.mqtt.rust · GitHub
+
+Skip to content
+
+Search/
+
+Sign inSign up
+Appearance settings
+
+You signed in with another tab or window. Reload to refresh your session.
+You signed out in another tab or window. Reload to refresh your session.
+You switched accounts on another tab or window. Reload to refresh your session.
+
+Dismiss alert
+
+{{ message }}
+
+Uh oh!
+
+There was an error while loading. Please reload this page.
+
+eclipse-paho
+
+/
+
+paho.mqtt.rust
+
+Public
+
+Notifications
+You must be signed in to change notification settings
+
+Fork
+107
+
+Star
+588
+
+master
+
+BranchesTags
+
+Go to fileCode
+Open more actions menu
+
+Latest commit
+
+History469 Commits
+
+469 Commits
+Folders and filesNameName
+Last commit message
+Last commit date
+
+.github/workflows
+
+.github/workflows
+
+examples
+
+examples
+
+paho-mqtt-sys
+
+paho-mqtt-sys
+
+src
+
+src
+
+.gitignore
+
+.gitignore
+
+.gitmodules
+
+.gitmodules
+
+.rustfmt.toml
+
+.rustfmt.toml
+
+CHANGELOG.md
+
+CHANGELOG.md
+
+CODE_OF_CONDUCT.md
+
+CODE_OF_CONDUCT.md
+
+CONTRIBUTING.md
+
+CONTRIBUTING.md
+
+Cargo.toml
+
+Cargo.toml
+
+LICENSE
+
+LICENSE
+
+NOTICE
+
+NOTICE
+
+README.md
+
+README.md
+
+SECURITY.md
+
+SECURITY.md
+
+about.html
+
+about.html
+
+buildtst.sh
+
+buildtst.sh
+
+devenv.sh
+
+devenv.sh
+
+edl-v10
+
+edl-v10
+
+epl-v20
+
+epl-v20
+
+notice.html
+
+notice.html
+
+View all files
+
+Repository files navigation
+
+Eclipse Paho MQTT Rust Client Library
+
+The Eclipse Paho MQTT Rust client library on memory-managed operating systems such as Linux/Posix, Mac, and Windows.
+
+The Rust crate is a safe wrapper around the Paho C Library.
+
+Features
+
+The initial version of this crate is a wrapper for the Paho C library, and includes all of the features available in that library, including:
+
+Supports MQTT v5, 3.1.1, and 3.1
+
+Network Transports:
+
+Standard TCP support
+
+UNIX-domain sockets (*nix only)
+
+SSL / TLS (with optional ALPN protocols)
+
+WebSockets (secure and insecure), and optional Proxies
+
+QoS 0, 1, and 2
+
+Last Will and Testament (LWT)
+
+Message Persistence
+
+Built-in file or memory persistence
+
+User-defined key/value persistence (including example for Redis)
+
+Automatic Reconnect
+
+Offline Buffering
+
+High Availability
+
+Several API's:
+
+Async/Await with Rust Futures and Streams for asynchronous operations.
+
+Agnostic to async runtimes. Tested with tokio and smol.
+
+Traditional asynchronous (token/wait) API
+
+Synchronous/blocking  API
+
+Requires Paho C v1.3.16, or possibly later.
+
+Latest News
+
+To keep up with the latest announcements for this project, follow:
+
+Mastodon: @fpagliughi@fosstodon.org
+
+EMail: Eclipse Paho Mailing List
+
+What's New in v0.14
+
+Version v0.14.0 now wraps Paho C v0.3.16, which was mainly concerned with internal performance improvements. For may aplications, there is a noticable decrease in latency for a number of operations.
+
+Some additional updates:
+
+Support for Paho C v1.3.16
+
+Improved performance and lower latency for connect and publish operations.
+
+Added synchronous (blocking) and async event streams.
+
+All events from the client flow through the stream:
+Connect, Connection Lost, Disconnected, Incoming Message
+
+Adds some tokio examples.
+
+Fixed up some MQTT v5 error handling to properly report reason code errors.
+
+For the complete list of updates and bug fixes, see the CHANGELOG
+
+A Note on Async Runtimes
+
+This library works with Rust async/await features, but is agnostic to async runtimes. It should work with any runtime for the supported operating systems (Linux, Windows, and MacOS), and is tested against tokio and smol. It was also working against async-std but since that project is no longer maintained, we no longer test with it. The library does not use a runtime for internal operations.
+
+This library pre-dates Rust async/await by a number of years. It was originally written with a legacy async API in which I/O operations were started by the calling function, but those functions did not block awaiting the operation to complete. Instead, the I/O functions returned a Token object which could be used to monitor progress of the operation, or later block the caller to wait for it to complete. Internally the Token uses a condition variable to signal when the operation completes and fill in the result. The I/O operation and signaling are performed by a pair of threads internal to the library which run the operations and signal the condition variable.
+
+To make the library compatible with the async/await paradigm, the Token simply implemented the std::future::Future trait. This made them compatible with modern Rust, but have a few implications:
+
+I/O operations return a simple Future that are compatible with any runtime that can poll it.
+
+Stream-style input uses async-channel's which are runtime agnostic.
+
+Unlike most futures, the I/O operations are started as soon as the function is called. They don't need an .await to start. Awaiting the token simply pauses the task until the operation completes.
+
+The legacy async API is still working under the hood, so you can still use async-style operations without an async runtime. In that case you don't use .await, but rather use the Token::wait() functions which block the calling thread waiting for completion.
+
+Using the Crate
+
+To use the library, simply add this to your application's Cargo.toml dependencies list:
+
+paho-mqtt = "0.14"
+
+By default it enables the features "bundled" and "ssl" meaning it will attempt to compile the Paho C library for the target, using the pre-built bindings, and will enable secure sockets capabilities using the system OpenSSL library.
+
+Note that this default behavior requires a C compiler for the target and CMake to be installed. On an Ubuntu/Debian-based system you might need something like:
+
+$ sudo apt install libssl-dev build-essential cmake
+
+Also note that the build will use pre-generated bindings by default to speed up compile times. If you experience segfaults or other hard crashes, the first thing to do is try using the "build_bindgen" feature in your crate to regenerate the bindings for your target. If that doesn't fix it, then please submit an issue on GitHub.
+
+Build Features
+
+The default behaviour can be altered by enabling or disabling the features:
+
+"default" - [bundled, ssl]
+
+"bundled" - Whether to build the Paho C library contained in the Git submodule under the contained paho-mqtt-sys crate. This is similar to the "vendored" feature in other Rust projects.
+
+"build_bindgen" - Whether to build the bindings for the target using bindgen. If not set, the build will attempt to find and use pre-built bindings for the target.
+
+"ssl" - Whether to enable the use of secure sockets and secure websocket connections.
+
+"vendored-ssl" - Whether to build OpenSSL. This passes the "vendored" option to the openssl-sys crate.
+
+"tokio" - Builds some tokio examples (the library is fully compatible with tokio even without this feature).
+
+The bundled feature requires CMake and a C compiler for the target.
+
+The vendored-ssl feature requires the target C compiler as well, but also requires Perl and make.
+
+The default build attempts to speed up the build by using pre-generated C bindings for the recommended Paho C library. There are a number of bindings for common build targets, and when the specific target is not found, it resorts to a default for the target word size (32-bit or 64-bit).
+
+If your using a non-standard target and/or get a SEGFAULT, the first thing to try is using the build_bindgen feature. That will generate a new binding file during the build for the specific target, which should fix the segfault in most cases.
+
+Using SSL/TLS
+
+Starting with Version 0.9.0 we are using the openssl-sys crate which allows for further modification of the behavior through environment variables, such as specifying the location of the OpenSSL library or linking it statically.
+
+For more information read the Rust OpenSSL Docs, carefully.
+
+In particular:
+
+If you use vendored-ssl, you need a C compiler for the target, Perl, and make.
+
+If you don't use vendored-ssl, it will attempt to use a package manager on the build host to find the library: pkg-config on Unix-like systems, Homebrew on macOS, and vcpkg on Windows. This is not recommended when cross-compiling.
+
+If all else fails, you may need to set the specific location of the library with an environment variable. For example, on Windows, perhaps do something like this:
+
+set OPENSSL_DIR=C:\OpenSSL-Win64
+
+So, by default, your application will build for SSL/TLS, assuming an existing install of the OpenSSL library. In your Cargo.toml, just:
+
+# Use the system OpenSSL library
+paho-mqtt = "0.14"
+
+If you don't have OpenSSL installed for your target and want to build it with your app:
+
+# Build OpenSSL with the project
+paho-mqtt = { version = "0.14", features=["vendored-ssl"] }
+
+If you want to build your app without SSL/TLS, disable the default features, then add "bundled" back in (if desired):
+
+# Don't use SSL at all
+paho-mqtt = { version = "0.14", default-features=false, features=["bundled"] }
+
+Windows
+
+On Windows, to use SSL/TLS/WSS secure connections, you must either install a copy of OpenSSL or build it with the application using the vendored-ssl feature. Installing the library takes more time up front, but results in significantly faster build times.
+
+If you install OpenSSL, you usually need tell the Rust build tools where to find it. The easiest way is setting the OPENSSL_DIR environment variable, like:
+
+set OPENSSL_DIR=C:\OpenSSL-Win64
+
+Point it to wherever you installed the library. Alternately, you can tell Cargo to build it with the app, using the vendored-ssl feature:
+
+# Build OpenSSL with the project
+paho-mqtt = { version = "0.14", features=["vendored-ssl"] }
+
+macOS Universal Binaries
+
+To be able to build the library on macOS as Universal Binary, which is working for both architectures Apple Silicon and Intel x86_64 alike, you need to run at least Rust 1.66 as it requires this PR from Rust compiler team: rust-lang/rust#98736.
+
+To set up your build system please update your Rust compiler toolchain and add both macOS targets as follows:
+
+$ rustup update stable
+$ rustup +stable add target x86_64-apple-darwin
+$ rustup +stable add target aarch64-apple-darwin
+
+You can build the library for both architectures now by running:
+
+$ cargo build --target x86_64-apple-darwin
+$ cargo build --target aarch64-apple-darwin
+
+To combine the two separate libraries into one universal binary please use the lipo command-line tool provided with the Xcode command-line programs:
+
+$ lipo -create -arch arm64 <path-to-aarch64-apple-darwin-binary> -arch x86_64 <path-to-x86_64-apple-darwin-binary> -o <path-to-universal-binary>
+
+Fully Static Builds with MUSL
+
+Using musl would allow you to create fully-static applications that do not rely on any shared libraries... at all. You would need a musl target for your Rust compiler, and the musl build tools for your target ar well.
+
+Then you would be able to use Cargo to build your application, like:
+
+$ cargo build --target=x86_64-unknown-linux-musl
+
+On a recent Ubuntu/Mint Linux host it should work as follows, but should be similar on any development host once the tools are installed.
+
+First install the Rust compiler for musl and the tools:
+
+$ rustup target add x86_64-unknown-linux-musl
+$ sudo apt install musl-tools
+
+Check the musl compiler:
+
+$ musl-gcc --version
+cc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
+...
+
+Building without SSL is like this:
+
+$  cargo build --no-default-features --features="bundled" \
+--target=x86_64-unknown-linux-musl --examples
+
+When using SSL/TLS with musl, you need a static version of the OpenSSL library built for musl. If you don't have one built and installed, you can use vendored-ssl. So, in your Cargo.toml:
+
+paho-mqtt = { version = "0.14", features=["vendored-ssl"] }
+
+When using musl with OpenSSL, it appears that you also need to manually link with the C library. There are two ways to do this. First, you can create a simple build.rs for your application, specifying the link:
+
+fn is_musl() -> bool {
+std::env::var("CARGO_CFG_TARGET_ENV").unwrap() == "musl"
+}
+
+fn main() {
+if is_musl() {
+// Required for OpenSSL with musl
+println!("cargo:rustc-link-arg=-lc");
+}
+}
+
+The second option is to tell Cargo to always link the C library when compiling for the musl target. Add the following lines to the $HOME/.cargo/config file:
+
+[target.x86_64-unknown-linux-musl]
+rustflags = ["-C", "link-arg=-lc"]
+
+Minimum Supported Rust Version (MSRV)
+
+v1.73.0
+
+This package uses Rust Edition 2021, and requires an MSRV of 1.73.0. Although it may build and work with slightly older versions of the compiler, this is the oldest version being tested and maintained by the developers.
+
+Developing the Crate
+
+The library is a standard Rust "crate" using the Cargo build tool. It uses the standard cargo commands for building:
+
+$ cargo build
+
+Builds the library, and also builds the -sys subcrate and the bundled Paho C library. It includes SSL, as it is defined as a default feature.
+
+$ cargo build --examples
+
+Builds the library and sample applications in the examples subdirectory.
+
+$ cargo test
+
+Builds and runs the unit tests.
+
+$ cargo doc
+
+Generates reference documentation.
+
+The Paho C Library and paho-mqtt-sys
+
+The Paho Rust crate is a wrapper around the Paho C library. This version is specifically matched to Paho C v 1.3.x, and is currently using version 1.3.16. It will generally not build against newer versions of the C library, as the C lib expands functionality by extending structures, thus breaking the Rust build.
+
+The project includes a Rust -sys crate, called paho-mqtt-sys, which provides unsafe bindings to the C library.  The repository contains a Git submodule pointing to the specific version of the C library that the Rust crate requires, and by default, it will automatically build and link to that library, using pre-generated C bindings that are also included in the repo.
+
+When building, the user has several options:
+
+Build the bundled library using the pre-generated bindings and SSL (default).
+
+Build the bundled library and compile a copy of OpenSSL to statically link to.
+
+Build the bundled library, but regenerate the bindings at build time.
+
+Use an external library, with the location specified by environment variables, generating the bindings at build time.
+
+Use the pre-installed library with the pre-generated bindings.
+
+These are chosen with cargo features, explained below.
+
+Building the bundled Paho C library
+
+This is the default:
+
+$ cargo build
+
+This will initialize and update the C library sources from Git, then use the cmake crate to build the static version of the C library, and link it in. By default, the build will use the pre-generated bindings in bindings/bindings_paho_mqtt_X_Y_Z.rs, where X_Y_Z is the currently supported library version.
+
+The default features for the build are: ["bundled", "ssl"]
+
+When building the bundled libraries, the bindings can also be regenerated at build-time. This is especially useful when building on uncommon/untested platforms to ensure proper bindings for that system. This is done adding the "build_bindgen" feature:
+
+$ cargo build --features "build_bindgen"
+
+In this case it will generate bindings based on the header files in the bundled C repository.
+
+The cached versions of the bindings are target-specific. If the pre-generated version doesn't exist for the target, it will need to be generated.
+
+Building the Paho C library with or without SSL/TLS
+
+To build the Paho C library with SSL/TLS we depend on the openssl-sys crate. The openssl-sys crate supports automatically detecting OpenSSL installations, manually pointing towards an OpenSSL installation using environment variables or building and statically linking to a vendored copy of OpenSSL (see the openssl-sys documentation for all available options). To use the vendored option, please use the vendored-ssl feature which also enables the bundled and ssl features.
+
+Building with SSL happens automatically as ssl is a default feature. It requires the OpenSSL libraries be installed for the target. If they are in a non-standard place, then the OPENSSL_DIR environment variable should be set, pointing at the top-level install path, with the .lib, .a and other library files in a lib/ directory just under the root. Use like:
+
+$ export OPENSSL_DIR=/home/myacct/openssl
+
+or wherever the library was installed.
+
+The crate can also be build without SSL by using --no-default-features. For example, to build the bundled Paho C library without secure sockets:
+
+$ cargo build --no-default-features --features "bundled"
+
+Linking OpenSSL Statically
+
+Enable the --vendored-ssl feature to build the crate with a compiled and statically linked copy of OpenSSL. The --vendored-ssl feature also enables the bundled and ssl features, so either of these command will work:
+
+$ cargo build --features "vendored-ssl"
+$ cargo build --no-default-features --features "vendored-ssl"
+
+Linking to an external Paho C library
+
+The crate can generate bindings to a copy of the Paho C library in a different location in the local file system, and link to that library.
+
+$ cargo build --no-default-features --features "build_bindgen,ssl"
+
+The ssl feature can be omitted if it is not desired.
+
+The location of the C library is specified through an environment variable:
+
+PAHO_MQTT_C_DIR= ...path to install directory...
+
+It's assumed that the headers are in an include/ directory below the one specified, and the library is in lib/ under it. This would be the case with a normal install.
+
+Alternately, this can be expressed with individual environment variables for each of the header and library directories:
+
+PAHO_MQTT_C_INCLUDE_DIR= ...path to headers...
+PAHO_MQTT_C_LIB_DIR= ...path to library...
+
+In this case, the headers and library can be found independently. This was necessary when building against a development tree for Paho C that used GNU Make build. This doesn't seem as necessary now that CMake is used everywhere.
+
+Linking to an installed Paho C library
+
+If the correct version of the Paho C library is expected to be installed on the target system, the simplest solution is to use the pre-generated bindings and specify a link to the shared Paho C library.
+
+$ cargo build --no-default-features --features "ssl"
+
+This is especially useful in a production environment where the system is well controlled, such as  when working with full-system build tools like yocto or buildroot. It could be easier to build or cross-compile the packages separately.
+
+Again, the ssl feature can be omitted if it is not desired.
+
+This option should be used with caution when building an application that will ship independently of the target system, since it assumes a very specific version of the C library and will fail if that is not the one on the target.
+
+Rust-C Bindings
+
+As described above, the crate can optionally use bindgen to create the bindings to the Paho C library.
+
+https://rust-lang-nursery.github.io/rust-bindgen/
+
+Generating bindings each time you build the Rust crate is time consuming and uses a lot of resources. This is especially noticeable when building natively on a small target like an ARM board, or similar.
+
+But each release of the Rust crate is build against a specific version of the Paho C library, which means that for a specific target, the bindings never change from build to build. Therefore, we can create the bindings once for a target and then use them for a speedy build after that.
+
+The crate comes with a number of pre-built bindings for several popular targets in: paho-mqtt-sys/bindings. These are files with names in the form:
+
+bindings_paho_mqtt_c_<version>-<target>.rs
+
+Some of these include:
+
+bindings_paho_mqtt_c_1.3.16-x86_64-unknown-linux-gnu.rs
+bindings_paho_mqtt_c_1.3.16-x86_64-pc-windows-msvc.rs
+bindings_paho_mqtt_c_1.3.16-aarch64-unknown-linux-gnu.rs
+bindings_paho_mqtt_c_1.3.16-armv7-unknown-linux-gnueabihf.rs
+bindings_paho_mqtt_c_1.3.16-x86_64-apple-darwin.rs
+bindings_paho_mqtt_c_1.3.16-default-32.rs
+bindings_paho_mqtt_c_1.3.16-default-64.rs
+
+Bindings can be created for new versions of the Paho C library or for different target platforms using the command-line bindgen tool. For example on an x86 version of Windows using MSVC, you can re-generate the bindings like this:
+
+$ cd paho-mqtt-sys
+$ bindgen wrapper.h -o bindings/bindings_paho_mqtt_c_1.3.16-x86_64-pc-windows-msvc.rs -- -Ipaho.mqtt.c/src
+
+To create bindings for a different target, use the TARGET environment variable. For example, to build the 32-bit MSVC bindings for Windows on a 64-bit host, use the i686-pc-windows-msvc target:
+
+$ TARGET=i686-pc-windows-msvc bindgen wrapper.h -o bindings/bindings_paho_mqtt_c_1.3.16-i686-pc-windows-msvc.rs -- -Ipaho.mqtt.c/src
+
+Bindgen linker issue
+
+Bindgen requires a relatively recent version of the Clang library installed on the system - recommended v3.9 or later. The bindgen dependencies seem, however, to seek out the oldest Clang version if multiple ones are installed on the system. On Ubuntu 14.04 or 16.04, the Clang v3.6 default might give some problems, although as the Paho builder is currently configured, it should work.
+
+But the safest thing would be to set the LIBCLANG_PATH environment variable to point to a supported version, like:
+
+export LIBCLANG_PATH=/usr/lib/llvm-3.19/lib
+
+Cross-Compiling
+
+The cmake crate automatically handles cross-compiling libraries. You'll need a C cross-compiler installed on your system. See here for more info about cross-compiling Rust, in general:
+
+https://github.com/japaric/rust-cross
+
+The Rust Book
+
+For example, to do a full build for ARMv7, which includes Raspberry Pi's, BeagleBones, and lots of other ARM maker boards:
+
+$ cargo build --target=armv7-unknown-linux-gnueabihf --examples
+
+This builds the main crate, the -sys crate, and it cross-compiles the Paho C library. It uses SSL, so it requires you to have a version of the SSL development library installed with the cross-compiler. If the SSL libraries are not available you can compile and link them as part of the Rust build using the --vendored-ssl feature:
+
+$ cargo build --target=armv7-unknown-linux-gnueabihf --features="vendored-ssl" --examples
+
+If you don't want to use SSL with the cross-compiler:
+
+$ cargo build --target=armv7-unknown-linux-gnueabihf --no-default-features --features="bundled" --examples
+
+If the triplet of the installed cross-compiler doesn't exactly match that of the Rust target, you might also need to correct the CC environment variable:
+
+$ CC_armv7-unknown-linux-gnueabihf=armv7-unknown-linux-gnueabihf-gcc cargo build --target=armv7-unknown-linux-gnueabihf --features="vendored-ssl" --examples
+
+Cross-Compiling with the "cross" project.
+
+The cross project is a cross-compilation build tool that utilizes docker containers pre-loaded with the build tools for a number of targets. It requires Docker to be installed and running on your system.
+
+Then build/install the cross tool:
+
+$ cargo install cross
+
+After that, you should be able to build the project for any of the supported targets. Just use the cross command instead of cargo.
+
+$ cross build --target=armv7-unknown-linux-gnueabihf \
+--features=vendored-ssl --examples
+
+Logging
+
+The Rust library uses the log crate to output debug and trace information. Applications can choose to use one of the available logger implementations or define one of their own. More information is available at:
+
+https://docs.rs/log/0.4.0/log/
+
+The sample applications use the environment log crate, env_logger to configure output via the RUST_LOG environment variable. To use this, the following call is specified in the samples before using any of the Rust MQTT API:
+
+env_logger::init().unwrap();
+
+And then the library will output information as defined by the environment. Use like:
+
+$ RUST_LOG=debug ./async_publish
+DEBUG:paho_mqtt::async_client: Creating client with persistence: 0, 0x0
+DEBUG:paho_mqtt::async_client: AsyncClient handle: 0x7f9ae2eab004
+DEBUG:paho_mqtt::async_client: Connecting handle: 0x7f9ae2eab004
+...
+
+In addition, the underlying Paho C library has its own logging capabilities which can be used to trace network and protocol transactions. It is configured by the environment variables MQTT_C_CLIENT_TRACE and MQTT_C_CLIENT_TRACE_LEVEL. The former names the log file, with the special value "ON" to log to stdout. The latter specifies one of the levels: ERROR, PROTOCOL, MINIMUM, MEDIUM and MAXIMUM.
+
+export MQTT_C_CLIENT_TRACE=ON
+export MQTT_C_CLIENT_TRACE_LEVEL=PROTOCOL
+
+Example
+
+Several small sample applications can be found in the examples directory. Here is what a small MQTT publisher might look like:
+
+use std::process;
+
+extern crate paho_mqtt as mqtt;
+
+fn main() {
+// Create a client & define connect options
+let cli = mqtt::Client::new("mqtt://localhost:1883").unwrap_or_else(|err| {
+println!("Error creating the client: {:?}", err);
+process::exit(1);
+});
+
+let conn_opts = mqtt::ConnectOptionsBuilder::new()
+.keep_alive_interval(Duration::from_secs(20))
+.clean_session(true)
+.finalize();
+
+// Connect and wait for it to complete or fail
+if let Err(e) = cli.connect(conn_opts).wait() {
+println!("Unable to connect:\n\t{:?}", e);
+process::exit(1);
+}
+
+// Create a message and publish it
+let msg = mqtt::Message::new("test", "Hello world!");
+let tok = cli.publish(msg);
+
+if let Err(e) = tok.wait() {
+println!("Error sending message: {:?}", e);
+}
+
+// Disconnect from the broker
+let tok = cli.disconnect();
+tok.wait().unwrap();
+}
+
+External Libraries and Utilities
+
+Several external projects are under development which use or enhance the Paho MQTT Rust library. These can be used in a system with the Rust library or serve as further examples of it's use.
+
+Redis Persistence
+
+The mqtt-redis create allows the use of Redis as a persistence store. It also provides a good example of creating a user-defined persistence which implements the ClientPersistence trait. It can be found at:
+
+https://github.com/fpagliughi/mqtt.rust.redis
+
+About
+paho.mqtt.rust
+Resources
+Readme
+License
+Code of conduct
+Code of conduct
+Contributing
+Contributing
+Security policy
+Security policy
+Activity
+Custom properties
+Stars
+588 stars
+Watchers
+18 watching
+Forks
+107 forks
+Report repository
+
+Releases
+
+Packages
+
+Used by
+
+Contributors
+
+Languages
+
+You can’t perform that action at this time.

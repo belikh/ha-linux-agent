@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "In rumqttc, client.subscribe() calls made BEFORE the first connection ARE buffered: the request sits in the bounded flume request channel (requests_rx), and the eventloop's select() only starts draining requests after CONNACK via next_request(pending, requests_rx) — state.rs's outgoing_subscribe runs at drain time, not enqueue time.",
+    "stance": "supports",
+    "stance_target": "The supervisor design may safely subscribe immediately after constructing the AsyncClient, before the first poll yields ConnAck; subscriptions ride the request channel and flush once the connection is up (bounded by the channel capacity passed to Client::new).",
+    "evidence_type": "empirical",
+    "scope_conditions": "rumqttc (bytebeamio/rumqtt main, 0.24.x architecture); MQTT 3.1.1; clean session caveat below",
+    "quoted_support": "pub pending: VecDeque — Pending packets from last session ... // Handles pending and new requests. If available, prioritises pending requests from previous session. Else, pulls next request from user requests channel. ... o = Self::next_request(&mut self.pending, &self.requests_rx, self.mqtt_options.pending_throttle), if !self.pending.is_empty() || (!inflight_full && !collision)",
+    "numbers": [],
+    "entities": ["rumqttc", "EventLoop", "flume request channel", "next_request", "AsyncClient"],
+    "time_period": "rumqtt main branch, fetched 2026-09",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "eventlooprs"
+  },
+  {
+    "claim": "On reconnect, rumqttc drops the pending queue if the broker's CONNACK reports no session present (clean session), keeps it for persistent sessions, and EventLoop::clean() merges state-layer unacked publishes plus channel contents into pending — explicitly retaining everything except PubAck requests (dropped so the broker never sees unexpected acks).",
+    "stance": "supports",
+    "stance_target": "Reconnect replay semantics for the agent: with clean_session=false and the same client_id, unacked QoS 1 publishes survive reconnect; with a clean session they are discarded at CONNACK — so the supervisor should re-publish retained state (availability/discovery) on every reconnect regardless.",
+    "evidence_type": "empirical",
+    "scope_conditions": "rumqttc eventloop, MQTT 3.1.1 session_present flag",
+    "quoted_support": "// Last session might contain packets which aren't acked. If it's a new session, clear the pending packets. if !connack.session_present { self.pending.clear(); } ... requests_in_channel.retain(|request| { match request { Request::PubAck(_) => false, // Wait for publish retransmission, else the broker could be confused by an unexpected ack _ => true } });",
+    "numbers": [],
+    "entities": ["rumqttc", "EventLoop::clean", "connack.session_present"],
+    "time_period": "rumqtt main branch, fetched 2026-09",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "eventlooprs"
+  },
+  {
+    "claim": "rumqttc's documented reconnect contract is literally 'keep polling': poll() reconnects when network is None, and the doc note warns 'Don't block this while iterating'; flow control stops pulling new user requests when inflight is full or a pkid collision is unresolved.",
+    "stance": "supports",
+    "stance_target": "The agent's supervisor task must poll the eventloop in a tight dedicated task and handle notifications elsewhere; blocking the poll loop stalls pings, reconnects, and acks — the precise mechanism behind 'never reliable' symptoms in the current sloppy state.",
+    "evidence_type": "empirical",
+    "scope_conditions": "rumqttc eventloop",
+    "quoted_support": "Continuing to poll will reconnect to the broker if there is a disconnection. **NOTE** Don't block this while iterating ... The branch is disabled if there's no pending messages and new user requests cannot be serviced due flow control.",
+    "numbers": [],
+    "entities": ["rumqttc", "EventLoop::poll"],
+    "time_period": "rumqtt main branch, fetched 2026-09",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "eventlooprs"
+  }
+]

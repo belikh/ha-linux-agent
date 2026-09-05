@@ -1,0 +1,37 @@
+[
+ {
+  "claim": "HA core's MQTT discovery supports the notify platform: 'notify' is a member of the SUPPORTED_COMPONENTS tuple in homeassistant/components/mqtt/const.py at dev.",
+  "stance": "supports",
+  "stance_target": "Adopt-vs-build position: notify.mqtt (HA 2024.5+) for one-way parity via MQTT discovery \u2014 gap-02 independent verification",
+  "evidence_type": "empirical",
+  "scope_conditions": "HA core dev branch (2024.5+); MQTT integration discovery",
+  "quoted_support": "SUPPORTED_COMPONENTS = ( \"alarm_control_panel\", \"binary_sensor\", \"button\", ... \"lock\", \"notify\", \"number\", ... )",
+  "numbers": [],
+  "entities": [
+   "home-assistant/core",
+   "MQTT",
+   "notify"
+  ],
+  "time_period": "HA 2024.5 \u2192 dev (2026)",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "corehomeassistantcomponentsmqttconstpy-at-dev-home-assistantcore-github"
+ },
+ {
+  "claim": "discovery.py imports SUPPORTED_COMPONENTS from .const and iterates it to build per-component wildcard subscriptions <prefix>/<component>/+/config and <prefix>/<component>/+/+/config, so a retained payload at homeassistant/notify/<node_id>/<object_id>/config is subscribed and processed like any discovered platform.",
+  "stance": "supports",
+  "stance_target": "gap-02: notify discovery end-to-end wiring, and explains the corpus's earlier zero-'notify' discovery.py finding as an import artifact",
+  "evidence_type": "empirical",
+  "scope_conditions": "HA core dev; MQTT discovery subscription machinery",
+  "quoted_support": "f\"{discovery_topic}/{component}/+/config\" for component in SUPPORTED_COMPONENTS",
+  "numbers": [],
+  "entities": [
+   "home-assistant/core",
+   "MQTT discovery"
+  ],
+  "time_period": "HA 2024.5 \u2192 dev (2026)",
+  "region": "",
+  "confidence": "high",
+  "source_note_id": "corehomeassistantcomponentsmqttconstpy-at-dev-home-assistantcore-github"
+ }
+]

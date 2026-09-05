@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Scrutiny (AnalogJ/scrutiny, Go, MIT, 8.2k stars) documents four shortcomings of smartd that motivate a real SMART monitoring stack: smartd does not differentiate critical vs informational attributes among 100+ SMART attributes; it records no attribute history so slow degradation is invisible; manufacturer thresholds are often unset or too high to catch pre-failure drives; and it is CLI-only with no headless web UI.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent's disk-health subsystem should layer critical-attribute selection, history/trends and real-world thresholds over raw smartctl output, not merely relay smartd",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "ATA/IDE/SCSI/NVMe drives via smartmontools; Scrutiny v0.8.x era",
+    "quoted_support": "There are more than a hundred S.M.A.R.T attributes, however smartd does not differentiate between critical and informational metrics. smartd does not record S.M.A.R.T attribute history, so it can be hard to determine if an attribute is degrading slowly over time. S.M.A.R.T attribute thresholds are set by the manufacturer. In some cases these thresholds are unset, or are so high that they can only be used to confirm a failed drive",
+    "numbers": ["8.2k", "100+"],
+    "entities": ["Scrutiny", "smartd", "S.M.A.R.T"],
+    "time_period": "README current as of fetch (project started ~2020)",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "github-analogjscrutiny-hard-drive-smart-monitoring-historical-trends-real-world"
+  },
+  {
+    "claim": "Scrutiny uses smartctl --scan for device detection, supports all RAID controllers smartctl supports, and allows overriding misdected device types via collector.yaml because --scan sometimes returns incomplete SMART data.",
+    "stance": "supports",
+    "stance_target": "agent device enumeration should use smartctl --scan as its base with a manual override path for RAID/misdected devices",
+    "evidence_type": "empirical",
+    "scope_conditions": "smartctl-supported hardware; RAID controllers vary in SMART passthrough",
+    "quoted_support": "Scrutiny uses smartctl --scan to detect devices/drives. All RAID controllers supported by smartctl are automatically supported by Scrutiny. While some RAID controllers support passing through the underlying SMART data to smartctl others do not. In some cases --scan does not correctly detect the device type, returning incomplete SMART data. Scrutiny supports overriding detected device type via the config file",
+    "numbers": [],
+    "entities": ["smartctl --scan", "collector.yaml", "RAID"],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "github-analogjscrutiny-hard-drive-smart-monitoring-historical-trends-real-world"
+  },
+  {
+    "claim": "Scrutiny's collector requires elevated capability: smartctl needs SYS_RAWIO capability, and NVMe drives additionally require SYS_ADMIN (GitHub issue #26); /run/udev must be mounted read-only for device metadata. The collector runs on an external cron scheduler (default daily at midnight, overridable via COLLECTOR_CRON_SCHEDULE env) because the cron schedule is not configurable from collector.yaml.",
+    "stance": "supports",
+    "stance_target": "the jupiterOS agent must be granted SYS_RAWIO (and SYS_ADMIN for NVMe hosts) or run smartctl as root; systemd timers are the natural NixOS-native scheduler replacement for cron",
+    "evidence_type": "empirical",
+    "scope_conditions": "containerised collector; Docker/Podman; Linux capabilities",
+    "quoted_support": "--cap-add SYS_RAWIO is necessary to allow smartctl permission to query your device SMART data. NOTE: If you have NVMe drives, you must add --cap-add SYS_ADMIN as well. ... /run/udev is necessary to provide the Scrutiny collector with access to your device metadata ... the Cron schedule cannot be configured via the collector.yaml (as the collector binary needs to be trigged by a scheduler/cron)",
+    "numbers": [],
+    "entities": ["SYS_RAWIO", "SYS_ADMIN", "COLLECTOR_CRON_SCHEDULE", "/run/udev", "issue #26"],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "github-analogjscrutiny-hard-drive-smart-monitoring-historical-trends-real-world"
+  },
+  {
+    "claim": "Scrutiny's hub/spoke deployment model runs one collector container per server (ghcr.io/analogj/scrutiny:latest-collector with COLLECTOR_API_ENDPOINT pointing at a central web container backed by InfluxDB 2) — a collector-per-host, central-aggregation architecture.",
+    "stance": "supports",
+    "stance_target": "direct architectural precedent for ha-linux-agent as a per-host collector publishing to a central MQTT/Home Assistant hub across the jupiterOS fleet",
+    "evidence_type": "empirical",
+    "scope_conditions": "Docker hub/spoke deployment; InfluxDB 2 backend",
+    "quoted_support": "you can deploy in Hub/Spoke mode ... ghcr.io/analogj/scrutiny:latest-collector - Contains the Scrutiny data collector, smartctl binary and cron-like scheduler. You can run one collector on each server. ... -e COLLECTOR_API_ENDPOINT=http://SCRUTINY_WEB_IPADDRESS:8080",
+    "numbers": ["8080", "8086"],
+    "entities": ["hub/spoke", "collector", "InfluxDB", "COLLECTOR_API_ENDPOINT"],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "github-analogjscrutiny-hard-drive-smart-monitoring-historical-trends-real-world"
+  },
+  {
+    "claim": "Scrutiny supports notifications through custom scripts (data via environmental variables), email, webhooks, Discord, Gotify, ntfy, Pushover, Telegram and ~14 other services, configurable in the notify.urls section of scrutiny.yaml.",
+    "stance": "supports",
+    "stance_target": "the agent's alert routing can follow the same multi-service pattern, with MQTT/Home Assistant as the primary channel",
+    "evidence_type": "empirical",
+    "scope_conditions": "Scrutiny webapp config",
+    "quoted_support": "Scrutiny supports sending SMART device failure notifications via the following services: Custom Script (data provided via environmental variables), Email, Webhooks, Discord, Gotify, Hangouts, IFTTT, Join, Mattermost, ntfy, Pushbullet, Pushover, Slack, Teams, Telegram, Tulip",
+    "numbers": [],
+    "entities": ["notify.urls", "webhooks", "ntfy", "Telegram"],
+    "time_period": "",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "github-analogjscrutiny-hard-drive-smart-monitoring-historical-trends-real-world"
+  }
+]

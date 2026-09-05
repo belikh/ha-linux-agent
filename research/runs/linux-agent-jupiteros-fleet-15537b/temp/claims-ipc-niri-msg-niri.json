@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "niri exposes an IPC interface over a UNIX domain socket at $NIRI_SOCKET using single-line JSON requests and Ok/Err-wrapped JSON replies, with niri msg --json as a thin wrapper over direct socket access.",
+    "stance": "supports",
+    "stance_target": "a jupiterOS kiosk agent can consume compositor state (focused window, monitors, workspaces) directly from niri's socket without polling or fragile scraping",
+    "evidence_type": "empirical",
+    "scope_conditions": "niri stable documentation, IPC page; programmatic access section; socat example shown for FocusedWindow request",
+    "quoted_support": "Connect to the UNIX domain socket located at $NIRI_SOCKET in the filesystem. Write your request encoded in JSON on a single line, followed by a newline character, or by flushing and shutting down the write end of the connection. Read the reply as JSON, also on a single line.",
+    "numbers": [],
+    "entities": ["niri", "NIRI_SOCKET", "niri msg", "niri-ipc"],
+    "time_period": "current (niri 25.x era docs)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "ipc-niri-msg-niri"
+  },
+  {
+    "claim": "niri's event-stream IPC mode (since 0.1.9) continuously streams events over the connection and is designed to deliver complete current state up-front followed by incremental updates, guaranteeing the consumer's state cannot desync and eliminating polling.",
+    "stance": "supports",
+    "stance_target": "ha-linux-agent can implement push-based kiosk state reporting (idle, window, monitor changes) to Home Assistant instead of periodic polling that misses transitions",
+    "evidence_type": "empirical",
+    "scope_conditions": "niri IPC docs, Event Stream section, since niri 0.1.9; atomicity 'where reasonable' with documented race edge case",
+    "quoted_support": "This is useful for implementing various bars and indicators that update as soon as something happens, without continuous polling. The event stream IPC is designed to give you the complete current state up-front, then follow up with updates to that state. This way, your state can never \"desync\" from niri, and you don't need to make any other IPC information requests.",
+    "numbers": ["0.1.9"],
+    "entities": ["niri", "event-stream", "niri-ipc"],
+    "time_period": "since niri 0.1.9",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "ipc-niri-msg-niri"
+  },
+  {
+    "claim": "niri's IPC JSON output carries a backwards-compatibility contract (existing fields and enum variants not renamed or removed; new fields will appear so consumers must handle unknowns), while the human-readable output is explicitly unstable.",
+    "stance": "supports",
+    "stance_target": "building agent state ingestion on niri IPC JSON is a stable, supportable interface choice for jupiterOS kiosks rather than a fragile integration",
+    "evidence_type": "legal",
+    "scope_conditions": "niri IPC docs, Backwards Compatibility section; applies to JSON output only; niri-ipc Rust sub-crate follows niri's version, not semver",
+    "quoted_support": "The JSON output should remain stable, as in: existing fields and enum variants should not be renamed, non-optional existing fields should not be removed. However, new fields and enum variants will be added, so you should handle unknown fields or variants gracefully where reasonable.",
+    "numbers": [],
+    "entities": ["niri", "niri-ipc"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "ipc-niri-msg-niri"
+  },
+  {
+    "claim": "niri is a Rust Wayland compositor (niri-wm/niri, 27.4k stars, GPL-3.0) that is stable for daily use, supports multi-monitor + mixed DPI from the start, floating windows since 25.01, and Xwayland via xwayland-satellite since 25.08, but is not a complete desktop environment (needs a shell like DankMaterialShell or Noctalia).",
+    "stance": "neutral",
+    "stance_target": "jupiterOS kiosk display stack is niri-based; agent display-state features must target niri's model (per-monitor strips, dynamic workspaces)",
+    "evidence_type": "empirical",
+    "scope_conditions": "niri README on GitHub, Status and Features sections",
+    "quoted_support": "Niri is stable for day-to-day use and does most things expected of a Wayland compositor. ... Grab a desktop shell like DankMaterialShell or Noctalia (or build a more traditional setup): niri by itself is not a complete desktop environment.",
+    "numbers": ["27.4k stars", "1.1k forks", "25.01", "25.08"],
+    "entities": ["niri", "xwayland-satellite", "DankMaterialShell", "Noctalia"],
+    "time_period": "2025-2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-niri-wmniri-a-scrollable-tiling-wayland-compositor-github"
+  }
+]

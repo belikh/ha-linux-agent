@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "openclaw gateway status/install fail on headless EC2 with 'Error: systemctl --user unavailable: Failed to connect to bus: No medium found' because user-level systemd is unavailable without a login session",
+    "stance": "supports",
+    "stance_target": "systemctl --user based tooling breaks on headless hosts — a known fleet-agent failure mode requiring explicit handling",
+    "evidence_type": "empirical (bug report with repro on EC2)",
+    "scope_conditions": "headless Linux servers (EC2/GCP/Azure VMs, Docker containers, SSH-only access without desktop session)",
+    "quoted_support": "openclaw gateway status/install fail on headless EC2 with 'Error: systemctl --user unavailable: Failed to connect to bus: No medium found' because user-level systemd is unavailable without a login session",
+    "numbers": ["issue #11805"],
+    "entities": ["openclaw", "systemctl --user", "EC2", "No medium found"],
+    "time_period": "February 2026 (issue filed; closed)",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "openclaw-gateway-status-fails-on-ec2headless-servers-due-to-missing-user-level-s"
+  },
+  {
+    "claim": "Root-cause chain for headless systemctl --user failures: user-level systemd requires a D-Bus session bus; the session bus requires XDG_RUNTIME_DIR; SSH sessions don't set XDG_RUNTIME_DIR; and loginctl enable-linger must be enabled for the user",
+    "stance": "supports",
+    "stance_target": "the diagnostic chain (linger + XDG_RUNTIME_DIR + session bus) an agent must detect and self-heal or report on headless hosts",
+    "evidence_type": "empirical (bug report root-cause analysis)",
+    "scope_conditions": "headless Linux via SSH",
+    "quoted_support": "Root-cause chain stated: user-level systemd requires a D-Bus session bus; the session bus requires XDG_RUNTIME_DIR; SSH sessions don't set XDG_RUNTIME_DIR; and loginctl enable-linger must be enabled for the user.",
+    "numbers": [],
+    "entities": ["XDG_RUNTIME_DIR", "loginctl enable-linger", "D-Bus session bus"],
+    "time_period": "February 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "openclaw-gateway-status-fails-on-ec2headless-servers-due-to-missing-user-level-s"
+  },
+  {
+    "claim": "Workaround for the headless systemctl --user failure: 'sudo loginctl enable-linger $(whoami)' + 'export XDG_RUNTIME_DIR=/run/user/$(id -u)' then retry the install",
+    "stance": "supports",
+    "stance_target": "a documented recovery recipe for user-scoped agents on headless hosts",
+    "evidence_type": "empirical (bug report workaround, verified by issue closure)",
+    "scope_conditions": "headless Linux; user-scoped service",
+    "quoted_support": "Workaround: 'sudo loginctl enable-linger $(whoami)' + 'export XDG_RUNTIME_DIR=/run/user/$(id -u)' then retry install.",
+    "numbers": [],
+    "entities": ["loginctl enable-linger", "XDG_RUNTIME_DIR", "/run/user/"],
+    "time_period": "February 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "openclaw-gateway-status-fails-on-ec2headless-servers-due-to-missing-user-level-s"
+  },
+  {
+    "claim": "The openclaw issue's suggested improvements for headless Linux agents: (A) detect the missing-XDG_RUNTIME_DIR scenario and print an actionable error; (B) support a --system flag installing to /etc/systemd/system as a system-level service for servers; (C) auto-set XDG_RUNTIME_DIR if /run/user/<uid> exists",
+    "stance": "supports",
+    "stance_target": "concrete feature list for how a Linux agent should degrade gracefully on headless hosts (directly applicable to ha-linux-agent design)",
+    "evidence_type": "expert-opinion (issue reporter's improvement suggestions)",
+    "scope_conditions": "Linux agents installing user services on headless servers",
+    "quoted_support": "Suggested improvements directly applicable to any headless Linux agent: (A) detect the missing-XDG_RUNTIME_DIR scenario and print an actionable error; (B) support a --system flag installing to /etc/systemd/system as a system-level service for servers; (C) auto-set XDG_RUNTIME_DIR if /run/user/<uid> exists.",
+    "numbers": [],
+    "entities": ["XDG_RUNTIME_DIR", "/etc/systemd/system", "--system flag"],
+    "time_period": "February 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "openclaw-gateway-status-fails-on-ec2headless-servers-due-to-missing-user-level-s"
+  },
+  {
+    "claim": "The failure mode is stated to affect ALL headless Linux deployments — EC2, GCP, Azure VMs, Docker containers, and any server accessed via SSH without a desktop session",
+    "stance": "supports",
+    "stance_target": "headless user-bus breakage is fleet-generic, not EC2-specific — every non-kiosk jupiterOS host would hit it",
+    "evidence_type": "empirical (bug report)",
+    "scope_conditions": "headless Linux, all cloud providers and containers",
+    "quoted_support": "States the failure mode affects all headless Linux deployments: EC2, GCP, Azure VMs, Docker containers, and any server accessed via SSH without a desktop session.",
+    "numbers": [],
+    "entities": ["EC2", "GCP", "Azure", "Docker"],
+    "time_period": "February 2026",
+    "region": "",
+    "confidence": "high",
+    "source_note_id": "openclaw-gateway-status-fails-on-ec2headless-servers-due-to-missing-user-level-s"
+  }
+]

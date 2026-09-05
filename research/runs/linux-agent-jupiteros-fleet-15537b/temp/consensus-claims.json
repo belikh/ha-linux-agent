@@ -1,0 +1,77 @@
+[
+  {
+    "claim": "rumqttc's eventloop does not re-subscribe after reconnection — the caller must re-send subscriptions after every ConnAck (issue #250, confirmed at source level in eventloop.rs)",
+    "independent_sources": ["automatic-reconnect-and-subscribed-topics-issue-250-bytebeamiorumqtt-github", "rumqttrumqttcsrceventlooprs-at-main-bytebeamiorumqtt-github", "rumqtt-reconnect", "eventloop-in-rumqttc-rust"],
+    "note": "4 sources incl. crate source; ha-linux-agent violates this today (subscribes once at startup)"
+  },
+  {
+    "claim": "rumqttc defaults to clean_session=true, which discards pending messages and subscriptions on every reconnect — a reliable agent needs clean_session=false + a stable client_id",
+    "independent_sources": ["librs", "rumqtt-reconnect", "eventloop-in-rumqttc-rust"],
+    "note": "ha-linux-agent sets neither"
+  },
+  {
+    "claim": "A device exposing MQTT discovery must subscribe to Home Assistant's birth message (homeassistant/status, payload 'online') and re-publish its discovery payloads in response — HA's official documentation states this directly",
+    "independent_sources": ["mqtt-home-assistant", "setting-mqtt-birth-and-last-will-with-the-new-mqtt-integration", "mqtt-availability-community", "mqtt-client-component-esphome-smart-home-made-simple"],
+    "note": "ha-linux-agent has no birth subscription"
+  },
+  {
+    "claim": "LWT never fires on graceful disconnect — an agent must publish its own offline/shutdown message on SIGTERM before disconnecting (ESPHome shutdown_message, HASS.Agent, HiveMQ spec)",
+    "independent_sources": ["mqtt-client-component-esphome-smart-home-made-simple", "what-is-mqtt-last-will-and-testament-lwt-mqtt-essentials-part-9", "setting-mqtt-birth-and-last-will-with-the-new-mqtt-integration"],
+    "note": "ha-linux-agent has no SIGTERM handler; the agent is killed and only the broker's LWT marks it offline"
+  },
+  {
+    "claim": "MQTT discovery messages must be retained AND/OR republished on reconnect — retained state + availability are what make entities survive HA restarts; command topics must never be retained",
+    "independent_sources": ["mqtt-home-assistant", "mqtt-availability-community", "my-hand-built-mqtt-devices-are-unavailable-after-hassio-restart-but-zigbee2mqtt", "corehomeassistantcomponentsmqttdiscoverypy-at-dev-home-assistantcore-github", "mqtt-client-component-esphome-smart-home-made-simple"],
+    "note": "5 sources; ha-linux-agent retains state and discovery but never republishes"
+  },
+  {
+    "claim": "Every discovery payload must include an availability topic (avty_t) or entities show unavailable/stuck states on integration restart",
+    "independent_sources": ["mqtt-home-assistant", "mqtt-availability-community", "working-with-devices-birth-lwt-configura", "using-commands-hassagent-documentation"],
+    "note": "ha-linux-agent does include availability_topic — one thing it already gets right"
+  },
+  {
+    "claim": "NixOS supports declarative per-user lingering via users.users.<name>.linger (23.11+, PR #260248); nixos-rebuild actively disables linger for users not declared in config",
+    "independent_sources": ["nixosusers-groups-add-user-option-to-ena", "systemduser-services-official-nixos-wiki", "enabling-persistent-user-instance-system"],
+    "note": "jupiter-os already sets users.users.io.linger in the ha-agent module"
+  },
+  {
+    "claim": "User services cannot order themselves after system units, and the user-manager needs lingering to exist at boot on headless hosts — the session bus at /run/user/<uid>/bus only exists under a user manager",
+    "independent_sources": ["systemduser-archwiki", "openclaw-gateway-status-fails-on-ec2head", "set-up-systemd-services-with-session-dbu", "github-z-galaxyzbus-rust-d-bus-crate-git"],
+    "note": "The headless diagnostic ladder: linger → XDG_RUNTIME_DIR → session bus → 'No medium found'"
+  },
+  {
+    "claim": "Telegraf's MQTT output cannot produce Home Assistant discovery (homie layout only), cannot set a dynamic LWT, and has 'very limited' lifecycle management — it is not a substitute for a discovery-native agent",
+    "independent_sources": ["telegrafpluginsoutputsmqttreadmemd-at-master-influxdatatelegraf-github", "telegraf-documentation-2", "releasing-telegraf2hassio-for-remote-servers-monitoring"],
+    "note": "The Telegraf2Hassio community bridge exists precisely because of this gap"
+  },
+  {
+    "claim": "HA's Prometheus integration is entity-export-only and cannot ingest host metrics from node_exporter — 'just use node_exporter with HA' is not a viable path",
+    "independent_sources": ["prometheus-home-assistant", "new-add-on-prometheus-node-exporter-share-your-projects-home-assistant-community"],
+    "note": "Closes the Prometheus-ecosystem alternative"
+  },
+  {
+    "claim": "The Glances HA integration has a 6-year record of silent-failure modes (flatline without recovery #110551 2024 / #170384 2026-open, restart renames #32328, connect failures #2504) — pull-based per-host REST polling is an anti-pattern for fleet monitoring",
+    "independent_sources": ["glances-integration-loses-connection-and-doesnt-automatically-recover-issue-1105", "glances-integration-sometimes-stops-reporting-current-data-issue-170384-home-ass", "glances-sensors-are-renamed-after-a-restart-issue-32328-home-assistantcore-githu", "home-assistant-monitor-proxmox-with-glan"],
+    "note": "4 independent issue threads"
+  },
+  {
+    "claim": "Netdata's default footprint (1-5% of a core, 100-350MB RAM) is too heavy for fleet-wide kiosk deployment without explicit tuning; its memory blowups are community-documented",
+    "independent_sources": ["resource-utilization-netdata-agent-learn-netdata", "insane-netdata-memory-usage-help-netdata-community-forums", "agent-performance-optimization-guide-configuration"],
+    "note": "Disqualifies 'adopt Netdata everywhere' for TCxWave-class hardware"
+  },
+  {
+    "claim": "The Windows companion HASS.Agent explicitly does not target Linux, and no official Linux companion exists — the niche ha-linux-agent occupies is genuinely open (community demand documented in the WTH thread)",
+    "independent_sources": ["github-hass-agenthassagent-unofficial-development-project-for-the-hassagent-plat", "wth-there-is-no-windows-and-linux-ha-app-similar-to-macos", "home-hassagent-documentation"],
+    "note": "Legitimises the project's existence"
+  },
+  {
+    "claim": "tailscale status --json's BackendState / Self / TailscaleIPs / ExitNodeStatus fields are authoritatively defined in tailscale.com/ipn/ipnstate Go structs, but the --json format is officially unstable-by-policy — an agent parsing it must version-tolerate",
+    "independent_sources": ["ipnstate-package-tailscalecomipnipnstate-go-packages", "tailscale-cli-tailscale-docs", "cmdtailscalecli-build-a-mechanism-to-change-the-output-from-json-logs-in-the-fut"],
+    "note": "Closes the ROADMAP's 'schema not pinned down' hesitation — the fields exist and are known, with a stability caveat"
+  },
+  {
+    "claim": "MQTT integration tests need a real ephemeral broker (Mosquitto testcontainer) with the broker URL derived from the container API, never hardcoded localhost:1883",
+    "independent_sources": ["testcontainers-mosquitto-module", "mosquitto-in-testcontainers_modulesmosquitos-rust", "github-dbraun1991mqtt-test-testing-the-m", "hivemq-is-now-available-in-testcontainers"],
+    "note": "Direct remediation path for the 3-tests-in-12-crates gap"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "HASS.Agent (the Windows agent) implements actionable notifications that 'work the same way as the companion apps do': the notify service call carries data.actions with action/title pairs, buttons appear on the notification, and clicking a button fires an HA event of type 'hass_agent_notifications' (bound to a device via device_name) that triggers automations — a complete action-button round-trip.",
+    "stance": "supports",
+    "stance_target": "Actionable-notification round-trips are achievable on a desktop agent platform (HASS.Agent/Windows), setting the behaviour bar that MQTT-based Linux agents (lnxlink, go-hass-agent) currently fail to meet",
+    "evidence_type": "empirical",
+    "scope_conditions": "HASS.Agent >= 2022.13.0 on Windows; HA notify service with data.actions",
+    "quoted_support": "HASS.Agent's actionable notifications work the same way as the companion apps do. ... As soon as you click one of the buttons, the action name will get triggered. Every automation that has that trigger will activate. ... Make sure you enter hass_agent_notifications as the Event type.",
+    "numbers": ["HASS.Agent 2022.13.0 minimum"],
+    "entities": ["HASS.Agent", "Home Assistant", "hass_agent_notifications event", "companion apps", "fillefilip8"],
+    "time_period": "2022.13.0 onwards; docs current as of 2026",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "actionable-notifications-hassagent"
+  },
+  {
+    "claim": "The HASS.Agent actionable-notification YAML pattern passes actions under the service's data key (actions: [{action, title}, ...]), matching the companion-app notification schema rather than inventing a custom MQTT payload.",
+    "stance": "neutral",
+    "stance_target": "The companion-app notify schema (title/message/data.actions) is the platform-native contract for actionable notifications",
+    "evidence_type": "empirical",
+    "scope_conditions": "HA notify service scripts",
+    "quoted_support": "service: notify.hass_agent_staging ... data: title: Test ... message: This is an actionable test message. ... data: actions: - action: \"yes\" title: \"Yes\" - action: \"no\" title: \"No\"",
+    "numbers": [],
+    "entities": ["HASS.Agent", "notify.hass_agent_staging", "data.actions"],
+    "time_period": "2022 onwards",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "actionable-notifications-hassagent"
+  }
+]

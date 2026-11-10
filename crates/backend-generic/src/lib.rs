@@ -84,9 +84,18 @@ impl GenericBackend {
             None => None,
         };
 
+        // `System::new()` + targeted refreshes, never `new_all()` /
+        // `refresh_all()`: sysinfo 0.32's `refresh_all` refreshes processes
+        // with `remove_dead_processes = false`, so the process table (cmd,
+        // environ, exe, an open `stat` fd each) gains an entry for every
+        // process that ever existed and never shrinks. This backend reads
+        // only global CPU and memory, so it never asks for processes.
+        let mut sys = System::new();
+        // Seed the CPU baseline; usage is a delta between two refreshes.
+        sys.refresh_cpu_usage();
         Self {
             config,
-            sys: Mutex::new(System::new_all()),
+            sys: Mutex::new(sys),
             system_bus,
             session_bus,
             login1_session,
@@ -114,6 +123,14 @@ impl GenericBackend {
             .build()
             .await
             .ok()
+    }
+
+    /// Number of processes the sysinfo `System` is tracking. Must stay 0:
+    /// a non-zero count means a process refresh crept back in and the
+    /// table grows with every process the host ever spawns.
+    #[cfg(test)]
+    async fn tracked_process_count(&self) -> usize {
+        self.sys.lock().await.processes().len()
     }
 
     fn disk_mounts(&self) -> Vec<String> {
@@ -188,7 +205,8 @@ impl SensorBackend for GenericBackend {
 
         {
             let mut sys = self.sys.lock().await;
-            sys.refresh_all();
+            sys.refresh_cpu_usage();
+            sys.refresh_memory();
             out.push(SensorState::new("cpu_usage", round1(sys.global_cpu_usage())));
             let mem_pct = if sys.total_memory() > 0 {
                 100.0 * sys.used_memory() as f64 / sys.total_memory() as f64
@@ -348,7 +366,26 @@ fn round1(v: f32) -> f64 {
 
 #[cfg(test)]
 mod tests {
-    use super::parse_notify_payload;
+    use super::{parse_notify_payload, GenericBackend};
+    use ha_agent_core::config::GenericBackendConfig;
+    use ha_agent_core::SensorBackend;
+
+    /// Regression: poll() used `refresh_all()`, which never evicts dead
+    /// processes, so RSS grew ~130 MB/day on a host with process churn.
+    /// Spawning and reaping children between polls must leave the
+    /// tracked-process table empty.
+    #[tokio::test]
+    async fn poll_does_not_accumulate_process_table() {
+        let backend = GenericBackend::new(GenericBackendConfig::default()).await;
+        for _ in 0..50 {
+            let mut child = std::process::Command::new("true").spawn().expect("spawn true");
+            child.wait().expect("wait");
+            let states = backend.poll().await;
+            assert!(states.iter().any(|s| s.id == "cpu_usage"));
+            assert!(states.iter().any(|s| s.id == "memory_usage"));
+        }
+        assert_eq!(backend.tracked_process_count().await, 0);
+    }
 
     #[test]
     fn notify_payload_accepts_raw_text() {

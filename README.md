@@ -1,11 +1,111 @@
+<p align="right">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/belikh/design/main/packages/graphics/logo/jupiter-logo-dark.svg">
+    <img alt="jupiter.au" src="https://raw.githubusercontent.com/belikh/design/main/packages/graphics/logo/jupiter-logo-light.svg" width="260">
+  </picture>
+</p>
+
 # ha-linux-agent
 
-A Home Assistant companion daemon for Linux. HA ships official companion
-apps for Android and iOS, and Windows users have HASS.Agent — this fills the
-same role on Linux: system/desktop sensors, notifications, and a handful of
-remote commands (lock, suspend), published to Home Assistant over MQTT
-discovery. No DE assumed by default; desktop-environment-specific extras
-(currently: niri) are pluggable backends.
+A Home Assistant companion daemon for Linux. Home Assistant has official companion apps for Android and iOS, and Windows users have HASS.Agent. This agent does the same for Linux: it publishes system and desktop sensors, receives notifications and runs a few remote commands (lock, suspend), all over MQTT discovery. It assumes no desktop environment. Desktop-specific extras such as niri and KDE are pluggable backends.
+
+<p>
+  <a href="#install">Install</a> ·
+  <a href="#configuration">Configuration</a> ·
+  <a href="#security">Security</a> ·
+  <a href="#how-it-works">How it works</a> ·
+  <a href="#backends">Backends</a> ·
+  <a href="#entity-reference">Entity reference</a> ·
+  <a href="#add-a-backend">Adding a desktop-environment backend</a>
+</p>
+
+<br>
+
+---
+
+<br>
+
+## Install
+
+### NixOS (this repo's own flake)
+
+```nix
+{
+  inputs.ha-linux-agent.url = "github:belikh/ha-linux-agent"; # or a path: input while developing locally
+
+  # in your host config:
+  imports = [ inputs.ha-linux-agent.nixosModules.default ];
+  services.ha-linux-agent = {
+    enable = true;
+    role = "kiosk"; # kiosk | server | minimal — see below
+    settings = {
+      mqtt.host = "10.1.1.20";
+      mqtt.username = "ha-linux-agent";
+      mqtt.password_file = "/run/secrets/mqtt_ha_linux_agent";
+    };
+  };
+}
+```
+
+The module ships **one system service** (`systemd.services.ha-linux-agent`,
+running as `services.ha-linux-agent.user`, default `io`) — not a user unit.
+A system service restarts cleanly on every `nixos-rebuild switch` and
+orders against `network-online.target`, which a user unit cannot do. The
+`role` switch shapes the unit:
+
+- `kiosk` — adds the session-bus `Environment` block
+  (`XDG_RUNTIME_DIR`/`DBUS_SESSION_BUS_ADDRESS` at `/run/user/<uid>/bus`)
+  for hosts whose user lingers with a live per-user bus, and a udev rule
+  granting the `video` group write access to backlight `brightness` nodes.
+- `server` — headless: no session bus to reach, no backlight to write; the
+  session-dependent features simply warn-and-disable.
+- `minimal` — baseline unit only.
+
+The unit sets `Restart=on-failure`, `StateDirectory=ha-linux-agent` (the
+last-discovery manifest used to clear stale entities), and
+`WatchdogSec=15min` (the agent pings systemd's watchdog from its poll loop,
+so a wedged loop costs one restart rather than silent death).
+
+### Any other distro (Debian, Arch, ...)
+
+```sh
+cargo build --release
+sudo install -Dm755 target/release/ha-linux-agent /usr/local/bin/ha-linux-agent
+mkdir -p ~/.config/ha-linux-agent
+cp packaging/config.example.toml ~/.config/ha-linux-agent/config.toml
+$EDITOR ~/.config/ha-linux-agent/config.toml   # at minimum set mqtt.host
+
+mkdir -p ~/.config/systemd/user
+cp packaging/systemd/ha-linux-agent.service ~/.config/systemd/user/
+systemctl --user enable --now ha-linux-agent
+```
+
+<br>
+
+## Configuration
+
+See `packaging/config.example.toml` for the full schema. The agent looks for
+its config at, in order: the path given as the first CLI argument, the
+`HA_LINUX_AGENT_CONFIG` env var, `$XDG_CONFIG_HOME/ha-linux-agent/config.toml`,
+`~/.config/ha-linux-agent/config.toml`, then `/etc/ha-linux-agent/config.toml`.
+
+<br>
+
+## Security
+
+- **MQTT auth is required if you enable commands.** An anonymous broker plus
+  remote lock/suspend/notify commands means anyone on the network segment
+  that can reach your broker can run them. Use a dedicated, scoped MQTT user
+  (`mqtt.username` / `mqtt.password_file`). With `mqtt.tls = true` the
+  broker's CA must be provided via `mqtt.ca_file` — the agent refuses to
+  start TLS without a trust store rather than silently connecting
+  unverified.
+- There is deliberately no "run arbitrary shell command" entity in this
+  project. Commands are limited to a small, fixed set of safe primitives
+  (lock, suspend, notify). If you need more, that's a backend you write and
+  own — keep the allowlist explicit and off by default.
+
+<br>
 
 ## How it works
 
@@ -38,6 +138,10 @@ last) — Home Assistant's official entity-removal semantic, for uninstall or
 device retirement. The agent also persists its announced entity list to
 `<state_dir>/last-discovery.json` and clears removed topics opportunistically
 on the next start, so disabled backends never leave stale entities behind.
+
+<br>
+
+## Backends
 
 Sensors and commands come from **backends**, each implementing one or both
 of:
@@ -92,6 +196,8 @@ Built in:
   the TCxWave kiosks that node cuts power to a rail the touch digitiser
   shares).
 
+<br>
+
 ## Entity reference
 
 Every entity below is published as an [HA MQTT discovery](https://www.home-assistant.io/integrations/mqtt/#mqtt-discovery)
@@ -109,7 +215,9 @@ config):
 | Availability (LWT) | `ha-linux-agent/<device_id>/availability` — `online` while connected, `offline` if the agent dies without disconnecting cleanly |
 | Command (one per button/switch) | `ha-linux-agent/<device_id>/cmd/<entity_id>` — HA publishes here to invoke the entity |
 
-### `backend-generic` — always enabled, entity availability varies by host
+<details><summary><b>backend-generic</b></summary>
+
+Active: always enabled, entity availability varies by host.
 
 | Entity ID | HA component | Name | Unit / device class | Published when |
 |---|---|---|---|---|
@@ -140,7 +248,11 @@ command topic; a JSON object with `title`/`message` keys is also accepted):
 |---|---|---|---|---|
 | `notify` | notify | Send Notification | session D-Bus reachable and `backends.generic.notifications = true` | sends a desktop notification via `org.freedesktop.Notifications.Notify` |
 
-### `backend-niri` — only when a niri session is detected (`$NIRI_SOCKET` set + `niri` on `$PATH`)
+</details>
+
+<details><summary><b>backend-niri</b></summary>
+
+Active: only when a niri session is detected (`$NIRI_SOCKET` set + `niri` on `$PATH`).
 
 | Entity ID | HA component | Name | Notes |
 |---|---|---|---|
@@ -151,7 +263,11 @@ command topic; a JSON object with `title`/`message` keys is also accepted):
 
 No commands — read-only sensors.
 
-### `backend-kde` — only when a Plasma session is detected (`$XDG_CURRENT_DESKTOP` contains `KDE`, `org.kde.ActivityManager` reachable on the session bus)
+</details>
+
+<details><summary><b>backend-kde</b></summary>
+
+Active: only when a Plasma session is detected (`$XDG_CURRENT_DESKTOP` contains `KDE`, `org.kde.ActivityManager` reachable on the session bus).
 
 | Entity ID | HA component | Name | Notes |
 |---|---|---|---|
@@ -162,7 +278,11 @@ intentionally not included: KWin has no stable, scripting-free D-Bus method
 for it (it requires loading a KWin script at runtime), which is a bigger
 commitment than this backend's v1 takes on — a natural follow-up PR.
 
-### `backend-zfs` — only when the `zpool` binary is on `$PATH`
+</details>
+
+<details><summary><b>backend-zfs</b></summary>
+
+Active: only when the `zpool` binary is on `$PATH`.
 
 | Entity ID | HA component | Name | Unit / device class | Notes |
 |---|---|---|---|---|
@@ -176,9 +296,11 @@ commands — starting a scrub needs root, out of scope for this backend.
 tested against a real pool (this project's dev sandbox has no ZFS) — check
 it against your actual `zpool` version before relying on it.
 
-No commands — read-only sensors. **Unverified in a live environment:** the exact `zpool list -H [-p] -o <fields>` output shape was implemented from documented OpenZFS behavior, not tested against a real pool (this project's dev sandbox has no ZFS) — check it against your actual `zpool` version before relying on it.
+</details>
 
-### `backend-hardware` — always enabled; each sensor appears only when its sysfs node exists
+<details><summary><b>backend-hardware</b></summary>
+
+Active: always enabled; each sensor appears only when its sysfs node exists.
 
 | Entity ID | HA component | Name | Unit / Published when |
 |---|---|---|---|
@@ -193,7 +315,11 @@ group write access to `brightness`. Governor/EPP writes apply to every
 `cpuN` present. Options are enumerated from sysfs; if a node read fails,
 the select falls back to a small hardcoded list rather than vanishing.
 
-### `backend-syncthing` — enabled and reachable with a valid API key
+</details>
+
+<details><summary><b>backend-syncthing</b></summary>
+
+Active: enabled and reachable with a valid API key.
 
 | Entity ID | HA component | Name | Unit / device class | Notes |
 |---|---|---|---|---|
@@ -207,7 +333,11 @@ the select falls back to a small hardcoded list rather than vanishing.
 source — check them against a real Syncthing instance before trusting this
 in production.
 
-### `backend-headscale` — only when the `tailscale` binary is on `$PATH`
+</details>
+
+<details><summary><b>backend-headscale</b></summary>
+
+Active: only when the `tailscale` binary is on `$PATH`.
 
 | Entity ID | HA component | Name | Unit / device class | Notes |
 |---|---|---|---|---|
@@ -219,7 +349,11 @@ No commands — read-only. An exit-node-in-use sensor was deliberately left
 out: the relevant `tailscale status --json` field wasn't confident enough to
 guess at rather than risk publishing a silently-wrong sensor.
 
-### `backend-gamescope` — only when gamescope is installed or the host is currently inside a gamescope session
+</details>
+
+<details><summary><b>backend-gamescope</b></summary>
+
+Active: only when gamescope is installed or the host is currently inside a gamescope session.
 
 | Entity ID | HA component | Name | Unit / device class | Notes |
 |---|---|---|---|---|
@@ -228,7 +362,11 @@ guess at rather than risk publishing a silently-wrong sensor.
 No commands, and deliberately no focused-game tracking — see
 `backend-gamescope`'s module doc comment and `ROADMAP.md` for why.
 
-### `backend-lutris` — only when the `lutris` binary is on `$PATH`
+</details>
+
+<details><summary><b>backend-lutris</b></summary>
+
+Active: only when the `lutris` binary is on `$PATH`.
 
 No sensors — commands only, one `button` per installed game, auto-discovered
 at startup from `lutris --list-games --json`:
@@ -244,7 +382,11 @@ launch syntax are confirmed real (`lutris --help`), but the exact per-game
 JSON field names are hedged (`id`/`slug`, `name`/`title`) rather than
 confirmed against a real Lutris install — check before relying on this.
 
-### `backend-launcher` — config-driven, active whenever `backends.launcher.apps` is non-empty
+</details>
+
+<details><summary><b>backend-launcher</b></summary>
+
+Active: config-driven, active whenever `backends.launcher.apps` is non-empty.
 
 Remote control of systemd units as HA switches, with mutual-exclusion
 groups. See `packaging/config.example.toml` for the `[[backends.launcher.apps]]`
@@ -261,10 +403,13 @@ spaces, since it's also used as an MQTT topic segment). Only the configured
 `unit` names are ever passed to `systemctl` — no free-form unit name can
 arrive over MQTT.
 
-## Adding a desktop-environment backend
+</details>
 
-This is the extension point: support for GNOME, Sway, Hyprland, KDE, etc. is
-intentionally *not* bundled — add it as a new crate and send a PR.
+<br>
+
+## Add a backend
+
+Niri and KDE are built in. Support for GNOME, Sway, Hyprland and other desktops can be added as a new crate; send a PR.
 
 1. `cargo new --lib crates/backend-<name>`, add it as a workspace member.
 2. Implement `SensorBackend` and/or `CommandBackend` from `ha-agent-core`.
@@ -278,85 +423,11 @@ intentionally *not* bundled — add it as a new crate and send a PR.
 Keep backends self-contained — `core` should never need to know a specific
 DE exists.
 
-## Installing
+<br>
 
-### NixOS (this repo's own flake)
+## Develop
 
-```nix
-{
-  inputs.ha-linux-agent.url = "github:belikh/ha-linux-agent"; # or a path: input while developing locally
-
-  # in your host config:
-  imports = [ inputs.ha-linux-agent.nixosModules.default ];
-  services.ha-linux-agent = {
-    enable = true;
-    role = "kiosk"; # kiosk | server | minimal — see below
-    settings = {
-      mqtt.host = "10.1.1.20";
-      mqtt.username = "ha-linux-agent";
-      mqtt.password_file = "/run/secrets/mqtt_ha_linux_agent";
-    };
-  };
-}
-```
-
-The module ships **one system service** (`systemd.services.ha-linux-agent`,
-running as `services.ha-linux-agent.user`, default `io`) — not a user unit.
-A system service restarts cleanly on every `nixos-rebuild switch` and
-orders against `network-online.target`, which a user unit cannot do. The
-`role` switch shapes the unit:
-
-- `kiosk` — adds the session-bus `Environment` block
-  (`XDG_RUNTIME_DIR`/`DBUS_SESSION_BUS_ADDRESS` at `/run/user/<uid>/bus`)
-  for hosts whose user lingers with a live per-user bus, and a udev rule
-  granting the `video` group write access to backlight `brightness` nodes.
-- `server` — headless: no session bus to reach, no backlight to write; the
-  session-dependent features simply warn-and-disable.
-- `minimal` — baseline unit only.
-
-The unit sets `Restart=on-failure`, `StateDirectory=ha-linux-agent` (the
-last-discovery manifest used to clear stale entities), and
-`WatchdogSec=15min` (the agent pings systemd's watchdog from its poll loop,
-so a wedged loop costs one restart rather than silent death).
-
-### Any other distro (Debian, Arch, ...)
-
-```bash
-cargo build --release
-sudo install -Dm755 target/release/ha-linux-agent /usr/local/bin/ha-linux-agent
-mkdir -p ~/.config/ha-linux-agent
-cp packaging/config.example.toml ~/.config/ha-linux-agent/config.toml
-$EDITOR ~/.config/ha-linux-agent/config.toml   # at minimum set mqtt.host
-
-mkdir -p ~/.config/systemd/user
-cp packaging/systemd/ha-linux-agent.service ~/.config/systemd/user/
-systemctl --user enable --now ha-linux-agent
-```
-
-## Configuration
-
-See `packaging/config.example.toml` for the full schema. The agent looks for
-its config at, in order: the path given as the first CLI argument, the
-`HA_LINUX_AGENT_CONFIG` env var, `$XDG_CONFIG_HOME/ha-linux-agent/config.toml`,
-`~/.config/ha-linux-agent/config.toml`, then `/etc/ha-linux-agent/config.toml`.
-
-## Security
-
-- **MQTT auth is required if you enable commands.** An anonymous broker plus
-  remote lock/suspend/notify commands means anyone on the network segment
-  that can reach your broker can run them. Use a dedicated, scoped MQTT user
-  (`mqtt.username` / `mqtt.password_file`). With `mqtt.tls = true` the
-  broker's CA must be provided via `mqtt.ca_file` — the agent refuses to
-  start TLS without a trust store rather than silently connecting
-  unverified.
-- There is deliberately no "run arbitrary shell command" entity in this
-  project. Commands are limited to a small, fixed set of safe primitives
-  (lock, suspend, notify). If you need more, that's a backend you write and
-  own — keep the allowlist explicit and off by default.
-
-## Development
-
-```bash
+```sh
 nix develop            # rust toolchain, rust-analyzer, mosquitto (for local broker testing)
 cargo build
 cargo test
@@ -369,6 +440,8 @@ point `config.toml` at `127.0.0.1`, run the agent, and watch entities show up
 under Home Assistant → Settings → Devices & Services → MQTT (or just
 `mosquitto_sub -t 'homeassistant/#' -v` to see discovery configs land).
 
+<br>
+
 ## Roadmap
 
 `backend-zfs`, `backend-syncthing`, `backend-headscale`, `backend-gamescope`,
@@ -378,6 +451,12 @@ original roadmap are now implemented — see the Entity reference above. See
 Layer 2 per-game control beyond Lutris (Steam, Heroic, emulators), and the
 OBS `obs-websocket` bonus.
 
-## License
+<br>
 
-MIT — see [LICENSE](LICENSE).
+## Licence
+
+MIT. See [LICENSE](LICENSE).
+
+<br>
+
+<p align="right"><sub>jupiter.au</sub></p>
